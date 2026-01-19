@@ -82,7 +82,7 @@ A production-ready Next.js application with CI/CD pipeline for deploying to AWS 
 
 ```bash
 git clone <repository-url>
-cd next-ecs-app
+cd rd-app
 npm install
 ```
 
@@ -100,7 +100,7 @@ chmod +x setup.sh
 ./setup.sh
 
 # Or customize with environment variables
-AWS_REGION=us-east-1 PROJECT_NAME=next-ecs-app ./setup.sh
+AWS_REGION=us-east-1 PROJECT_NAME=rd-app ./setup.sh
 ```
 
 ### 3. Configure GitHub Repository
@@ -164,10 +164,10 @@ npm start
 
 ```bash
 # Build image
-docker build -t next-ecs-app .
+docker build -t rd-app .
 
 # Run container
-docker run -p 3000:3000 next-ecs-app
+docker run -p 3000:3000 rd-app
 ```
 
 ## 📋 Environment Configuration
@@ -214,7 +214,7 @@ chmod +x teardown.sh
 
 ## 📊 Monitoring
 
-- **CloudWatch Logs**: `/ecs/next-ecs-app-{environment}`
+- **CloudWatch Logs**: `/ecs/rd-app-{environment}`
 - **Container Insights**: Enabled on ECS cluster
 - **Health Check**: `GET /api/health`
 
@@ -277,4 +277,4 @@ desired_count    = 3
 ## 📄 License
 
 MIT
-# gri-restoration-diagnostic
+# gri-rd

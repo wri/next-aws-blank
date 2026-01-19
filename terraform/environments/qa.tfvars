@@ -2,7 +2,7 @@
 # QA Environment Configuration
 # =============================================================================
 
-project_name = "next-ecs-app"
+project_name = "rd-app"
 environment  = "qa"
 aws_region   = "us-east-1"
 
