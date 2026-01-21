@@ -11,11 +11,5 @@ export const ROUTES = {
   SINGLE_PAGE_FORM: {
     MULTIPLE_SECTIONS: '/single-page-form/multiple-sections',
     COLLAPSIBLE_SECTIONS: '/single-page-form/collapsible-sections',
-  },
-  MAP: {
-    MAP_INTERFACE: '/map/map-interface',
-  },
-  ARTICLE: '/article',
-  CHARTS: '/charts',
-  TABULAR_INTERFACES: '/tabular-interfaces',
+  }
 }

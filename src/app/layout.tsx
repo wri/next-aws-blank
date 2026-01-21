@@ -35,9 +35,9 @@ export default function RootLayout({
     <html lang='en'>
       <body className={`${acuminPro.className} antialiased`}>
         <Providers>
-          <Navbar />
           {children}
-          <Footer />
+          {/* <Navbar />
+          <Footer /> */}
         </Providers>
         <Script
           id='hotjar-analytics'
