@@ -2,8 +2,6 @@ import type { Metadata } from 'next'
 import localFont from 'next/font/local'
 import './globals.css'
 import Providers from '@/components/Providers'
-import { Footer } from '@/components/Footer'
-import Navbar from '@/components/Navbar'
 import Script from 'next/script'
 
 const acuminPro = localFont({
@@ -36,8 +34,6 @@ export default function RootLayout({
       <body className={`${acuminPro.className} antialiased`}>
         <Providers>
           {children}
-          {/* <Navbar />
-          <Footer /> */}
         </Providers>
         <Script
           id='hotjar-analytics'

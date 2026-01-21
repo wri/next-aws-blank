@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "test:ci": "echo 'Restoration Diagnostic App CI Test Command'"
   },
   "dependencies": {
     "@chakra-ui/charts": "^3.30.0",
