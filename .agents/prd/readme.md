@@ -190,7 +190,9 @@ Based on diagnostic framework:
 ### 5.2 Backend
 - **Runtime:** Node.js 22.14.0
 - **API:** Next.js API Routes
+- **ORM:** TypeORM 0.3.x for entity management and migrations
 - **Database:** PostgreSQL (schema defined in Restoration_Diagnostic_Preliminary_Schema.dbml)
+- **Database Client:** pg (PostgreSQL driver)
 - **Authentication:** Password-based sessions (NextAuth.js or custom)
 
 ### 5.3 Infrastructure
@@ -254,7 +256,9 @@ The database schema is defined in `docs/resources/Restoration_Diagnostic_Prelimi
 
 ### Foundation (Weeks 1-3)
 **Week 1:**
-- Database schema migration from DBML to PostgreSQL
+- TypeORM setup and configuration
+- Entity definitions (Lead, Assessment, Region, Answer, Diagnostic)
+- Initial migration generation and execution
 - Development environment setup
 - Authentication system implementation
 
