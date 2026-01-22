@@ -12,8 +12,7 @@ export const Footer = () => {
     pathname === ROUTES.MULTI_PAGE_FORM.SINGLE_QUESTION ||
     pathname === ROUTES.MULTI_PAGE_FORM.SINGLE_SECTION ||
     pathname === ROUTES.SINGLE_PAGE_FORM.MULTIPLE_SECTIONS ||
-    pathname === ROUTES.SINGLE_PAGE_FORM.COLLAPSIBLE_SECTIONS ||
-    pathname === ROUTES.MAP.MAP_INTERFACE
+    pathname === ROUTES.SINGLE_PAGE_FORM.COLLAPSIBLE_SECTIONS
   if (hideFooter) {
     return null
   }
