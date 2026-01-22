@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test:ci": "echo 'Restoration Diagnostic App CI Test Command'"
+    "test": "jest",
+    "test:ci": "jest --ci --coverage"
   },
   "dependencies": {
     "@chakra-ui/charts": "^3.30.0",
@@ -24,8 +25,9 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
-    "@testing-library/jest-dom": "6.2.0",
+    "@testing-library/jest-dom": "^6.2.0",
     "@testing-library/react": "14.1.0",
+    "@types/jest": "^30.0.0",
     "@types/node": "^20.19.30",
     "@types/react": "^19",
     "@types/react-dom": "^19",
