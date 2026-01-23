@@ -20,8 +20,8 @@ FROM node:22.14.0-alpine AS runner
 
 WORKDIR /app
 
-# Install curl for health checks and TypeORM CLI
-RUN apk add --no-cache curl
+# Install curl for health checks
+RUN apk add --no-cache --no-check-certificate curl
 
 # Set environment to production
 ENV NODE_ENV=production
