@@ -1,0 +1,99 @@
+Enum score_enum {
+  Yes
+  No
+  Partially
+}
+
+Enum project_type_enum {
+  GEF_8
+  WRI
+  other
+}
+
+Enum invite_role_enum {
+  view
+  edit
+}
+
+Table diagnostic {
+  diagnostic_id varchar [pk]
+  questions text
+  version text
+  language text
+  creation_date text
+}
+
+Table assessments {
+  assessment_id varchar [pk]
+  diagnostic_id varchar
+  assessment_name varchar
+  password_encrypted text
+  creation_date text
+  last_update text
+  submission_date text
+  diagnostic_year text
+  project_type project_type_enum
+  lead_id varchar
+  region_id varchar
+}
+
+Table invite {
+  invite_url text
+  password text
+  role invite_role_enum
+  assessment_id varchar
+  creation_date text
+}
+
+Table admin {
+  admin_id varchar [pk]
+  name text
+  email text
+  password text
+}
+
+Table lead {
+  lead_id varchar [pk]
+  job_title text
+  name text
+  email text
+  organization text
+}
+
+Table region {
+  region_id varchar [pk]
+  region_name varchar
+  geography_type varchar
+  countries text
+  sub_region text
+  ecosystems text
+  gis_url text
+}
+
+Table answers {
+  answer_id varchar [pk]
+  assessment_id varchar
+  question text
+  score score_enum
+  answer text
+  action_item text
+  responsible text
+  deadline text
+  last_update text
+  notes text
+  status text
+}
+
+Table files {
+  file_id varchar [pk]
+  name text
+  source text
+  assessment_id varchar
+}
+
+Ref: assessments.diagnostic_id > diagnostic.diagnostic_id
+Ref: invite.assessment_id > assessments.assessment_id
+Ref: assessments.lead_id > lead.lead_id
+Ref: assessments.region_id > region.region_id
+Ref: answers.assessment_id > assessments.assessment_id
+Ref: files.assessment_id > assessments.assessment_id
