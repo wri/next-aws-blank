@@ -17,11 +17,11 @@ provider "aws" {
 
   default_tags {
     tags = {
-      Project          = var.project_name
-      Environment      = var.environment
-      ManagedBy        = "terraform"
-      "wri:project"    = var.wri_project
-      "wri:owner"      = var.wri_owner
+      Project       = var.project_name
+      Environment   = var.environment
+      ManagedBy     = "terraform"
+      "wri:project" = var.wri_project
+      "wri:owner"   = var.wri_owner
     }
   }
 }

@@ -44,14 +44,15 @@ cd terraform/backend-setup
 Backend configuration to use in main Terraform:
 terraform {
   backend "s3" {
-    bucket         = "next-aws-blank-app-terraform-state-shared"
-    key            = "terraform.tfstate"
-    region         = "us-east-1"
-    dynamodb_table = "next-aws-blank-app-terraform-locks-shared"
-    encrypt        = true
+    bucket  = "next-aws-blank-app-terraform-state-shared"
+    key     = "terraform.tfstate"
+    region  = "us-east-1"
+    encrypt = true
   }
 }
 ```
+
+**Note:** Terraform now uses `.terraform.lock.hcl` for state locking instead of DynamoDB. The DynamoDB table is still created for backward compatibility but is no longer required in the backend configuration.
 
 ### Step 2: Configure QA Environment
 
@@ -261,11 +262,11 @@ terraform import aws_ecs_cluster.main next-aws-blank-app-qa-cluster
 ```
 Error: Error acquiring the state lock
 ```
-**Solution:** Wait for other operations to complete, or manually release in DynamoDB:
+**Solution:** Wait for other operations to complete, or remove the lock file:
 ```bash
-aws dynamodb delete-item \
-  --table-name next-aws-blank-app-terraform-locks-shared \
-  --key '{"LockID":{"S":"next-aws-blank-app-terraform-state-shared/qa/terraform.tfstate-md5"}}'
+# Modern Terraform uses .terraform.lock.hcl
+# If stuck, you can force unlock (use with caution):
+terraform force-unlock <lock-id>
 ```
 
 **2. Backend Not Configured:**
