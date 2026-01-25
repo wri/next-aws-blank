@@ -33,7 +33,7 @@ resource "aws_lb_target_group" "app" {
     unhealthy_threshold = 5
     timeout             = 10
     interval            = 30
-    path                = var.health_check_path
+    path                = "/api/healthALB"
     protocol            = "HTTP"
     matcher             = "200"
   }
