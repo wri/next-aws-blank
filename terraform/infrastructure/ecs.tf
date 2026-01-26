@@ -172,6 +172,10 @@ resource "aws_ecs_task_definition" "app" {
             value = tostring(var.container_port)
           },
           {
+            name  = "HOSTNAME"
+            value = "0.0.0.0"
+          },
+          {
             name  = "NEXT_PUBLIC_ENVIRONMENT"
             value = var.environment
           }
