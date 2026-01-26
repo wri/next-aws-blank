@@ -95,6 +95,28 @@ resource "aws_iam_role" "ecs_task" {
   }
 }
 
+# SSM permissions for ECS Exec
+resource "aws_iam_role_policy" "ecs_task_ssm" {
+  name = "${var.project_name}-${var.environment}-ecs-task-ssm-policy"
+  role = aws_iam_role.ecs_task.id
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect = "Allow"
+        Action = [
+          "ssmmessages:CreateControlChannel",
+          "ssmmessages:CreateDataChannel",
+          "ssmmessages:OpenControlChannel",
+          "ssmmessages:OpenDataChannel"
+        ]
+        Resource = "*"
+      }
+    ]
+  })
+}
+
 # Add additional policies for your application if needed
 # resource "aws_iam_role_policy" "ecs_task_custom" {
 #   name = "${var.project_name}-${var.environment}-ecs-task-policy"
@@ -172,7 +194,7 @@ resource "aws_ecs_task_definition" "app" {
       }
 
       healthCheck = {
-        command     = ["CMD-SHELL", "curl -f http://localhost:${var.container_port}/api/healthECS || exit 1"]
+        command     = ["CMD-SHELL", "curl -f http://localhost:3000/api/healthECS || exit 1"]
         interval    = 30
         timeout     = 10
         retries     = 5
@@ -193,11 +215,12 @@ resource "aws_ecs_task_definition" "app" {
 # =============================================================================
 
 resource "aws_ecs_service" "app" {
-  name            = "${var.project_name}-${var.environment}-service"
-  cluster         = aws_ecs_cluster.main.id
-  task_definition = aws_ecs_task_definition.app.arn
-  desired_count   = var.desired_count
-  launch_type     = "FARGATE"
+  name                   = "${var.project_name}-${var.environment}-service"
+  cluster                = aws_ecs_cluster.main.id
+  task_definition        = aws_ecs_task_definition.app.arn
+  desired_count          = var.desired_count
+  launch_type            = "FARGATE"
+  enable_execute_command = true
 
   network_configuration {
     subnets          = aws_subnet.private[*].id
