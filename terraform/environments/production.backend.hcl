@@ -2,5 +2,5 @@
 bucket         = "next-aws-blank-app-terraform-state-shared"
 key            = "production/terraform.tfstate"
 region         = "us-east-1"
-dynamodb_table = "next-aws-blank-app-terraform-locks-shared"
 encrypt        = true
+use_lockfile = true
