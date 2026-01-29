@@ -22,13 +22,13 @@ variable "aws_region" {
 variable "wri_project" {
   description = "WRI project name for tagging"
   type        = string
-  default     = "restoration-diagnostic"
+  default     = "project-blank (see https://gfw.atlassian.net/wiki/spaces/DOCS/pages/1341653014/Tagging+Schema)"
 }
 
 variable "wri_owner" {
   description = "WRI owner email for tagging"
   type        = string
-  default     = "kinshuk.govil@wri.org"
+  default     = "xxx@wri.org"
 }
 
 # =============================================================================
