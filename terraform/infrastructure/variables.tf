@@ -5,7 +5,7 @@
 variable "project_name" {
   description = "Name of the project"
   type        = string
-  default     = "next-ecs-app"
+  default     = "next-aws-blank-app"
 }
 
 variable "environment" {

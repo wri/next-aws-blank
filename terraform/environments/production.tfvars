@@ -2,7 +2,7 @@
 # Production Environment Configuration
 # =============================================================================
 
-project_name = "next-ecs-app"
+project_name = "next-aws-blank-app"
 environment  = "production"
 aws_region   = "us-east-1"
 
