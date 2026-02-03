@@ -8,26 +8,38 @@
     "start": "next start",
     "lint": "next lint",
     "test": "jest",
-    "test:ci": "jest --ci --coverage"
+    "test:ci": "jest --ci --coverage",
+    "db:reset": "psql -h ${DB_HOST:-xxx.rds.amazonaws.com} -U ${DB_USER:-postgres} -d ${DB_NAME:-dev} -c 'DROP SCHEMA public CASCADE; CREATE SCHEMA public;'",
+    "db:drop-tables": "psql -h ${DB_HOST:-xxx.rds.amazonaws.com} -U ${DB_USER:-postgres} -d ${DB_NAME:-dev} -c 'DROP TABLE IF EXISTS migrations, assessments, lead, region, diagnostic CASCADE; DROP TYPE IF EXISTS assessments_project_type_enum CASCADE;'",
+    "typeorm": "ts-node --project tsconfig.typeorm.json -r dotenv/config ./node_modules/typeorm/cli.js",
+    "migration:generate": "DOTENV_CONFIG_PATH=.env npm run typeorm -- migration:generate src/db/migrations/Migration -d src/db/migration-data-source.ts",
+    "migration:run": "DOTENV_CONFIG_PATH=.env npm run typeorm -- migration:run -d src/db/migration-data-source.ts",
+    "migration:revert": "DOTENV_CONFIG_PATH=.env npm run typeorm -- migration:revert -d src/db/migration-data-source.ts",
+    "seed:run": "DOTENV_CONFIG_PATH=.env ts-node --project tsconfig.typeorm.json -r dotenv/config src/db/seeds/index.ts"
   },
   "dependencies": {
     "@chakra-ui/charts": "^3.30.0",
     "@chakra-ui/react": "^3.8.1",
     "@emotion/react": "^11.14.0",
-    "@worldresources/wri-design-systems": "^2.176.0",
+    "@worldresources/wri-design-systems": "^2.183.0",
+    "bcrypt": "^6.0.0",
     "clsx": "^2.1.1",
+    "dotenv": "^17.2.3",
     "next": "15.1.7",
     "pg": "^8.17.2",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "react-hook-form": "^7.71.1",
     "recharts": "^3.6.0",
     "reflect-metadata": "^0.2.2",
-    "typeorm": "^0.3.28"
+    "typeorm": "^0.3.28",
+    "uuid": "^13.0.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
     "@testing-library/jest-dom": "^6.2.0",
     "@testing-library/react": "14.1.0",
+    "@types/bcrypt": "^6.0.0",
     "@types/jest": "^30.0.0",
     "@types/node": "^20.19.30",
     "@types/react": "^19",
@@ -38,6 +50,7 @@
     "jest-environment-jsdom": "29.7.0",
     "postcss": "^8",
     "tailwindcss": "^3.4.1",
+    "ts-node": "^10.9.2",
     "typescript": "^5"
   }
 }

@@ -1,0 +1,78 @@
+// Restoration Diagnostic Schema
+// Incremental schema tracking TypeORM entity adoption
+// Visit dbdiagram.io/ to view this schema diagram
+
+Enum project_type_enum {
+  GEF_8
+  WRI
+  other
+}
+
+Table lead {
+  id varchar [pk, note: 'UUID v4']
+  job_title varchar [null, note: 'Title: Mr/Mrs/Ms/Miss/Dr/Prof']
+  name varchar [not null]
+  email varchar [not null, note: 'Lowercase, validated']
+  organization varchar [null]
+  created_at timestamp [default: `now()`]
+  updated_at timestamp [default: `now()`]
+  
+  Indexes {
+    email [unique]
+  }
+}
+
+Table region {
+  id varchar [pk, note: 'UUID v4']
+  region_name varchar [not null]
+  geography_type varchar [not null, note: 'Watershed, Protected Area, etc.']
+  countries text [null, note: 'Comma-separated or JSON']
+  sub_region varchar [null]
+  ecosystems text [not null, note: 'JSON array of selected ecosystems']
+  gis_url text [null, note: 'Deferred to post-MVP']
+  created_at timestamp [default: `now()`]
+  updated_at timestamp [default: `now()`]
+}
+
+Table diagnostic {
+  id varchar [pk, note: 'UUID v4']
+  questions text [not null, note: 'JSON array of question objects']
+  version varchar [not null, note: 'Semantic version: v1.0.0']
+  language varchar [not null, note: 'ISO 639-1: en, es, pt, fr']
+  creation_date timestamp [default: `now()`]
+  
+  Indexes {
+    (version, language) [unique]
+  }
+}
+
+Table assessments {
+  id varchar [pk, note: 'UUID v4']
+  diagnostic_id varchar [not null]
+  password_hash text [not null, note: 'Secure access password']
+  creation_date timestamp [default: `now()`]
+  last_update timestamp [null]
+  submission_date timestamp [null, note: 'Deferred to post-MVP']
+  diagnostic_year varchar [not null, note: 'YYYY format']
+  project_type project_type_enum [not null, default: 'other']
+  status varchar [not null, default: 'draft', note: 'draft, in-progress, completed, archived']
+  lead_id varchar [not null]
+  region_id varchar [not null]
+  
+
+  Indexes {
+    lead_id
+    region_id
+    diagnostic_id
+  }
+}
+
+Ref: assessments.lead_id > lead.id [delete: cascade]
+Ref: assessments.region_id > region.id [delete: cascade]
+Ref: assessments.diagnostic_id > diagnostic.id [delete: restrict]
+
+// Notes:
+// - Timestamps added for audit trail
+// - Unique constraint on diagnostic (version, language)
+// - Cascade deletes for lead/region (orphan prevention)
+// - Restrict delete on diagnostic (preserve historical data)

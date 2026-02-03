@@ -9,7 +9,6 @@ import {
 import Link from 'next/link'
 import { WriLogoIcon } from './icons'
 import { usePathname } from 'next/navigation'
-import { ROUTES } from '@/constants'
 
 const languages = [
   {
@@ -26,19 +25,10 @@ const Navbar = () => {
   const [language, setLanguage] = useState('')
   const pathname = usePathname()
 
-  const hideNavbar =
-    pathname === ROUTES.MULTI_PAGE_FORM.SINGLE_QUESTION ||
-    pathname === ROUTES.MULTI_PAGE_FORM.SINGLE_SECTION ||
-    pathname === ROUTES.SINGLE_PAGE_FORM.MULTIPLE_SECTIONS ||
-    pathname === ROUTES.SINGLE_PAGE_FORM.COLLAPSIBLE_SECTIONS
-  if (hideNavbar) {
-    return null
-  }
-
   return (
     <WriNavbar
       logo={
-        <Link href={ROUTES.HOME}>
+        <Link href={'/'}>
           <WriLogoIcon height='32px' width='92px' />
         </Link>
       }

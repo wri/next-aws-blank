@@ -5,16 +5,15 @@ import { Icon, IconProps } from '@chakra-ui/react'
 export const DownloadIcon = (props: IconProps) => (
   <Icon {...props}>
     <svg
-      width='20'
-      height='20'
-      viewBox='0 0 20 20'
+      width='10'
+      height='10'
+      viewBox='0 0 10 10'
       fill='none'
       xmlns='http://www.w3.org/2000/svg'
     >
-      <path
-        d='M10 12.5L15 7.5H11.6667V0H8.33333V7.5H5L10 12.5ZM3.33333 15.8333V17.5C3.33333 18.2833 3.60833 18.9083 4.15833 19.375C4.70833 19.8417 5.45 20.025 6.38333 20.025H13.6167C14.55 20.025 15.2917 19.8417 15.8417 19.375C16.3917 18.9083 16.6667 18.2833 16.6667 17.5V15.8333H14.1667V17.5H5.83333V15.8333H3.33333Z'
-        fill='currentColor'
-      />
+      <path d="M0 5.625H1.25V8.75H8.75V5.625H10V8.75V10H1.25H0V5.625Z" fill="currentColor"/>
+      <rect x="4.375" width="1.25" height="6.25" fill="currentColor"/>
+      <path d="M8.75 3.36876L7.82084 2.5L5 5.13748L2.17916 2.5L1.25 3.36876L5 6.875L8.75 3.36876Z" fill="currentColor"/>
     </svg>
   </Icon>
 )

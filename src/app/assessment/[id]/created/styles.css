@@ -1,0 +1,6 @@
+/* Modal header styling */
+.chakra-dialog__header {
+  font-size: 1.1rem;
+  font-weight: 600;
+  line-height: 2rem;
+}

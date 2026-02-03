@@ -1,6 +1,6 @@
-# Next.js ECS Fargate Deployment
+# Restoration Diagnostic Web Application
 
-A production-ready Next.js application with CI/CD pipeline for deploying to AWS ECS Fargate using Terraform and GitHub Actions.
+A production-ready Next.js application for landscape restoration assessments with TypeORM, PostgreSQL, and AWS ECS Fargate deployment using Terraform and GitHub Actions.
 
 ## 🏗️ Architecture
 
@@ -21,10 +21,10 @@ A production-ready Next.js application with CI/CD pipeline for deploying to AWS 
 │  │  └─────────────────────┘    └─────────────────────────┘  │  │
 │  └──────────────────────────────────────────────────────────┘  │
 │                                                                  │
-│  ┌────────────┐  ┌────────────┐  ┌────────────┐                │
-│  │    ECR     │  │ CloudWatch │  │    S3      │                │
-│  │ Repository │  │    Logs    │  │  (TF State)│                │
-│  └────────────┘  └────────────┘  └────────────┘                │
+│  ┌────────────┐  ┌────────────┐  ┌────────────┐  ┌────────────┐│
+│  │    ECR     │  │ CloudWatch │  │    RDS     │  │    S3      ││
+│  │ Repository │  │    Logs    │  │ PostgreSQL │  │  (TF State)││
+│  └────────────┘  └────────────┘  └────────────┘  └────────────┘│
 └─────────────────────────────────────────────────────────────────┘
 ```
 
@@ -39,6 +39,19 @@ A production-ready Next.js application with CI/CD pipeline for deploying to AWS 
 │       ├── pr-check.yml            # Pull request validation
 │       └── destroy.yml             # Infrastructure teardown
 ├── src/
+│   ├── db/                         # Database layer
+│   │   ├── schema.dbml             # Database schema (source of truth)
+│   │   ├── data-source.ts          # TypeORM configuration
+│   │   ├── entities/               # TypeORM entities
+│   │   │   ├── Lead.entity.ts
+│   │   │   ├── Region.entity.ts
+│   │   │   ├── Diagnostic.entity.ts
+│   │   │   ├── Assessment.entity.ts
+│   │   │   └── index.ts
+│   │   ├── migrations/             # Database migrations
+│   │   └── seeds/                  # Seed data
+│   │       ├── 001-initial-diagnostic.seed.ts
+│   │       └── index.ts
 │   └── app/                        # Next.js App Router
 │       ├── api/health/route.ts     # Health check endpoint
 │       ├── layout.tsx
@@ -63,18 +76,17 @@ A production-ready Next.js application with CI/CD pipeline for deploying to AWS 
 │       ├── qa.backend.hcl
 │       ├── production.tfvars
 │       └── production.backend.hcl
-├── Dockerfile
+├── Dockerfile                      # NextJS App Container 
 ├── package.json
 └── README.md
-```
 
 ## 🚀 Getting Started
 
 ### Prerequisites
 
-- [Node.js](https://nodejs.org/) 20.x or later
+- [Node.js](https://nodejs.org/) 22.x (see `.nvmrc`)
 - [Docker](https://www.docker.com/)
-- [Terraform](https://www.terraform.io/) 1.0+
+- [Terraform](https://www.terraform.io/) 1.0+ (for AWS deployment)
 - [AWS CLI](https://aws.amazon.com/cli/) configured with appropriate credentials
 - [GitHub](https://github.com/) account
 
@@ -82,11 +94,102 @@ A production-ready Next.js application with CI/CD pipeline for deploying to AWS 
 
 ```bash
 git clone <repository-url>
-cd rd-app
+cd gri-restoration-diagnostic
+
+# Use correct Node.js version
+nvm use
+
+# Install dependencies
 npm install
 ```
 
-### 2. Set Up Terraform State Backend
+### 2. Database Setup (AWS RDS)
+
+The application uses a shared AWS RDS PostgreSQL instance (`xxx`) across all environments. Each environment (dev, qa, production) has its own database within the same RDS instance.
+
+#### Configure Environment Variables
+
+```bash
+# Copy example environment file
+cp .env.example .env
+```
+
+Update `.env` with RDS credentials:
+
+```env
+# Database Configuration (AWS RDS)
+DB_HOST=xxx.rds.amazonaws.com
+DB_PORT=5432
+DB_USER=postgres
+DB_PASSWORD=<get-from-aws-parameter-store>
+DB_NAME=dev  # or 'qa', 'production'
+
+# TypeORM Configuration
+TYPEORM_SYNCHRONIZE=false
+TYPEORM_LOGGING=true
+
+# Application
+NODE_ENV=development
+
+# SSL Configuration (enable for production)
+DATABASE_SSL_REJECT_UNAUTHORIZED=false
+```
+
+**Getting Database Credentials:**
+- Master password is stored in [AWS Systems Manager Parameter Store](https://console.aws.amazon.com/systems-manager/parameters)
+- Navigate to Parameter Store and search for `xxx`
+
+#### Security Group Configuration
+
+The RDS instance is publicly accessible to support local development. You must add your IP to the security group:
+
+1. Go to [EC2 Security Groups](https://console.aws.amazon.com/ec2/v2/home?region=us-east-1#SecurityGroups:)
+2. Find security group `xxx-sg`
+3. Add inbound rule:
+   - **Type:** PostgreSQL
+   - **Port:** 5432
+   - **Source:** `<your-ip-address>/32`
+   - **Description:** "Local dev - [Your Name]"
+
+**Get your external IP:**
+```bash
+curl ifconfig.me
+```
+
+#### Run Database Migrations
+
+```bash
+# Run migrations to create tables
+npm run migration:run
+
+# Seed initial diagnostic questions (24 questions)
+npm run seed:run
+```
+
+**Generate migrations when schema changes:**
+```bash
+npm run migration:generate
+```
+
+#### Verify Database Setup
+
+```bash
+# Connect to dev database
+psql -h xxx.rds.amazonaws.com -U postgres -d dev
+
+# List tables
+\dt
+
+# View diagnostic seed data
+SELECT id, version, language FROM diagnostic;
+
+# Exit
+\q
+```
+
+**Note:** If connection times out, verify your IP is in the `xxx-sg` security group.
+
+### 3. Set Up Terraform State Backend
 
 Before deploying infrastructure, you need to create the S3 bucket and DynamoDB table for Terraform state:
 
@@ -103,7 +206,7 @@ chmod +x setup.sh
 AWS_REGION=us-east-1 PROJECT_NAME=rd-app ./setup.sh
 ```
 
-### 3. Configure GitHub Repository
+### 4. Configure GitHub Repository
 
 1. Create a new GitHub repository
 2. Push this code to the repository
@@ -114,7 +217,7 @@ AWS_REGION=us-east-1 PROJECT_NAME=rd-app ./setup.sh
 4. Add GitHub variables for AWS permissions (Settings → Secrets and variables → Actions -> Variables):
    - `OIDC_ROLE` - ARN from AWS console for role GitHubActionsOIDC
 
-### 4. Required AWS IAM Permissions
+### 5. Required AWS IAM Permissions
 
 The AWS credentials need permissions for:
 - ECR (create/push images)
@@ -126,7 +229,7 @@ The AWS credentials need permissions for:
 - S3 (Terraform state)
 - DynamoDB (Terraform locks)
 
-### 5. Deploy
+### 6. Deploy
 
 Push to the appropriate branch to trigger deployment:
 
@@ -143,9 +246,6 @@ git push origin main
 ## 🔧 Local Development
 
 ```bash
-# Install dependencies
-npm install
-
 # Run development server
 npm run dev
 
@@ -157,6 +257,46 @@ npm run build
 
 # Start production server
 npm start
+```
+
+### Database Management Commands
+
+**Migrations:**
+```bash
+# Generate new migration (after entity changes)
+npm run migration:generate
+
+# Run pending migrations
+npm run migration:run
+
+# Revert last migration
+npm run migration:revert
+```
+
+**Seeding:**
+```bash
+# Run seed data
+npm run seed:run
+```
+
+**Direct Database Access:**
+```bash
+# Connect to dev database
+psql -h xxx.rds.amazonaws.com -U postgres -d dev
+
+# Connect to QA database
+psql -h xxx.rds.amazonaws.com -U postgres -d qa
+
+# Connect to production database
+psql -h xxx.rds.amazonaws.com -U postgres -d production
+```
+
+**⚠️ Legacy Docker Commands (Deprecated):**
+```bash
+# These commands are no longer used (RDS replaced local Docker)
+# npm run db:start
+# npm run db:stop
+# npm run db:reset
 ```
 
 ### Docker Build
@@ -171,14 +311,26 @@ docker run -p 3000:3000 rd-app
 
 ## 📋 Environment Configuration
 
+### Database (Shared RDS Instance)
+- **RDS Endpoint:** `xxx.rds.amazonaws.com`
+- **Engine:** PostgreSQL 17
+- **Databases:**
+  - `dev` - Development database
+  - `qa` - QA database
+  - `production` - Production database
+- **Access:** Publicly accessible with security group IP allowlist
+- **Credentials:** Stored in AWS Systems Manager Parameter Store
+
 ### QA Environment
 - VPC CIDR: `10.0.0.0/16`
+- Database: `qa`
 - Resources: 256 CPU / 512 MB Memory
 - Desired count: 1 task
 - Auto-scaling: 1-2 tasks
 
 ### Production Environment
 - VPC CIDR: `10.1.0.0/16`
+- Database: `production`
 - Resources: 512 CPU / 1024 MB Memory
 - Desired count: 2 tasks
 - Auto-scaling: 2-10 tasks
@@ -260,16 +412,34 @@ desired_count    = 3
 
 ### Common Issues
 
-1. **Deployment fails at ECS service stability**
+1. **Database connection fails**
+   - Verify your IP is in the `xxx-sg` security group allowlist
+   - Check `.env` has correct RDS credentials from Parameter Store
+   - Test connection: `psql -h xxx.rds.amazonaws.com -U postgres -d dev`
+   - Verify RDS instance is running in AWS Console
+
+2. **Connection timeout to RDS**
+   - Add your external IP to security group: `curl ifconfig.me`
+   - Check VPN/firewall settings aren't blocking port 5432
+   - Verify you're using the correct database name (dev/qa/production)
+
+3. **Migration generation fails**
+   - Ensure entities are properly imported in `data-source.ts`
+   - Verify TypeORM can connect to RDS (check credentials)
+   - Check entity decorators and column types
+   - Review `tsconfig.typeorm.json` for CommonJS compatibility
+
+4. **Deployment fails at ECS service stability**
    - Check CloudWatch logs
    - Verify health check endpoint returns 200
    - Check security group rules
+   - Ensure ECS tasks can connect to RDS
 
-2. **Terraform state lock error**
+5. **Terraform state lock error**
    - Wait for other deployments to complete
    - If stuck, manually release lock in DynamoDB
 
-3. **Docker build fails**
+6. **Docker build fails**
    - Ensure all dependencies are in package.json
    - Check for missing files in .dockerignore
 
