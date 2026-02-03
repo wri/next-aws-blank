@@ -22,6 +22,12 @@ max_capacity     = 2
 health_check_path = "/api/health"
 
 # Application Environment Variables
+# some of these should be secret and will be changed shortly
 app_environment_variables = {
   "LOG_LEVEL" = "debug"
+  "DB_HOST" = "xxx.rds.amazonaws.com"
+  "DB_PORT" = "5432"
+  "DB_USER" = "postgres"
+  "DB_PASSWORD" = "REDACTED_DB_PASSWORD"
+  "DB_NAME" = "qa"
 }
