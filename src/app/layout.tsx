@@ -20,8 +20,8 @@ const acuminPro = localFont({
 })
 
 export const metadata: Metadata = {
-  title: 'Design Systems Interfaces',
-  description: 'WRI Design Systems Interfaces',
+  title: 'Restoration Diagnostic',
+  description: 'WRI Restoration Diagnostic',
 }
 
 export default function RootLayout({
