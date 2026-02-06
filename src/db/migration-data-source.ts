@@ -4,6 +4,8 @@ import { Lead } from './entities/Lead.entity'
 import { Region } from './entities/Region.entity'
 import { Diagnostic } from './entities/Diagnostic.entity'
 import { Assessment } from './entities/Assessment.entity'
+import { Question } from './entities/Question.entity'
+import { Answer } from './entities/Answer.entity'
 
 const DATABASE_URL =
   process.env.DATABASE_URL ||
@@ -15,7 +17,14 @@ const MigrationDataSource = new DataSource({
   url: DATABASE_URL,
   synchronize: false,
   logging: process.env.TYPEORM_LOGGING === 'true',
-  entities: [Lead, Region, Diagnostic, Assessment],
+  entities: [
+    Lead,
+    Region,
+    Diagnostic,
+    Assessment,
+    Question,
+    Answer,
+  ],
   migrations: ['src/db/migrations/**/*.ts'],
   subscribers: [],
   ssl: {

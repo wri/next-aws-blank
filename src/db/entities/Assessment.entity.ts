@@ -1,65 +1,90 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, ManyToOne, JoinColumn, Index } from 'typeorm';
-import { Lead } from './Lead.entity';
-import { Region } from './Region.entity';
-import { Diagnostic } from './Diagnostic.entity';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  CreateDateColumn,
+  UpdateDateColumn,
+  ManyToOne,
+  OneToMany,
+  JoinColumn,
+} from 'typeorm'
+import type { Lead } from './Lead.entity'
+import type { Region } from './Region.entity'
+import type { Diagnostic } from './Diagnostic.entity'
+import type { Answer } from './Answer.entity'
 
 export enum ProjectType {
   GEF_8 = 'GEF_8',
   WRI = 'WRI',
-  OTHER = 'other'
+  OTHER = 'other',
+}
+
+export enum AssessmentStatus {
+  DRAFT = 'draft',
+  IN_PROGRESS = 'in-progress',
+  COMPLETED = 'completed',
+  ARCHIVED = 'archived',
 }
 
 @Entity('assessments')
 export class Assessment {
   @PrimaryGeneratedColumn('uuid')
-  id!: string;
+  id!: string
 
-  @Column('uuid')
-  @Index()
-  diagnostic_id!: string;
+  @Column({ name: 'password_hash', type: 'text' })
+  passwordHash!: string
 
-  @Column('text')
-  password_hash!: string;
+  @CreateDateColumn({ name: 'created_at' })
+  createdAt!: Date
 
-  @CreateDateColumn()
-  creation_date!: Date;
+  @UpdateDateColumn({ name: 'updated_at' })
+  updatedAt!: Date
 
-  @UpdateDateColumn({ nullable: true })
-  last_update?: Date;
+  @Column({ name: 'submitted_at', type: 'timestamp', nullable: true })
+  submittedAt!: Date | null
 
-  @Column('timestamp', { nullable: true })
-  submission_date?: Date;
-
-  @Column('varchar', { length: 4 })
-  diagnostic_year!: string;
+  @Column({ name: 'diagnostic_year', type: 'varchar' })
+  diagnosticYear!: string
 
   @Column({
+    name: 'project_type',
     type: 'enum',
     enum: ProjectType,
-    default: ProjectType.OTHER
+    default: ProjectType.OTHER,
   })
-  project_type!: ProjectType;
+  projectType!: ProjectType
 
-  @Column('varchar', { length: 50, default: 'draft' })
-  status!: string;
+  @Column({
+    type: 'varchar',
+    default: AssessmentStatus.DRAFT,
+  })
+  status!: AssessmentStatus
 
-  @Column('uuid')
-  @Index()
-  lead_id!: string;
-
-  @Column('uuid')
-  @Index()
-  region_id!: string;
-
-  @ManyToOne(() => Lead, { onDelete: 'CASCADE' })
+  @ManyToOne('Lead', 'assessments', { onDelete: 'CASCADE' })
   @JoinColumn({ name: 'lead_id' })
-  lead!: Lead;
+  lead!: Lead
 
-  @ManyToOne(() => Region, { onDelete: 'CASCADE' })
+  @Column({ name: 'lead_id', type: 'uuid' })
+  leadId!: string
+
+  @ManyToOne('Region', 'assessments', {
+    onDelete: 'CASCADE',
+  })
   @JoinColumn({ name: 'region_id' })
-  region!: Region;
+  region!: Region
 
-  @ManyToOne(() => Diagnostic, { onDelete: 'RESTRICT' })
+  @Column({ name: 'region_id', type: 'uuid' })
+  regionId!: string
+
+  @ManyToOne('Diagnostic', 'assessments', {
+    onDelete: 'RESTRICT',
+  })
   @JoinColumn({ name: 'diagnostic_id' })
-  diagnostic!: Diagnostic;
+  diagnostic!: Diagnostic
+
+  @Column({ name: 'diagnostic_id', type: 'uuid' })
+  diagnosticId!: string
+
+  @OneToMany('Answer', 'assessment')
+  answers!: Answer[]
 }

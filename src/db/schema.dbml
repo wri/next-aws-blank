@@ -1,5 +1,5 @@
 // Restoration Diagnostic Schema
-// Incremental schema tracking TypeORM entity adoption
+// Normalized schema for Assessment Engine with Questions, Answers, Guidance, Strategies, and Collaboration
 // Visit dbdiagram.io/ to view this schema diagram
 
 Enum project_type_enum {
@@ -8,12 +8,36 @@ Enum project_type_enum {
   other
 }
 
+Enum answer_value_enum {
+  yes
+  partly
+  no
+  na
+}
+
+Enum theme_enum {
+  Motivate
+  Enable
+  Implement
+}
+
+Enum assessment_status_enum {
+  draft
+  in_progress
+  completed
+  archived
+}
+
+// Removed enums (candidate entities on hold):
+// strategy_scale_enum
+
 Table lead {
   id varchar [pk, note: 'UUID v4']
   job_title varchar [null, note: 'Title: Mr/Mrs/Ms/Miss/Dr/Prof']
   name varchar [not null]
   email varchar [not null, note: 'Lowercase, validated']
   organization varchar [null]
+  role varchar [null]
   created_at timestamp [default: `now()`]
   updated_at timestamp [default: `now()`]
   
@@ -28,6 +52,7 @@ Table region {
   geography_type varchar [not null, note: 'Watershed, Protected Area, etc.']
   countries text [null, note: 'Comma-separated or JSON']
   sub_region varchar [null]
+  scope varchar [null]
   ecosystems text [not null, note: 'JSON array of selected ecosystems']
   gis_url text [null, note: 'Deferred to post-MVP']
   created_at timestamp [default: `now()`]
@@ -36,10 +61,11 @@ Table region {
 
 Table diagnostic {
   id varchar [pk, note: 'UUID v4']
-  questions text [not null, note: 'JSON array of question objects']
+  title varchar [not null, note: 'e.g., Restoration Diagnostic v1.0.0']
+  description text [null]
   version varchar [not null, note: 'Semantic version: v1.0.0']
   language varchar [not null, note: 'ISO 639-1: en, es, pt, fr']
-  creation_date timestamp [default: `now()`]
+  created_at timestamp [default: `now()`]
   
   Indexes {
     (version, language) [unique]
@@ -48,18 +74,17 @@ Table diagnostic {
 
 Table assessments {
   id varchar [pk, note: 'UUID v4']
-  diagnostic_id varchar [not null]
-  password_hash text [not null, note: 'Secure access password']
-  creation_date timestamp [default: `now()`]
-  last_update timestamp [null]
-  submission_date timestamp [null, note: 'Deferred to post-MVP']
-  diagnostic_year varchar [not null, note: 'YYYY format']
+  password_hash text [not null, note: 'bcrypt hashed password for assessment access']
+  diagnostic_year varchar [not null, note: 'Year of diagnostic completion']
   project_type project_type_enum [not null, default: 'other']
-  status varchar [not null, default: 'draft', note: 'draft, in-progress, completed, archived']
-  lead_id varchar [not null]
-  region_id varchar [not null]
+  status assessment_status_enum [not null, default: 'draft']
+  lead_id varchar [not null, note: 'Foreign key to lead table']
+  region_id varchar [not null, note: 'Foreign key to region table']
+  diagnostic_id varchar [not null, note: 'Foreign key to diagnostic table']
+  created_at timestamp [default: `now()`]
+  updated_at timestamp [default: `now()`]
+  submitted_at timestamp [null, note: 'When assessment was submitted/completed']
   
-
   Indexes {
     lead_id
     region_id
@@ -67,12 +92,63 @@ Table assessments {
   }
 }
 
+Table question {
+  id varchar [pk, note: 'UUID v4']
+  diagnostic_id varchar [not null]
+  question_code varchar [not null, note: 'e.g., M1, E5, I3']
+  theme theme_enum [not null, note: 'Motivate, Enable, Implement']
+  enabling_condition varchar [not null, note: 'e.g., a. Benefits, b. Awareness']
+  key_success_factor varchar [not null, note: 'Short title of the question']
+  definition text [null, note: 'Detailed explanation']
+  question_text text [not null, note: 'The diagnostic question']
+  considerations text [null, note: 'Additional context and guidance']
+  follow_up_questions text [null, note: 'JSON array of follow-up prompts']
+  strategy_examples text [null, note: 'Examples of strategies to address gaps']
+  sort_order int [not null, note: 'Display order within theme']
+  created_at timestamp [default: `now()`]
+  
+  Indexes {
+    diagnostic_id
+    (diagnostic_id, question_code) [unique]
+    theme
+  }
+}
+
+Table answer {
+  id varchar [pk, note: 'UUID v4']
+  assessment_id varchar [not null]
+  question_id varchar [not null]
+  value answer_value_enum [null, note: 'yes, partly, no, na - null if unanswered']
+  rationale text [null, note: 'Rich text answer explanation/justification']
+  notes text [null, note: 'Notes tab content - general notes about question']
+  created_at timestamp [default: `now()`]
+  updated_at timestamp [default: `now()`]
+  
+  Indexes {
+    assessment_id
+    question_id
+    (assessment_id, question_id) [unique]
+  }
+}
+
+// Removed tables (candidate entities on hold):
+// Table custom_topic - User-added custom questions/topics
+// Table strategy - Action plans for addressing gaps
+// Table contributor - Multi-user collaboration
+
+Ref: question.diagnostic_id > diagnostic.id [delete: cascade]
+Ref: answer.assessment_id > assessments.id [delete: cascade]
+Ref: answer.question_id > question.id [delete: restrict]
 Ref: assessments.lead_id > lead.id [delete: cascade]
 Ref: assessments.region_id > region.id [delete: cascade]
 Ref: assessments.diagnostic_id > diagnostic.id [delete: restrict]
 
 // Notes:
-// - Timestamps added for audit trail
-// - Unique constraint on diagnostic (version, language)
-// - Cascade deletes for lead/region (orphan prevention)
-// - Restrict delete on diagnostic (preserve historical data)
+// - Questions normalized out of diagnostic JSON into separate table
+// - Answers table links assessments to questions with response values
+// - Guidance content now embedded in Question fields (definition, considerations, strategyExamples)
+// - Candidate tables on hold: custom_topic, strategy, contributor
+// - Unique constraint prevents duplicate answers per assessment/question
+// - Cascade deletes for answers when assessment deleted
+// - Restrict delete on questions, leads (preserve historical data)
+// - Timestamps use created_at and updated_at where defined

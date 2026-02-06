@@ -1,28 +1,39 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  CreateDateColumn,
+  UpdateDateColumn,
+  OneToMany,
+} from 'typeorm'
+import type { Assessment } from './Assessment.entity'
 
 @Entity('lead')
 export class Lead {
   @PrimaryGeneratedColumn('uuid')
-  id!: string;
+  id!: string
 
-  @Column('varchar', { nullable: true })
-  job_title?: string;
+  @Column({ name: 'job_title', type: 'varchar', nullable: true })
+  jobTitle!: string | null
 
-  @Column('varchar')
-  name!: string;
+  @Column({ type: 'varchar' })
+  name!: string
 
-  @Column('varchar', { unique: true })
-  email!: string;
+  @Column({ type: 'varchar', unique: true })
+  email!: string
 
-  @Column('varchar', { nullable: true })
-  organization?: string;
+  @Column({ type: 'varchar', nullable: true })
+  organization!: string | null
 
-  @Column('varchar', { nullable: true })
-  role?: string;
+  @Column({ type: 'varchar', nullable: true })
+  role!: string | null
 
-  @CreateDateColumn()
-  created_at!: Date;
+  @CreateDateColumn({ name: 'created_at' })
+  createdAt!: Date
 
-  @UpdateDateColumn()
-  updated_at!: Date;
+  @UpdateDateColumn({ name: 'updated_at' })
+  updatedAt!: Date
+
+  @OneToMany('Assessment', 'lead')
+  assessments!: Assessment[]
 }

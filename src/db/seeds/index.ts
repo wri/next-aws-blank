@@ -1,25 +1,13 @@
 import { AppDataSource } from '../data-source';
-import { Diagnostic } from '../entities';
-import { initialDiagnosticSeed } from './001-initial-diagnostic.seed';
+import { seedDiagnosticWithQuestions } from './002-diagnostic-questions.seed';
 
 async function runSeeds() {
   try {
     await AppDataSource.initialize();
     console.log('🔄 Running database seeds...');
 
-    const diagnosticRepo = AppDataSource.getRepository(Diagnostic);
-
-    // Check if seed already exists
-    const exists = await diagnosticRepo.findOne({
-      where: { version: 'v1.0.0', language: 'en' }
-    });
-
-    if (!exists) {
-      await diagnosticRepo.save(initialDiagnosticSeed);
-      console.log('✅ Initial diagnostic seed data inserted (v1.0.0, English, 24 questions)');
-    } else {
-      console.log('⚠️  Seed data already exists - skipping');
-    }
+    // Seed Diagnostic v1.0.0 with 31 questions and sample guidance
+    await seedDiagnosticWithQuestions();
 
     console.log('✅ Seeding completed');
   } catch (error) {

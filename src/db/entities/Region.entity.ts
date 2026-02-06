@@ -1,34 +1,45 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  CreateDateColumn,
+  UpdateDateColumn,
+  OneToMany,
+} from 'typeorm'
+import type { Assessment } from './Assessment.entity'
 
 @Entity('region')
 export class Region {
   @PrimaryGeneratedColumn('uuid')
-  id!: string;
+  id!: string
 
-  @Column('varchar')
-  region_name!: string;
+  @Column({ name: 'region_name', type: 'varchar' })
+  regionName!: string
 
-  @Column('varchar')
-  geography_type!: string;
+  @Column({ name: 'geography_type', type: 'varchar' })
+  geographyType!: string
 
-  @Column('text', { nullable: true })
-  countries?: string;
+  @Column({ type: 'text', nullable: true })
+  countries!: string | null
 
-  @Column('varchar', { nullable: true })
-  sub_region?: string;
+  @Column({ name: 'sub_region', type: 'varchar', nullable: true })
+  subRegion!: string | null
 
-  @Column('varchar', { nullable: true })
-  scope?: string;
+  @Column({ type: 'varchar', nullable: true })
+  scope!: string | null
 
-  @Column('text')
-  ecosystems!: string; // JSON stringified array
+  @Column({ type: 'text' })
+  ecosystems!: string
 
-  @Column('text', { nullable: true })
-  gis_url?: string;
+  @Column({ name: 'gis_url', type: 'text', nullable: true })
+  gisUrl!: string | null
 
-  @CreateDateColumn()
-  created_at!: Date;
+  @CreateDateColumn({ name: 'created_at' })
+  createdAt!: Date
 
-  @UpdateDateColumn()
-  updated_at!: Date;
+  @UpdateDateColumn({ name: 'updated_at' })
+  updatedAt!: Date
+
+  @OneToMany('Assessment', 'region')
+  assessments!: Assessment[]
 }

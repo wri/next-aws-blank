@@ -1,20 +1,38 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, Index } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  CreateDateColumn,
+  OneToMany,
+  Unique,
+} from 'typeorm'
+import type { Assessment } from './Assessment.entity'
+import type { Question } from './Question.entity'
 
 @Entity('diagnostic')
-@Index(['version', 'language'], { unique: true })
+@Unique(['version', 'language'])
 export class Diagnostic {
   @PrimaryGeneratedColumn('uuid')
-  id!: string;
+  id!: string
 
-  @Column('text')
-  questions!: string; // JSON stringified array
+  @Column({ type: 'varchar' })
+  title!: string
 
-  @Column('varchar')
-  version!: string;
+  @Column({ type: 'text', nullable: true })
+  description!: string | null
 
-  @Column('varchar', { length: 2 })
-  language!: string;
+  @Column({ type: 'varchar' })
+  version!: string
 
-  @CreateDateColumn()
-  creation_date!: Date;
+  @Column({ type: 'varchar' })
+  language!: string
+
+  @CreateDateColumn({ name: 'created_at' })
+  createdAt!: Date
+
+  @OneToMany('Assessment', 'diagnostic')
+  assessments!: Assessment[]
+
+  @OneToMany('Question', 'diagnostic')
+  questions!: Question[]
 }

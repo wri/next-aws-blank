@@ -1,9 +1,4 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { AppDataSource } from '@/db/data-source';
-import { Assessment, ProjectType } from '@/db/entities/Assessment.entity';
-import { Lead } from '@/db/entities/Lead.entity';
-import { Region } from '@/db/entities/Region.entity';
-import { Diagnostic } from '@/db/entities/Diagnostic.entity';
 import type { AssessmentSetupFormData } from '@/types/assessment-setup.types';
 import { randomBytes } from 'crypto';
 import * as bcrypt from 'bcrypt';
@@ -33,6 +28,13 @@ function isValidEmail(email: string): boolean {
 
 export async function POST(request: NextRequest) {
   try {
+    // Lazy-load database dependencies to avoid circular dependencies during build
+    const { AppDataSource } = await import('@/db/data-source');
+    const { Lead } = await import('@/db/entities/Lead.entity');
+    const { Region } = await import('@/db/entities/Region.entity');
+    const { Assessment, ProjectType, AssessmentStatus } = await import('@/db/entities/Assessment.entity');
+    const { Diagnostic } = await import('@/db/entities/Diagnostic.entity');
+    
     const body: AssessmentSetupFormData & { language: string } = await request.json();
 
     // Normalize and validate email server-side
@@ -67,7 +69,7 @@ export async function POST(request: NextRequest) {
       
       if (!lead) {
         lead = leadRepository.create({
-          job_title: body.title,
+          jobTitle: body.title,
           name: body.fullName,
           email: normalizedEmail,
           organization: body.organization,
@@ -78,20 +80,20 @@ export async function POST(request: NextRequest) {
 
       // 2. Create Region (geography information)
       const region = regionRepository.create({
-        region_name: `${body.country} - ${body.subRegion}`,
-        geography_type: body.geographyType,
+        regionName: `${body.country} - ${body.subRegion}`,
+        geographyType: body.geographyType,
         countries: body.country,
-        sub_region: body.subRegion,
+        subRegion: body.subRegion,
         scope: body.scope,
         ecosystems: JSON.stringify(body.ecosystems),
-        gis_url: body.gisLink || undefined,
+        gisUrl: body.gisLink || undefined,
       });
       const savedRegion = await regionRepository.save(region);
 
       // 3. Find the most recent diagnostic for the user's language
       const diagnostic = await diagnosticRepository.findOne({
         where: { language: body.language },
-        order: { creation_date: 'DESC' }
+        order: { createdAt: 'DESC' }
       });
 
       if (!diagnostic) {
@@ -104,14 +106,15 @@ export async function POST(request: NextRequest) {
       // Hash the password before storing (plaintext returned only once)
       const passwordHash = await bcrypt.hash(password, 10);
       
-      const assessment = new Assessment();
-      assessment.lead_id = lead.id;
-      assessment.region_id = savedRegion.id;
-      assessment.diagnostic_id = diagnostic.id;
-      assessment.password_hash = passwordHash;
-      assessment.diagnostic_year = currentYear;
-      assessment.project_type = ProjectType.OTHER;
-      assessment.status = 'draft';
+      const assessment = assessmentRepository.create({
+        leadId: lead.id,
+        regionId: savedRegion.id,
+        diagnosticId: diagnostic.id,
+        passwordHash: passwordHash,
+        diagnosticYear: currentYear,
+        projectType: ProjectType.OTHER,
+        status: AssessmentStatus.DRAFT,
+      });
 
       const savedAssessment = await assessmentRepository.save(assessment);
 
