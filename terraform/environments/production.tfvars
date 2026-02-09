@@ -24,4 +24,5 @@ health_check_path = "/api/health"
 # Application Environment Variables
 app_environment_variables = {
   "LOG_LEVEL" = "info"
+  "DATABASE_SSL_REJECT_UNAUTHORIZED" = "false"
 }
