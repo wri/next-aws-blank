@@ -40,3 +40,5 @@ export const initializeDatabase = async () => {
   }
   return AppDataSource
 }
+
+await initializeDatabase()

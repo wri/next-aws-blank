@@ -5,6 +5,7 @@ import type { Answer } from '@/db/entities/Answer.entity'
 
 interface PageProps {
   params: Promise<{ id: string; theme: string }>
+  searchParams: Promise<{ questionCode?: string | string[] }>
 }
 
 const THEME_ORDER = [
@@ -18,7 +19,10 @@ function normalizeTheme(theme: string): Theme | null {
   return THEME_ORDER.includes(normalized as Theme) ? normalized as Theme : null
 }
 
-export default async function ThemeQuestionPage({ params }: PageProps) {
+export default async function ThemeQuestionPage({ params, searchParams }: PageProps) {
+  const resolvedSearchParams = await searchParams
+  const questionCodeFromUrl = resolvedSearchParams.questionCode as string
+
   // Await params as required by Next.js 15
   const { id: assessmentId, theme: themeParam } = await params
   
@@ -99,7 +103,10 @@ export default async function ThemeQuestionPage({ params }: PageProps) {
   
   // Find first unanswered question
   const firstUnanswered = plainQuestions.find(q => !answersMap.has(q.id))
-  const focusQuestionCode = firstUnanswered?.questionCode || plainQuestions[0]?.questionCode
+  const urlQuestionExists = plainQuestions.some(q => q.questionCode === questionCodeFromUrl)
+  const focusQuestionCode = urlQuestionExists
+    ? questionCodeFromUrl
+    : (firstUnanswered?.questionCode || plainQuestions[0]?.questionCode)
   
   if (!focusQuestionCode) {
     return (

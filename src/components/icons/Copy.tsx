@@ -1,10 +1,20 @@
-export const CopyIcon = ({ className }: { className?: string }) => (
-  <svg 
-    viewBox="0 0 24 24" 
-    className={className}
-    fill="currentColor"
-    xmlns="http://www.w3.org/2000/svg"
-  >
-    <path d="M16 1H4C2.9 1 2 1.9 2 3V17H4V3H16V1ZM19 5H8C6.9 5 6 5.9 6 7V21C6 22.1 6.9 23 8 23H19C20.1 23 21 22.1 21 21V7C21 5.9 20.1 5 19 5ZM19 21H8V7H19V21Z" />
-  </svg>
-);
+import React from 'react'
+
+import { Icon, IconProps } from '@chakra-ui/react'
+
+export const CopyIcon = (props: IconProps) => (
+  <Icon {...props}>
+    <svg
+      width='16'
+      height='16'
+      viewBox='0 0 16 16'
+      fill='none'
+      xmlns='http://www.w3.org/2000/svg'
+    >
+      <path
+        d='M5.60005 12.8C5.16005 12.8 4.78338 12.6433 4.47005 12.33C4.15672 12.0167 4.00005 11.64 4.00005 11.2V1.6C4.00005 1.16 4.15672 0.783333 4.47005 0.47C4.78338 0.156667 5.16005 0 5.60005 0H12.8C13.24 0 13.6167 0.156667 13.93 0.47C14.2434 0.783333 14.4001 1.16 14.4001 1.6V11.2C14.4001 11.64 14.2434 12.0167 13.93 12.33C13.6167 12.6433 13.24 12.8 12.8 12.8H5.60005ZM2.40005 16C1.96005 16 1.58338 15.8433 1.27005 15.53C0.956715 15.2167 0.800049 14.84 0.800049 14.4V3.2H2.40005V14.4H11.2V16H2.40005Z'
+        fill='currentColor'
+      />
+    </svg>
+  </Icon>
+)

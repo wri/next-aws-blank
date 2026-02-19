@@ -73,4 +73,7 @@ export class Question {
 
   @OneToMany('Answer', 'question')
   answers!: Answer[]
+
+  // Populated by query builders that map a single answer for a specific assessment.
+  answer?: Answer
 }

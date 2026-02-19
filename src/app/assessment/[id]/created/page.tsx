@@ -90,7 +90,7 @@ export default function AssessmentCreatedPage() {
     return (
       <Modal
         open={true}
-        onClose={() => router.push('/setup-assessment')}
+        onClose={() => router.push('/assessment/setup')}
         size="medium"
         header="Session expired"
         blocking={true}
@@ -104,7 +104,7 @@ export default function AssessmentCreatedPage() {
               label="Back to setup"
               variant="primary"
               size="default"
-              onClick={() => router.push('/setup-assessment')}
+              onClick={() => router.push('/assessment/setup')}
             />
           </div>
         }
