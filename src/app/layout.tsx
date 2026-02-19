@@ -4,6 +4,8 @@ import './globals.css'
 
 import Providers from '@/components/Providers'
 import { Footer } from '@/components/Footer'
+
+// Partner logo for footer
 const acuminPro = localFont({
   src: [
     {

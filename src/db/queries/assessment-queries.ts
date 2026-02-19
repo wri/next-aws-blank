@@ -4,6 +4,20 @@ import { Answer, AnswerValue } from '../entities/Answer.entity'
 import { Assessment } from '../entities/Assessment.entity'
 
 /**
+ * Fetch assessment by ID with related data
+ */
+export async function getAssessmentById(assessmentId: string) {
+  const assessmentRepo = AppDataSource.getRepository(Assessment)
+  
+  const assessment = await assessmentRepo.findOne({
+    where: { id: assessmentId },
+    relations: ['diagnostic', 'lead', 'region']
+  })
+
+  return assessment
+}
+
+/**
  * Fetch all questions for a diagnostic, grouped by theme
  */
 export async function getQuestionsByDiagnostic(diagnosticId: string) {

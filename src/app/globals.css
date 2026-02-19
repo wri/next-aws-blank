@@ -18,6 +18,19 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
+.gradient-bg {
+  background: linear-gradient(to bottom, #fef5dd 10%, #fff8e6 15%, #FFFFFF 40%);
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
 .custom-sheet-styles {
   [data-rsbs-overlay] {
     width: 400px;

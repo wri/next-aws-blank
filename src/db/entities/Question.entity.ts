@@ -37,6 +37,9 @@ export class Question {
   @Column({ name: 'key_success_factor', type: 'varchar' })
   keySuccessFactor!: string
 
+  @Column({ name: 'minimal_key_success_factor', type: 'varchar' })
+  minimalKeySuccessFactor!: string
+
   @Column({ type: 'text', nullable: true })
   definition!: string | null
 

@@ -1,6 +1,6 @@
 // Restoration Diagnostic Schema
 // Normalized schema for Assessment Engine with Questions, Answers, Guidance, Strategies, and Collaboration
-// Visit dbdiagram.io/ to view this schema diagram
+// Visit dbdiagram.io/ and paste there the contents of this file to view this schema diagram
 
 Enum project_type_enum {
   GEF_8
@@ -99,6 +99,7 @@ Table question {
   theme theme_enum [not null, note: 'Motivate, Enable, Implement']
   enabling_condition varchar [not null, note: 'e.g., a. Benefits, b. Awareness']
   key_success_factor varchar [not null, note: 'Short title of the question']
+  minimal_key_success_factor varchar [not null, note: 'Compact title for navigation']
   definition text [null, note: 'Detailed explanation']
   question_text text [not null, note: 'The diagnostic question']
   considerations text [null, note: 'Additional context and guidance']
