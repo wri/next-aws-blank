@@ -40,7 +40,7 @@ interface ThemePageLayoutProps {
   pathname: string
   language: string
   questions: PlainQuestion[]
-  initialAnswers: Map<string, PlainAnswer>
+  initialAnswers: Array<[string, PlainAnswer]>
   focusQuestionCode: string
   canGoPrev: boolean
   canGoNext: boolean

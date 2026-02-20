@@ -6,17 +6,17 @@ import { ThemeNavigation } from './ThemeNavigation'
 import { QuestionContent } from './QuestionContent'
 import { GuidanceSidebar } from './GuidanceSidebar'
 import { useAutoSave } from '@/hooks/useAutoSave'
-import { AutoSaveIndicator } from '@/components/assessment/AutoSaveIndicator'
-import { ChevronLeftIcon as ChevronLeft } from '@/components/icons'
+import { CheckIcon, ChevronLeftIcon as ChevronLeft } from '@/components/icons'
 import type { AnswerValue } from '@/db/entities/Answer.entity'
 import type { PlainQuestion, PlainAnswer } from './ThemePageLayout'
-import { Button } from '@worldresources/wri-design-systems'
+import { Button, InlineMessage, Tag } from '@worldresources/wri-design-systems'
+import { Box } from '@chakra-ui/react'
 
 interface QuestionViewProps {
   assessmentId: string
   theme: 'Motivate' | 'Enable' | 'Implement'
   questions: PlainQuestion[]
-  initialAnswers: Map<string, PlainAnswer>
+  initialAnswers: Array<[string, PlainAnswer]>
   focusQuestionCode: string
   canGoPrev: boolean
   canGoNext: boolean
@@ -37,10 +37,15 @@ export function QuestionView({
 }: QuestionViewProps) {
   const router = useRouter()
   
+  // Reconstruct Map from serialized array (Maps cannot be passed from Server to Client Components)
+  const [answersCache, setAnswersCache] = useState(() => 
+    new Map<string, PlainAnswer>(initialAnswers)
+  )
+  
   // Current question state
   const [currentQuestionCode, setCurrentQuestionCode] = useState(focusQuestionCode)
   const currentQuestion = questions.find(q => q.questionCode === currentQuestionCode) || questions[0]
-  const currentAnswer = initialAnswers.get(currentQuestion?.id || '')
+  const currentAnswer = answersCache.get(currentQuestion?.id || '')
   
   // Answer state
   const [selectedAnswer, setSelectedAnswer] = useState<AnswerValue | null>(
@@ -48,9 +53,6 @@ export function QuestionView({
   )
   const [rationale, setRationale] = useState(currentAnswer?.rationale || '')
   const [notes, setNotes] = useState(currentAnswer?.notes || '')
-  
-  // Local answers cache for UI updates
-  const [answersCache, setAnswersCache] = useState(initialAnswers)
   
   // Auto-save function
   const saveAnswer = useCallback(async (data: {
@@ -82,7 +84,7 @@ export function QuestionView({
   }, [assessmentId])
   
   // Auto-save hook
-  const { status, lastSaved, error, save } = useAutoSave({
+  const { save } = useAutoSave({
     onSave: saveAnswer,
     debounceMs: 1000
   })
@@ -172,6 +174,13 @@ export function QuestionView({
   if (!currentQuestion) {
     return <div className="p-8 text-center text-slate-500">No questions found for this theme.</div>
   }
+
+  const markAsCompleteHandler = () => console.log('Not implemented', void 0);
+  
+  // Calculate current question position within theme for Tag display
+  const currentIndex = questions.findIndex(q => q.questionCode === currentQuestionCode)
+  const questionPosition = currentIndex + 1
+  const totalQuestions = questions.length
   
   return (
     <>
@@ -197,10 +206,24 @@ export function QuestionView({
               className="text-neutral-700"
               leftIcon={<ChevronLeft className="w-3 h-3" />}
               onClick={() => router.push(`/assessment/${assessmentId}`)}
+              style={{ paddingLeft: '0' }}
             >
               <span className="underline underline-offset-1">Back to overview</span>
             </Button>
-            <AutoSaveIndicator status={status} lastSaved={lastSaved} error={error} />
+          </div>
+          <div className="flex items-center justify-between mb-6">
+            <Tag
+              label={`Success Factor ${questionPosition} of ${totalQuestions}`}
+              variant="info-white"
+            />
+            {/* RD-29 */}
+            <Button 
+              leftIcon={<CheckIcon /> }
+              variant="primary"
+              onClick={markAsCompleteHandler}
+              >
+              Mark complete
+            </Button>
           </div>
           
           <QuestionContent
@@ -211,10 +234,30 @@ export function QuestionView({
             onRationaleChange={handleRationaleChange}
             onSaveAndContinue={handleSaveAndContinue}
           />
+
+          {/* Note: adaptation for design variation until design system is updated */}
+          <Box css={{
+            mt: '8',
+            '& p': {
+              ml: 0
+            }
+          }}>
+            <InlineMessage
+              actionLabel="Mark complete"
+              caption="Mark this factor as complete when you’ve finished reviewing the response, rationale, and strategies."
+              isButtonRight
+              icon={null}
+              label="Ready to finish this factor?"
+              size="full-width"
+              onActionClick={markAsCompleteHandler}
+              variant="info-grey"
+            />
+          </Box>
+
+          {/* RD-15-PT-2 Implementation Pagination Card Buttons, here first */}
         </div>
       </main>
       
-      {/* Right Sidebar - Guidance & Notes */}
       <GuidanceSidebar
         question={currentQuestion}
         notes={notes}

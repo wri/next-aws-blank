@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation'
 import { ThemePageLayout } from './components/ThemePageLayout'
 import { Theme } from '@/db/entities'
-import type { Answer } from '@/db/entities/Answer.entity'
+import type { AnswerValue } from '@/db/entities/Answer.entity'
 
 interface PageProps {
   params: Promise<{ id: string; theme: string }>
@@ -81,14 +81,16 @@ export default async function ThemeQuestionPage({ params, searchParams }: PagePr
     }
   })
   
-  // Build answers map - each question has 0 or 1 answer
-  const answersMap = new Map<string, Answer>()
+  // Build answers array - serializable format for client component
+  // Map cannot be serialized from Server to Client Components, so use Array<[string, PlainAnswer]>
+  const initialAnswers: Array<[string, { id: string; value: AnswerValue | null; rationale: string | null; notes: string | null; assessmentId: string; questionId: string; createdAt: Date; updatedAt: Date }]> = []
+  const answeredQuestionIds = new Set<string>()
+  
   answersData.forEach(q => {
-    if (q.answers && q.answers.length > 0) {
-      // Take the first answer (there should only be one per question)
-      const answer = q.answers[0]
-      // Serialize answer to plain object
-      answersMap.set(q.id, {
+    // Use q.answer (singular) from leftJoinAndMapOne, not q.answers (relation array)
+    if (q.answer) {
+      const answer = q.answer
+      initialAnswers.push([q.id, {
         id: answer.id,
         value: answer.value,
         rationale: answer.rationale,
@@ -97,12 +99,13 @@ export default async function ThemeQuestionPage({ params, searchParams }: PagePr
         questionId: answer.questionId,
         createdAt: answer.createdAt,
         updatedAt: answer.updatedAt
-      } as Answer)
+      }])
+      answeredQuestionIds.add(q.id)
     }
   })
   
   // Find first unanswered question
-  const firstUnanswered = plainQuestions.find(q => !answersMap.has(q.id))
+  const firstUnanswered = plainQuestions.find(q => !answeredQuestionIds.has(q.id))
   const urlQuestionExists = plainQuestions.some(q => q.questionCode === questionCodeFromUrl)
   const focusQuestionCode = urlQuestionExists
     ? questionCodeFromUrl
@@ -133,7 +136,7 @@ export default async function ThemeQuestionPage({ params, searchParams }: PagePr
       pathname={pathname}
       language={language}
       questions={plainQuestions}
-      initialAnswers={answersMap}
+      initialAnswers={initialAnswers}
       focusQuestionCode={focusQuestionCode}
       canGoPrev={canGoPrev}
       canGoNext={canGoNext}

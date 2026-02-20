@@ -2,6 +2,7 @@
 
 import { RichTextEditor, Control } from '@/components/ui/rich-text-editor'
 import { useRichTextEditor } from '@/hooks/useRichTextEditor'
+import { Box } from '@chakra-ui/react'
 
 interface ChakraRichTextEditorProps {
   value: string
@@ -28,7 +29,6 @@ export function ChakraRichTextEditor({
   value, 
   onChange, 
   placeholder = 'Start writing...',
-  minHeight = 'auto'
 }: ChakraRichTextEditorProps) {
   const editor = useRichTextEditor({
     content: value,
@@ -41,9 +41,10 @@ export function ChakraRichTextEditor({
   }
 
   return (
-    <div 
-      className="bg-white overflow-hidden"
-      style={{ minHeight }}
+    <Box 
+      css={{
+        backgroundColor: 'white',
+      }}
     >
       <RichTextEditor.Root editor={editor}>
         <RichTextEditor.Toolbar>
@@ -77,6 +78,6 @@ export function ChakraRichTextEditor({
 
         <RichTextEditor.Content />
       </RichTextEditor.Root>
-    </div>
+    </Box>
   )
 }

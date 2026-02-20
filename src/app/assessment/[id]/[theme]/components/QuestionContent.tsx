@@ -1,6 +1,5 @@
 'use client'
 
-import { Button } from '@worldresources/wri-design-systems'
 import { AnswerOptions } from '@/components/assessment/AnswerOptions'
 import { FollowUpQuestions } from '@/components/assessment/FollowUpQuestions'
 import { ChakraRichTextEditor } from '@/components/assessment/ChakraRichTextEditor'
@@ -13,7 +12,7 @@ interface QuestionContentProps {
   rationale: string
   onAnswerChange: (value: AnswerValue) => void
   onRationaleChange: (value: string) => void
-  onSaveAndContinue: () => void
+  onSaveAndContinue: () => void // TODO: deprecated, wait for RD-29 implementation to keep/remove
 }
 
 export function QuestionContent({
@@ -22,7 +21,6 @@ export function QuestionContent({
   rationale,
   onAnswerChange,
   onRationaleChange,
-  onSaveAndContinue
 }: QuestionContentProps) {
   const hideRationale = selectedAnswer === 'na'
   
@@ -45,41 +43,31 @@ export function QuestionContent({
         onChange={onAnswerChange}
       />
       
-      {/* Follow-up questions */}
-      <FollowUpQuestions
-        followUpQuestions={question.followUpQuestions}
-        selectedAnswer={selectedAnswer}
-      />
-      
       {/* Rationale editor - hidden for N/A */}
       {!hideRationale && (
-        <div className="space-y-4">
+        <div className="space-y-4 mt-4">
           <div>
             <h3 className="text-xl font-bold text-slate-900 mb-2">
-              Rationale and adaptation
+              Rationale
             </h3>
             <p className="text-sm text-slate-600">
-              Provide your rationale and supporting documents below. If you have modified the questions above, please explain how they were adapted for your specific goals or region.
+              Topics to include
             </p>
           </div>
+                
+          {/* Follow-up questions */}
+          <FollowUpQuestions
+            followUpQuestions={question.followUpQuestions}
+            selectedAnswer={selectedAnswer}
+          />
+
           <ChakraRichTextEditor
             value={rationale}
             onChange={onRationaleChange}
             placeholder="Add your rationale..."
-            minHeight="200px"
           />
         </div>
       )}
-      
-      {/* Save and continue button */}
-      <div className="pt-10">
-        <Button
-          variant="primary"
-          onClick={onSaveAndContinue}
-        >
-          Save and continue
-        </Button>
-      </div>
     </section>
   )
 }

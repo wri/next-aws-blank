@@ -1,6 +1,6 @@
 'use client'
 
-import { getThemedColor, Panel, IconButton, Tooltip } from '@worldresources/wri-design-systems'
+import { getThemedColor, Panel, IconButton, Tooltip, ProgressBar } from '@worldresources/wri-design-systems'
 import { 
   ChevronLeftIcon as ChevronLeft, 
   ChevronRightIcon as ChevronRight,
@@ -115,11 +115,7 @@ export function ThemeNavigation({
           <ThemeIcon />
           <span className='text-lg'>{theme}</span>
         </div>
-        <Box className="flex gap-1" css={{
-          '& span[type="button"]': {
-            // ...iconButtonStyles
-          }
-        }}>
+        <Box className="flex gap-1">
           <Tooltip content="Previous theme">
             <IconButton
               color="primary"
@@ -144,12 +140,13 @@ export function ThemeNavigation({
       {/* Progress bar */}
       <div className="flex items-center p-2 border-b">
         <div className="text-xs text-grey-500 pr-1">{answeredCount}/{totalCount}</div>
-        <div className="w-full bg-slate-200 h-2 rounded-full overflow-hidden flex ml-[5px]">
-          <div 
-            className="bg-primary h-full" 
-            style={{ width: `${totalCount > 0 ? (answeredCount / totalCount) * 100 : 0}%` }}
-          />
-        </div>
+        <Box className="w-full rounded-full ml-[5px]" css={{
+          '& div[role="progressbar"]': {
+            borderRadius: 'full'
+          }
+        }}>
+          <ProgressBar progress={totalCount > 0 ? (answeredCount / totalCount) * 100 : 0} />
+        </Box>
       </div>
       
       {/* Status counts */}
