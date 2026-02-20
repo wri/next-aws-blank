@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { Controller } from 'react-hook-form';
@@ -46,8 +46,14 @@ export default function SetupAssessmentPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [selectedLanguage, setSelectedLanguage] = useState('en');
   const [error, setError] = useState<{ message: string; error?: string; stack?: string } | null>(null);
+  const [mounted, setMounted] = useState(false);
   
   const isDev = process.env.NODE_ENV === 'development';
+
+  // Prevent hydration mismatch - Navbar has responsive logic that checks window dimensions
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const {
     register,
@@ -175,28 +181,30 @@ export default function SetupAssessmentPage() {
         />
       )}
       
-      <Navbar 
-        pathname="/assessment/setup"
-        linkRouter={Link}
-        logo={
-          <Link href={'/'}>
-            <WriLogoIcon height='auto' width='120px' />
-            <span className="font-semibold ml-7">Restoration Diagnostic</span>
-          </Link>
-        }
-        navigationSection={[]}
-        utilitySection={[
-          <Menu
-            key='language-menu'
-            label='Language'
-            items={languageOptions}
-            onSelect={handleLanguageSelect}
-          />,
-        ]}
-        actionsSection={[]}
-        maxWidth={1440}
-        fixed
-      />
+      {mounted && (
+        <Navbar 
+          pathname="/assessment/setup"
+          linkRouter={Link}
+          logo={
+            <Link href={'/'}>
+              <WriLogoIcon height='auto' width='120px' />
+              <span className="font-semibold ml-7">Restoration Diagnostic</span>
+            </Link>
+          }
+          navigationSection={[]}
+          utilitySection={[
+            <Menu
+              key='language-menu'
+              label='Language'
+              items={languageOptions}
+              onSelect={handleLanguageSelect}
+            />,
+          ]}
+          actionsSection={[]}
+          maxWidth={1440}
+          fixed
+        />
+      )}
       <form onSubmit={handleFormSubmit(onSubmit)} noValidate>
         <div className="max-w-[640px] py-16 w-full flex flex-col overflow-y-auto mx-auto">
           <div>

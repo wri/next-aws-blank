@@ -1,5 +1,6 @@
 'use client';
 
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Source_Serif_4 } from 'next/font/google';
 import { Navbar, Menu, Button, getThemedColor } from '@worldresources/wri-design-systems';
@@ -12,8 +13,18 @@ const sourceSerif4 = Source_Serif_4({
 });
 
 export default function AssessmentNavbar() {
+  const [mounted, setMounted] = useState(false);
+
+  // Prevent hydration mismatch - Navbar has responsive logic that checks window dimensions
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   // placeholder for SourceSerifPro
   console.log("🚀 ~ AssessmentNavbar ~ sourceSerif4:", sourceSerif4)
+
+  if (!mounted) return null;
+
   return (
     <Navbar 
       pathname="/assessment"

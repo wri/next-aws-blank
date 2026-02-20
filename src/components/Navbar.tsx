@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import {
   Avatar,
   Menu,
@@ -23,7 +23,15 @@ const languages = [
 
 const Navbar = () => {
   const [language, setLanguage] = useState('')
+  const [mounted, setMounted] = useState(false)
   const pathname = usePathname()
+
+  // Prevent hydration mismatch - Navbar has responsive logic that checks window dimensions
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  if (!mounted) return null
 
   return (
     <WriNavbar
