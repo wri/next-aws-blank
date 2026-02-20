@@ -133,7 +133,8 @@ function createMockRequest(body: AssessmentSetupFormData & { language: string })
 
 // Valid test form data
 const validFormData: AssessmentSetupFormData & { language: string } = {
-  title: 'Director',
+  title: 'Assessment Title',
+  jobTitle: 'Director',
   fullName: 'John Doe',
   email: 'john.doe@example.com',
   organization: 'Test Organization',
@@ -646,7 +647,7 @@ describe('POST /api/assessments', () => {
       // Verify all fields were processed
       expect(mockLeadRepository.create).toHaveBeenCalledWith(
         expect.objectContaining({
-          jobTitle: validFormData.title,
+          jobTitle: validFormData.jobTitle,
           name: validFormData.fullName,
           email: validFormData.email.toLowerCase(),
           organization: validFormData.organization,

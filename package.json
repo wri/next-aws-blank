@@ -20,7 +20,7 @@
   },
   "dependencies": {
     "@chakra-ui/charts": "^3.30.0",
-    "@chakra-ui/react": "^3.8.1",
+    "@chakra-ui/react": "^3.33.0",
     "@emotion/react": "^11.14.0",
     "@tiptap/core": "^3.19.0",
     "@tiptap/extension-color": "^3.19.0",

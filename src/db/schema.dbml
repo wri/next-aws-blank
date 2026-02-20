@@ -84,11 +84,14 @@ Table assessments {
   created_at timestamp [default: `now()`]
   updated_at timestamp [default: `now()`]
   submitted_at timestamp [null, note: 'When assessment was submitted/completed']
+  title varchar [not null, default: 'Assessment Title']
+  allow_data_sharing boolean [not null, default: true]
   
   Indexes {
     lead_id
     region_id
     diagnostic_id
+    title
   }
 }
 

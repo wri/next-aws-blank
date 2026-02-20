@@ -46,7 +46,7 @@ export default async function AssessmentPage({
   }))
 
   const scopeData = {
-    title: assessment.diagnostic.title,
+    title: assessment.title,
     diagnosticLead: {
       name: assessment.lead.name,
       email: assessment.lead.email,
@@ -64,7 +64,7 @@ export default async function AssessmentPage({
         completionYear: '2046',
       },
       restorationGoals: {
-        goals: ['Biodiversity conservation', 'Water security'],
+        goals: [],
         ecosystems: assessment.region.ecosystems
           ? (JSON.parse(assessment.region.ecosystems) as string[])
           : ([] as string[]),

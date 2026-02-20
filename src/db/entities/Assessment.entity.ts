@@ -7,6 +7,7 @@ import {
   ManyToOne,
   OneToMany,
   JoinColumn,
+  Index,
 } from 'typeorm'
 import type { Lead } from './Lead.entity'
 import type { Region } from './Region.entity'
@@ -87,4 +88,11 @@ export class Assessment {
 
   @OneToMany('Answer', 'assessment')
   answers!: Answer[]
+
+  @Index()
+  @Column({ name: 'title', type: 'varchar', default: 'Assessment Title' })
+  title!: string
+
+  @Column({ name: 'allow_data_sharing', type: 'boolean', default: true })
+  allowDataSharing!: boolean
 }

@@ -1,9 +1,10 @@
-import { useForm, UseFormReturn } from 'react-hook-form';
-import { AssessmentSetupFormData } from '@/types/assessment-setup.types';
-import { validateEmailFormat } from '@/utils/validation';
+import { useForm, UseFormReturn } from 'react-hook-form'
+import { AssessmentSetupFormData } from '@/types/assessment-setup.types'
+import { validateEmailFormat } from '@/utils/validation'
 
 const defaultFormValues: AssessmentSetupFormData = {
   title: '',
+  jobTitle: '',
   fullName: '',
   email: '',
   organization: '',
@@ -14,7 +15,9 @@ const defaultFormValues: AssessmentSetupFormData = {
   scope: '',
   gisLink: '',
   ecosystems: [],
-};
+  terms: false,
+  allowDataSharing: true,
+}
 
 /**
  * Custom hook for managing assessment setup form state and validation
@@ -25,9 +28,9 @@ export function useAssessmentSetupForm(): UseFormReturn<AssessmentSetupFormData>
     defaultValues: defaultFormValues,
     mode: 'onBlur', // Validate on blur
     reValidateMode: 'onChange', // Re-validate on change after first validation
-  });
+  })
 
-  return formMethods;
+  return formMethods
 }
 
 /**
@@ -38,6 +41,7 @@ export const assessmentFormRules = {
   title: {
     required: 'Title is required',
   },
+  jobTitle: {},
   fullName: {
     required: 'Full name is required',
     minLength: {
@@ -50,12 +54,8 @@ export const assessmentFormRules = {
     validate: (val: string) =>
       validateEmailFormat(val) || 'Please provide a valid email address',
   },
-  organization: {
-    required: 'Organisation is required',
-  },
-  role: {
-    required: 'Role is required',
-  },
+  organization: {},
+  role: {},
   country: {
     required: 'Country is required',
   },
@@ -72,4 +72,9 @@ export const assessmentFormRules = {
     validate: (val: string[]) =>
       val.length > 0 || 'Select at least one ecosystem type',
   },
-} as const;
+  terms: {
+    validate: (val: boolean) =>
+      val || 'You must agree to the terms and conditions',
+  },
+  allowDataSharing: {},
+} as const
