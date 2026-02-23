@@ -1,4 +1,4 @@
-import { AppDataSource } from '../data-source'
+import { AppDataSource, initializeDatabase } from '../data-source'
 import { Question, Theme } from '../entities/Question.entity'
 import { Answer, AnswerValue } from '../entities/Answer.entity'
 import { Assessment } from '../entities/Assessment.entity'
@@ -7,6 +7,7 @@ import { Assessment } from '../entities/Assessment.entity'
  * Fetch assessment by ID with related data
  */
 export async function getAssessmentById(assessmentId: string) {
+  await initializeDatabase()
   const assessmentRepo = AppDataSource.getRepository(Assessment)
   
   const assessment = await assessmentRepo.findOne({
@@ -21,6 +22,7 @@ export async function getAssessmentById(assessmentId: string) {
  * Fetch all questions for a diagnostic, grouped by theme
  */
 export async function getQuestionsByDiagnostic(diagnosticId: string) {
+  await initializeDatabase()
   const questionRepo = AppDataSource.getRepository(Question)
   
   const questions = await questionRepo.find({
@@ -46,6 +48,7 @@ export async function getQuestionsByDiagnostic(diagnosticId: string) {
  * Optimized single query with LEFT JOIN
  */
 export async function getQuestionsWithAnswers(assessmentId: string) {
+  await initializeDatabase()
   const assessmentRepo = AppDataSource.getRepository(Assessment)
   
   const assessment = await assessmentRepo.findOne({
@@ -82,6 +85,7 @@ export async function getQuestionsWithAnswers(assessmentId: string) {
  * Returns count of yes/partly/no/unanswered per theme
  */
 export async function getAnswerSummary(assessmentId: string) {
+  await initializeDatabase()
   const answerRepo = AppDataSource.getRepository(Answer)
   
   const summary = await answerRepo
@@ -169,6 +173,7 @@ export async function saveAnswer(
   rationale?: string,
   notes?: string
 ) {
+  await initializeDatabase()
   const answerRepo = AppDataSource.getRepository(Answer)
 
   // Try to find existing answer
@@ -215,6 +220,7 @@ export async function bulkSaveAnswers(
     notes?: string
   }>
 ) {
+  await initializeDatabase()
   const answerRepo = AppDataSource.getRepository(Answer)
 
   // Use upsert for efficiency
@@ -235,6 +241,7 @@ export async function bulkSaveAnswers(
  * Get a single question with full details
  */
 export async function getQuestionById(questionId: string) {
+  await initializeDatabase()
   const questionRepo = AppDataSource.getRepository(Question)
   
   return questionRepo.findOne({
@@ -246,6 +253,7 @@ export async function getQuestionById(questionId: string) {
  * Get questions by theme for a diagnostic
  */
 export async function getQuestionsByTheme(diagnosticId: string, theme: Theme) {
+  await initializeDatabase()
   const questionRepo = AppDataSource.getRepository(Question)
   
   return questionRepo.find({
@@ -263,6 +271,7 @@ export async function getCompleteQuestionData(
   assessmentId: string,
   questionId: string
 ) {
+  await initializeDatabase()
   const questionRepo = AppDataSource.getRepository(Question)
   const answerRepo = AppDataSource.getRepository(Answer)
   

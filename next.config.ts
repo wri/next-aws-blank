@@ -14,6 +14,7 @@ const nextConfig: NextConfig = {
   /* config options here */
   reactStrictMode: false,
   output: 'standalone',
+  serverExternalPackages: ['typeorm', 'reflect-metadata', 'pg'],
   webpack: (config, { isServer }) => {
     // Suppress TypeORM warnings for unused database drivers (scoped to TypeORM only)
     config.plugins = [

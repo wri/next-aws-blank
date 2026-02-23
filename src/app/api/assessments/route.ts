@@ -1,3 +1,4 @@
+import 'reflect-metadata'
 import { NextRequest, NextResponse } from 'next/server'
 import type { AssessmentSetupFormData } from '@/types/assessment-setup.types'
 import { randomBytes } from 'crypto'
