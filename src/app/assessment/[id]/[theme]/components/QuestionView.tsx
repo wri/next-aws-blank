@@ -11,6 +11,7 @@ import type { AnswerValue } from '@/db/entities/Answer.entity'
 import type { PlainQuestion, PlainAnswer } from './ThemePageLayout'
 import { Button, InlineMessage, Tag } from '@worldresources/wri-design-systems'
 import { Box } from '@chakra-ui/react'
+import { FactorPaginationContainer } from '@/components/assessment/FactorPaginationContainer'
 
 interface QuestionViewProps {
   assessmentId: string
@@ -254,7 +255,16 @@ export function QuestionView({
             />
           </Box>
 
-          {/* RD-15-PT-2 Implementation Pagination Card Buttons, here first */}
+          {/* Factor Navigation Cards */}
+          <FactorPaginationContainer
+            assessmentId={assessmentId}
+            currentTheme={theme}
+            questions={questions}
+            currentQuestionCode={currentQuestionCode}
+            prevTheme={prevTheme}
+            nextTheme={nextTheme}
+            onNavigate={handleQuestionSelect}
+          />
         </div>
       </main>
       
