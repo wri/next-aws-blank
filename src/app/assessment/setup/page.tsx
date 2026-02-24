@@ -604,7 +604,7 @@ export default function SetupAssessmentPage() {
             />
           </div> */}
 
-          <div className='bg-neutral-200 px-6 sm:bg-transparent sm:p-0 mb-16'>
+          <div className='px-6 bg-transparent sm:p-0 mb-16'>
             {hasErrors && (
               <div className='mb-4'>
                 <div className='p-4 bg-error-50 border-l-4 border-error-500 rounded'>
