@@ -9,8 +9,8 @@ import {
   Index,
   Unique,
 } from 'typeorm'
-import type { Diagnostic } from './Diagnostic.entity'
 import type { Answer } from './Answer.entity'
+import type { Diagnostic } from './Diagnostic.entity'
 
 export enum Theme {
   MOTIVATE = 'Motivate',
