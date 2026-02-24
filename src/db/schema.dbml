@@ -127,11 +127,13 @@ Table answer {
   notes text [null, note: 'Notes tab content - general notes about question']
   created_at timestamp [default: `now()`]
   updated_at timestamp [default: `now()`]
+  status answer_status_enum [not null, default: 'not_started']
   
   Indexes {
     assessment_id
     question_id
     (assessment_id, question_id) [unique]
+    status
   }
 }
 

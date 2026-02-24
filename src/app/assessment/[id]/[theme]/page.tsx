@@ -1,7 +1,6 @@
 import { notFound } from 'next/navigation'
-import { ThemePageLayout } from './components/ThemePageLayout'
+import { PlainAnswer, ThemePageLayout } from './components/ThemePageLayout'
 import { Theme } from '@/db/entities'
-import type { AnswerValue } from '@/db/entities/Answer.entity'
 
 interface PageProps {
   params: Promise<{ id: string; theme: string }>
@@ -83,23 +82,14 @@ export default async function ThemeQuestionPage({ params, searchParams }: PagePr
   
   // Build answers array - serializable format for client component
   // Map cannot be serialized from Server to Client Components, so use Array<[string, PlainAnswer]>
-  const initialAnswers: Array<[string, { id: string; value: AnswerValue | null; rationale: string | null; notes: string | null; assessmentId: string; questionId: string; createdAt: Date; updatedAt: Date }]> = []
+  const initialAnswers: Array<[string, PlainAnswer]> = []
   const answeredQuestionIds = new Set<string>()
   
   answersData.forEach(q => {
     // Use q.answer (singular) from leftJoinAndMapOne, not q.answers (relation array)
     if (q.answer) {
       const answer = q.answer
-      initialAnswers.push([q.id, {
-        id: answer.id,
-        value: answer.value,
-        rationale: answer.rationale,
-        notes: answer.notes,
-        assessmentId: answer.assessmentId,
-        questionId: answer.questionId,
-        createdAt: answer.createdAt,
-        updatedAt: answer.updatedAt
-      }])
+      initialAnswers.push([q.id, { ...answer }])
       answeredQuestionIds.add(q.id)
     }
   })

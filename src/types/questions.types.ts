@@ -9,6 +9,7 @@ export interface Answer {
   rationale: string
   updatedAt: Date
   value: string
+  status: string
 }
 
 export interface Questions {

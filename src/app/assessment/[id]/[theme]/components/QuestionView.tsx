@@ -6,12 +6,13 @@ import { ThemeNavigation } from './ThemeNavigation'
 import { QuestionContent } from './QuestionContent'
 import { GuidanceSidebar } from './GuidanceSidebar'
 import { useAutoSave } from '@/hooks/useAutoSave'
-import { CheckIcon, ChevronLeftIcon as ChevronLeft } from '@/components/icons'
-import type { AnswerValue } from '@/db/entities/Answer.entity'
+import { CheckIcon, ChevronLeftIcon as ChevronLeft, ChevronRightIcon, GoBackIcon } from '@/components/icons'
+import { type AnswerValue } from '@/db/entities/Answer.entity'
 import type { PlainQuestion, PlainAnswer } from './ThemePageLayout'
-import { Button, InlineMessage, Tag } from '@worldresources/wri-design-systems'
+import { Button, InlineMessage, Modal, Tag } from '@worldresources/wri-design-systems'
 import { Box } from '@chakra-ui/react'
 import { FactorPaginationContainer } from '@/components/assessment/FactorPaginationContainer'
+import { AnswerStatus } from '@/types/answer.types'
 
 interface QuestionViewProps {
   assessmentId: string
@@ -54,6 +55,11 @@ export function QuestionView({
   )
   const [rationale, setRationale] = useState(currentAnswer?.rationale || '')
   const [notes, setNotes] = useState(currentAnswer?.notes || '')
+  const [isVisuallyMarkedAsComplete, setIsVisuallyMarkedAsComplete] = useState(
+    currentAnswer?.status === AnswerStatus.COMPLETE,
+  )
+  const [showCompleteWarning, setShowCompleteWarning] = useState(false)
+  const [isNextOrPrev, setIsNextOrPrev] = useState<'next' | 'prev' | ''>('')
   
   // Auto-save function
   const saveAnswer = useCallback(async (data: {
@@ -61,11 +67,15 @@ export function QuestionView({
     value: AnswerValue | null
     rationale?: string
     notes?: string
+    status: AnswerStatus
   }) => {
     const response = await fetch(`/api/assessments/${assessmentId}/answers`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data)
+      body: JSON.stringify({
+        ...data,
+        id: currentAnswer?.id,
+      })
     })
     
     if (!response.ok) {
@@ -82,7 +92,7 @@ export function QuestionView({
     })
     
     return result
-  }, [assessmentId])
+  }, [assessmentId, currentAnswer])
   
   // Auto-save hook
   const { save } = useAutoSave({
@@ -97,7 +107,8 @@ export function QuestionView({
       questionId: currentQuestion.id,
       value,
       rationale,
-      notes
+      notes,
+      status: AnswerStatus.IN_PROGRESS,
     }, true) // Immediate save for answer selection
   }, [currentQuestion?.id, rationale, notes, save])
   
@@ -108,7 +119,8 @@ export function QuestionView({
       questionId: currentQuestion.id,
       value: selectedAnswer,
       rationale: value,
-      notes
+      notes,
+      status: AnswerStatus.IN_PROGRESS,
     }, false) // Debounced save for text input
   }, [currentQuestion?.id, selectedAnswer, notes, save])
   
@@ -119,7 +131,8 @@ export function QuestionView({
       questionId: currentQuestion.id,
       value: selectedAnswer,
       rationale,
-      notes: value
+      notes: value,
+      status: AnswerStatus.IN_PROGRESS,
     }, false) // Debounced save for text input
   }, [currentQuestion?.id, selectedAnswer, rationale, save])
   
@@ -127,13 +140,16 @@ export function QuestionView({
   const handleQuestionSelect = useCallback((code: string) => {
     const question = questions.find(q => q.questionCode === code)
     if (question) {
+      router.push(`/assessment/${assessmentId}/${theme.toLowerCase()}?questionCode=${code}`)
+
       setCurrentQuestionCode(code)
       const answer = answersCache.get(question.id)
       setSelectedAnswer(answer?.value || null)
       setRationale(answer?.rationale || '')
       setNotes(answer?.notes || '')
+      setIsVisuallyMarkedAsComplete(answer?.status === AnswerStatus.COMPLETE)
     }
-  }, [questions, answersCache])
+  }, [questions, answersCache, assessmentId, theme, router])
   
   // Handle theme navigation
   const handleThemeChange = useCallback((direction: 'prev' | 'next') => {
@@ -144,21 +160,25 @@ export function QuestionView({
   }, [assessmentId, prevTheme, nextTheme, router])
   
   // Handle "Save and continue"
-  const handleSaveAndContinue = useCallback(async () => {
+  const handleSaveAndContinue = useCallback(async (markAsComplete?: boolean) => {
     // Save current answer
     await save({
       questionId: currentQuestion.id,
       value: selectedAnswer,
       rationale,
-      notes
+      notes,
+      status: markAsComplete ? AnswerStatus.COMPLETE : AnswerStatus.IN_PROGRESS,
     }, true)
     
     // Find next unanswered question in theme
     const currentIndex = questions.findIndex(q => q.questionCode === currentQuestionCode)
-    const nextQuestion = questions.slice(currentIndex + 1).find(q => !answersCache.has(q.id))
+    const nextQuestion = questions.slice(currentIndex + 1)?.[0]
+    const prevQuestion = currentIndex > 0 ? questions[currentIndex - 1] : null
     
-    if (nextQuestion) {
+    if (nextQuestion && isNextOrPrev === 'next') {
       handleQuestionSelect(nextQuestion.questionCode)
+    } else if (prevQuestion && isNextOrPrev === 'prev') {
+      handleQuestionSelect(prevQuestion.questionCode)
     } else if (canGoNext && nextTheme) {
       // Move to next theme
       router.push(`/assessment/${assessmentId}/${nextTheme}`)
@@ -168,21 +188,75 @@ export function QuestionView({
     }
   }, [
     currentQuestion?.id, selectedAnswer, rationale, notes, save,
-    questions, currentQuestionCode, answersCache, canGoNext, nextTheme,
-    assessmentId, router, handleQuestionSelect
+    questions, currentQuestionCode, canGoNext, nextTheme,
+    assessmentId, router, handleQuestionSelect, isNextOrPrev,
   ])
   
   if (!currentQuestion) {
     return <div className="p-8 text-center text-slate-500">No questions found for this theme.</div>
   }
 
-  const markAsCompleteHandler = () => console.log('Not implemented', void 0);
+  const markAsCompleteHandler = async () => {
+    setIsVisuallyMarkedAsComplete(true)
+
+    await save({
+      questionId: currentQuestion.id,
+      value: selectedAnswer,
+      rationale,
+      notes,
+      status: AnswerStatus.COMPLETE,
+    }, true)
+  }
   
   // Calculate current question position within theme for Tag display
   const currentIndex = questions.findIndex(q => q.questionCode === currentQuestionCode)
   const questionPosition = currentIndex + 1
   const totalQuestions = questions.length
   
+  const allowMarkAsComplete = selectedAnswer
+
+  const markCompleteAndContinue = async () => {
+    await handleSaveAndContinue(true)
+
+    setShowCompleteWarning(false)
+  }
+  
+  const continueWithoutMarking = async () => {
+    setShowCompleteWarning(false)
+
+    let newQuestionCode = ''
+    const currentIndex = questions.findIndex(
+      (q) => q.questionCode === currentQuestionCode,
+    )
+    if (isNextOrPrev === 'next') {
+      const nextQuestion = currentIndex < questions.length - 1 ? questions[currentIndex + 1] : null
+      const hasNextInTheme = nextQuestion !== null
+      const canGoNextTheme = !hasNextInTheme && nextTheme !== null
+
+      if (hasNextInTheme) {
+        newQuestionCode = nextQuestion.questionCode
+      } else if (canGoNextTheme) {
+        router.push(`/assessment/${assessmentId}/${nextTheme}`)
+        
+        return
+      }
+    } else {
+      const prevQuestion = currentIndex > 0 ? questions[currentIndex - 1] : null
+      const hasPrevInTheme = prevQuestion !== null
+      const canGoPrevTheme = !hasPrevInTheme && prevTheme !== null
+
+      if (hasPrevInTheme) {
+        newQuestionCode = prevQuestion.questionCode
+      } else if (canGoPrevTheme) {
+        router.push(`/assessment/${assessmentId}/${prevTheme}`)
+        
+        return
+      }
+    }
+
+    handleQuestionSelect(newQuestionCode)
+  }
+
   return (
     <>
       {/* Left Sidebar - Theme Navigation */}
@@ -217,43 +291,81 @@ export function QuestionView({
               label={`Success Factor ${questionPosition} of ${totalQuestions}`}
               variant="info-white"
             />
-            {/* RD-29 */}
-            <Button 
-              leftIcon={<CheckIcon /> }
-              variant="primary"
-              onClick={markAsCompleteHandler}
+            
+            {isVisuallyMarkedAsComplete ? (
+              <div className='flex items-center gap-2'>
+                <Tag
+                  label='Complete'
+                  variant='success'
+                  icon={<CheckIcon />}
+                />
+                <Button
+                  leftIcon={<GoBackIcon />}
+                  variant='borderless'
+                  size='small'
+                  onClick={() => setIsVisuallyMarkedAsComplete(false)}
+                  label='Edit factor'
+                />
+              </div>
+            ) : (
+              <Button
+                leftIcon={<CheckIcon />}
+                variant='primary'
+                size='small'
+                onClick={markAsCompleteHandler}
+                disabled={!allowMarkAsComplete}
               >
-              Mark complete
-            </Button>
+                Mark complete
+              </Button>
+            )}
           </div>
-          
+
           <QuestionContent
             question={currentQuestion}
             selectedAnswer={selectedAnswer}
             rationale={rationale}
             onAnswerChange={handleAnswerChange}
             onRationaleChange={handleRationaleChange}
-            onSaveAndContinue={handleSaveAndContinue}
+            isVisuallyMarkedAsComplete={isVisuallyMarkedAsComplete}
           />
 
-          {/* Note: adaptation for design variation until design system is updated */}
-          <Box css={{
-            mt: '8',
-            '& p': {
-              ml: 0
-            }
-          }}>
-            <InlineMessage
-              actionLabel="Mark complete"
-              caption="Mark this factor as complete when you’ve finished reviewing the response, rationale, and strategies."
-              isButtonRight
-              icon={null}
-              label="Ready to finish this factor?"
-              size="full-width"
-              onActionClick={markAsCompleteHandler}
-              variant="info-grey"
-            />
-          </Box>
+          {allowMarkAsComplete && !isVisuallyMarkedAsComplete ? (
+            <Box
+              css={{
+                mt: '8',
+                '& p': {
+                  ml: 0,
+                },
+              }}
+            >
+              <InlineMessage
+                actionLabel='Mark complete'
+                caption='Mark this factor as complete when you’ve finished reviewing the response, rationale, and strategies.'
+                isButtonRight
+                icon={null}
+                label='Ready to finish this factor?'
+                size='full-width'
+                onActionClick={markAsCompleteHandler}
+                buttonLeftIcon={<CheckIcon />}
+                variant='info-grey'
+              />
+            </Box>
+          ) : null}
+
+          {isVisuallyMarkedAsComplete ? (
+            <div className='mt-10'>
+              <InlineMessage
+                actionLabel='Edit factor'
+                isButtonRight
+                icon={<CheckIcon />}
+                label='This factor is marked as complete.'
+                size='full-width'
+                onActionClick={() => setIsVisuallyMarkedAsComplete(false)}
+                buttonLeftIcon={<GoBackIcon />}
+                variant='success'
+              />
+            </div>
+          ) : null}
 
           {/* Factor Navigation Cards */}
           <FactorPaginationContainer
@@ -264,6 +376,11 @@ export function QuestionView({
             prevTheme={prevTheme}
             nextTheme={nextTheme}
             onNavigate={handleQuestionSelect}
+            isMarkedAsComplete={isVisuallyMarkedAsComplete}
+            setIsNextOrPrev={(direction) => {
+              setIsNextOrPrev(direction)
+              setShowCompleteWarning(true)
+            }}
           />
         </div>
       </main>
@@ -273,6 +390,31 @@ export function QuestionView({
         notes={notes}
         onNotesChange={handleNotesChange}
       />
+
+      <Modal
+        open={showCompleteWarning}
+        onClose={() => setShowCompleteWarning(false)}
+        header={
+          <p className='text-neutral-800 font-bold'>Mark factor as complete?</p>
+        }
+        content='You’ve filled in the response and required fields for this factor. Would you like to mark it as complete before moving on?'
+        footer={
+          <>
+            <Button
+              label='Mark complete & continue'
+              onClick={markCompleteAndContinue}
+            />
+            <Button
+              label='Continue without marking'
+              onClick={continueWithoutMarking}
+              rightIcon={<ChevronRightIcon />}
+              variant='borderless'
+              size='small'
+            />
+          </>
+        }
+      />
+        
     </>
   )
 }

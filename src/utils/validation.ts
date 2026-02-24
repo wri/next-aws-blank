@@ -33,3 +33,17 @@ export const validationMessages = {
   invalidEmail: 'Please provide a valid email address',
   minEcosystems: 'Select at least one ecosystem type',
 } as const;
+
+export const hasRichTextContent = (value?: string) => {
+  if (!value) return false
+  if (/<(img|video|iframe|embed|object|svg|canvas)\b/i.test(value)) return true
+
+  const plainText = value
+    .replace(/<style[\s\S]*?<\/style>/gi, '')
+    .replace(/<script[\s\S]*?<\/script>/gi, '')
+    .replace(/<[^>]*>/g, '')
+    .replace(/&nbsp;|&#160;/gi, ' ')
+    .trim()
+
+  return plainText.length > 0
+}

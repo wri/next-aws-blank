@@ -42,6 +42,7 @@ export default async function AssessmentPage({
       rationale: qa.answer?.rationale ?? '',
       updatedAt: qa.answer?.updatedAt ?? qa.createdAt,
       value: qa.answer?.value ?? '',
+      status: qa.answer?.status ?? '',
     },
   }))
 
@@ -61,7 +62,7 @@ export default async function AssessmentPage({
         gisUrl: assessment.region.gisUrl,
       },
       timeHorizon: {
-        completionYear: '2046',
+        completionYear: '',
       },
       restorationGoals: {
         goals: [],

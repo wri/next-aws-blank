@@ -1,4 +1,5 @@
 import 'reflect-metadata'
+import { AnswerStatus } from '@/types/answer.types'
 import { NextRequest, NextResponse } from 'next/server'
 
 export async function POST(
@@ -11,11 +12,11 @@ export async function POST(
   const { saveAnswer } = await import('@/db/queries/assessment-queries')
   
   // Await params as required by Next.js 15
-  const { id } = await params
+  const { id: assessmentId } = await params
   
   try {
     const body = await request.json()
-    const { questionId, value, rationale, notes } = body
+    const { questionId, value, rationale, notes, status, id: answerId } = body
     
     if (!questionId) {
       return NextResponse.json(
@@ -25,11 +26,13 @@ export async function POST(
     }
     
     const answer = await saveAnswer(
-      id,
+      assessmentId,
       questionId,
       value || undefined,
       rationale || undefined,
-      notes || undefined
+      notes || undefined,
+      status || AnswerStatus.IN_PROGRESS,
+      answerId,
     )
     
     return NextResponse.json({ 

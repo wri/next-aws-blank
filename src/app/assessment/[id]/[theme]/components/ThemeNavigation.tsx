@@ -153,13 +153,13 @@ export function ThemeNavigation({
       <div className="flex items-center gap-3 text-xs p-2">
         <span className="text-grey-200">Responses:</span>
         <span className="flex items-center gap-1 text-slate-700">
-          <YesAnswerIcon className="w-4 h-4" style={{ color: '#009E77' }} /> {statusCounts.yes}
+          <YesAnswerIcon className="w-4 h-4 text-success-500" /> {statusCounts.yes}
         </span>
         <span className="flex items-center gap-1 text-slate-700">
-          <PartlyAnswerIcon className="w-4 h-4" style={{ color: '#A88100' }} /> {statusCounts.partly}
+          <PartlyAnswerIcon className="w-4 h-4 text-warning-500" /> {statusCounts.partly}
         </span>
         <span className="flex items-center gap-1 text-slate-700">
-          <NoAnswerIcon className="w-4 h-4" style={{ color: '#C11101' }} /> {statusCounts.no}
+          <NoAnswerIcon className="w-4 h-4 text-error-500" /> {statusCounts.no}
         </span>
       </div>
     </div>

@@ -5,6 +5,8 @@ import { FollowUpQuestions } from '@/components/assessment/FollowUpQuestions'
 import { ChakraRichTextEditor } from '@/components/assessment/ChakraRichTextEditor'
 import type { AnswerValue } from '@/db/entities/Answer.entity'
 import type { PlainQuestion } from './ThemePageLayout'
+import AnswerOptionsResponse from '@/components/assessment/AnswerOptionsResponse'
+import { hasRichTextContent } from '@/utils/validation'
 
 interface QuestionContentProps {
   question: PlainQuestion
@@ -12,7 +14,7 @@ interface QuestionContentProps {
   rationale: string
   onAnswerChange: (value: AnswerValue) => void
   onRationaleChange: (value: string) => void
-  onSaveAndContinue: () => void // TODO: deprecated, wait for RD-29 implementation to keep/remove
+  isVisuallyMarkedAsComplete: boolean
 }
 
 export function QuestionContent({
@@ -21,6 +23,7 @@ export function QuestionContent({
   rationale,
   onAnswerChange,
   onRationaleChange,
+  isVisuallyMarkedAsComplete,
 }: QuestionContentProps) {
   const hideRationale = selectedAnswer === 'na'
   
@@ -31,20 +34,34 @@ export function QuestionContent({
         <h2 className="text-3xl font-extrabold text-slate-900 mb-4 leading-tight">
           {question.keySuccessFactor}
         </h2>
+
+        {isVisuallyMarkedAsComplete ? (
+          <p className="font-bold text-neutral-900 mb-2 mt-10">
+            Question
+          </p>
+        ) : null}
         {/* Question body */}
         <p className="text-slate-600 text-base leading-relaxed max-w-3xl">
           {question.questionText}
         </p>
       </div>
-      
-      {/* Answer options */}
-      <AnswerOptions
-        value={selectedAnswer}
-        onChange={onAnswerChange}
-      />
+
+      {isVisuallyMarkedAsComplete ? (
+        <div>
+          <p className="font-bold text-neutral-900 mb-2">
+            Response
+          </p>
+          <AnswerOptionsResponse value={selectedAnswer ?? ''} />
+        </div>
+      ) : (
+        <AnswerOptions
+          value={selectedAnswer}
+          onChange={onAnswerChange}
+        />
+      )}
       
       {/* Rationale editor - hidden for N/A */}
-      {!hideRationale && (
+      {!hideRationale && !isVisuallyMarkedAsComplete && (
         <div className="space-y-4 mt-4">
           <div>
             <h3 className="text-xl font-bold text-slate-900 mb-2">
@@ -68,6 +85,16 @@ export function QuestionContent({
           />
         </div>
       )}
+
+      {isVisuallyMarkedAsComplete && hasRichTextContent(rationale) ? (
+        <div>
+          <p className='font-bold text-neutral-900 mb-2'>Rationale</p>
+          <div
+            className="[&_h1]:text-2xl [&_h1]:font-bold [&_h1]:text-neutral-800 [&_h1]:mb-1 [&_h2]:text-xl [&_h2]:font-bold [&_h2]:text-neutral-800 [&_h2]:mb-1 [&_h3]:text-lg [&_h3]:font-bold [&_h3]:text-neutral-800 [&_h3]:mb-1 [&_p]:text-neutral-800 [&_p]:mb-2"
+            dangerouslySetInnerHTML={{ __html: rationale }}
+          />
+        </div>
+      ) : null}
     </section>
   )
 }

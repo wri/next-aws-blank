@@ -4,6 +4,7 @@ import { SubNavbar } from './SubNavbar'
 import { QuestionView } from './QuestionView'
 import type { AnswerValue } from '@/db/entities/Answer.entity'
 import type { Theme } from '@/db/entities/Question.entity'
+import { AnswerStatus } from '@/types/answer.types'
 
 // Plain object interfaces for data passed from server
 export interface PlainQuestion {
@@ -32,6 +33,7 @@ export interface PlainAnswer {
   questionId: string
   createdAt: Date
   updatedAt: Date
+  status: AnswerStatus
 }
 
 interface ThemePageLayoutProps {

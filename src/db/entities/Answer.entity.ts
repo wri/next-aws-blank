@@ -1,6 +1,5 @@
 import {
   Entity,
-  PrimaryGeneratedColumn,
   Column,
   CreateDateColumn,
   UpdateDateColumn,
@@ -8,7 +7,7 @@ import {
   // OneToMany,  // On hold - was used for strategies relation
   JoinColumn,
   Index,
-  Unique,
+  PrimaryColumn,
 } from 'typeorm'
 import type { Assessment } from './Assessment.entity'
 import type { Question } from './Question.entity'
@@ -21,10 +20,15 @@ export enum AnswerValue {
   NA = 'na',
 }
 
+export enum AnswerStatus {
+  NOT_STARTED = 'not_started',
+  IN_PROGRESS = 'in_progress',
+  COMPLETE = 'complete',
+}
+
 @Entity('answer')
-@Unique(['assessmentId', 'questionId'])
 export class Answer {
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryColumn('uuid', { default: () => 'uuid_generate_v4()' })
   id!: string
 
   @Column({ type: 'enum', enum: AnswerValue, nullable: true })
@@ -40,6 +44,7 @@ export class Answer {
   createdAt!: Date
 
   @UpdateDateColumn({ name: 'updated_at' })
+  @PrimaryColumn({ name: 'updated_at', default: () => 'CURRENT_TIMESTAMP', onUpdate: 'CURRENT_TIMESTAMP' })
   updatedAt!: Date
 
   @ManyToOne('Assessment', 'answers', {
@@ -61,6 +66,15 @@ export class Answer {
 
   @Column({ name: 'question_id', type: 'uuid' })
   questionId!: string
+
+  @Column({
+    name: 'status',
+    type: 'enum',
+    enum: AnswerStatus,
+    default: AnswerStatus.NOT_STARTED,
+  })
+  @Index()
+  status!: AnswerStatus
 
   // @OneToMany(() => Strategy, (strategy) => strategy.answer) // On hold
   // strategies!: Strategy[]

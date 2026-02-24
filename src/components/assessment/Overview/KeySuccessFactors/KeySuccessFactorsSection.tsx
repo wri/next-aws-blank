@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation'
 import { Theme } from '@/db/entities'
 import Stats from './Stats'
 import KeySuccessFactorsTable from './KeySuccessFactorsTable'
+import { AnswerStatus } from '@/types/answer.types'
 
 const KeySuccessFactorsSection = ({
   questions,
@@ -21,8 +22,10 @@ const KeySuccessFactorsSection = ({
   const router = useRouter()
 
   const getQuestionsMetadata = () => {
-    const shouldStart = questions.every((q) => !q.answer?.value)
-    const shouldContinue = questions.some((q) => q.answer?.value)
+    const shouldStart = questions.every((q) => !q.answer?.status)
+    const shouldContinue = questions.some(
+      (q) => q.answer?.status === AnswerStatus.IN_PROGRESS,
+    )
     const firstUnansweredQuestion = questions
       .sort((a, b) => a.sortOrder - b.sortOrder)
       .find((q) => !q.answer?.value)

@@ -1,30 +1,14 @@
-import {
-  YesAnswerIcon,
-  CheckIcon,
-  PartlyAnswerIcon,
-  NoAnswerIcon,
-} from '@/components/icons'
+import { CheckIcon } from '@/components/icons'
 import { Questions } from '@/types/questions.types'
+import { hasRichTextContent } from '@/utils/validation'
 import { Tag } from '@worldresources/wri-design-systems'
 import Link from 'next/link'
+import AnswerOptionsResponse from '../../AnswerOptionsResponse'
+import { AnswerStatus } from '@/types/answer.types'
 
 interface KeySuccessFactorsTableProps {
   questions: Questions[]
   assessmentId: string
-}
-
-const hasRichTextContent = (value?: string) => {
-  if (!value) return false
-  if (/<(img|video|iframe|embed|object|svg|canvas)\b/i.test(value)) return true
-
-  const plainText = value
-    .replace(/<style[\s\S]*?<\/style>/gi, '')
-    .replace(/<script[\s\S]*?<\/script>/gi, '')
-    .replace(/<[^>]*>/g, '')
-    .replace(/&nbsp;|&#160;/gi, ' ')
-    .trim()
-
-  return plainText.length > 0
 }
 
 const KeySuccessFactorsTable = ({
@@ -44,33 +28,6 @@ const KeySuccessFactorsTable = ({
       },
       {} as Record<string, Questions[]>,
     )
-
-  const Response = ({ value = '' }: { value: string }) => {
-    let icon = <YesAnswerIcon className='text-success-500 h-6 w-6' />
-    let text = value
-
-    if (value?.toLowerCase() === 'yes') {
-      icon = <YesAnswerIcon className='text-success-500 h-6 w-6' />
-    } else if (value?.toLowerCase() === 'partly') {
-      icon = <PartlyAnswerIcon className='text-warning-500 h-6 w-6' />
-    } else if (value?.toLowerCase() === 'no') {
-      icon = <NoAnswerIcon className='text-error-500 h-6 w-6' />
-    } else if (value?.toLowerCase() === 'na') {
-      icon = (
-        <div className='border-2 border-neutral-600 h-4 w-4 rounded-full' />
-      )
-      text = 'N/A'
-    } else {
-      icon = <div className='bg-neutral-600 h-[3px] w-6' />
-    }
-
-    return (
-      <div className='h-6 flex items-center gap-1.5'>
-        {icon}
-        <p className='text-neutral-800 capitalize'>{text}</p>
-      </div>
-    )
-  }
 
   return (
     <div>
@@ -103,10 +60,16 @@ const KeySuccessFactorsTable = ({
                     <p>{q.keySuccessFactor}</p>
                   </Link>
                   <div className='w-full max-w-[130px] flex'>
-                    <Tag label='Complete' variant='success' />
+                    {q.answer.status === AnswerStatus.COMPLETE ? (
+                      <Tag label='Complete' variant='success' />
+                    ) : q.answer.status === AnswerStatus.IN_PROGRESS ? (
+                      <Tag label='In progress' variant='info-white' />
+                    ) : (
+                      <Tag label='Not started' variant='info-grey' />
+                    )}
                   </div>
                   <div className='w-full max-w-[130px]'>
-                    <Response value={q.answer.value} />
+                    <AnswerOptionsResponse value={q.answer.value} />
                   </div>
                   <div className='w-full max-w-[130px] h-6 flex items-center'>
                     {hasRichTextContent(q.answer.rationale) ? (

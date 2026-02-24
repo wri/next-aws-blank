@@ -34,6 +34,9 @@ export interface FactorPaginationContainerProps {
   
   /** Optional callback when navigating within same theme */
   onNavigate?: (questionCode: string) => void
+
+  isMarkedAsComplete: boolean
+  setIsNextOrPrev: (direction: 'next' | 'prev') => void
 }
 
 export function FactorPaginationContainer({
@@ -43,7 +46,9 @@ export function FactorPaginationContainer({
   currentQuestionCode,
   prevTheme,
   nextTheme,
-  onNavigate
+  onNavigate,
+  isMarkedAsComplete,
+  setIsNextOrPrev,
 }: FactorPaginationContainerProps) {
   // Find current question index
   const currentIndex = questions.findIndex(q => q.questionCode === currentQuestionCode)
@@ -99,9 +104,14 @@ export function FactorPaginationContainer({
         direction="left"
         label="Previous factor"
         factorName={prevFactorName}
-        href={prevHref}
+        href={!isMarkedAsComplete ? '#' : prevHref}
         isDisabled={!hasPrevInTheme && !canGoPrevTheme}
         onClick={() => {
+          if (!isMarkedAsComplete) {
+            setIsNextOrPrev('prev')
+            return
+          }
+
           if (hasPrevInTheme && onNavigate) {
             onNavigate(prevQuestion.questionCode)
           }
@@ -113,9 +123,14 @@ export function FactorPaginationContainer({
         direction="right"
         label="Next factor"
         factorName={nextFactorName}
-        href={nextHref}
+        href={!isMarkedAsComplete ? '#' : nextHref}
         isDisabled={!hasNextInTheme && !canGoNextTheme}
         onClick={() => {
+          if (!isMarkedAsComplete) {
+            setIsNextOrPrev('next')
+            return
+          }
+
           if (hasNextInTheme && onNavigate) {
             onNavigate(nextQuestion.questionCode)
           }

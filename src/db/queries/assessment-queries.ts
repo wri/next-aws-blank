@@ -2,6 +2,7 @@ import { AppDataSource, initializeDatabase } from '../data-source'
 import { Question, Theme } from '../entities/Question.entity'
 import { Answer, AnswerValue } from '../entities/Answer.entity'
 import { Assessment } from '../entities/Assessment.entity'
+import { AnswerStatus } from '@/types/answer.types'
 
 /**
  * Fetch assessment by ID with related data
@@ -75,6 +76,7 @@ export async function getQuestionsWithAnswers(assessmentId: string) {
     .where('question.diagnostic_id = :diagnosticId', { diagnosticId: assessment.diagnosticId })
     .orderBy('question.theme', 'ASC')
     .addOrderBy('question.sort_order', 'ASC')
+    .addOrderBy('answer.updatedAt', 'DESC')
     .getMany()
 
   return questionsWithAnswers
@@ -171,43 +173,105 @@ export async function saveAnswer(
   questionId: string,
   value: AnswerValue | null,
   rationale?: string,
-  notes?: string
+  notes?: string,
+  status?: AnswerStatus,
+  answerId?: string,
 ) {
   await initializeDatabase()
   const answerRepo = AppDataSource.getRepository(Answer)
 
-  // Try to find existing answer
-  let answer = await answerRepo.findOne({
-    where: {
-      assessmentId,
-      questionId
-    }
-  })
+  let answer
+  if (answerId) {
+    answer = await answerRepo.findOne({
+      where: { id: answerId },
+      order: { updatedAt: 'DESC' }
+    })
+  } else {
+    answer = await answerRepo.findOne({
+      where: { assessmentId, questionId },
+      order: { updatedAt: 'DESC' }
+    })
+  }
+
+  const isMarkingAsComplete = status === AnswerStatus.COMPLETE
 
   if (answer) {
-    // Update existing
-    answer.value = value
-    if (rationale !== undefined) {
-      answer.rationale = rationale
-    }
-    if (notes !== undefined) {
-      answer.notes = notes
+    const oldUpdatedAt = answer.updatedAt
+
+    if (isMarkingAsComplete && answer.status !== AnswerStatus.COMPLETE) {
+      // 1. "edit the existing one (status: complete)"
+      // Because we can't update a PK via TypeORM save(), we insert a new record to act as the "updated" one,
+      // and delete the old one to simulate an in-place edit with a changing timestamp.
+      const updatedRecordTime = new Date()
+      const updatedRecord = answerRepo.create({
+        id: answer.id,
+        assessmentId,
+        questionId,
+        value,
+        rationale: rationale || null,
+        notes: notes || null,
+        status: AnswerStatus.COMPLETE,
+        createdAt: answer.createdAt,
+        updatedAt: updatedRecordTime, // new timestamp 1
+      })
+      await answerRepo.insert(updatedRecord)
+      await answerRepo.delete({ id: answer.id, updatedAt: oldUpdatedAt }) // delete old to "update" it
+
+      // 2. "create a new record with the same info (duplicate with complete status)"
+      // This is the history snapshot they requested, must have a slightly newer timestamp so it doesn't collide
+      const historyRecordTime = new Date(updatedRecordTime.getTime() + 10) // 10ms later
+      const historyRecord = answerRepo.create({
+        id: answer.id,
+        assessmentId,
+        questionId,
+        value,
+        rationale: rationale || null,
+        notes: notes || null,
+        status: AnswerStatus.COMPLETE,
+        createdAt: answer.createdAt,
+        updatedAt: historyRecordTime, // newer timestamp 2
+      })
+      await answerRepo.insert(historyRecord)
+
+      return updatedRecord
+    } else {
+      // Normal edit (IN_PROGRESS, or continuing to edit a COMPLETE one)
+      // "the record should be always updated unless is marked as complete"
+      const newEditTime = new Date()
+      const editedRecord = answerRepo.create({
+        id: answer.id,
+        assessmentId,
+        questionId,
+        value,
+        rationale: rationale || null,
+        notes: notes || null,
+        status: AnswerStatus.IN_PROGRESS,
+        createdAt: answer.createdAt,
+        updatedAt: newEditTime,
+      })
+      await answerRepo.insert(editedRecord)
+      await answerRepo.delete({ id: answer.id, updatedAt: oldUpdatedAt })
+      return editedRecord
     }
   } else {
-    // Create new
+    // Brand new answer created for the first time
+    const newRecordTime = new Date()
     answer = answerRepo.create({
       assessmentId,
       questionId,
       value,
       rationale: rationale || null,
-      notes: notes || null
+      notes: notes || null,
+      status: AnswerStatus.IN_PROGRESS,
+      updatedAt: newRecordTime,
     })
+    // For a brand new record where no history or duplicates exist yet from a previous partial save,
+    // we just use simple create + save because `answerId` wasn't passed, meaning typeorm will generate the id.
+    await answerRepo.save(answer)
+
+    return answer
   }
-
-  await answerRepo.save(answer)
-  return answer
 }
-
 /**
  * Bulk save answers (for import or batch operations)
  */
@@ -286,7 +350,13 @@ export async function getCompleteQuestionData(
 
   // Get answer
   const answer = await answerRepo.findOne({
-    where: { assessmentId, questionId }
+    where: {
+      assessmentId,
+      questionId,
+    },
+    order: {
+      updatedAt: 'DESC',
+    },
   })
 
   return {
