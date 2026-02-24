@@ -16,6 +16,16 @@ const nextConfig: NextConfig = {
   output: 'standalone',
   serverExternalPackages: ['typeorm', 'reflect-metadata', 'pg'],
   webpack: (config, { isServer }) => {
+    // Disable server-side minification to preserve TypeORM entity class names
+    // TypeORM uses constructor.name for entity metadata resolution, which breaks
+    // when webpack/terser minifies class names (e.g., Lead -> l)
+    if (isServer) {
+      config.optimization = {
+        ...config.optimization,
+        minimize: false,
+      }
+    }
+
     // Suppress TypeORM warnings for unused database drivers (scoped to TypeORM only)
     config.plugins = [
       ...config.plugins,
