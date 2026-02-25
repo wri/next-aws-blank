@@ -7,6 +7,7 @@ import clsx from 'clsx'
 
 const CardContainer = ({
   title,
+  caption,
   children,
   onStart,
   onContinue,
@@ -14,8 +15,11 @@ const CardContainer = ({
   hideLabel,
   noHorizontalPadding,
   tag,
+  openByDefault,
+  noPaddingBottom,
 }: {
   title: string
+  caption?: string
   children: React.ReactNode
   onStart?: () => void
   onContinue?: () => void
@@ -23,8 +27,10 @@ const CardContainer = ({
   hideLabel?: string
   noHorizontalPadding?: boolean
   tag?: string
+  openByDefault?: boolean
+  noPaddingBottom?: boolean
 }) => {
-  const [open, setOpen] = useState(false)
+  const [open, setOpen] = useState(openByDefault || false)
 
   let tagVariant = 'info-grey' as
     | 'info-white'
@@ -37,20 +43,34 @@ const CardContainer = ({
   return (
     <div
       className={clsx(
-        'py-4 bg-white rounded-lg border border-neutral-300 shadow-sm mb-5',
+        'py-4 bg-white rounded-lg border border-neutral-300 shadow-sm mb-5 overflow-hidden',
         noHorizontalPadding ? 'px-0' : 'px-4',
+        noPaddingBottom && open ? 'pb-0' : 'pb-4',
       )}
     >
       <Collapsible.Root open={open} onOpenChange={(e) => setOpen(e.open)}>
         <div
           className={clsx(
-            'flex flex-col sm:flex-row sm:items-center sm:justify-between mb-3 sm:gap-2 gap-1',
+            'flex flex-col sm:flex-row sm:items-center sm:justify-between sm:gap-2 gap-1',
             noHorizontalPadding ? 'px-4' : 'px-0',
           )}
         >
-          <div className='flex items-center gap-2'>
-            <p className='text-2xl font-bold text-neutral-900'>{title}</p>
-            {tag ? <Tag label={tag} variant={tagVariant} size='small' /> : null}
+          <div className='flex flex-col'>
+            <div className='flex items-center gap-2'>
+              <p className='text-2xl font-bold text-neutral-900'>{title}</p>
+              {tag ? (
+                <Tag label={tag} variant={tagVariant} size='small' />
+              ) : null}
+            </div>
+
+            <p
+              className={clsx(
+                'text-neutral-800 w-full max-w-[560px]',
+                open ? 'mb-2' : '',
+              )}
+            >
+              {caption}
+            </p>
           </div>
 
           <div className='flex items-center gap-2'>

@@ -12,12 +12,14 @@ const KeySuccessFactorsSection = ({
   theme,
   title,
   caption,
+  openByDefault,
 }: {
   questions: Questions[]
   assessmentId: string
   theme: Theme
   title: string
   caption: string
+  openByDefault?: boolean
 }) => {
   const router = useRouter()
 
@@ -26,23 +28,47 @@ const KeySuccessFactorsSection = ({
     const shouldContinue = questions.some(
       (q) => q.answer?.status === AnswerStatus.IN_PROGRESS,
     )
-    const firstUnansweredQuestion = questions
-      .sort((a, b) => a.sortOrder - b.sortOrder)
-      .find((q) => !q.answer?.value)
+    const isComplete = questions.every(
+      (q) => q.answer?.status === AnswerStatus.COMPLETE,
+    )
+
+    const sortedQuestions = questions.sort((a, b) => a.sortOrder - b.sortOrder)
+    const firstUnansweredQuestion = sortedQuestions.find(
+      (q) => !q.answer?.value,
+    )
+    const firstInProgressQuestion = sortedQuestions.find(
+      (q) => q.answer?.status === AnswerStatus.IN_PROGRESS,
+    )
+    const firstQuestion = sortedQuestions[0]
 
     return {
       shouldStart,
       shouldContinue,
+      isComplete,
       firstUnansweredQuestion,
+      firstInProgressQuestion,
+      firstQuestion,
     }
   }
 
-  const { shouldStart, shouldContinue, firstUnansweredQuestion } =
-    getQuestionsMetadata()
+  const {
+    shouldStart,
+    shouldContinue,
+    isComplete,
+    firstUnansweredQuestion,
+    firstInProgressQuestion,
+    firstQuestion,
+  } = getQuestionsMetadata()
+
+  const nextQuestionCode =
+    firstUnansweredQuestion?.questionCode ||
+    firstInProgressQuestion?.questionCode ||
+    firstQuestion?.questionCode
 
   return (
     <CardContainer
       title={title}
+      caption={caption}
       hideLabel='table'
       onStart={
         shouldStart
@@ -51,10 +77,10 @@ const KeySuccessFactorsSection = ({
           : undefined
       }
       onContinue={
-        firstUnansweredQuestion
+        nextQuestionCode
           ? () =>
               router.push(
-                `/assessment/${assessmentId}/${theme.toLowerCase()}?questionCode=${firstUnansweredQuestion.questionCode}`,
+                `/assessment/${assessmentId}/${theme.toLowerCase()}?questionCode=${nextQuestionCode}`,
               )
           : undefined
       }
@@ -63,14 +89,13 @@ const KeySuccessFactorsSection = ({
           ? 'Not started'
           : shouldContinue
             ? 'In progress'
-            : 'Complete'
+            : isComplete
+              ? 'Complete'
+              : undefined
       }
       noHorizontalPadding
+      openByDefault={openByDefault}
     >
-      <p className='text-neutral-800 w-full max-w-[560px] mb-2 px-4'>
-        {caption}
-      </p>
-
       <Stats questions={questions} className='px-4' />
 
       <KeySuccessFactorsTable

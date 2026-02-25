@@ -53,6 +53,7 @@ const KeySuccessFactors = ({
           theme={item.theme}
           title={item.title}
           caption={item.caption}
+          openByDefault
         />
       ))}
     </div>

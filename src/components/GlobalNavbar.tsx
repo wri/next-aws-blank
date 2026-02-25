@@ -31,14 +31,14 @@ export default function GlobalNavbar() {
       pathname={pathname}
       linkRouter={Link}
       logo={
-        <Link href={'/'} className='flex items-center gap-7'>
+        <div className='flex items-center gap-7'>
           <WriLogoIcon height='auto' width='120px' />
           <span
             className={`font-semibold text-xl text-neutral-800 ${sourceSerif4.className} hidden sm:block`}
           >
             Restoration Diagnostic
           </span>
-        </Link>
+        </div>
       }
       navigationSection={[]}
       utilitySection={[

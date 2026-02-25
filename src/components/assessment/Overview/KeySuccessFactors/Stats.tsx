@@ -30,7 +30,7 @@ const Stats = ({
   const complete = yes + partly + no + (nA ?? 0)
 
   return (
-    <div className={clsx('flex items-center gap-2 mt-3 mb-5', className)}>
+    <div className={clsx('flex items-center gap-2 mt-2 mb-5', className)}>
       <p className='text-neutral-700 text-sm'>
         {complete}/{total} complete
       </p>

@@ -7,12 +7,14 @@ const StrategicPlan = () => {
   return (
     <div>
       <SectionTitle index={3} title='Strategic Plan' />
-      <CardContainer title='Strategic Plan' hideLabel='table'>
-        <p className='text-neutral-800 w-full max-w-[560px] mb-2'>
-          All strategies added across Diagnostic factors.
-        </p>
-
-        <div className='flex flex-col items-center gap-2 mt-10'>
+      <CardContainer
+        title='Strategic Plan'
+        caption='All strategies added across Diagnostic factors.'
+        hideLabel='table'
+        noHorizontalPadding
+        noPaddingBottom
+      >
+        <div className='flex flex-col items-center gap-2 py-10 bg-neutral-200'>
           <p className='text-xl font-bold text-neutral-800'>
             No strategies created
           </p>
