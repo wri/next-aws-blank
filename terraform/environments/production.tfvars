@@ -25,4 +25,5 @@ health_check_path = "/api/health"
 app_environment_variables = {
   "LOG_LEVEL" = "info"
   "DATABASE_SSL_REJECT_UNAUTHORIZED" = "false"
+  "SESSION_SECRET" = "REDACTED_SESSION_SECRET-pending-production-pwd"
 }

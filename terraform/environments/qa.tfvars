@@ -31,4 +31,5 @@ app_environment_variables = {
   "DB_PASSWORD" = "REDACTED_DB_PASSWORD"
   "DB_NAME" = "qa"
   "DATABASE_SSL_REJECT_UNAUTHORIZED" = "false"
+  "SESSION_SECRET" = "REDACTED_SESSION_SECRET-qa-pwd"
 }

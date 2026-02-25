@@ -2,6 +2,9 @@ import Scope from '@/components/assessment/Overview/Scope'
 import KeySuccessFactors from '@/components/assessment/Overview/KeySuccessFactors'
 import StrategicPlan from '@/components/assessment/Overview/StrategicPlan'
 import { notFound } from 'next/navigation'
+import { cookies } from 'next/headers'
+import { validateSessionCookie } from '@/utils/session'
+import { PasswordPrompt } from '@/components/assessment/PasswordPrompt'
 
 export default async function AssessmentPage({
   params,
@@ -9,6 +12,27 @@ export default async function AssessmentPage({
   params: Promise<{ id: string }>
 }) {
   const { id } = await params
+
+  // Check session
+  const cookieStore = await cookies()
+  const sessionCookie = cookieStore.get('assessment_session')
+  
+  let hasValidSession = false
+  if (sessionCookie) {
+    try {
+      const validation = validateSessionCookie(sessionCookie.value, id)
+      hasValidSession = validation.valid
+    } catch (error) {
+      // Treat validation errors as invalid session
+      void error
+      hasValidSession = false
+    }
+  }
+  
+  // If no valid session, show password prompt
+  if (!hasValidSession) {
+    return <PasswordPrompt assessmentId={id} />
+  }
   const { getAssessmentById, getQuestionsWithAnswers } =
     await import('@/db/queries/assessment-queries')
 
