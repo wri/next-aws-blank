@@ -1,15 +1,9 @@
-import { ReactNode } from 'react';
-import AssessmentNavbar from '@/components/static/AssessmentNavbar';
+import { ReactNode } from 'react'
 
 export default function AssessmentLayout({
   children,
 }: {
-  children: ReactNode;
+  children: ReactNode
 }) {
-  return (
-    <>
-      <AssessmentNavbar />
-      {children}
-    </>
-  );
+  return <>{children}</>
 }

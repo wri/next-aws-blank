@@ -1,25 +1,21 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import { Source_Serif_4 } from 'next/font/google'
-import {
-  Navbar,
-  Menu,
-  Button,
-  getThemedColor,
-} from '@worldresources/wri-design-systems'
+import { Navbar, Menu } from '@worldresources/wri-design-systems'
 import { WriLogoIcon } from '@/components/icons'
 import { languageOptions } from '@/constants/language-options'
 import { usePathname } from 'next/navigation'
+import { useLanguage } from '@/contexts/LanguageContext'
 
 const sourceSerif4 = Source_Serif_4({
   subsets: ['latin'],
   weight: ['600'],
 })
 
-export default function AssessmentNavbar() {
-  const [language, setLanguage] = useState('')
+export default function GlobalNavbar() {
+  const { language, setLanguage } = useLanguage()
   const pathname = usePathname()
   const [mounted, setMounted] = useState(false)
 
@@ -35,17 +31,13 @@ export default function AssessmentNavbar() {
       pathname={pathname}
       linkRouter={Link}
       logo={
-        <Link href={'/'}>
+        <Link href={'/'} className='flex items-center gap-7'>
           <WriLogoIcon height='auto' width='120px' />
-          <Button
-            variant='borderless'
-            bgColor={'transparent'}
-            fontSize={'18px'}
-            color={getThemedColor('neutral', 800)}
-            css={{ ...sourceSerif4.style }}
+          <span
+            className={`font-semibold text-xl text-neutral-800 ${sourceSerif4.className} hidden sm:block`}
           >
             Restoration Diagnostic
-          </Button>
+          </span>
         </Link>
       }
       navigationSection={[]}
@@ -61,6 +53,7 @@ export default function AssessmentNavbar() {
         />,
       ]}
       actionsSection={[]}
+      maxWidth={1440}
       fixed
     />
   )

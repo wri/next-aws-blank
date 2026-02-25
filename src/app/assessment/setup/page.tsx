@@ -1,27 +1,22 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import Link from 'next/link'
 import { Controller } from 'react-hook-form'
 import {
   Panel,
   Button,
   TextInput,
   Checkbox,
-  Navbar,
-  Menu,
   Modal,
 } from '@worldresources/wri-design-systems'
 import {
-  WriLogoIcon,
   InfoIcon,
   ListIcon,
   DownloadIcon,
   CalendarIcon,
   ChevronDownIcon,
 } from '@/components/icons'
-import { languageOptions } from '@/constants/language-options'
 import {
   useAssessmentSetupForm,
   assessmentFormRules,
@@ -30,24 +25,19 @@ import type { AssessmentSetupFormData } from '@/types/assessment-setup.types'
 import type { AssessmentCreatedResponse } from '@/types/api.types'
 import Image from 'next/image'
 import { Collapsible } from '@chakra-ui/react'
+import { useLanguage } from '@/contexts/LanguageContext'
 
 export default function SetupAssessmentPage() {
   const router = useRouter()
   const [isSubmitting, setIsSubmitting] = useState(false)
-  const [selectedLanguage, setSelectedLanguage] = useState('en')
+  const { language } = useLanguage()
   const [error, setError] = useState<{
     message: string
     error?: string
     stack?: string
   } | null>(null)
-  const [mounted, setMounted] = useState(false)
 
   const isDev = process.env.NODE_ENV === 'development'
-
-  // Prevent hydration mismatch - Navbar has responsive logic that checks window dimensions
-  useEffect(() => {
-    setMounted(true)
-  }, [])
 
   const {
     register,
@@ -61,7 +51,7 @@ export default function SetupAssessmentPage() {
     try {
       const payload = {
         ...data,
-        language: selectedLanguage,
+        language,
       }
 
       const response = await fetch('/api/assessments', {
@@ -93,15 +83,6 @@ export default function SetupAssessmentPage() {
       })
     } finally {
       setIsSubmitting(false)
-    }
-  }
-
-  const handleLanguageSelect = (selectedValue: string) => {
-    const language = languageOptions.find(
-      (lang) => lang.value === selectedValue,
-    )
-    if (language) {
-      setSelectedLanguage(language.value)
     }
   }
 
@@ -168,30 +149,6 @@ export default function SetupAssessmentPage() {
         />
       )}
 
-      {mounted && (
-        <Navbar
-          pathname='/assessment/setup'
-          linkRouter={Link}
-          logo={
-            <Link href={'/'}>
-              <WriLogoIcon height='auto' width='120px' />
-              <span className='font-semibold ml-7'>Restoration Diagnostic</span>
-            </Link>
-          }
-          navigationSection={[]}
-          utilitySection={[
-            <Menu
-              key='language-menu'
-              label='Language'
-              items={languageOptions}
-              onSelect={handleLanguageSelect}
-            />,
-          ]}
-          actionsSection={[]}
-          maxWidth={1440}
-          fixed
-        />
-      )}
       <form
         onSubmit={handleFormSubmit(onSubmit)}
         noValidate

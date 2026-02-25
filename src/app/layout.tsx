@@ -4,6 +4,7 @@ import './globals.css'
 
 import Providers from '@/components/Providers'
 import { Footer } from '@/components/Footer'
+import GlobalNavbar from '@/components/GlobalNavbar'
 
 // Partner logo for footer
 const acuminPro = localFont({
@@ -35,9 +36,8 @@ export default function RootLayout({
     <html lang='en'>
       <body className={`${acuminPro.className} antialiased`}>
         <Providers>
-          <div className='pb-20 lg:pb-0'>
-            {children}
-          </div>
+          <GlobalNavbar />
+          <div className='pb-20 lg:pb-0'>{children}</div>
           <Footer />
         </Providers>
       </body>
