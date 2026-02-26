@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect, useCallback } from 'react'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import {
   Button,
   InlineMessage,
@@ -17,6 +17,8 @@ interface PasswordPromptProps {
 
 export function PasswordPrompt({ assessmentId }: PasswordPromptProps) {
   const router = useRouter()
+  const searchParams = useSearchParams()
+  const returnTo = searchParams.get('returnTo')
   const [password, setPassword] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -106,8 +108,35 @@ export function PasswordPrompt({ assessmentId }: PasswordPromptProps) {
         return
       }
 
-      // Success - refresh the page to reload with session
-      router.refresh()
+      // Success - redirect to intended URL or refresh
+      if (returnTo && returnTo.startsWith('/assessment/')) {
+        // Validate returnTo is a safe relative URL for this assessment
+        const expectedPrefix = `/assessment/${assessmentId}/`
+        
+        if (returnTo.startsWith(expectedPrefix)) {
+          const remainder = returnTo.slice(expectedPrefix.length)
+          
+          // Validate theme segment: must have content, no slashes, no query params, no fragments, no URL encoding
+          const isValidTheme = remainder.length > 0 && 
+                              !remainder.includes('/') && 
+                              !remainder.includes('?') && 
+                              !remainder.includes('#') &&
+                              !remainder.includes('%')
+          
+          if (isValidTheme) {
+            router.push(returnTo)
+          } else {
+            // If returnTo is invalid, just refresh
+            router.refresh()
+          }
+        } else {
+          // Wrong assessment ID or invalid format - refresh
+          router.refresh()
+        }
+      } else {
+        // No returnTo parameter or doesn't start with /assessment/ - just refresh
+        router.refresh()
+      }
     } catch (error) {
       console.warn(error);
       setError(

@@ -14,16 +14,16 @@ jest.mock('next/server', () => {
   };
 });
 
-// Mock the session validation
-jest.mock('@/utils/session', () => ({
-  validateSessionCookie: jest.fn()
+// Mock the session validation (Web Crypto version for Edge Runtime)
+jest.mock('@/utils/session-web', () => ({
+  validateSessionCookieWeb: jest.fn()
 }));
 
 import { NextResponse, NextRequest } from 'next/server';
-import { validateSessionCookie } from '@/utils/session';
+import { validateSessionCookieWeb } from '@/utils/session-web';
 import { middleware } from './middleware';
 
-const mockValidateSessionCookie = validateSessionCookie as jest.MockedFunction<typeof validateSessionCookie>;
+const mockValidateSessionCookie = validateSessionCookieWeb as jest.MockedFunction<typeof validateSessionCookieWeb>;
 const mockNext = NextResponse.next as jest.MockedFunction<typeof NextResponse.next>;
 const mockRedirect = NextResponse.redirect as jest.MockedFunction<typeof NextResponse.redirect>;
 
@@ -31,14 +31,18 @@ const mockRedirect = NextResponse.redirect as jest.MockedFunction<typeof NextRes
  * Helper to create a mock NextRequest
  */
 function createMockRequest(url: string, cookies: Record<string, string> = {}) {
+  const cookieEntries = Object.entries(cookies).map(([name, value]) => ({ name, value }));
+  
   const mockRequest = {
     nextUrl: new URL(url),
     url,
+    method: 'GET',
     cookies: {
       get: jest.fn((name: string) => {
         const value = cookies[name];
         return value ? { name, value } : undefined;
       }),
+      getAll: jest.fn(() => cookieEntries),
     },
   };
 
@@ -61,27 +65,27 @@ describe('Middleware Authentication', () => {
   });
 
   describe('Excluded Routes', () => {
-    it('allows access to /assessment/setup without session', () => {
+    it('allows access to /assessment/setup without session', async () => {
       const request = createMockRequest('http://localhost:3000/assessment/setup');
-      middleware(request as unknown as NextRequest);
+      await middleware(request as unknown as NextRequest);
 
       expect(mockNext).toHaveBeenCalled();
       expect(mockRedirect).not.toHaveBeenCalled();
       expect(mockValidateSessionCookie).not.toHaveBeenCalled();
     });
 
-    it('allows access to /assessment/{id}/created without session', () => {
+    it('allows access to /assessment/{id}/created without session', async () => {
       const request = createMockRequest('http://localhost:3000/assessment/test-id/created');
-      middleware(request as unknown as NextRequest);
+      await middleware(request as unknown as NextRequest);
 
       expect(mockNext).toHaveBeenCalled();
       expect(mockRedirect).not.toHaveBeenCalled();
       expect(mockValidateSessionCookie).not.toHaveBeenCalled();
     });
 
-    it('allows access to /assessment/setup/step-2 without session', () => {
+    it('allows access to /assessment/setup/step-2 without session', async () => {
       const request = createMockRequest('http://localhost:3000/assessment/setup/step-2');
-      middleware(request as unknown as NextRequest);
+      await middleware(request as unknown as NextRequest);
 
       expect(mockNext).toHaveBeenCalled();
       expect(mockRedirect).not.toHaveBeenCalled();
@@ -90,9 +94,9 @@ describe('Middleware Authentication', () => {
   });
 
   describe('Overview Page (/assessment/[id])', () => {
-    it('allows unauthenticated access to overview page', () => {
+    it('allows unauthenticated access to overview page', async () => {
       const request = createMockRequest('http://localhost:3000/assessment/test-id');
-      middleware(request as unknown as NextRequest);
+      await middleware(request as unknown as NextRequest);
 
       expect(mockNext).toHaveBeenCalled();
       expect(mockRedirect).not.toHaveBeenCalled();
@@ -100,13 +104,13 @@ describe('Middleware Authentication', () => {
       expect(mockValidateSessionCookie).not.toHaveBeenCalled();
     });
 
-    it('allows authenticated access to overview page', () => {
+    it('allows authenticated access to overview page', async () => {
       const request = createMockRequest('http://localhost:3000/assessment/test-id', {
         assessment_session: 'valid-session-cookie'
       });
-      mockValidateSessionCookie.mockReturnValue({ valid: true });
+      mockValidateSessionCookie.mockResolvedValue({ valid: true });
 
-      middleware(request as unknown as NextRequest);
+      await middleware(request as unknown as NextRequest);
 
       expect(mockNext).toHaveBeenCalled();
       expect(mockRedirect).not.toHaveBeenCalled();
@@ -116,63 +120,56 @@ describe('Middleware Authentication', () => {
   });
 
   describe('Theme Pages (/assessment/[id]/[theme])', () => {
-    it('redirects unauthenticated users from theme pages to overview', () => {
+    it('redirects unauthenticated users from theme pages to overview', async () => {
       const request = createMockRequest('http://localhost:3000/assessment/test-id/enabling-conditions');
-      middleware(request as unknown as NextRequest);
+      await middleware(request as unknown as NextRequest);
 
       expect(mockNext).not.toHaveBeenCalled();
       expect(mockRedirect).toHaveBeenCalled();
       
-      // Check redirect URL
+      // Check redirect URL includes returnTo parameter
       const redirectUrl = mockRedirect.mock.calls[0][0] as URL;
       expect(redirectUrl.pathname).toBe('/assessment/test-id');
-      expect(consoleLogSpy).toHaveBeenCalledWith(
-        expect.stringContaining('No session - redirecting to overview')
-      );
+      expect(redirectUrl.searchParams.get('returnTo')).toBe('/assessment/test-id/enabling-conditions');
     });
 
-    it('redirects users with invalid session from theme pages', () => {
+    it('redirects users with invalid session from theme pages', async () => {
       const request = createMockRequest('http://localhost:3000/assessment/test-id/motivate', {
         assessment_session: 'invalid-session'
       });
-      mockValidateSessionCookie.mockReturnValue({ valid: false });
+      mockValidateSessionCookie.mockResolvedValue({ valid: false });
 
-      middleware(request as unknown as NextRequest);
+      await middleware(request as unknown as NextRequest);
 
       expect(mockNext).not.toHaveBeenCalled();
       expect(mockRedirect).toHaveBeenCalled();
       
       const redirectUrl = mockRedirect.mock.calls[0][0] as URL;
       expect(redirectUrl.pathname).toBe('/assessment/test-id');
+      expect(redirectUrl.searchParams.get('returnTo')).toBe('/assessment/test-id/motivate');
       expect(mockValidateSessionCookie).toHaveBeenCalledWith('invalid-session', 'test-id');
-      expect(consoleLogSpy).toHaveBeenCalledWith(
-        expect.stringContaining('Invalid session - redirecting to overview')
-      );
     });
 
-    it('allows authenticated users to access theme pages', () => {
+    it('allows authenticated users to access theme pages', async () => {
       const request = createMockRequest('http://localhost:3000/assessment/test-id/enable', {
         assessment_session: 'valid-session'
       });
-      mockValidateSessionCookie.mockReturnValue({ valid: true });
+      mockValidateSessionCookie.mockResolvedValue({ valid: true });
 
-      middleware(request as unknown as NextRequest);
+      await middleware(request as unknown as NextRequest);
 
       expect(mockNext).toHaveBeenCalled();
       expect(mockRedirect).not.toHaveBeenCalled();
       expect(mockValidateSessionCookie).toHaveBeenCalledWith('valid-session', 'test-id');
-      expect(consoleLogSpy).toHaveBeenCalledWith(
-        expect.stringContaining('Valid session for /assessment/test-id/enable')
-      );
     });
 
-    it('redirects when session is for different assessment ID', () => {
+    it('redirects when session is for different assessment ID', async () => {
       const request = createMockRequest('http://localhost:3000/assessment/test-id/implement', {
         assessment_session: 'session-for-other-id'
       });
-      mockValidateSessionCookie.mockReturnValue({ valid: false });
+      mockValidateSessionCookie.mockResolvedValue({ valid: false });
 
-      middleware(request as unknown as NextRequest);
+      await middleware(request as unknown as NextRequest);
 
       expect(mockNext).not.toHaveBeenCalled();
       expect(mockRedirect).toHaveBeenCalled();
@@ -187,20 +184,21 @@ describe('Middleware Authentication', () => {
     const themes = ['motivate', 'enable', 'implement', 'enabling-conditions'];
     
     themes.forEach(theme => {
-      it(`enforces authentication on /${theme} theme page`, () => {
+      it(`enforces authentication on /${theme} theme page`, async () => {
         const request = createMockRequest(`http://localhost:3000/assessment/abc123/${theme}`);
-        middleware(request as unknown as NextRequest);
+        await middleware(request as unknown as NextRequest);
 
         expect(mockNext).not.toHaveBeenCalled();
         expect(mockRedirect).toHaveBeenCalled();
         const redirectUrl = mockRedirect.mock.calls[0][0] as URL;
         expect(redirectUrl.pathname).toBe('/assessment/abc123');
+        expect(redirectUrl.searchParams.get('returnTo')).toBe(`/assessment/abc123/${theme}`);
       });
     });
   });
 
   describe('Error Handling', () => {
-    it('redirects to overview on session validation error', () => {
+    it('redirects to overview on session validation error', async () => {
       const request = createMockRequest('http://localhost:3000/assessment/test-id/motivate', {
         assessment_session: 'malformed-session'
       });
@@ -208,7 +206,7 @@ describe('Middleware Authentication', () => {
         throw new Error('Validation error');
       });
 
-      middleware(request as unknown as NextRequest);
+      await middleware(request as unknown as NextRequest);
 
       expect(mockNext).not.toHaveBeenCalled();
       expect(mockRedirect).toHaveBeenCalled();
@@ -216,16 +214,16 @@ describe('Middleware Authentication', () => {
       const redirectUrl = mockRedirect.mock.calls[0][0] as URL;
       expect(redirectUrl.pathname).toBe('/assessment/test-id');
       expect(consoleErrorSpy).toHaveBeenCalledWith(
-        '[Middleware] Error during session validation:',
-        expect.any(Error)
+        '[Middleware] Session validation error:',
+        expect.any(String)
       );
     });
 
-    it('handles errors gracefully on non-assessment routes', () => {
+    it('handles errors gracefully on non-assessment routes', async () => {
       const request = createMockRequest('http://localhost:3000/some-other-route');
       
       // Even if validation throws, non-matching routes should pass through
-      middleware(request as unknown as NextRequest);
+      await middleware(request as unknown as NextRequest);
 
       expect(mockNext).toHaveBeenCalled();
       expect(mockRedirect).not.toHaveBeenCalled();
@@ -234,9 +232,9 @@ describe('Middleware Authentication', () => {
   });
 
   describe('Edge Cases', () => {
-    it('handles assessment IDs with special characters', () => {
+    it('handles assessment IDs with special characters', async () => {
       const request = createMockRequest('http://localhost:3000/assessment/uuid-123-abc/motivate');
-      middleware(request as unknown as NextRequest);
+      await middleware(request as unknown as NextRequest);
 
       expect(mockNext).not.toHaveBeenCalled();
       expect(mockRedirect).toHaveBeenCalled();
@@ -244,9 +242,9 @@ describe('Middleware Authentication', () => {
       expect(redirectUrl.pathname).toBe('/assessment/uuid-123-abc');
     });
 
-    it('does not match assessment routes with extra path segments', () => {
+    it('does not match assessment routes with extra path segments', async () => {
       const request = createMockRequest('http://localhost:3000/assessment/test-id/motivate/extra');
-      middleware(request as unknown as NextRequest);
+      await middleware(request as unknown as NextRequest);
 
       // Should not match the pattern, so it passes through
       expect(mockNext).toHaveBeenCalled();
@@ -254,11 +252,11 @@ describe('Middleware Authentication', () => {
       expect(mockValidateSessionCookie).not.toHaveBeenCalled();
     });
 
-    it('handles missing session cookie gracefully', () => {
+    it('handles missing session cookie gracefully', async () => {
       const request = createMockRequest('http://localhost:3000/assessment/test-id/enable');
       // No cookies provided
       
-      middleware(request as unknown as NextRequest);
+      await middleware(request as unknown as NextRequest);
 
       expect(mockNext).not.toHaveBeenCalled();
       expect(mockRedirect).toHaveBeenCalled();
@@ -268,22 +266,22 @@ describe('Middleware Authentication', () => {
   });
 
   describe('Redirect Loop Prevention', () => {
-    it('overview page never redirects (prevents loops)', () => {
+    it('overview page never redirects (prevents loops)', async () => {
       // Even with no session, overview should not redirect to itself
       const request = createMockRequest('http://localhost:3000/assessment/test-id');
-      middleware(request as unknown as NextRequest);
+      await middleware(request as unknown as NextRequest);
 
       expect(mockNext).toHaveBeenCalled();
       expect(mockRedirect).not.toHaveBeenCalled();
     });
 
-    it('overview page with invalid session does not redirect', () => {
+    it('overview page with invalid session does not redirect', async () => {
       const request = createMockRequest('http://localhost:3000/assessment/test-id', {
         assessment_session: 'invalid'
       });
-      mockValidateSessionCookie.mockReturnValue({ valid: false });
+      mockValidateSessionCookie.mockResolvedValue({ valid: false });
 
-      middleware(request as unknown as NextRequest);
+      await middleware(request as unknown as NextRequest);
 
       expect(mockNext).toHaveBeenCalled();
       expect(mockRedirect).not.toHaveBeenCalled();
@@ -293,26 +291,77 @@ describe('Middleware Authentication', () => {
   });
 
   describe('Session Validation Details', () => {
-    it('validates session with correct assessment ID', () => {
+    it('validates session with correct assessment ID', async () => {
       const request = createMockRequest('http://localhost:3000/assessment/correct-id/motivate', {
         assessment_session: 'session-cookie'
       });
-      mockValidateSessionCookie.mockReturnValue({ valid: true });
+      mockValidateSessionCookie.mockResolvedValue({ valid: true });
 
-      middleware(request as unknown as NextRequest);
+      await middleware(request as unknown as NextRequest);
 
       expect(mockValidateSessionCookie).toHaveBeenCalledWith('session-cookie', 'correct-id');
     });
 
-    it('extracts assessment ID correctly from URL', () => {
+    it('extracts assessment ID correctly from URL', async () => {
       const request = createMockRequest('http://localhost:3000/assessment/uuid-abc-123/enable', {
         assessment_session: 'test-session'
       });
-      mockValidateSessionCookie.mockReturnValue({ valid: true });
+      mockValidateSessionCookie.mockResolvedValue({ valid: true });
 
-      middleware(request as unknown as NextRequest);
+      await middleware(request as unknown as NextRequest);
 
       expect(mockValidateSessionCookie).toHaveBeenCalledWith('test-session', 'uuid-abc-123');
+    });
+  });
+
+  describe('Return URL (Deep Link) Functionality', () => {
+    it('includes returnTo parameter when redirecting unauthenticated user from theme page', async () => {
+      const request = createMockRequest('http://localhost:3000/assessment/test-id/implement');
+      await middleware(request as unknown as NextRequest);
+
+      expect(mockRedirect).toHaveBeenCalled();
+      const redirectUrl = mockRedirect.mock.calls[0][0] as URL;
+      expect(redirectUrl.pathname).toBe('/assessment/test-id');
+      expect(redirectUrl.searchParams.get('returnTo')).toBe('/assessment/test-id/implement');
+    });
+
+    it('includes returnTo parameter when redirecting user with invalid session', async () => {
+      const request = createMockRequest('http://localhost:3000/assessment/my-assessment/enabling-conditions', {
+        assessment_session: 'expired-session'
+      });
+      mockValidateSessionCookie.mockResolvedValue({ valid: false });
+
+      await middleware(request as unknown as NextRequest);
+
+      expect(mockRedirect).toHaveBeenCalled();
+      const redirectUrl = mockRedirect.mock.calls[0][0] as URL;
+      expect(redirectUrl.pathname).toBe('/assessment/my-assessment');
+      expect(redirectUrl.searchParams.get('returnTo')).toBe('/assessment/my-assessment/enabling-conditions');
+    });
+
+    it('includes returnTo when session validation throws error', async () => {
+      const request = createMockRequest('http://localhost:3000/assessment/test-id/motivate', {
+        assessment_session: 'bad-session'
+      });
+      mockValidateSessionCookie.mockImplementation(() => {
+        throw new Error('Validation failed');
+      });
+
+      await middleware(request as unknown as NextRequest);
+
+      expect(mockRedirect).toHaveBeenCalled();
+      const redirectUrl = mockRedirect.mock.calls[0][0] as URL;
+      expect(redirectUrl.pathname).toBe('/assessment/test-id');
+      expect(redirectUrl.searchParams.get('returnTo')).toBe('/assessment/test-id/motivate');
+    });
+
+    it('does not include returnTo when overview page is accessed', async () => {
+      const request = createMockRequest('http://localhost:3000/assessment/test-id');
+      await middleware(request as unknown as NextRequest);
+
+      // Overview page should not redirect
+      expect(mockNext).toHaveBeenCalled();
+      expect(mockRedirect).not.toHaveBeenCalled();
     });
   });
 });

@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
-import { validateSessionCookie } from '@/utils/session';
+import { validateSessionCookieWeb } from '@/utils/session-web';
 
 /**
  * Middleware for session validation and authentication enforcement
@@ -16,8 +16,10 @@ import { validateSessionCookie } from '@/utils/session';
  * - /assessment/setup (assessment creation)
  * - /assessment/[id]/created (success modal after creation)
  * - /assessment/[id] (overview - handles auth via PasswordPrompt component)
+ * 
+ * Note: Uses Web Crypto API for Edge Runtime compatibility
  */
-export function middleware(request: NextRequest) {
+export async function middleware(request: NextRequest) {
   const path = request.nextUrl.pathname;
 
   try {
@@ -29,7 +31,6 @@ export function middleware(request: NextRequest) {
 
     const isExcluded = excludedPatterns.some(pattern => pattern.test(path));
     if (isExcluded) {
-      // Excluded routes - no validation needed
       return NextResponse.next();
     }
 
@@ -39,7 +40,6 @@ export function middleware(request: NextRequest) {
     const match = path.match(protectedRoutePattern);
 
     if (!match) {
-      // Not a protected route
       return NextResponse.next();
     }
 
@@ -56,38 +56,42 @@ export function middleware(request: NextRequest) {
     const sessionCookie = request.cookies.get('assessment_session');
 
     if (!sessionCookie) {
-      // No session - redirect to overview page
+      // No session - redirect to overview page with returnTo parameter
       const overviewUrl = new URL(`/assessment/${assessmentId}`, request.url);
-      console.log(`[Middleware] No session - redirecting to overview: ${overviewUrl.pathname}`);
+      overviewUrl.searchParams.set('returnTo', path);
       return NextResponse.redirect(overviewUrl);
     }
 
     // Validate session
-    const validationResult = validateSessionCookie(
+    const validationResult = await validateSessionCookieWeb(
       sessionCookie.value,
       assessmentId
     );
 
     if (!validationResult.valid) {
-      // Invalid or expired session - redirect to overview page
+      // Invalid or expired session - redirect to overview page with returnTo parameter
       const overviewUrl = new URL(`/assessment/${assessmentId}`, request.url);
-      console.log(`[Middleware] Invalid session - redirecting to overview: ${overviewUrl.pathname}`);
+      overviewUrl.searchParams.set('returnTo', path);
       return NextResponse.redirect(overviewUrl);
     }
 
     // Valid session - allow access
-    console.log(`[Middleware] Valid session for ${path}`);
     return NextResponse.next();
 
   } catch (error) {
     // Log error and redirect to overview for safety
-    console.error('[Middleware] Error during session validation:', error);
+    console.error('[Middleware] Session validation error:', error instanceof Error ? error.message : 'Unknown error');
     
     // Extract assessment ID if possible for redirect
     const match = path.match(/^\/assessment\/([^\/]+)/);
     if (match) {
       const assessmentId = match[1];
       const overviewUrl = new URL(`/assessment/${assessmentId}`, request.url);
+      // Only add returnTo if there's a theme (not for overview itself)
+      const themeMatch = path.match(/^\/assessment\/[^\/]+\/([^\/]+)$/);
+      if (themeMatch) {
+        overviewUrl.searchParams.set('returnTo', path);
+      }
       return NextResponse.redirect(overviewUrl);
     }
     

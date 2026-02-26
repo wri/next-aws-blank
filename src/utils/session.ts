@@ -95,6 +95,7 @@ export function validateSessionCookie(
     // Check expiry (24 hours from timestamp)
     const now = Date.now();
     const age = now - timestamp;
+    
     if (age < 0 || age > SESSION_DURATION) {
       return { valid: false };
     }

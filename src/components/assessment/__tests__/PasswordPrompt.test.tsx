@@ -4,7 +4,7 @@
 
 import React from 'react'
 import { render, screen, fireEvent, waitFor } from '@testing-library/react'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { PasswordPrompt } from '../PasswordPrompt'
 
 // Type definitions for mock components
@@ -57,6 +57,7 @@ type ChakraBoxProps = {
 // Mock Next.js navigation
 jest.mock('next/navigation', () => ({
   useRouter: jest.fn(),
+  useSearchParams: jest.fn(),
 }))
 
 // Mock WRI Design System components
@@ -125,8 +126,9 @@ jest.mock('@chakra-ui/react', () => ({
 global.fetch = jest.fn()
 
 describe('PasswordPrompt Component', () => {
-  let mockRouter: { refresh: jest.Mock }
+  let mockRouter: { refresh: jest.Mock; push: jest.Mock }
   let mockFetch: jest.MockedFunction<typeof fetch>
+  let mockSearchParams: { get: jest.Mock }
 
   beforeEach(() => {
     jest.clearAllMocks()
@@ -134,8 +136,13 @@ describe('PasswordPrompt Component', () => {
 
     mockRouter = {
       refresh: jest.fn(),
+      push: jest.fn(),
+    }
+    mockSearchParams = {
+      get: jest.fn(() => null), // No returnTo by default
     }
     ;(useRouter as jest.Mock).mockReturnValue(mockRouter)
+    ;(useSearchParams as jest.Mock).mockReturnValue(mockSearchParams)
     mockFetch = global.fetch as jest.MockedFunction<typeof fetch>
   })
 
@@ -556,6 +563,308 @@ describe('PasswordPrompt Component', () => {
         // The error message has "15 minute" in it
         const errorMessage = screen.getByTestId('inline-message')
         expect(errorMessage.textContent).toMatch(/15 minute/) // 900 seconds = 15 minutes
+      })
+    })
+  })
+
+  describe('returnTo Redirect Functionality', () => {
+    describe('Valid returnTo redirects', () => {
+      it('should redirect to returnTo URL when valid motivate theme provided', async () => {
+        mockSearchParams.get.mockReturnValue('/assessment/test-123/motivate')
+        mockFetch.mockResolvedValue({
+          ok: true,
+          status: 200,
+          json: async () => ({ success: true }),
+        } as Response)
+
+        render(<PasswordPrompt assessmentId="test-123" />)
+        const passwordField = screen.getByTestId('password-field')
+        const submitButton = screen.getByTestId('submit-button')
+
+        fireEvent.change(passwordField, { target: { value: 'correct-password' } })
+        fireEvent.click(submitButton)
+
+        await waitFor(() => {
+          expect(mockRouter.push).toHaveBeenCalledWith('/assessment/test-123/motivate')
+          expect(mockRouter.refresh).not.toHaveBeenCalled()
+        })
+      })
+
+      it('should redirect to returnTo URL when valid enable theme provided', async () => {
+        mockSearchParams.get.mockReturnValue('/assessment/abc-456/enable')
+        mockFetch.mockResolvedValue({
+          ok: true,
+          status: 200,
+          json: async () => ({ success: true }),
+        } as Response)
+
+        render(<PasswordPrompt assessmentId="abc-456" />)
+        const passwordField = screen.getByTestId('password-field')
+        const submitButton = screen.getByTestId('submit-button')
+
+        fireEvent.change(passwordField, { target: { value: 'correct-password' } })
+        fireEvent.click(submitButton)
+
+        await waitFor(() => {
+          expect(mockRouter.push).toHaveBeenCalledWith('/assessment/abc-456/enable')
+          expect(mockRouter.refresh).not.toHaveBeenCalled()
+        })
+      })
+
+      it('should redirect to returnTo URL when valid implement theme provided', async () => {
+        mockSearchParams.get.mockReturnValue('/assessment/xyz-789/implement')
+        mockFetch.mockResolvedValue({
+          ok: true,
+          status: 200,
+          json: async () => ({ success: true }),
+        } as Response)
+
+        render(<PasswordPrompt assessmentId="xyz-789" />)
+        const passwordField = screen.getByTestId('password-field')
+        const submitButton = screen.getByTestId('submit-button')
+
+        fireEvent.change(passwordField, { target: { value: 'correct-password' } })
+        fireEvent.click(submitButton)
+
+        await waitFor(() => {
+          expect(mockRouter.push).toHaveBeenCalledWith('/assessment/xyz-789/implement')
+          expect(mockRouter.refresh).not.toHaveBeenCalled()
+        })
+      })
+
+      it('should redirect to returnTo URL when valid enabling-conditions theme provided', async () => {
+        mockSearchParams.get.mockReturnValue('/assessment/test-123/enabling-conditions')
+        mockFetch.mockResolvedValue({
+          ok: true,
+          status: 200,
+          json: async () => ({ success: true }),
+        } as Response)
+
+        render(<PasswordPrompt assessmentId="test-123" />)
+        const passwordField = screen.getByTestId('password-field')
+        const submitButton = screen.getByTestId('submit-button')
+
+        fireEvent.change(passwordField, { target: { value: 'correct-password' } })
+        fireEvent.click(submitButton)
+
+        await waitFor(() => {
+          expect(mockRouter.push).toHaveBeenCalledWith('/assessment/test-123/enabling-conditions')
+          expect(mockRouter.refresh).not.toHaveBeenCalled()
+        })
+      })
+    })
+
+    describe('Security: Invalid returnTo handling', () => {
+      it('should refresh instead of redirecting when returnTo has wrong assessment ID', async () => {
+        mockSearchParams.get.mockReturnValue('/assessment/wrong-id/motivate')
+        mockFetch.mockResolvedValue({
+          ok: true,
+          status: 200,
+          json: async () => ({ success: true }),
+        } as Response)
+
+        render(<PasswordPrompt assessmentId="correct-id" />)
+        const passwordField = screen.getByTestId('password-field')
+        const submitButton = screen.getByTestId('submit-button')
+
+        fireEvent.change(passwordField, { target: { value: 'password' } })
+        fireEvent.click(submitButton)
+
+        await waitFor(() => {
+          expect(mockRouter.push).not.toHaveBeenCalled()
+          expect(mockRouter.refresh).toHaveBeenCalled()
+        })
+      })
+
+      it('should refresh instead of redirecting when returnTo has extra path segments', async () => {
+        mockSearchParams.get.mockReturnValue('/assessment/test-123/motivate/extra')
+        mockFetch.mockResolvedValue({
+          ok: true,
+          status: 200,
+          json: async () => ({ success: true }),
+        } as Response)
+
+        render(<PasswordPrompt assessmentId="test-123" />)
+        const passwordField = screen.getByTestId('password-field')
+        const submitButton = screen.getByTestId('submit-button')
+
+        fireEvent.change(passwordField, { target: { value: 'password' } })
+        fireEvent.click(submitButton)
+
+        await waitFor(() => {
+          expect(mockRouter.push).not.toHaveBeenCalled()
+          expect(mockRouter.refresh).toHaveBeenCalled()
+        })
+      })
+
+      it('should refresh instead of redirecting when returnTo has query parameters', async () => {
+        mockSearchParams.get.mockReturnValue('/assessment/test-123/motivate?redirect=https://evil.com')
+        mockFetch.mockResolvedValue({
+          ok: true,
+          status: 200,
+          json: async () => ({ success: true }),
+        } as Response)
+
+        render(<PasswordPrompt assessmentId="test-123" />)
+        const passwordField = screen.getByTestId('password-field')
+        const submitButton = screen.getByTestId('submit-button')
+
+        fireEvent.change(passwordField, { target: { value: 'password' } })
+        fireEvent.click(submitButton)
+
+        await waitFor(() => {
+          expect(mockRouter.push).not.toHaveBeenCalled()
+          expect(mockRouter.refresh).toHaveBeenCalled()
+        })
+      })
+
+      it('should refresh instead of redirecting when returnTo has URL fragments', async () => {
+        mockSearchParams.get.mockReturnValue('/assessment/test-123/motivate#section')
+        mockFetch.mockResolvedValue({
+          ok: true,
+          status: 200,
+          json: async () => ({ success: true }),
+        } as Response)
+
+        render(<PasswordPrompt assessmentId="test-123" />)
+        const passwordField = screen.getByTestId('password-field')
+        const submitButton = screen.getByTestId('submit-button')
+
+        fireEvent.change(passwordField, { target: { value: 'password' } })
+        fireEvent.click(submitButton)
+
+        await waitFor(() => {
+          expect(mockRouter.push).not.toHaveBeenCalled()
+          expect(mockRouter.refresh).toHaveBeenCalled()
+        })
+      })
+
+      it('should refresh instead of redirecting when returnTo has URL-encoded slashes', async () => {
+        mockSearchParams.get.mockReturnValue('/assessment/test-123/motivate%2Fextra')
+        mockFetch.mockResolvedValue({
+          ok: true,
+          status: 200,
+          json: async () => ({ success: true }),
+        } as Response)
+
+        render(<PasswordPrompt assessmentId="test-123" />)
+        const passwordField = screen.getByTestId('password-field')
+        const submitButton = screen.getByTestId('submit-button')
+
+        fireEvent.change(passwordField, { target: { value: 'password' } })
+        fireEvent.click(submitButton)
+
+        await waitFor(() => {
+          expect(mockRouter.push).not.toHaveBeenCalled()
+          expect(mockRouter.refresh).toHaveBeenCalled()
+        })
+      })
+
+      it('should refresh instead of redirecting when returnTo is absolute URL', async () => {
+        mockSearchParams.get.mockReturnValue('https://evil.com/assessment/test-123/motivate')
+        mockFetch.mockResolvedValue({
+          ok: true,
+          status: 200,
+          json: async () => ({ success: true }),
+        } as Response)
+
+        render(<PasswordPrompt assessmentId="test-123" />)
+        const passwordField = screen.getByTestId('password-field')
+        const submitButton = screen.getByTestId('submit-button')
+
+        fireEvent.change(passwordField, { target: { value: 'password' } })
+        fireEvent.click(submitButton)
+
+        await waitFor(() => {
+          expect(mockRouter.push).not.toHaveBeenCalled()
+          expect(mockRouter.refresh).toHaveBeenCalled()
+        })
+      })
+
+      it('should refresh instead of redirecting when returnTo is protocol-relative URL', async () => {
+        mockSearchParams.get.mockReturnValue('//evil.com/assessment/test-123/motivate')
+        mockFetch.mockResolvedValue({
+          ok: true,
+          status: 200,
+          json: async () => ({ success: true }),
+        } as Response)
+
+        render(<PasswordPrompt assessmentId="test-123" />)
+        const passwordField = screen.getByTestId('password-field')
+        const submitButton = screen.getByTestId('submit-button')
+
+        fireEvent.change(passwordField, { target: { value: 'password' } })
+        fireEvent.click(submitButton)
+
+        await waitFor(() => {
+          expect(mockRouter.push).not.toHaveBeenCalled()
+          expect(mockRouter.refresh).toHaveBeenCalled()
+        })
+      })
+    })
+
+    describe('Fallback behavior', () => {
+      it('should call router.refresh() when returnTo is null', async () => {
+        mockSearchParams.get.mockReturnValue(null)
+        mockFetch.mockResolvedValue({
+          ok: true,
+          status: 200,
+          json: async () => ({ success: true }),
+        } as Response)
+
+        render(<PasswordPrompt assessmentId="test-123" />)
+        const passwordField = screen.getByTestId('password-field')
+        const submitButton = screen.getByTestId('submit-button')
+
+        fireEvent.change(passwordField, { target: { value: 'password' } })
+        fireEvent.click(submitButton)
+
+        await waitFor(() => {
+          expect(mockRouter.push).not.toHaveBeenCalled()
+          expect(mockRouter.refresh).toHaveBeenCalled()
+        })
+      })
+
+      it('should call router.refresh() when returnTo does not start with /assessment/', async () => {
+        mockSearchParams.get.mockReturnValue('/other-route/test-123/motivate')
+        mockFetch.mockResolvedValue({
+          ok: true,
+          status: 200,
+          json: async () => ({ success: true }),
+        } as Response)
+
+        render(<PasswordPrompt assessmentId="test-123" />)
+        const passwordField = screen.getByTestId('password-field')
+        const submitButton = screen.getByTestId('submit-button')
+
+        fireEvent.change(passwordField, { target: { value: 'password' } })
+        fireEvent.click(submitButton)
+
+        await waitFor(() => {
+          expect(mockRouter.push).not.toHaveBeenCalled()
+          expect(mockRouter.refresh).toHaveBeenCalled()
+        })
+      })
+
+      it('should call router.refresh() when returnTo has empty theme segment', async () => {
+        mockSearchParams.get.mockReturnValue('/assessment/test-123/')
+        mockFetch.mockResolvedValue({
+          ok: true,
+          status: 200,
+          json: async () => ({ success: true }),
+        } as Response)
+
+        render(<PasswordPrompt assessmentId="test-123" />)
+        const passwordField = screen.getByTestId('password-field')
+        const submitButton = screen.getByTestId('submit-button')
+
+        fireEvent.change(passwordField, { target: { value: 'password' } })
+        fireEvent.click(submitButton)
+
+        await waitFor(() => {
+          expect(mockRouter.push).not.toHaveBeenCalled()
+          expect(mockRouter.refresh).toHaveBeenCalled()
+        })
       })
     })
   })
