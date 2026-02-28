@@ -6,8 +6,9 @@ project_name = "rd-app"
 environment  = "production"
 aws_region   = "us-east-1"
 
-# VPC Configuration
-vpc_cidr                 = "10.1.0.0/16"
+# VPC Configuration - shares the QA VPC via remote state
+# The VPC ID is read automatically from QA's Terraform state
+shared_vpc_state_key     = "qa/terraform.tfstate"
 availability_zones_count = 2
 
 # ECS Configuration - Higher resources for production
@@ -24,6 +25,8 @@ health_check_path = "/api/health"
 # Application Environment Variables
 app_environment_variables = {
   "LOG_LEVEL" = "info"
-  "DATABASE_SSL_REJECT_UNAUTHORIZED" = "false"
   "SESSION_SECRET" = "REDACTED_SESSION_SECRET-pending-production-pwd"
 }
+
+certificate_arn = "arn:aws:acm:us-east-1:123456789012:certificate/CERTIFICATE_ID_PLACEHOLDER"
+domain_name     = "www.restorationdiagnostic.org"

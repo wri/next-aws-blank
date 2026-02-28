@@ -30,6 +30,8 @@ app_environment_variables = {
   "DB_USER" = "postgres"
   "DB_PASSWORD" = "REDACTED_DB_PASSWORD"
   "DB_NAME" = "qa"
-  "DATABASE_SSL_REJECT_UNAUTHORIZED" = "false"
   "SESSION_SECRET" = "REDACTED_SESSION_SECRET-qa-pwd"
 }
+
+certificate_arn = "arn:aws:acm:us-east-1:123456789012:certificate/CERTIFICATE_ID_PLACEHOLDER"
+domain_name     = "qa.restorationdiagnostic.org"

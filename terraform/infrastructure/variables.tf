@@ -35,8 +35,20 @@ variable "wri_owner" {
 # VPC Variables
 # =============================================================================
 
+variable "vpc_id" {
+  description = "ID of an existing VPC to use. Leave empty to create a new VPC. Ignored if shared_vpc_state_key is set."
+  type        = string
+  default     = ""
+}
+
+variable "shared_vpc_state_key" {
+  description = "S3 state key of the environment that owns the shared VPC (e.g., 'qa/terraform.tfstate'). When set, the VPC ID is read from that remote state instead of using vpc_id."
+  type        = string
+  default     = ""
+}
+
 variable "vpc_cidr" {
-  description = "CIDR block for VPC"
+  description = "CIDR block for VPC (only used when creating a new VPC)"
   type        = string
   default     = "10.0.0.0/16"
 }
@@ -91,6 +103,17 @@ variable "health_check_path" {
   description = "Health check path for the ALB target group"
   type        = string
   default     = "/api/health"
+}
+
+variable "certificate_arn" {
+  description = "ARN of the ACM certificate for HTTPS"
+  type        = string
+}
+
+variable "domain_name" {
+  description = "Custom domain name for the application (e.g., qa.restorationdiagnostic.org)"
+  type        = string
+  default     = ""
 }
 
 # =============================================================================
