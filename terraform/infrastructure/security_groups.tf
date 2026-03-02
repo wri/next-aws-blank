@@ -80,6 +80,18 @@ resource "aws_security_group" "ecs" {
 
 # --- ECS Security Group Rules (separate resources to avoid dependency cycles) ---
 
+# Import blocks: adopt existing inline rules into standalone resources during migration.
+# Safe to leave permanently — Terraform skips them once the resource is already in state.
+import {
+  to = aws_security_group_rule.ecs_ingress_alb
+  id = "${aws_security_group.ecs.id}_ingress_tcp_${var.container_port}_${var.container_port}_${local.alb_sg_id}"
+}
+
+import {
+  to = aws_security_group_rule.ecs_egress_all
+  id = "${aws_security_group.ecs.id}_egress_-1_0_0_0.0.0.0/0"
+}
+
 resource "aws_security_group_rule" "ecs_ingress_alb" {
   security_group_id        = aws_security_group.ecs.id
   type                     = "ingress"
