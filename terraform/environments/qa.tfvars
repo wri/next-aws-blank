@@ -31,8 +31,7 @@ app_environment_variables = {
   "DB_PASSWORD" = "REDACTED_DB_PASSWORD"
   "DB_NAME" = "qa"
   "SESSION_SECRET" = "REDACTED_SESSION_SECRET-qa-pwd"
-  "DATABASE_SSL_REJECT_UNAUTHORIZED" = "true"
-}
+  "DATABASE_SSL_REJECT_UNAUTHORIZED" = "false"
 
 certificate_arn = "arn:aws:acm:us-east-1:123456789012:certificate/CERTIFICATE_ID_PLACEHOLDER"
 domain_name     = "qa.restorationdiagnostic.org"
