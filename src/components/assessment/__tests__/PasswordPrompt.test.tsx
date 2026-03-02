@@ -129,10 +129,33 @@ describe('PasswordPrompt Component', () => {
   let mockRouter: { refresh: jest.Mock; push: jest.Mock }
   let mockFetch: jest.MockedFunction<typeof fetch>
   let mockSearchParams: { get: jest.Mock }
+  let mockLocationReload: jest.Mock
+  let originalLocation: Location
 
   beforeEach(() => {
     jest.clearAllMocks()
     jest.useFakeTimers()
+
+    // Mock window.location
+    originalLocation = window.location
+    mockLocationReload = jest.fn()
+    
+    // Track href assignments
+    let currentHref = originalLocation.href
+    
+    // @ts-expect-error - Mocking window.location for tests
+    delete window.location
+    // @ts-expect-error - Mocking window.location for tests
+    window.location = {
+      ...originalLocation,
+      reload: mockLocationReload,
+      get href() {
+        return currentHref
+      },
+      set href(url: string) {
+        currentHref = url
+      }
+    } as Location
 
     mockRouter = {
       refresh: jest.fn(),
@@ -149,6 +172,9 @@ describe('PasswordPrompt Component', () => {
   afterEach(() => {
     jest.runOnlyPendingTimers()
     jest.useRealTimers()
+    // Restore window.location
+    // @ts-expect-error - Restoring window.location for tests
+    window.location = originalLocation
   })
 
   describe('Basic rendering', () => {
@@ -252,7 +278,7 @@ describe('PasswordPrompt Component', () => {
       fireEvent.click(submitButton)
 
       await waitFor(() => {
-        expect(mockRouter.refresh).toHaveBeenCalled()
+        expect(mockLocationReload).toHaveBeenCalled()
       })
     })
   })
@@ -585,8 +611,8 @@ describe('PasswordPrompt Component', () => {
         fireEvent.click(submitButton)
 
         await waitFor(() => {
-          expect(mockRouter.push).toHaveBeenCalledWith('/assessment/test-123/motivate')
-          expect(mockRouter.refresh).not.toHaveBeenCalled()
+          expect(window.location.href).toBe('/assessment/test-123/motivate')
+          expect(mockLocationReload).not.toHaveBeenCalled()
         })
       })
 
@@ -606,8 +632,8 @@ describe('PasswordPrompt Component', () => {
         fireEvent.click(submitButton)
 
         await waitFor(() => {
-          expect(mockRouter.push).toHaveBeenCalledWith('/assessment/abc-456/enable')
-          expect(mockRouter.refresh).not.toHaveBeenCalled()
+          expect(window.location.href).toBe('/assessment/abc-456/enable')
+          expect(mockLocationReload).not.toHaveBeenCalled()
         })
       })
 
@@ -627,8 +653,8 @@ describe('PasswordPrompt Component', () => {
         fireEvent.click(submitButton)
 
         await waitFor(() => {
-          expect(mockRouter.push).toHaveBeenCalledWith('/assessment/xyz-789/implement')
-          expect(mockRouter.refresh).not.toHaveBeenCalled()
+          expect(window.location.href).toBe('/assessment/xyz-789/implement')
+          expect(mockLocationReload).not.toHaveBeenCalled()
         })
       })
 
@@ -648,8 +674,8 @@ describe('PasswordPrompt Component', () => {
         fireEvent.click(submitButton)
 
         await waitFor(() => {
-          expect(mockRouter.push).toHaveBeenCalledWith('/assessment/test-123/enabling-conditions')
-          expect(mockRouter.refresh).not.toHaveBeenCalled()
+          expect(window.location.href).toBe('/assessment/test-123/enabling-conditions')
+          expect(mockLocationReload).not.toHaveBeenCalled()
         })
       })
     })
@@ -671,8 +697,9 @@ describe('PasswordPrompt Component', () => {
         fireEvent.click(submitButton)
 
         await waitFor(() => {
-          expect(mockRouter.push).not.toHaveBeenCalled()
-          expect(mockRouter.refresh).toHaveBeenCalled()
+          expect(mockLocationReload).toHaveBeenCalled()
+          // href should not be changed
+          expect(window.location.href).not.toBe('/assessment/wrong-id/motivate')
         })
       })
 
@@ -692,8 +719,8 @@ describe('PasswordPrompt Component', () => {
         fireEvent.click(submitButton)
 
         await waitFor(() => {
-          expect(mockRouter.push).not.toHaveBeenCalled()
-          expect(mockRouter.refresh).toHaveBeenCalled()
+          expect(mockLocationReload).toHaveBeenCalled()
+          expect(window.location.href).not.toBe('/assessment/test-123/motivate/extra')
         })
       })
 
@@ -713,8 +740,8 @@ describe('PasswordPrompt Component', () => {
         fireEvent.click(submitButton)
 
         await waitFor(() => {
-          expect(mockRouter.push).not.toHaveBeenCalled()
-          expect(mockRouter.refresh).toHaveBeenCalled()
+          expect(mockLocationReload).toHaveBeenCalled()
+          expect(window.location.href).not.toContain('?redirect=')
         })
       })
 
@@ -734,8 +761,8 @@ describe('PasswordPrompt Component', () => {
         fireEvent.click(submitButton)
 
         await waitFor(() => {
-          expect(mockRouter.push).not.toHaveBeenCalled()
-          expect(mockRouter.refresh).toHaveBeenCalled()
+          expect(mockLocationReload).toHaveBeenCalled()
+          expect(window.location.href).not.toContain('#section')
         })
       })
 
@@ -755,8 +782,8 @@ describe('PasswordPrompt Component', () => {
         fireEvent.click(submitButton)
 
         await waitFor(() => {
-          expect(mockRouter.push).not.toHaveBeenCalled()
-          expect(mockRouter.refresh).toHaveBeenCalled()
+          expect(mockLocationReload).toHaveBeenCalled()
+          expect(window.location.href).not.toContain('%2F')
         })
       })
 
@@ -776,8 +803,8 @@ describe('PasswordPrompt Component', () => {
         fireEvent.click(submitButton)
 
         await waitFor(() => {
-          expect(mockRouter.push).not.toHaveBeenCalled()
-          expect(mockRouter.refresh).toHaveBeenCalled()
+          expect(mockLocationReload).toHaveBeenCalled()
+          expect(window.location.href).not.toBe('https://evil.com/assessment/test-123/motivate')
         })
       })
 
@@ -797,8 +824,8 @@ describe('PasswordPrompt Component', () => {
         fireEvent.click(submitButton)
 
         await waitFor(() => {
-          expect(mockRouter.push).not.toHaveBeenCalled()
-          expect(mockRouter.refresh).toHaveBeenCalled()
+          expect(mockLocationReload).toHaveBeenCalled()
+          expect(window.location.href).not.toBe('//evil.com/assessment/test-123/motivate')
         })
       })
     })
@@ -820,8 +847,7 @@ describe('PasswordPrompt Component', () => {
         fireEvent.click(submitButton)
 
         await waitFor(() => {
-          expect(mockRouter.push).not.toHaveBeenCalled()
-          expect(mockRouter.refresh).toHaveBeenCalled()
+          expect(mockLocationReload).toHaveBeenCalled()
         })
       })
 
@@ -841,8 +867,8 @@ describe('PasswordPrompt Component', () => {
         fireEvent.click(submitButton)
 
         await waitFor(() => {
-          expect(mockRouter.push).not.toHaveBeenCalled()
-          expect(mockRouter.refresh).toHaveBeenCalled()
+          expect(mockLocationReload).toHaveBeenCalled()
+          expect(window.location.href).not.toBe('/other-route/test-123/motivate')
         })
       })
 
@@ -862,8 +888,8 @@ describe('PasswordPrompt Component', () => {
         fireEvent.click(submitButton)
 
         await waitFor(() => {
-          expect(mockRouter.push).not.toHaveBeenCalled()
-          expect(mockRouter.refresh).toHaveBeenCalled()
+          expect(mockLocationReload).toHaveBeenCalled()
+          expect(window.location.href).not.toBe('/assessment/test-123/')
         })
       })
     })

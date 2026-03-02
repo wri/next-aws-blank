@@ -8,7 +8,10 @@ jest.mock('next/server', () => ({
     json: jest.fn((body, init) => ({
       json: async () => body,
       status: init?.status || 200,
-      ok: (init?.status || 200) >= 200 && (init?.status || 200) < 300
+      ok: (init?.status || 200) >= 200 && (init?.status || 200) < 300,
+      cookies: {
+        set: jest.fn()
+      }
     }))
   }
 }));
@@ -50,6 +53,11 @@ jest.mock('@/db/entities/Assessment.entity', () => ({
 
 jest.mock('@/db/entities/Diagnostic.entity', () => ({
   Diagnostic: { name: 'Diagnostic' }
+}));
+
+// Mock session utilities
+jest.mock('@/utils/session', () => ({
+  createSessionCookie: jest.fn().mockReturnValue('mock-session-cookie')
 }));
 
 // Now import the route after mocks are set up

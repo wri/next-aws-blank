@@ -136,7 +136,11 @@ export async function POST(request: NextRequest) {
       },
     )
 
-    return NextResponse.json(
+    // Create session cookie for immediate access
+    const { createSessionCookie } = await import('@/utils/session')
+    const sessionCookie = createSessionCookie(result.assessmentId)
+
+    const response = NextResponse.json(
       {
         success: true,
         assessmentId: result.assessmentId,
@@ -145,6 +149,17 @@ export async function POST(request: NextRequest) {
       },
       { status: 201 },
     )
+
+    // Set session cookie so creator is automatically authenticated
+    response.cookies.set('assessment_session', sessionCookie, {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'strict',
+      maxAge: 86400, // 24 hours
+      path: '/'
+    })
+
+    return response
   } catch (error) {
     console.error('Failed to create assessment:', error)
 

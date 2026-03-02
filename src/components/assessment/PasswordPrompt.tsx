@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect, useCallback } from 'react'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { useSearchParams } from 'next/navigation'
 import {
   Button,
   InlineMessage,
@@ -16,7 +16,6 @@ interface PasswordPromptProps {
 }
 
 export function PasswordPrompt({ assessmentId }: PasswordPromptProps) {
-  const router = useRouter()
   const searchParams = useSearchParams()
   const returnTo = searchParams.get('returnTo')
   const [password, setPassword] = useState('')
@@ -108,7 +107,7 @@ export function PasswordPrompt({ assessmentId }: PasswordPromptProps) {
         return
       }
 
-      // Success - redirect to intended URL or refresh
+      // Success - redirect to intended URL or reload page
       if (returnTo && returnTo.startsWith('/assessment/')) {
         // Validate returnTo is a safe relative URL for this assessment
         const expectedPrefix = `/assessment/${assessmentId}/`
@@ -124,18 +123,19 @@ export function PasswordPrompt({ assessmentId }: PasswordPromptProps) {
                               !remainder.includes('%')
           
           if (isValidTheme) {
-            router.push(returnTo)
+            // Use hard navigation to ensure cookie is recognized
+            window.location.href = returnTo
           } else {
-            // If returnTo is invalid, just refresh
-            router.refresh()
+            // If returnTo is invalid, reload current page
+            window.location.reload()
           }
         } else {
-          // Wrong assessment ID or invalid format - refresh
-          router.refresh()
+          // Wrong assessment ID or invalid format - reload
+          window.location.reload()
         }
       } else {
-        // No returnTo parameter or doesn't start with /assessment/ - just refresh
-        router.refresh()
+        // No returnTo parameter or doesn't start with /assessment/ - reload current page
+        window.location.reload()
       }
     } catch (error) {
       console.warn(error);
@@ -200,6 +200,7 @@ export function PasswordPrompt({ assessmentId }: PasswordPromptProps) {
                 {error && (
                   <Box marginBottom={3}>
                     <InlineMessage 
+                      size='full-width'
                       variant='error' 
                       label={error}
                     />
