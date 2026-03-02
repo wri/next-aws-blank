@@ -29,5 +29,6 @@ app_environment_variables = {
   "DATABASE_SSL_REJECT_UNAUTHORIZED" = "false"
 }
 
-certificate_arn = "arn:aws:acm:us-east-1:123456789012:certificate/CERTIFICATE_ID_PLACEHOLDER"
-domain_name     = "www.restorationdiagnostic.org"
+certificate_arn        = "arn:aws:acm:us-east-1:123456789012:certificate/CERTIFICATE_ID_PLACEHOLDER"
+domain_name            = "www.restorationdiagnostic.org"
+listener_rule_priority = 200

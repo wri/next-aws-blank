@@ -1,9 +1,11 @@
 # =============================================================================
-# ALB Security Group
+# ALB Security Group (only created by the environment that owns the ALB)
 # =============================================================================
 
 resource "aws_security_group" "alb" {
-  name        = "${var.project_name}-${var.environment}-alb-sg"
+  count = local.create_alb ? 1 : 0
+
+  name        = "${var.project_name}-alb-sg"
   description = "Security group for ALB"
   vpc_id      = local.vpc_id
 
@@ -32,7 +34,7 @@ resource "aws_security_group" "alb" {
   }
 
   tags = {
-    Name = "${var.project_name}-${var.environment}-alb-sg"
+    Name = "${var.project_name}-alb-sg"
   }
 }
 
@@ -50,7 +52,7 @@ resource "aws_security_group" "ecs" {
     from_port       = var.container_port
     to_port         = var.container_port
     protocol        = "tcp"
-    security_groups = [aws_security_group.alb.id]
+    security_groups = [local.alb_sg_id]
   }
 
   egress {
