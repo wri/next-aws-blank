@@ -42,6 +42,7 @@ export function FollowUpQuestions({ followUpQuestions, selectedAnswer }: FollowU
       <div>
         <Button 
           variant="secondary"
+          size="small"
           leftIcon={<PlusIcon />}
           style={{ borderRadius: '8px' }}>
           add custom topic

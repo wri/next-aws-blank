@@ -12,6 +12,7 @@ import {
 import type { AnswerValue } from '@/db/entities/Answer.entity'
 import type { PlainQuestion, PlainAnswer } from './ThemePageLayout'
 import { Box } from '@chakra-ui/react'
+import { AnswerStatus } from '@/types/answer.types'
 
 interface ThemeNavigationProps {
   theme: 'Motivate' | 'Enable' | 'Implement'
@@ -100,8 +101,11 @@ export function ThemeNavigation({
   // Group questions by enabling condition
   const groupedQuestions = groupByEnablingCondition(questions)
   
-  // Calculate progress
-  const answeredCount = questions.filter(q => answers.has(q.id)).length
+  // Calculate progress - count questions marked as complete
+  const answeredCount = questions.filter(q => {
+    const answer = answers.get(q.id)
+    return answer?.status === AnswerStatus.COMPLETE
+  }).length
   const totalCount = questions.length
   
   // Calculate status counts

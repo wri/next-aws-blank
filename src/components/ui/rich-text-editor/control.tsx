@@ -350,6 +350,9 @@ export const FontSize = createSelectControl({
   getValue: (editor) => editor.getAttributes("textStyle")?.fontSize || "14px",
   command: (editor, value) =>
     editor.chain().focus().setMark("textStyle", { fontSize: value }).run(),
+  renderValue: () => {
+    return <Box as="span" fontWeight="medium" fontSize="sm">Aa</Box>
+  },
 })
 
 export const Bold = createBooleanControl({
@@ -585,7 +588,7 @@ export const Highlight = createSwatchControl({
 })
 
 const TEXT_STYLE_OPTIONS = [
-  { value: "paragraph", label: "Paragraph" },
+  { value: "paragraph", label: "Normal text" },
   { value: "heading1", label: "Heading 1" },
   { value: "heading2", label: "Heading 2" },
   { value: "heading3", label: "Heading 3" },
@@ -596,7 +599,7 @@ const TEXT_STYLE_OPTIONS = [
 export const TextStyle = createSelectControl({
   label: "Text Style",
   width: "120px",
-  placeholder: "Paragraph",
+  placeholder: "Normal text",
   options: TEXT_STYLE_OPTIONS,
   getValue: (editor) => {
     if (editor.isActive("heading", { level: 1 })) return "heading1"
@@ -629,6 +632,38 @@ export const TextStyle = createSelectControl({
       blockquote: { fontStyle: "italic", fontSize: "sm" },
       horizontalRule: { fontWeight: "medium", fontSize: "sm" },
     }
-    return <Box {...textStyle[value]}>{option?.label || "Paragraph"}</Box>
+    return <Box {...textStyle[value]}>{option?.label || "Normal text"}</Box>
+  },
+})
+
+const ALIGNMENT_OPTIONS = [
+  { value: "left", label: "Align left", icon: <LuAlignLeft /> },
+  { value: "center", label: "Align center", icon: <LuAlignCenter /> },
+  { value: "right", label: "Align right", icon: <LuAlignRight /> },
+  { value: "justify", label: "Justify", icon: <LuAlignJustify /> },
+]
+
+export const Alignment = createSelectControl({
+  label: "Alignment",
+  width: "52px",
+  placeholder: "Left",
+  options: ALIGNMENT_OPTIONS,
+  getValue: (editor) => {
+    if (editor.isActive({ textAlign: "center" })) return "center"
+    if (editor.isActive({ textAlign: "right" })) return "right"
+    if (editor.isActive({ textAlign: "justify" })) return "justify"
+    return "left"
+  },
+  command: (editor, value) => {
+    editor.chain().focus().setTextAlign(value).run()
+  },
+  renderValue: (_value) => {
+    const Icon = {
+      left: LuAlignLeft,
+      center: LuAlignCenter,
+      right: LuAlignRight,
+      justify: LuAlignJustify,
+    }[_value] || LuAlignLeft
+    return <Icon />
   },
 })

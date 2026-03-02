@@ -20,7 +20,7 @@ export function GuidanceSidebar({ question, notes, onNotesChange }: GuidanceSide
   const [activeTab, setActiveTab] = useState<TabType>('guidance')
   
   return (
-    <aside className="bg-white w-[240px] flex-shrink-0 border-l border-slate-200 sticky top-[47px] h-[calc(100vh-47px)] overflow-y-auto">
+    <aside className="bg-white w-[320px] flex-shrink-0 border-l border-slate-200 sticky top-[47px] h-[calc(100vh-47px-55px)] overflow-y-auto">
       {/* Tab Navigation */}
       <TabBar
         defaultValue='guidance'
@@ -42,7 +42,7 @@ export function GuidanceSidebar({ question, notes, onNotesChange }: GuidanceSide
 
       {/* Tab Content */}
       {activeTab === 'guidance' ? (
-        <div className="collapsibles-container">
+        <div className="collapsibles-container pb-16">
           <Collapsible title="Definition" defaultOpen>
             {question.definition ? (
               <Text className="prose prose-sm max-w-none">{question.definition}</Text>
@@ -76,7 +76,6 @@ export function GuidanceSidebar({ question, notes, onNotesChange }: GuidanceSide
             value={notes}
             onChange={onNotesChange}
             placeholder="Add notes about this question..."
-            minHeight="300px"
           />
         </div>
       )}
