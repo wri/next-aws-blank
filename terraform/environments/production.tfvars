@@ -24,10 +24,16 @@ health_check_path = "/api/health"
 
 # Application Environment Variables
 app_environment_variables = {
-  "LOG_LEVEL" = "info"
-  "SESSION_SECRET" = "REDACTED_SESSION_SECRET-pending-production-pwd"
+  "LOG_LEVEL"                        = "info"
+  "DB_HOST"                          = "xxx.rds.amazonaws.com"
+  "DB_PORT"                          = "5432"
+  "DB_NAME"                          = "production"
   "DATABASE_SSL_REJECT_UNAUTHORIZED" = "false"
 }
+
+# Sensitive variables (DB_USER, DB_PASSWORD, SESSION_SECRET)
+# are passed via the RD_APP_ENV GitHub secret as
+# secret_environment_variables.
 
 certificate_arn        = "arn:aws:acm:us-east-1:123456789012:certificate/CERTIFICATE_ID_PLACEHOLDER"
 domain_name            = "www.restorationdiagnostic.org"

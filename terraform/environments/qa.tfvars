@@ -24,15 +24,16 @@ health_check_path = "/api/health"
 # Application Environment Variables
 # some of these should be secret and will be changed shortly
 app_environment_variables = {
-  "LOG_LEVEL" = "debug"
-  "DB_HOST" = "xxx.rds.amazonaws.com"
-  "DB_PORT" = "5432"
-  "DB_USER" = "postgres"
-  "DB_PASSWORD" = "REDACTED_DB_PASSWORD"
-  "DB_NAME" = "qa"
-  "SESSION_SECRET" = "REDACTED_SESSION_SECRET-qa-pwd"
+  "LOG_LEVEL"                        = "debug"
+  "DB_HOST"                          = "xxx.rds.amazonaws.com"
+  "DB_PORT"                          = "5432"
+  "DB_NAME"                          = "qa"
   "DATABASE_SSL_REJECT_UNAUTHORIZED" = "false"
 }
+
+# Sensitive variables (DB_USER, DB_PASSWORD, SESSION_SECRET)
+# are passed via the RD_APP_ENV GitHub secret as
+# secret_environment_variables.
 
 certificate_arn        = "arn:aws:acm:us-east-1:123456789012:certificate/CERTIFICATE_ID_PLACEHOLDER"
 domain_name            = "qa.restorationdiagnostic.org"

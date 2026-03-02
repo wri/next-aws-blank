@@ -125,7 +125,14 @@ variable "listener_rule_priority" {
 # =============================================================================
 
 variable "app_environment_variables" {
-  description = "Environment variables for the application"
+  description = "Non-sensitive environment variables for the application"
   type        = map(string)
   default     = {}
+}
+
+variable "secret_environment_variables" {
+  description = "Sensitive environment variables for the application (passed via CI/CD secrets, not stored in tfvars)"
+  type        = map(string)
+  default     = {}
+  sensitive   = true
 }

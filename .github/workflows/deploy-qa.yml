@@ -132,6 +132,8 @@ jobs:
 
       - name: Terraform Plan
         working-directory: terraform/infrastructure
+        env:
+          TF_VAR_secret_environment_variables: ${{ secrets.RD_APP_ENV }}
         run: |
           terraform plan \
             -var-file="../environments/${{ env.ENVIRONMENT }}.tfvars" \
