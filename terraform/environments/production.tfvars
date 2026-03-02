@@ -26,6 +26,7 @@ health_check_path = "/api/health"
 app_environment_variables = {
   "LOG_LEVEL" = "info"
   "SESSION_SECRET" = "REDACTED_SESSION_SECRET-pending-production-pwd"
+  "DATABASE_SSL_REJECT_UNAUTHORIZED" = "true"
 }
 
 certificate_arn = "arn:aws:acm:us-east-1:123456789012:certificate/CERTIFICATE_ID_PLACEHOLDER"

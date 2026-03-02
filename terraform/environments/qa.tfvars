@@ -31,6 +31,7 @@ app_environment_variables = {
   "DB_PASSWORD" = "REDACTED_DB_PASSWORD"
   "DB_NAME" = "qa"
   "SESSION_SECRET" = "REDACTED_SESSION_SECRET-qa-pwd"
+  "DATABASE_SSL_REJECT_UNAUTHORIZED" = "true"
 }
 
 certificate_arn = "arn:aws:acm:us-east-1:123456789012:certificate/CERTIFICATE_ID_PLACEHOLDER"
