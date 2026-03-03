@@ -132,6 +132,7 @@ export default async function ThemeQuestionPage({ params, searchParams }: PagePr
       canGoNext={canGoNext}
       prevTheme={prevTheme}
       nextTheme={nextTheme}
+      allowDataSharing={assessment.allowDataSharing}
     />
   )
 }

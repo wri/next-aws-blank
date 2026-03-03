@@ -95,4 +95,16 @@ export class Assessment {
 
   @Column({ name: 'allow_data_sharing', type: 'boolean', default: true })
   allowDataSharing!: boolean
+
+  @Column({ name: 'time_horizon', type: 'varchar', default: '' })
+  timeHorizon!: string
+
+  @Column({ name: 'restoration_goals', type: 'varchar', default: '' })
+  restorationGoals!: string
+
+  @Column({ name: 'engagement_strategy', type: 'varchar', default: '' })
+  engagementStrategy!: string
+
+  @Column({ name: 'materials', type: 'varchar', default: '' })
+  materials!: string
 }

@@ -37,7 +37,7 @@ export default function RootLayout({
       <body className={`${acuminPro.className} antialiased`}>
         <Providers>
           <GlobalNavbar />
-          <div className='pb-20 lg:pb-0'>{children}</div>
+          <div className='pb-44 lg:pb-0'>{children}</div>
           <Footer />
         </Providers>
       </body>

@@ -6,18 +6,18 @@ import Link from 'next/link'
 export const Hero = () => {
   return (
     <>
-      <section className='bg-white dark:bg-gray-900'>
+      <section className='bg-white'>
         <div className='py-8 px-4 mx-auto max-w-screen-xl text-center lg:py-16 lg:px-12'>
-          <h1 className='mb-4 text-4xl font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-6xl dark:text-white'>
+          <h1 className='mb-4 text-4xl font-extrabold tracking-tight leading-none text-gray-900 md:text-5xl lg:text-6xl'>
             Restoration Diagnostic
           </h1>
-          <p className='mb-8 text-lg font-normal text-gray-500 lg:text-xl sm:px-16 xl:px-48 dark:text-gray-400'>
+          <p className='mb-8 text-lg font-normal text-gray-500 lg:text-xl sm:px-16 xl:px-48'>
             A structured method for identifying which key success factors for
             ecosystem restoration you already have in place, partially in place,
             or are missing within a country or landscape that has restoration
             opportunities.
           </p>
-          <p className='mb-8 text-lg font-normal text-gray-500 lg:text-xl sm:px-16 xl:px-48 dark:text-gray-400'>
+          <p className='mb-8 text-lg font-normal text-gray-500 lg:text-xl sm:px-16 xl:px-48'>
             A structured method for assessing ecosystem restoration readiness.
             The diagnostic will help you identify key success factors that you
             have in place, partially in place, or still need to consider how to
@@ -41,7 +41,7 @@ export const Hero = () => {
                   </svg>
                 }
                 variant='primary'
-                className='inline-flex justify-center items-center py-3 px-5 text-base font-medium text-center text-white rounded-lg bg-primary-600 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:focus:ring-primary-900'
+                className='inline-flex justify-center items-center py-3 px-5 text-base font-medium text-center text-white rounded-lg bg-primary-600 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300'
               >
                 Start Diagnostic
               </Button>

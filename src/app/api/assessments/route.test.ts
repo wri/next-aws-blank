@@ -1,5 +1,5 @@
 import { NextRequest } from 'next/server';
-import type { AssessmentSetupFormData } from '@/types/assessment-setup.types';
+import { TargetGeographyType, type AssessmentSetupFormData } from '@/types/assessment-setup.types';
 
 // Mock Next.js server
 jest.mock('next/server', () => ({
@@ -76,7 +76,7 @@ const mockLead = {
 const mockRegion = {
   id: 'region-123',
   regionName: 'USA - California',
-  geographyType: 'state',
+  geographyType: TargetGeographyType.NATIONAL,
   countries: 'USA',
   subRegion: 'California',
   scope: 'Regional',
@@ -149,11 +149,13 @@ const validFormData: AssessmentSetupFormData & { language: string } = {
   role: 'Project Lead',
   country: 'USA',
   subRegion: 'California',
-  geographyType: 'state',
+  geographyType: TargetGeographyType.NATIONAL,
   scope: 'Regional',
   ecosystems: ['forest', 'grassland'],
-  gisLink: 'https://gis.example.com/map',
-  language: 'en'
+  gisUrl: 'https://gis.example.com/map',
+  language: 'en',
+  terms: true,
+  allowDataSharing: true,
 };
 
 describe('POST /api/assessments', () => {
@@ -400,7 +402,7 @@ describe('POST /api/assessments', () => {
       
       expect(mockRegionRepository.create).toHaveBeenCalledWith({
         regionName: 'USA - California',
-        geographyType: 'state',
+        geographyType: TargetGeographyType.NATIONAL,
         countries: 'USA',
         subRegion: 'California',
         scope: 'Regional',
@@ -411,9 +413,9 @@ describe('POST /api/assessments', () => {
       expect(mockRegionRepository.save).toHaveBeenCalled();
     });
 
-    it('should handle missing gisLink gracefully', async () => {
+    it('should handle missing gisUrl gracefully', async () => {
       const formDataWithoutGis = { ...validFormData };
-      delete formDataWithoutGis.gisLink;
+      delete formDataWithoutGis.gisUrl;
       
       const request = createMockRequest(formDataWithoutGis);
       

@@ -24,6 +24,7 @@ interface QuestionViewProps {
   canGoNext: boolean
   prevTheme: string | null
   nextTheme: string | null
+  allowDataSharing: boolean
 }
 
 export function QuestionView({
@@ -35,7 +36,8 @@ export function QuestionView({
   canGoPrev,
   canGoNext,
   prevTheme,
-  nextTheme
+  nextTheme,
+  allowDataSharing,
 }: QuestionViewProps) {
   const router = useRouter()
   
@@ -75,6 +77,7 @@ export function QuestionView({
       body: JSON.stringify({
         ...data,
         id: currentAnswer?.id,
+        allowDataSharing,
       })
     })
     
@@ -92,7 +95,7 @@ export function QuestionView({
     })
     
     return result
-  }, [assessmentId, currentAnswer])
+  }, [assessmentId, currentAnswer, allowDataSharing])
   
   // Auto-save hook
   const { save } = useAutoSave({

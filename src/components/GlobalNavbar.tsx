@@ -24,7 +24,7 @@ export default function GlobalNavbar() {
     setMounted(true)
   }, [])
 
-  if (!mounted) return null
+  if (!mounted) return <div className='h-12' />
 
   return (
     <Navbar

@@ -48,6 +48,7 @@ interface ThemePageLayoutProps {
   canGoNext: boolean
   prevTheme: string | null
   nextTheme: string | null
+  allowDataSharing: boolean
 }
 
 export function ThemePageLayout({
@@ -60,6 +61,7 @@ export function ThemePageLayout({
   canGoNext,
   prevTheme,
   nextTheme,
+  allowDataSharing,
 }: ThemePageLayoutProps) {
   return (
     <div className="min-h-screen flex flex-col bg-background-light gradient-bg">
@@ -81,6 +83,7 @@ export function ThemePageLayout({
           canGoNext={canGoNext}
           prevTheme={prevTheme}
           nextTheme={nextTheme}
+          allowDataSharing={allowDataSharing}
         />
       </div>
       

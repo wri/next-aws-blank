@@ -128,7 +128,7 @@ export default function AssessmentCreatedPage() {
   };
 
   const handleStartAssessment = () => {
-    router.push(`/assessment/${assessmentId}`);
+    router.push(`/assessment/${assessmentId}/preparation`);
   };
 
   // If password is missing or expired, redirect back to setup with an error

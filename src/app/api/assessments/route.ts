@@ -95,7 +95,7 @@ export async function POST(request: NextRequest) {
           subRegion: body.subRegion,
           scope: body.scope,
           ecosystems: JSON.stringify(body.ecosystems),
-          gisUrl: body.gisLink || undefined,
+          gisUrl: body.gisUrl || undefined,
         })
         const savedRegion = await regionRepository.save(region)
 

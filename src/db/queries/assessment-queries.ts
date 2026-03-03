@@ -176,6 +176,7 @@ export async function saveAnswer(
   notes?: string,
   status?: AnswerStatus,
   answerId?: string,
+  allowDataSharing?: boolean,
 ) {
   await initializeDatabase()
   const answerRepo = AppDataSource.getRepository(Answer)
@@ -217,21 +218,23 @@ export async function saveAnswer(
       await answerRepo.insert(updatedRecord)
       await answerRepo.delete({ id: answer.id, updatedAt: oldUpdatedAt }) // delete old to "update" it
 
-      // 2. "create a new record with the same info (duplicate with complete status)"
-      // This is the history snapshot they requested, must have a slightly newer timestamp so it doesn't collide
-      const historyRecordTime = new Date(updatedRecordTime.getTime() + 10) // 10ms later
-      const historyRecord = answerRepo.create({
-        id: answer.id,
-        assessmentId,
-        questionId,
-        value,
-        rationale: rationale || null,
-        notes: notes || null,
-        status: AnswerStatus.COMPLETE,
-        createdAt: answer.createdAt,
-        updatedAt: historyRecordTime, // newer timestamp 2
-      })
-      await answerRepo.insert(historyRecord)
+      if (allowDataSharing) {
+        // 2. "create a new record with the same info (duplicate with complete status)"
+        // This is the history snapshot they requested, must have a slightly newer timestamp so it doesn't collide
+        const historyRecordTime = new Date(updatedRecordTime.getTime() + 10) // 10ms later
+        const historyRecord = answerRepo.create({
+          id: answer.id,
+          assessmentId,
+          questionId,
+          value,
+          rationale: rationale || null,
+          notes: notes || null,
+          status: AnswerStatus.COMPLETE,
+          createdAt: answer.createdAt,
+          updatedAt: historyRecordTime, // newer timestamp 2
+        })
+        await answerRepo.insert(historyRecord)
+      }
 
       return updatedRecord
     } else {

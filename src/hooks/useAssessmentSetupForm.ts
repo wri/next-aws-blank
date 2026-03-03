@@ -1,5 +1,5 @@
 import { useForm, UseFormReturn } from 'react-hook-form'
-import { AssessmentSetupFormData } from '@/types/assessment-setup.types'
+import { AssessmentSetupFormData, TargetGeographyType } from '@/types/assessment-setup.types'
 import { validateEmailFormat } from '@/utils/validation'
 
 const defaultFormValues: AssessmentSetupFormData = {
@@ -11,9 +11,9 @@ const defaultFormValues: AssessmentSetupFormData = {
   role: '',
   country: '',
   subRegion: '',
-  geographyType: '',
+  geographyType: '' as TargetGeographyType,
   scope: '',
-  gisLink: '',
+  gisUrl: '',
   ecosystems: [],
   terms: false,
   allowDataSharing: true,
@@ -63,7 +63,7 @@ export const assessmentFormRules = {
     required: 'Sub-region is required',
   },
   geographyType: {
-    required: 'Geography type is required',
+    required: 'Target scale is required',
   },
   scope: {
     required: 'Scope is required',

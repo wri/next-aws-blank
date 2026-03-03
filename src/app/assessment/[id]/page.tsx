@@ -5,18 +5,23 @@ import { notFound } from 'next/navigation'
 import { cookies } from 'next/headers'
 import { validateSessionCookie } from '@/utils/session'
 import { PasswordPrompt } from '@/components/assessment/PasswordPrompt'
+import FromPreparationModal from '@/components/assessment/Overview/FromPreparationModal'
 
 export default async function AssessmentPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ id: string }>
+  searchParams: Promise<{ isFromPreparation?: string | string[] }>
 }) {
   const { id } = await params
+  const resolvedSearchParams = await searchParams
+  const isFromPreparation = resolvedSearchParams.isFromPreparation as string
 
   // Check session
   const cookieStore = await cookies()
   const sessionCookie = cookieStore.get('assessment_session')
-  
+
   let hasValidSession = false
   if (sessionCookie) {
     try {
@@ -28,7 +33,7 @@ export default async function AssessmentPage({
       hasValidSession = false
     }
   }
-  
+
   // If no valid session, show password prompt
   if (!hasValidSession) {
     return <PasswordPrompt assessmentId={id} />
@@ -86,10 +91,10 @@ export default async function AssessmentPage({
         gisUrl: assessment.region.gisUrl,
       },
       timeHorizon: {
-        completionYear: '',
+        completionYear: assessment.timeHorizon,
       },
       restorationGoals: {
-        goals: [],
+        goals: assessment.restorationGoals,
         ecosystems: assessment.region.ecosystems
           ? (JSON.parse(assessment.region.ecosystems) as string[])
           : ([] as string[]),
@@ -107,6 +112,10 @@ export default async function AssessmentPage({
         <Scope data={scopeData} />
         <KeySuccessFactors assessmentId={id} questions={questions} />
         <StrategicPlan />
+        <FromPreparationModal
+          autoOpen={isFromPreparation === 'true'}
+          assessmentId={id}
+        />
       </div>
     </div>
   )
