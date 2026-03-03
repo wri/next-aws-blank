@@ -13,7 +13,8 @@ RUN npm ci --legacy-peer-deps
 COPY . .
 
 # Build the application
-RUN npm run build
+# NODE_TLS_REJECT_UNAUTHORIZED=0: allows font downloads behind TLS-inspecting proxies (e.g. Zscaler)
+RUN NODE_TLS_REJECT_UNAUTHORIZED=0 npm run build
 
 # Production stage
 FROM node:22.14.0-alpine AS runner
@@ -27,6 +28,17 @@ ENV PORT=3000
 # Create non-root user for security
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
+
+# Download AWS RDS root CA bundle for SSL database connections
+# HTTP repos + --no-check-certificate: allows builds behind TLS-inspecting proxies (e.g. Zscaler)
+RUN sed -i 's/https/http/' /etc/apk/repositories && \
+    apk add --no-cache wget ca-certificates && \
+    wget --no-check-certificate -q \
+      https://truststore.pki.rds.amazonaws.com/global/global-bundle.pem \
+      -O /app/global-bundle.pem && \
+    apk del wget
+
+ENV NODE_EXTRA_CA_CERTS=/app/global-bundle.pem
 
 # Copy only necessary files from builder
 COPY --from=builder /app/public ./public

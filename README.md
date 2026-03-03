@@ -120,7 +120,7 @@ Update `.env` with RDS credentials:
 # Database Configuration (AWS RDS)
 DB_HOST=xxx.rds.amazonaws.com
 DB_PORT=5432
-DB_USER=postgres
+DB_USER=rduser
 DB_PASSWORD=<get-from-aws-parameter-store>
 DB_NAME=dev  # or 'qa', 'production'
 

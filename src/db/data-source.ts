@@ -27,8 +27,7 @@ export const AppDataSource = new DataSource({
   migrations: [],
   subscribers: [],
   ssl: {
-    rejectUnauthorized:
-      process.env.DATABASE_SSL_REJECT_UNAUTHORIZED !== 'false',
+    rejectUnauthorized: process.env.DATABASE_SSL_REJECT_UNAUTHORIZED !== 'false',
   },
 })
 

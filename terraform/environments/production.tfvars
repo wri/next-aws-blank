@@ -28,7 +28,6 @@ app_environment_variables = {
   "DB_HOST"                          = "xxx.rds.amazonaws.com"
   "DB_PORT"                          = "5432"
   "DB_NAME"                          = "production"
-  "DATABASE_SSL_REJECT_UNAUTHORIZED" = "false"
 }
 
 # Sensitive variables (DB_USER, DB_PASSWORD, SESSION_SECRET)
