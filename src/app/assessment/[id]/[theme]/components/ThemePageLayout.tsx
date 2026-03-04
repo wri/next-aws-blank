@@ -1,10 +1,12 @@
 'use client'
 
+import { useState, useCallback } from 'react'
 import { SubNavbar } from './SubNavbar'
 import { QuestionView } from './QuestionView'
 import type { AnswerValue } from '@/db/entities/Answer.entity'
 import type { Theme } from '@/db/entities/Question.entity'
 import { AnswerStatus } from '@/types/answer.types'
+import type { AutoSaveStatus } from '@/hooks/useAutoSave'
 
 // Plain object interfaces for data passed from server
 export interface PlainQuestion {
@@ -63,12 +65,18 @@ export function ThemePageLayout({
   nextTheme,
   allowDataSharing,
 }: ThemePageLayoutProps) {
+  const [saveStatus, setSaveStatus] = useState<AutoSaveStatus>('idle')
+
+  const handleSaveStatusChange = useCallback((status: AutoSaveStatus) => {
+    setSaveStatus(status)
+  }, [])
+
   return (
     <div className="min-h-screen flex flex-col bg-background-light gradient-bg">
       
       {/* Sub-navbar - Custom */}
       <header className="border-b border-slate-200 sticky top-0 bg-white z-40">
-        <SubNavbar />
+        <SubNavbar saveStatus={saveStatus} />
       </header>
       
       {/* Main content with gradient background */}
@@ -84,6 +92,7 @@ export function ThemePageLayout({
           prevTheme={prevTheme}
           nextTheme={nextTheme}
           allowDataSharing={allowDataSharing}
+          onSaveStatusChange={handleSaveStatusChange}
         />
       </div>
       

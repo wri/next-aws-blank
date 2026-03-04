@@ -2,23 +2,37 @@
 
 import { useState, useEffect, useCallback, useRef } from 'react'
 
+export type AutoSaveStatus = 'idle' | 'saving' | 'saved' | 'error'
+
 interface UseAutoSaveOptions<T> {
   onSave: (data: T) => Promise<void>
   debounceMs?: number
+  onStatusChange?: (status: AutoSaveStatus, error: string | null) => void
 }
 
 interface AutoSaveState {
-  status: 'idle' | 'saving' | 'saved' | 'error'
+  status: AutoSaveStatus
   lastSaved: Date | null
   error: string | null
 }
 
-export function useAutoSave<T = unknown>({ onSave, debounceMs = 1000 }: UseAutoSaveOptions<T>) {
+export function useAutoSave<T = unknown>({ onSave, debounceMs = 1000, onStatusChange }: UseAutoSaveOptions<T>) {
   const [state, setState] = useState<AutoSaveState>({
     status: 'idle',
     lastSaved: null,
     error: null
   })
+  const onStatusChangeRef = useRef(onStatusChange)
+  
+  // Keep ref in sync
+  useEffect(() => {
+    onStatusChangeRef.current = onStatusChange
+  }, [onStatusChange])
+
+  // Notify parent of status changes via effect (avoids setState-during-render)
+  useEffect(() => {
+    onStatusChangeRef.current?.(state.status, state.error)
+  }, [state.status, state.error])
   
   const timeoutRef = useRef<NodeJS.Timeout | null>(null)
   const pendingDataRef = useRef<T | null>(null)
@@ -47,13 +61,19 @@ export function useAutoSave<T = unknown>({ onSave, debounceMs = 1000 }: UseAutoS
         
         // Reset to idle after 2 seconds
         setTimeout(() => {
-          setState(prev => prev.status === 'saved' ? { ...prev, status: 'idle' } : prev)
+          setState(prev => {
+            if (prev.status === 'saved') {
+              return { ...prev, status: 'idle' }
+            }
+            return prev
+          })
         }, 2000)
       } catch (error) {
+        const errorMessage = error instanceof Error ? error.message : 'Failed to save'
         setState({
           status: 'error',
           lastSaved: null,
-          error: error instanceof Error ? error.message : 'Failed to save'
+          error: errorMessage
         })
       }
     }
