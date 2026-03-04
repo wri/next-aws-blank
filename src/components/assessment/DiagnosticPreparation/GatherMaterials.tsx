@@ -111,8 +111,6 @@ const GatherMaterials = () => {
     if (jsonResult.success) {
       router.push(`/assessment/${assessmentId}?isFromPreparation=true`)
     }
-
-    setIsSubmitting(false)
   }
 
   if (isLoading) {

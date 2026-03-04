@@ -38,12 +38,6 @@ type TargetGeographyFormData = Pick<
   | 'ecosystems'
 >
 
-const ecosystemGroupValues = {
-  terrestrial: terrestrialEcosystems.map((option) => option.value),
-  freshwater: freshwaterEcosystems.map((option) => option.value),
-  marine: marineEcosystems.map((option) => option.value),
-}
-
 const mergeEcosystemSelection = (
   currentSelection: string[],
   checkedByGroup: Record<string, boolean>,
@@ -302,7 +296,7 @@ const TargetGeography = () => {
                   mergeEcosystemSelection(
                     field.value || [],
                     checkedByGroup,
-                    ecosystemGroupValues.terrestrial,
+                    terrestrialEcosystems?.map((option) => option.value),
                   ),
                 )
               }}
@@ -326,7 +320,7 @@ const TargetGeography = () => {
                   mergeEcosystemSelection(
                     field.value || [],
                     checkedByGroup,
-                    ecosystemGroupValues.freshwater,
+                    freshwaterEcosystems?.map((option) => option.value),
                   ),
                 )
               }}
@@ -350,7 +344,7 @@ const TargetGeography = () => {
                   mergeEcosystemSelection(
                     field.value || [],
                     checkedByGroup,
-                    ecosystemGroupValues.marine,
+                    marineEcosystems?.map((option) => option.value),
                   ),
                 )
               }}
