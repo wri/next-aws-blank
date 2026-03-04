@@ -1,0 +1,793 @@
+{
+  "common": {
+    "brand": "",
+    "buttons": {
+      "continue": "",
+      "save": "",
+      "cancel": "",
+      "close": "",
+      "download": "",
+      "backToSetup": "",
+      "backToOverview": ""
+    },
+    "footer": {
+      "privacyPolicy": "",
+      "termsOfService": ""
+    },
+    "loading": "",
+    "required": "",
+    "optional": ""
+  },
+  "navigation": {
+    "brand": "",
+    "languageMenu": "",
+    "languages": {
+      "en": "English",
+      "es": "Español"
+    },
+    "themes": {
+      "motivate": "",
+      "enable": "",
+      "implement": ""
+    },
+    "overview": "",
+    "tooltips": {
+      "previousTheme": "",
+      "nextTheme": ""
+    }
+  },
+  "home": {
+    "hero": {
+      "title": "",
+      "description1": "",
+      "description2": "",
+      "ctaButton": ""
+    }
+  },
+  "forms": {
+    "common": {
+      "requiredNote": ""
+    },
+    "setup": {
+      "title": "",
+      "subtitle": "",
+      "features": {
+        "steps": "",
+        "duration": ""
+      },
+      "sections": {
+        "getStarted": "",
+        "getStartedDescription": "",
+        "diagnosticLead": "",
+        "diagnosticLeadDescription": "",
+        "geography": "",
+        "geographyDescription": ""
+      },
+      "collapsible": {
+        "whatIs": "",
+        "whatIsContent": ""
+      },
+      "downloads": {
+        "preparationGuide": {
+          "title": "",
+          "description": ""
+        },
+        "spreadsheet": {
+          "title": "",
+          "description": ""
+        }
+      },
+      "labels": {
+        "diagnosticTitle": "",
+        "jobTitle": "",
+        "fullName": "",
+        "email": "",
+        "organization": "",
+        "role": "",
+        "country": "",
+        "subRegion": "",
+        "geographyType": "",
+        "scope": "",
+        "gisLink": "",
+        "ecosystemContext": ""
+      },
+      "placeholders": {
+        "diagnosticTitle": "",
+        "fullName": "",
+        "email": "",
+        "organization": "",
+        "role": "",
+        "country": "",
+        "subRegion": "",
+        "geographyType": "",
+        "scope": "",
+        "gisLink": ""
+      },
+      "captions": {
+        "diagnosticTitle": "",
+        "ecosystemContext": ""
+      },
+      "validation": {
+        "titleRequired": "",
+        "fullNameRequired": "",
+        "fullNameMinLength": "",
+        "emailRequired": "",
+        "emailInvalid": "",
+        "countryRequired": "",
+        "subRegionRequired": "",
+        "geographyTypeRequired": "",
+        "scopeRequired": "",
+        "ecosystemsRequired": "",
+        "termsRequired": ""
+      },
+      "offlineMessage": {
+        "title": "",
+        "description": "",
+        "button": ""
+      },
+      "leadIdentity": {
+        "question": "",
+        "options": {
+          "indigenousPeoples": "",
+          "localCommunities": "",
+          "both": "",
+          "preferNotToSay": "",
+          "noneOfTheAbove": ""
+        }
+      },
+      "checkboxes": {
+        "terms": "",
+        "allowDataSharing": ""
+      },
+      "ecosystems": {
+        "forest": {
+          "label": "",
+          "description": ""
+        },
+        "grassland": {
+          "label": "",
+          "description": ""
+        },
+        "wetland": {
+          "label": "",
+          "description": ""
+        },
+        "coastal": {
+          "label": "",
+          "description": ""
+        },
+        "peatland": {
+          "label": "",
+          "description": ""
+        }
+      },
+      "errors": {
+        "title": "",
+        "networkError": "",
+        "genericError": ""
+      }
+    }
+  },
+  "scoping": {
+    "intro": {
+      "heading": "",
+      "description1": "",
+      "description2": "",
+      "parts": {
+        "scope": {
+          "title": "",
+          "description": ""
+        },
+        "approach": {
+          "title": "",
+          "badge": "",
+          "description": ""
+        }
+      },
+      "button": ""
+    },
+    "sidebar": {
+      "title": "",
+      "progress": "",
+      "groups": {
+        "scope": "",
+        "approach": ""
+      },
+      "steps": {
+        "targetGeography": "",
+        "timeHorizon": "",
+        "restorationGoals": "",
+        "engagement": "",
+        "materials": ""
+      }
+    },
+    "common": {
+      "buttons": {
+        "saveAndContinue": "",
+        "skip": "",
+        "previous": ""
+      }
+    },
+    "step1": {
+      "heading": "",
+      "description": "",
+      "fields": {
+        "targetScale": {
+          "label": "",
+          "placeholder": "",
+          "options": {
+            "national": "",
+            "subnational": "",
+            "landscape": "",
+            "site": ""
+          }
+        },
+        "country": {
+          "label": "",
+          "placeholder": ""
+        },
+        "subRegion": {
+          "label": "",
+          "placeholder": ""
+        },
+        "restorationBoundary": {
+          "label": "",
+          "placeholder": "",
+          "optional": true
+        },
+        "ecosystems": {
+          "label": "",
+          "description": ""
+        }
+      }
+    },
+    "step2": {
+      "heading": "",
+      "description": "",
+      "fields": {
+        "restorationPeriod": {
+          "label": "",
+          "placeholder": "",
+          "optional": true
+        }
+      }
+    },
+    "step3": {
+      "heading": "",
+      "description": "",
+      "fields": {
+        "goals": {
+          "label": "",
+          "placeholder": ""
+        }
+      }
+    },
+    "step4": {
+      "heading": "",
+      "description": "",
+      "accordions": {
+        "participatory": {
+          "title": "",
+          "items": [
+            "",
+            "",
+            ""
+          ]
+        },
+        "interviews": {
+          "title": "",
+          "items": [
+            "",
+            "",
+            ""
+          ]
+        },
+        "distributed": {
+          "title": "",
+          "items": [
+            "",
+            "",
+            ""
+          ]
+        }
+      },
+      "fields": {
+        "notes": {
+          "label": "",
+          "placeholder": "",
+          "optional": true
+        }
+      }
+    },
+    "step5": {
+      "heading": "",
+      "description": "",
+      "accordions": {
+        "policy": {
+          "title": "",
+          "items": [
+            "",
+            "",
+            ""
+          ]
+        },
+        "implementation": {
+          "title": "",
+          "items": [
+            "",
+            "",
+            ""
+          ]
+        },
+        "biophysical": {
+          "title": "",
+          "items": [
+            "",
+            "",
+            ""
+          ]
+        },
+        "monitoring": {
+          "title": "",
+          "items": [
+            "",
+            "",
+            ""
+          ]
+        }
+      },
+      "fields": {
+        "sharedFolder": {
+          "label": "",
+          "placeholder": "",
+          "optional": true,
+          "caption": ""
+        }
+      }
+    },
+    "ecosystems": {
+      "terrestrial": {
+        "label": "",
+        "count": "",
+        "types": {
+          "tropicalSubtropicalForests": "",
+          "temperateForests": "",
+          "shrublands": "",
+          "savannas": "",
+          "deserts": "",
+          "polarAlpine": "",
+          "agricultural": "",
+          "urban": ""
+        }
+      },
+      "freshwater": {
+        "label": "",
+        "count": "",
+        "types": {
+          "peatlands": "",
+          "wetlands": "",
+          "riparian": "",
+          "catchments": "",
+          "artificialFreshwaters": ""
+        }
+      },
+      "marine": {
+        "label": "",
+        "count": "",
+        "types": {
+          "marineShelfs": "",
+          "mangroves": "",
+          "deepSeaFloors": ""
+        }
+      }
+    },
+    "guidance": {
+      "step1": {
+        "whySetTargetGeography": {
+          "title": "",
+          "content": ""
+        },
+        "howToDoIt": {
+          "title": "",
+          "content": ""
+        }
+      },
+      "step2": {
+        "whySetTimeHorizon": {
+          "title": "",
+          "content": ""
+        },
+        "howToDoIt": {
+          "title": "",
+          "content": ""
+        }
+      },
+      "step3": {
+        "whySetRestorationGoals": {
+          "title": "",
+          "content": ""
+        },
+        "howToDoIt": {
+          "title": "",
+          "content": ""
+        }
+      },
+      "step4": {
+        "designingEngagement": {
+          "title": "",
+          "content": ""
+        },
+        "ensuringInclusion": {
+          "title": "",
+          "items": [
+            "",
+            "",
+            "",
+            ""
+          ]
+        }
+      },
+      "step5": {
+        "preparingEvidence": {
+          "title": "",
+          "content": ""
+        },
+        "organizingAccess": {
+          "title": "",
+          "content": ""
+        }
+      }
+    },
+    "validation": {
+      "targetScale": {
+        "required": "",
+        "summary": ""
+      },
+      "country": {
+        "required": "",
+        "summary": ""
+      },
+      "subRegion": {
+        "required": "",
+        "summary": ""
+      },
+      "ecosystems": {
+        "required": "",
+        "summary": ""
+      },
+      "goals": {
+        "required": "",
+        "summary": ""
+      },
+      "formErrors": ""
+    },
+    "success": {
+      "heading": "",
+      "description": "",
+      "statusList": {
+        "inPlace": "",
+        "partlyInPlace": "",
+        "notInPlace": "",
+        "notApplicable": ""
+      },
+      "infoBoxes": {
+        "objective": "",
+        "exportShare": ""
+      },
+      "themes": {
+        "heading": "",
+        "description": "",
+        "cards": {
+          "motivate": "",
+          "enable": "",
+          "implement": ""
+        }
+      },
+      "button": ""
+    }
+  },
+  "overview": {
+    "page": {
+      "title": ""
+    },
+    "scope": {
+      "sectionTitle": "",
+      "aboutDiagnostic": {
+        "title": "",
+        "sections": {
+          "title": "",
+          "diagnosticLead": ""
+        },
+        "fields": {
+          "fullName": "",
+          "email": "",
+          "organization": "",
+          "jobRole": ""
+        }
+      },
+      "diagnosticScope": {
+        "title": "",
+        "sections": {
+          "geography": "",
+          "timeHorizon": "",
+          "restorationGoals": ""
+        },
+        "fields": {
+          "country": "",
+          "geographyType": "",
+          "subRegion": "",
+          "gisLink": "",
+          "completionYear": "",
+          "goals": "",
+          "ecosystems": ""
+        }
+      },
+      "actions": {
+        "copied": ""
+      },
+      "empty": {
+        "noInformation": ""
+      }
+    },
+    "keySuccessFactors": {
+      "sectionTitle": "",
+      "themes": {
+        "motivate": {
+          "title": "",
+          "caption": ""
+        },
+        "enable": {
+          "title": "",
+          "caption": ""
+        },
+        "implement": {
+          "title": "",
+          "caption": ""
+        }
+      },
+      "stats": {
+        "complete": ""
+      },
+      "table": {
+        "headers": {
+          "keySuccessFactor": "",
+          "status": "",
+          "response": "",
+          "rationale": "",
+          "strategies": ""
+        }
+      },
+      "status": {
+        "complete": "",
+        "inProgress": "",
+        "notStarted": ""
+      },
+      "actions": {
+        "start": "",
+        "continue": ""
+      }
+    },
+    "strategicPlan": {
+      "sectionTitle": "",
+      "title": "",
+      "caption": "",
+      "empty": {
+        "title": "",
+        "description": ""
+      }
+    },
+    "sectionTitle": {
+      "tabs": {
+        "progress": "",
+        "responses": ""
+      }
+    },
+    "cardContainer": {
+      "actions": {
+        "edit": "",
+        "hide": "",
+        "show": ""
+      }
+    }
+  },
+  "assessment": {
+    "navigation": {
+      "progress": "",
+      "status": {
+        "yes": "",
+        "partly": "",
+        "no": "",
+        "na": "",
+        "notAnswered": ""
+      }
+    },
+    "content": {
+      "headers": {
+        "question": "",
+        "response": "",
+        "rationale": ""
+      },
+      "subheadings": {
+        "topicsToInclude": ""
+      },
+      "placeholders": {
+        "rationale": "",
+        "notes": ""
+      }
+    },
+    "answers": {
+      "labels": {
+        "yes": "",
+        "partly": "",
+        "no": "",
+        "na": ""
+      }
+    },
+    "guidance": {
+      "tabs": {
+        "guidance": "",
+        "notes": ""
+      },
+      "sections": {
+        "definition": "",
+        "considerations": "",
+        "exampleStrategies": ""
+      },
+      "empty": {
+        "definition": "",
+        "considerations": "",
+        "exampleStrategies": ""
+      },
+      "notesCaption": ""
+    },
+    "actions": {
+      "buttons": {
+        "markComplete": "",
+        "editFactor": "",
+        "saveAndContinue": "",
+        "continueWithoutMarking": ""
+      },
+      "tags": {
+        "successFactor": ""
+      },
+      "messages": {
+        "readyToFinish": "",
+        "markAsComplete": ""
+      },
+      "captions": {
+        "markComplete": ""
+      },
+      "modal": {
+        "markComplete": {
+          "header": "",
+          "content": "",
+          "confirmButton": "",
+          "cancelButton": ""
+        }
+      }
+    },
+    "contributors": {
+      "heading": "",
+      "description": "",
+      "field": {
+        "placeholder": ""
+      }
+    },
+    "strategies": {
+      "heading": "",
+      "exampleIntro": "",
+      "warning": "",
+      "fields": {
+        "title": {
+          "label": "",
+          "placeholder": "",
+          "maxLength": ""
+        },
+        "description": {
+          "label": "",
+          "placeholder": ""
+        },
+        "scale": {
+          "label": "",
+          "placeholder": "",
+          "options": {
+            "national": "",
+            "subnational": "",
+            "landscape": "",
+            "site": ""
+          }
+        },
+        "deadline": {
+          "label": "",
+          "placeholder": ""
+        },
+        "responsibility": {
+          "label": "",
+          "placeholder": ""
+        }
+      },
+      "actions": {
+        "addStrategy": ""
+      }
+    },
+    "autoSave": {
+      "status": {
+        "idle": "",
+        "saving": "",
+        "saved": "",
+        "error": ""
+      }
+    },
+    "modals": {
+      "markCompleteConfirm": {
+        "heading": "",
+        "description": "",
+        "confirmButton": "",
+        "cancelButton": ""
+      },
+      "progressNotSaved": {
+        "heading": "",
+        "description1": "",
+        "description2": "",
+        "description3": "",
+        "cancelButton": "",
+        "leavePageButton": ""
+      }
+    },
+    "created": {
+      "sessionExpired": {
+        "title": "",
+        "message": ""
+      }
+    }
+  },
+  "auth": {
+    "passwordPrompt": {
+      "title": "",
+      "label": "",
+      "caption": "",
+      "button": ""
+    },
+    "errors": {
+      "passwordRequired": "",
+      "incorrectPassword": "",
+      "tooManyAttempts": "",
+      "authError": "",
+      "networkError": ""
+    }
+  },
+  "errors": {
+    "api": {
+      "invalidEmail": "",
+      "questionIdRequired": "",
+      "failedToSaveAnswer": "",
+      "failedToFetchAnswers": "",
+      "tooManyLoginAttempts": "",
+      "passwordRequired": "",
+      "invalidCredentials": "",
+      "unexpectedError": ""
+    },
+    "generic": {
+      "somethingWentWrong": "",
+      "tryAgain": ""
+    }
+  },
+  "metadata": {
+    "defaultTitle": "",
+    "defaultDescription": "",
+    "pages": {
+      "home": {
+        "title": "",
+        "description": ""
+      },
+      "setup": {
+        "title": "",
+        "description": ""
+      },
+      "assessment": {
+        "title": "",
+        "description": ""
+      }
+    }
+  }
+}
