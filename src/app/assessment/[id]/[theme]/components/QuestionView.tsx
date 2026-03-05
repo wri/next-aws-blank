@@ -14,6 +14,7 @@ import { Button, InlineMessage, Modal, Tag } from '@worldresources/wri-design-sy
 import { Box } from '@chakra-ui/react'
 import { FactorPaginationContainer } from '@/components/assessment/FactorPaginationContainer'
 import { AnswerStatus } from '@/types/answer.types'
+import { hasRichTextContent } from '@/utils/validation'
 
 interface QuestionViewProps {
   assessmentId: string
@@ -65,7 +66,6 @@ export function QuestionView({
   )
   const [showCompleteWarning, setShowCompleteWarning] = useState(false)
   const [showProgressNotSavedModal, setShowProgressNotSavedModal] = useState(false)
-  const [isNextOrPrev, setIsNextOrPrev] = useState<'next' | 'prev' | ''>('')
   
   // Auto-save function
   const saveAnswer = useCallback(async (data: {
@@ -105,6 +105,7 @@ export function QuestionView({
   const saveStatusRef = useRef<AutoSaveStatus>('idle')
   // Stores a deferred navigation callback when user tries to leave while saving
   const pendingNavigationRef = useRef<(() => void) | null>(null)
+  const pendingCompleteGuardNavigationRef = useRef<(() => void) | null>(null)
 
   // Auto-save hook
   const handleAutoSaveStatusChange = useCallback((status: AutoSaveStatus) => {
@@ -141,6 +142,27 @@ export function QuestionView({
       navigateFn()
     }
   }, [])
+
+  // TODO - add the check for strategies
+  const shouldTriggerCompleteGuard =
+    !isVisuallyMarkedAsComplete &&
+    selectedAnswer !== null &&
+    hasRichTextContent(rationale)
+
+  const navigateWithCompleteGuard = useCallback(
+    (navigateFn: () => void) => {
+      guardedNavigate(() => {
+        if (shouldTriggerCompleteGuard) {
+          pendingCompleteGuardNavigationRef.current = navigateFn
+          setShowCompleteWarning(true)
+          return
+        }
+
+        navigateFn()
+      })
+    },
+    [guardedNavigate, shouldTriggerCompleteGuard],
+  )
   
   // Handle answer selection (immediate save)
   const handleAnswerChange = useCallback((value: AnswerValue) => {
@@ -194,50 +216,62 @@ export function QuestionView({
   }, [questions, answersCache, assessmentId, theme, router])
 
   const handleQuestionSelect = useCallback((code: string) => {
-    guardedNavigate(() => executeQuestionSelect(code))
-  }, [guardedNavigate, executeQuestionSelect])
+    navigateWithCompleteGuard(() => executeQuestionSelect(code))
+  }, [navigateWithCompleteGuard, executeQuestionSelect])
   
   // Handle theme navigation
   const handleThemeChange = useCallback((direction: 'prev' | 'next') => {
     const targetTheme = direction === 'prev' ? prevTheme : nextTheme
     if (targetTheme) {
-      guardedNavigate(() => router.push(`/assessment/${assessmentId}/${targetTheme}`))
+      navigateWithCompleteGuard(() =>
+        router.push(`/assessment/${assessmentId}/${targetTheme}`),
+      )
     }
-  }, [assessmentId, prevTheme, nextTheme, router, guardedNavigate])
+  }, [assessmentId, prevTheme, nextTheme, router, navigateWithCompleteGuard])
   
-  // Handle "Save and continue"
-  const handleSaveAndContinue = useCallback(async (markAsComplete?: boolean) => {
-    // Save current answer
-    await save({
-      questionId: currentQuestion.id,
-      value: selectedAnswer,
-      rationale,
-      notes,
-      status: markAsComplete ? AnswerStatus.COMPLETE : AnswerStatus.IN_PROGRESS,
-    }, true)
-    
-    // Find next unanswered question in theme
-    const currentIndex = questions.findIndex(q => q.questionCode === currentQuestionCode)
-    const nextQuestion = questions.slice(currentIndex + 1)?.[0]
-    const prevQuestion = currentIndex > 0 ? questions[currentIndex - 1] : null
-    
-    if (nextQuestion && isNextOrPrev === 'next') {
-      handleQuestionSelect(nextQuestion.questionCode)
-    } else if (prevQuestion && isNextOrPrev === 'prev') {
-      handleQuestionSelect(prevQuestion.questionCode)
-    } else if (canGoNext && nextTheme) {
-      // Move to next theme
-      router.push(`/assessment/${assessmentId}/${nextTheme}`)
+  const buildPaginationNavigation = useCallback((direction: 'next' | 'prev') => {
+    const currentIndex = questions.findIndex(
+      (q) => q.questionCode === currentQuestionCode,
+    )
+
+    if (direction === 'next') {
+      const nextQuestion =
+        currentIndex < questions.length - 1 ? questions[currentIndex + 1] : null
+      const hasNextInTheme = nextQuestion !== null
+      const canGoNextTheme = !hasNextInTheme && nextTheme !== null
+
+      if (hasNextInTheme && nextQuestion) {
+        return () => executeQuestionSelect(nextQuestion.questionCode)
+      }
+
+      if (canGoNextTheme) {
+        return () => router.push(`/assessment/${assessmentId}/${nextTheme}`)
+      }
     } else {
-      // All done - go to overview
-      router.push(`/assessment/${assessmentId}/overview`)
+      const prevQuestion = currentIndex > 0 ? questions[currentIndex - 1] : null
+      const hasPrevInTheme = prevQuestion !== null
+      const canGoPrevTheme = !hasPrevInTheme && prevTheme !== null
+
+      if (hasPrevInTheme && prevQuestion) {
+        return () => executeQuestionSelect(prevQuestion.questionCode)
+      }
+
+      if (canGoPrevTheme) {
+        return () => router.push(`/assessment/${assessmentId}/${prevTheme}`)
+      }
     }
+
+    return null
   }, [
-    currentQuestion?.id, selectedAnswer, rationale, notes, save,
-    questions, currentQuestionCode, canGoNext, nextTheme,
-    assessmentId, router, handleQuestionSelect, isNextOrPrev,
+    questions,
+    currentQuestionCode,
+    nextTheme,
+    prevTheme,
+    executeQuestionSelect,
+    router,
+    assessmentId,
   ])
-  
+
   if (!currentQuestion) {
     return <div className="p-8 text-center text-slate-500">No questions found for this theme.</div>
   }
@@ -259,48 +293,31 @@ export function QuestionView({
   const questionPosition = currentIndex + 1
   const totalQuestions = questions.length
   
-  const allowMarkAsComplete = selectedAnswer
+  const allowMarkAsComplete =
+    selectedAnswer !== null && hasRichTextContent(rationale)
 
   const markCompleteAndContinue = async () => {
-    await handleSaveAndContinue(true)
+    await save({
+      questionId: currentQuestion.id,
+      value: selectedAnswer,
+      rationale,
+      notes,
+      status: AnswerStatus.COMPLETE,
+    }, true)
+
+    setIsVisuallyMarkedAsComplete(true)
 
     setShowCompleteWarning(false)
+    const pendingNavigation = pendingCompleteGuardNavigationRef.current
+    pendingCompleteGuardNavigationRef.current = null
+    pendingNavigation?.()
   }
   
   const continueWithoutMarking = async () => {
     setShowCompleteWarning(false)
-
-    let newQuestionCode = ''
-    const currentIndex = questions.findIndex(
-      (q) => q.questionCode === currentQuestionCode,
-    )
-    if (isNextOrPrev === 'next') {
-      const nextQuestion = currentIndex < questions.length - 1 ? questions[currentIndex + 1] : null
-      const hasNextInTheme = nextQuestion !== null
-      const canGoNextTheme = !hasNextInTheme && nextTheme !== null
-
-      if (hasNextInTheme) {
-        newQuestionCode = nextQuestion.questionCode
-      } else if (canGoNextTheme) {
-        router.push(`/assessment/${assessmentId}/${nextTheme}`)
-        
-        return
-      }
-    } else {
-      const prevQuestion = currentIndex > 0 ? questions[currentIndex - 1] : null
-      const hasPrevInTheme = prevQuestion !== null
-      const canGoPrevTheme = !hasPrevInTheme && prevTheme !== null
-
-      if (hasPrevInTheme) {
-        newQuestionCode = prevQuestion.questionCode
-      } else if (canGoPrevTheme) {
-        router.push(`/assessment/${assessmentId}/${prevTheme}`)
-        
-        return
-      }
-    }
-
-    handleQuestionSelect(newQuestionCode)
+    const pendingNavigation = pendingCompleteGuardNavigationRef.current
+    pendingCompleteGuardNavigationRef.current = null
+    pendingNavigation?.()
   }
 
   return (
@@ -326,7 +343,11 @@ export function QuestionView({
               variant="borderless" 
               className="text-neutral-700"
               leftIcon={<ChevronLeft className="w-3 h-3" />}
-              onClick={() => guardedNavigate(() => router.push(`/assessment/${assessmentId}`))}
+              onClick={() =>
+                navigateWithCompleteGuard(() =>
+                  router.push(`/assessment/${assessmentId}`),
+                )
+              }
               style={{ paddingLeft: '0' }}
             >
               <span className="underline underline-offset-1">Back to overview</span>
@@ -422,10 +443,13 @@ export function QuestionView({
             prevTheme={prevTheme}
             nextTheme={nextTheme}
             onNavigate={handleQuestionSelect}
-            isMarkedAsComplete={isVisuallyMarkedAsComplete}
+            isMarkedAsComplete={!shouldTriggerCompleteGuard}
             setIsNextOrPrev={(direction) => {
-              setIsNextOrPrev(direction)
-              setShowCompleteWarning(true)
+              const navigateFn = buildPaginationNavigation(direction)
+
+              if (!navigateFn) return
+
+              navigateWithCompleteGuard(navigateFn)
             }}
           />
         </div>
@@ -439,7 +463,10 @@ export function QuestionView({
 
       <Modal
         open={showCompleteWarning}
-        onClose={() => setShowCompleteWarning(false)}
+        onClose={() => {
+          setShowCompleteWarning(false)
+          pendingCompleteGuardNavigationRef.current = null
+        }}
         header={
           <p className='text-neutral-800 font-bold'>Mark factor as complete?</p>
         }
