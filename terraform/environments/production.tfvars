@@ -15,9 +15,9 @@ availability_zones_count = 2
 container_port   = 3000
 container_cpu    = 512   # 0.5 vCPU
 container_memory = 1024  # 1 GB
-desired_count    = 2     # Higher for production
-min_capacity     = 2
-max_capacity     = 10
+desired_count    = 1     # Higher for production
+min_capacity     = 1
+max_capacity     = 2
 
 # Health Check
 health_check_path = "/api/health"
