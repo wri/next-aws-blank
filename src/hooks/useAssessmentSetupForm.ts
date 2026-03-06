@@ -9,6 +9,9 @@ const defaultFormValues: AssessmentSetupFormData = {
   email: '',
   organization: '',
   role: '',
+  gender: '',
+  ageRange: '',
+  identity: '',
   country: '',
   subRegion: '',
   geographyType: '' as TargetGeographyType,
@@ -16,7 +19,7 @@ const defaultFormValues: AssessmentSetupFormData = {
   gisUrl: '',
   ecosystems: [],
   terms: false,
-  allowDataSharing: true,
+  allowDataSharing: false,
 }
 
 /**
@@ -57,6 +60,9 @@ export const assessmentFormRules = {
   organization: {},
   role: {},
   country: {},
+  gender: {},
+  ageRange: {},
+  identity: {},
   subRegion: {
     required: 'Sub-region is required',
   },

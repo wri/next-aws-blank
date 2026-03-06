@@ -60,7 +60,13 @@
         "getStarted": "Get started",
         "getStartedDescription": "Enter some basic details about this diagnostic to get started.",
         "diagnosticLead": "Diagnostic lead",
-        "diagnosticLeadDescription": "Please enter details for the primary person responsible for this diagnostic.",
+        "diagnosticLeadDescription": "Add the details of the person who will coordinate and oversee this diagnostic. This may be you or another member of your team.",
+        "diagnosticLeadWarning": {
+          "label": "Answering on behalf of the diagnostic lead",
+          "caption": "If you are entering details for someone else, please provide this information with their knowledge and consent. Where possible, we recommend that the diagnostic lead creates the diagnostic to ensure continuity."
+        },
+        "demographicInformation": "Demographic information",
+        "demographicInformationDescription": "The following questions are used for aggregated reporting only and do not affect participation.",
         "geography": "Geography",
         "geographyDescription": "Enter details about the location of your restoration project."
       },
@@ -69,13 +75,10 @@
         "whatIsContent": "The WRI Restoration Diagnostic helps assess whether cultural, financial, political, and environmental \"enabling conditions\" support ecosystem restoration. By identifying bottlenecks, you can move from general planning to targeted, effective action."
       },
       "downloads": {
-        "preparationGuide": {
-          "title": "Preparation guide",
-          "description": "Download a PDF pre-diagnostic preparation guide."
-        },
-        "spreadsheet": {
-          "title": "Spreadsheet template",
-          "description": "Use this option if offline access is needed."
+        "offline": {
+          "title": "Complete offline",
+          "description": "Download the spreadsheet template and PDF guidance document to complete a simplified version of the Diagnostic offline.",
+          "button": "Download"
         }
       },
       "labels": {
@@ -85,6 +88,9 @@
         "email": "Email address",
         "organization": "Organization",
         "role": "Job role",
+        "gender": "Gender (optional)",
+        "ageRange": "Age range (optional)",
+        "identity": "Does the diagnostic lead identify as part of any of the following groups? (optional)",
         "country": "Country",
         "subRegion": "Sub-region / Province",
         "geographyType": "Geography Type",
@@ -98,6 +104,8 @@
         "email": "name@organization.com",
         "organization": "Enter an organization name",
         "role": "e.g. Project Manager",
+        "gender": "Please select",
+        "ageRange": "Please select",
         "country": "Select country",
         "subRegion": "Enter sub-region",
         "geographyType": "Select geography type",
@@ -126,15 +134,30 @@
         "description": "You can download and complete this diagnostic offline using a spreadsheet or PDF format. Submit your completed file to receive your results.",
         "button": "Download"
       },
-      "leadIdentity": {
-        "question": "Does the diagnostic lead identify as a member of any of the following groups?",
-        "options": {
-          "indigenousPeoples": "Indigenous Peoples",
-          "localCommunities": "Local communities",
-          "both": "Both Indigenous Peoples and Local communities",
-          "preferNotToSay": "Prefer not to say",
-          "noneOfTheAbove": "None of the above"
-        }
+      "genderOptions": {
+        "woman": "Woman",
+        "man": "Man",
+        "nonBinary": "Non-binary",
+        "transgender": "Transgender",
+        "intersex": "Intersex",
+        "preferNotToSay": "I prefer not to say",
+        "identityNotListed": "My identity isn't listed"
+      },
+      "ageRangeOptions": {
+        "under25": "Under 25",
+        "25to34": "25–34",
+        "35to44": "35–44",
+        "45to54": "45–54",
+        "55to64": "55–64",
+        "65plus": "65+",
+        "preferNotToSay": "Prefer not to say"
+      },
+      "identityOptions": {
+        "indigenousPeoples": "Indigenous Peoples",
+        "localCommunities": "Local communities",
+        "both": "Both Indigenous Peoples and Local communities",
+        "preferNotToSay": "Prefer not to say",
+        "none": "None of the above"
       },
       "checkboxes": {
         "terms": "I agree to WRI's Terms of Service and Privacy Policy so I can save and manage my progress.",

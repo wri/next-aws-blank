@@ -100,7 +100,7 @@ export function FactorPaginationContainer({
       }}
     >
       {/* Previous Factor Card */}
-      <PaginationCard
+      {!hasPrevInTheme && !canGoPrevTheme ? <div>&nbsp;</div> : (<PaginationCard
         direction="left"
         label="Previous factor"
         factorName={prevFactorName}
@@ -116,7 +116,7 @@ export function FactorPaginationContainer({
             onNavigate(prevQuestion.questionCode)
           }
         }}
-      />
+      />)}
       
       {/* Next Factor Card */}
       <PaginationCard

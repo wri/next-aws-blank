@@ -65,3 +65,31 @@ export const ecosystemOptions = [
     description: 'Bogs, fens, and peat swamp forests',
   },
 ];
+
+export const genderOptions = [
+  { label: 'Woman', value: 'woman' },
+  { label: 'Man', value: 'man' },
+  { label: 'Non-binary', value: 'non_binary' },
+  { label: 'Transgender', value: 'transgender' },
+  { label: 'Intersex', value: 'intersex' },
+  { label: 'I prefer not to say', value: 'prefer_not_to_say' },
+  { label: "My identity isn't listed", value: 'identity_not_listed' },
+];
+
+export const ageRangeOptions = [
+  { label: 'Under 25', value: 'under_25' },
+  { label: '25–34', value: '25_34' },
+  { label: '35–44', value: '35_44' },
+  { label: '45–54', value: '45_54' },
+  { label: '55–64', value: '55_64' },
+  { label: '65+', value: '65_plus' },
+  { label: 'Prefer not to say', value: 'prefer_not_to_say' },
+];
+
+export const identityOptions = [
+  { value: 'indigenous_peoples', children: 'Indigenous Peoples' },
+  { value: 'local_communities', children: 'Local communities' },
+  { value: 'both', children: 'Both Indigenous Peoples and Local communities' },
+  { value: 'prefer_not_to_say', children: 'Prefer not to say' },
+  { value: 'none', children: 'None of the above' },
+];

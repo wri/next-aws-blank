@@ -9,23 +9,34 @@ import {
   TextInput,
   Checkbox,
   Modal,
+  InlineMessage,
+  getThemedColor,
+  Select,
+  RadioList,
 } from '@worldresources/wri-design-systems'
 import {
-  InfoIcon,
-  ListIcon,
   DownloadIcon,
-  CalendarIcon,
-  ChevronDownIcon,
 } from '@/components/icons'
 import {
   useAssessmentSetupForm,
   assessmentFormRules,
 } from '@/hooks/useAssessmentSetupForm'
+import {
+  genderOptions,
+  ageRangeOptions,
+  identityOptions,
+} from '@/constants/setup-assessment'
 import type { AssessmentSetupFormData } from '@/types/assessment-setup.types'
 import type { AssessmentCreatedResponse } from '@/types/api.types'
 import Image from 'next/image'
-import { Collapsible } from '@chakra-ui/react'
+import { Box } from '@chakra-ui/react'
 import { useLanguage } from '@/contexts/LanguageContext'
+
+const externalLinks = {
+  offlineDownload: 'https://files.wri.org/d8/s3fs-public/guide-restoration-opportunities-assessment-methodology.pdf',
+  tos: 'https://www.wri.org/about/wri-data-platforms-tos',
+  privacy: 'https://www.wri.org/about/privacy-policy',
+}
 
 export default function SetupAssessmentPage() {
   const router = useRouter()
@@ -170,27 +181,6 @@ export default function SetupAssessmentPage() {
                     actions to ensure long-term success.
                   </p>
 
-                  <div className='grid grid-cols-1 md:grid-cols-2 gap-4 mb-4'>
-                    <div className='px-4 py-3 border border-secondary-200 rounded-lg flex flex-col bg-secondary-100 transition-colors'>
-                      <ListIcon
-                        className='text-secondary-500 mb-3'
-                        height='24px'
-                        width='24px'
-                      />
-                      <span className='text-secondary-700'>3 step process</span>
-                    </div>
-                    <div className='px-4 py-3 border border-secondary-200 rounded-lg flex flex-col bg-secondary-100 transition-colors'>
-                      <CalendarIcon
-                        className='text-secondary-500 mb-3'
-                        height='24px'
-                        width='24px'
-                      />
-                      <span className='text-secondary-700'>
-                        3 - 5 weeks to complete
-                      </span>
-                    </div>
-                  </div>
-
                   <div className='rounded-lg overflow-hidden'>
                     <Image
                       src='/images/Diagnostic Setup.jpg'
@@ -200,41 +190,14 @@ export default function SetupAssessmentPage() {
                     />
                   </div>
 
-                  <Collapsible.Root className='mt-5 border border-neutral-300 rounded-lg'>
-                    <Collapsible.Trigger asChild>
-                      <div className='px-4 py-3 flex items-center justify-between gap-3 cursor-pointer'>
-                        <div className='flex items-center gap-3'>
-                          <InfoIcon className='text-secondary-500 h-4 w-4' />
-                          <span className='font-bold text-neutral-800'>
-                            What is the Restoration Diagnostic Tool?
-                          </span>
-                        </div>
-                        <Collapsible.Indicator
-                          _open={{ transform: 'rotate(180deg)' }}
-                        >
-                          <ChevronDownIcon className='text-neutral-800 h-4 w-4' />
-                        </Collapsible.Indicator>
-                      </div>
-                    </Collapsible.Trigger>
-                    <Collapsible.Content>
-                      <div className='px-4 py-3'>
-                        The WRI Restoration Diagnostic helps assess whether
-                        cultural, financial, political, and environmental
-                        &quot;enabling conditions&quot; support ecosystem
-                        restoration. By identifying bottlenecks, you can move
-                        from general planning to targeted, effective action.
-                      </div>
-                    </Collapsible.Content>
-                  </Collapsible.Root>
-
                   <div className='my-4 px-4 py-3 border border-neutral-300 rounded-lg bg-white'>
                     <div className='flex items-center justify-between gap-4'>
                       <div className='flex-1'>
                         <h3 className='font-bold text-lg text-neutral-800'>
-                          Preparation guide
+                          Complete offline
                         </h3>
                         <p className='text-neutral-800'>
-                          Download a PDF pre-diagnostic preparation guide.
+                          Download the spreadsheet template and PDF guidance document to complete a simplified version of the Diagnostic offline.
                         </p>
                       </div>
                       <Button
@@ -244,33 +207,7 @@ export default function SetupAssessmentPage() {
                         label='Download'
                         onClick={() =>
                           window.open(
-                            'https://files.wri.org/d8/s3fs-public/guide-restoration-opportunities-assessment-methodology.pdf',
-                            '_blank',
-                            'noopener noreferrer',
-                          )
-                        }
-                      />
-                    </div>
-                  </div>
-
-                  <div className='my-4 px-4 py-3 border border-neutral-300 rounded-lg bg-white'>
-                    <div className='flex items-center justify-between gap-4'>
-                      <div className='flex-1'>
-                        <h3 className='font-bold text-lg text-neutral-800'>
-                          Spreadsheet template
-                        </h3>
-                        <p className='text-neutral-800'>
-                          Use this option if offline access is needed.
-                        </p>
-                      </div>
-                      <Button
-                        variant='secondary'
-                        size='small'
-                        leftIcon={<DownloadIcon />}
-                        label='Download'
-                        onClick={() =>
-                          window.open(
-                            'https://files.wri.org/d8/s3fs-public/guide-restoration-opportunities-assessment-methodology.pdf',
+                            externalLinks.offlineDownload,
                             '_blank',
                             'noopener noreferrer',
                           )
@@ -303,15 +240,14 @@ export default function SetupAssessmentPage() {
 
                   <hr className='my-6' />
 
-                  <h4 className='font-bold text-xl text-neutral-800 mb-2'>
-                    Diagnostic lead
-                  </h4>
-                  <p className='text-lg text-neutral-800 mb-4'>
-                    Please enter details for the primary person responsible for
-                    this diagnostic.
-                  </p>
-
-                  <div className='space-y-6'>
+                  <Box 
+                    css={{
+                      '& label': {
+                        fontSize: 'xl',
+                        fontWeight: '600',
+                        color: getThemedColor('neutral', 700)
+                      }
+                    }}>
                     <TextInput
                       label='Diagnostic title'
                       caption='Include a descriptive title for your diagnostic. This will be shown to anyone that accesses the diagnostic.'
@@ -320,8 +256,26 @@ export default function SetupAssessmentPage() {
                       {...register('title', assessmentFormRules.title)}
                       errorMessage={errors.title?.message}
                     />
+                  </Box>
 
-                    <hr className='my-6' />
+                  <hr className='my-6' />
+
+                  <h4 className='font-bold text-xl text-neutral-800 mb-2'>
+                    Diagnostic lead
+                  </h4>
+                  <p className='text-lg text-neutral-800 mb-4'>
+                    Add the details of the person who will coordinate and oversee this diagnostic. This may be you or another member of your team.
+                  </p>
+
+                  <InlineMessage
+                    label="Answering on behalf of the diagnostic lead"
+                    caption="If you are entering details for someone else, please provide this information with their knowledge and consent. Where possible, we recommend that the diagnostic lead creates the diagnostic to ensure continuity."
+                    onActionClick={() => {}}
+                    variant="warning"
+                    size='full-width'
+                  />
+
+                  <div className='space-y-6'>
 
                     <div className='grid grid-cols-1 gap-4'>
                       <TextInput
@@ -356,50 +310,66 @@ export default function SetupAssessmentPage() {
                       />
                     </div>
 
-                    <hr className='my-6' />
+                    {/* Demographic Information Section */}
+                    <div className='flex flex-col gap-6 mb-6'>
+                      <div className='flex flex-col gap-2'>
+                        <h3 className='text-lg font-bold text-neutral-800'>
+                          Demographic information
+                        </h3>
+                        <p className='text-sm text-neutral-600'>
+                          The following questions are used for aggregated reporting only and do not affect participation.
+                        </p>
+                      </div>
 
-                    <div className='flex flex-col gap-2'>
                       <Controller
-                        name='terms'
+                        name='gender'
                         control={control}
-                        rules={assessmentFormRules.terms}
+                        rules={assessmentFormRules.gender}
                         render={({ field }) => (
-                          <Checkbox
-                            checked={field.value}
-                            onCheckedChange={({ checked }) =>
-                              field.onChange(checked)
-                            }
-                            required
-                          >
-                            <p className='text-neutral-800'>
-                              <span className='text-error-500'>*</span> I agree
-                              to WRI&apos;s Terms of Service and Privacy Policy
-                              so I can save and manage my progress.
-                            </p>
-                          </Checkbox>
+                          <Select
+                            label='Gender (optional)'
+                            placeholder='Please select'
+                            items={genderOptions}
+                            value={field.value ? [field.value] : []}
+                            onChange={(value) => field.onChange(value[0] || '')}
+                            errorMessage={errors.gender?.message}
+                          />
                         )}
                       />
 
                       <Controller
-                        name='allowDataSharing'
+                        name='ageRange'
                         control={control}
-                        rules={assessmentFormRules.allowDataSharing}
+                        rules={assessmentFormRules.ageRange}
                         render={({ field }) => (
-                          <Checkbox
-                            checked={field.value}
-                            onCheckedChange={({ checked }) =>
-                              field.onChange(checked)
-                            }
-                          >
-                            <p className='text-neutral-800'>
-                              I allow my anonymized data to be used in global
-                              research and meta-analysis to help identify
-                              restoration trends.
-                            </p>
-                          </Checkbox>
+                          <Select
+                            label='Age range (optional)'
+                            placeholder='Please select'
+                            items={ageRangeOptions}
+                            value={field.value ? [field.value] : []}
+                            onChange={(value) => field.onChange(value[0] || '')}
+                            errorMessage={errors.ageRange?.message}
+                          />
+                        )}
+                      />
+
+                      <Controller
+                        name='identity'
+                        control={control}
+                        rules={assessmentFormRules.identity}
+                        render={({ field }) => (
+                          <RadioList
+                            label='Does the diagnostic lead identify as part of any of the following groups? (optional)'
+                            name='identity'
+                            radios={identityOptions}
+                            defaultValue={field.value}
+                            onCheckedChange={(_, selectedValue) => field.onChange(selectedValue)}
+                            errorMessage={errors.identity?.message}
+                          />
                         )}
                       />
                     </div>
+                   
                   </div>
                 </div>
               }
@@ -407,6 +377,49 @@ export default function SetupAssessmentPage() {
           </div>
 
           <div className='px-6 bg-transparent sm:p-0 mb-16'>
+            <div className='flex flex-col gap-2 mb-4'>
+              <Controller
+                name='terms'
+                control={control}
+                rules={assessmentFormRules.terms}
+                render={({ field }) => (
+                  <Checkbox
+                    checked={field.value}
+                    onCheckedChange={({ checked }) =>
+                      field.onChange(checked)
+                    }
+                    required
+                  >
+                    <p className='text-neutral-800 font-normal'>
+                      <span className='text-error-500'>*</span> I agree
+                      to WRI&apos;s <a className='underline' rel='noopener noreferrer' href={externalLinks.tos} target='_blank'>Terms of Service</a> and <a className='underline' rel='noopener noreferrer' href={externalLinks.privacy} target="_blank">Privacy Policy</a>&nbsp;
+                      so I can save and manage my progress.
+                    </p>
+                  </Checkbox>
+                )}
+              />
+
+              <Controller
+                name='allowDataSharing'
+                control={control}
+                rules={assessmentFormRules.allowDataSharing}
+                render={({ field }) => (
+                  <Checkbox
+                    checked={field.value}
+                    onCheckedChange={({ checked }) =>
+                      field.onChange(checked)
+                    }
+                  >
+                    <p className='text-neutral-800 font-normal'>
+                      I allow my anonymized data to be used in global
+                      research and meta-analysis to help identify
+                      restoration trends.
+                    </p>
+                  </Checkbox>
+                )}
+              />
+            </div>
+
             {hasErrors && (
               <div className='mb-4'>
                 <div className='p-4 bg-error-50 border-l-4 border-error-500 rounded'>

@@ -38,6 +38,9 @@ Table lead {
   email varchar [not null, note: 'Lowercase, validated']
   organization varchar [null]
   role varchar [null]
+  gender varchar [null, note: 'Optional demographic field for reporting']
+  age_range varchar [null, note: 'Optional demographic field for reporting']
+  identity varchar [null, note: 'Optional demographic field for reporting']
   created_at timestamp [default: `now()`]
   updated_at timestamp [default: `now()`]
   

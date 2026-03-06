@@ -28,6 +28,15 @@ export class Lead {
   @Column({ type: 'varchar', nullable: true })
   role!: string | null
 
+  @Column({ type: 'varchar', nullable: true })
+  gender!: string | null
+
+  @Column({ name: 'age_range', type: 'varchar', nullable: true })
+  ageRange!: string | null
+
+  @Column({ type: 'varchar', nullable: true })
+  identity!: string | null
+
   @CreateDateColumn({ name: 'created_at' })
   createdAt!: Date
 

@@ -374,14 +374,17 @@ describe('POST /api/assessments', () => {
         name: 'John Doe',
         email: 'john.doe@example.com',
         organization: 'Test Organization',
-        role: 'Project Lead'
+        role: 'Project Lead',
+        gender: null,
+        ageRange: null,
+        identity: null
       });
       
       expect(mockLeadRepository.save).toHaveBeenCalled();
     });
 
     it('should reuse existing lead if email exists', async () => {
-      const existingLead = { ...mockLead, id: 'existing-lead-123' };
+      const existingLead = { ...mockLead, id: 'existing-lead-123', gender: null, ageRange: null, identity: null };
       mockLeadRepository.findOne.mockResolvedValue(existingLead);
       
       const request = createMockRequest(validFormData);
@@ -390,7 +393,117 @@ describe('POST /api/assessments', () => {
       
       expect(mockLeadRepository.findOne).toHaveBeenCalled();
       expect(mockLeadRepository.create).not.toHaveBeenCalled();
+      // Lead should NOT be saved when no demographic fields are provided
       expect(mockLeadRepository.save).not.toHaveBeenCalled();
+    });
+
+    it('should create lead with demographic fields when provided', async () => {
+      mockLeadRepository.findOne.mockResolvedValue(null);
+      
+      const formDataWithDemographics = {
+        ...validFormData,
+        gender: 'female',
+        ageRange: '25-34',
+        identity: 'indigenous'
+      };
+      const request = createMockRequest(formDataWithDemographics);
+      
+      await POST(request);
+      
+      expect(mockLeadRepository.create).toHaveBeenCalledWith({
+        jobTitle: 'Director',
+        name: 'John Doe',
+        email: 'john.doe@example.com',
+        organization: 'Test Organization',
+        role: 'Project Lead',
+        gender: 'female',
+        ageRange: '25-34',
+        identity: 'indigenous'
+      });
+    });
+
+    it('should update demographic fields on existing lead when provided', async () => {
+      const existingLead = { 
+        ...mockLead, 
+        id: 'existing-lead-123',
+        gender: null,
+        ageRange: null,
+        identity: null
+      };
+      mockLeadRepository.findOne.mockResolvedValue(existingLead);
+      mockLeadRepository.save.mockResolvedValue({ ...existingLead, gender: 'male', ageRange: '35-44', identity: 'local' });
+      
+      const formDataWithDemographics = {
+        ...validFormData,
+        gender: 'male',
+        ageRange: '35-44',
+        identity: 'local'
+      };
+      const request = createMockRequest(formDataWithDemographics);
+      
+      await POST(request);
+      
+      expect(mockLeadRepository.findOne).toHaveBeenCalled();
+      expect(mockLeadRepository.create).not.toHaveBeenCalled();
+      expect(mockLeadRepository.save).toHaveBeenCalled();
+      
+      // Verify the lead was updated with demographic fields
+      const saveCall = mockLeadRepository.save.mock.calls[0][0];
+      expect(saveCall.gender).toBe('male');
+      expect(saveCall.ageRange).toBe('35-44');
+      expect(saveCall.identity).toBe('local');
+    });
+
+    it('should not save lead when demographic fields match existing values', async () => {
+      const existingLead = { 
+        ...mockLead, 
+        id: 'existing-lead-123',
+        gender: 'female',
+        ageRange: '25-34',
+        identity: 'indigenous'
+      };
+      mockLeadRepository.findOne.mockResolvedValue(existingLead);
+      
+      const formDataWithSameDemographics = {
+        ...validFormData,
+        gender: 'female',
+        ageRange: '25-34',
+        identity: 'indigenous'
+      };
+      const request = createMockRequest(formDataWithSameDemographics);
+      
+      await POST(request);
+      
+      expect(mockLeadRepository.findOne).toHaveBeenCalled();
+      expect(mockLeadRepository.create).not.toHaveBeenCalled();
+      // No save should occur since values haven't changed
+      expect(mockLeadRepository.save).not.toHaveBeenCalled();
+    });
+
+    it('should save lead when only some demographic fields change', async () => {
+      const existingLead = { 
+        ...mockLead, 
+        id: 'existing-lead-123',
+        gender: 'female',
+        ageRange: '25-34',
+        identity: 'indigenous'
+      };
+      mockLeadRepository.findOne.mockResolvedValue(existingLead);
+      mockLeadRepository.save.mockResolvedValue({ ...existingLead, ageRange: '35-44' });
+      
+      const formDataWithPartialChange = {
+        ...validFormData,
+        gender: 'female', // unchanged
+        ageRange: '35-44', // changed
+        identity: 'indigenous' // unchanged
+      };
+      const request = createMockRequest(formDataWithPartialChange);
+      
+      await POST(request);
+      
+      expect(mockLeadRepository.save).toHaveBeenCalled();
+      const saveCall = mockLeadRepository.save.mock.calls[0][0];
+      expect(saveCall.ageRange).toBe('35-44');
     });
   });
 
@@ -452,6 +565,7 @@ describe('POST /api/assessments', () => {
     });
 
     it('should throw error if no diagnostic found for language', async () => {
+      const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation();
       mockDiagnosticRepository.findOne.mockResolvedValue(null);
       
       const request = createMockRequest(validFormData);
@@ -461,6 +575,8 @@ describe('POST /api/assessments', () => {
       expect(response.status).toBe(500);
       expect(data.success).toBe(false);
       expect(data.error).toContain('No diagnostic found for language: en');
+      
+      consoleErrorSpy.mockRestore();
     });
 
     it('should support different language codes', async () => {
@@ -536,6 +652,7 @@ describe('POST /api/assessments', () => {
     });
 
     it('should rollback on error during transaction', async () => {
+      const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation();
       mockRegionRepository.save.mockRejectedValue(new Error('Database error'));
       
       const request = createMockRequest(validFormData);
@@ -545,6 +662,8 @@ describe('POST /api/assessments', () => {
       
       // Verify transaction was called (rollback happens automatically in TypeORM)
       expect(AppDataSource.transaction).toHaveBeenCalled();
+      
+      consoleErrorSpy.mockRestore();
     });
 
     it('should return assessmentId and password on success', async () => {
@@ -562,6 +681,7 @@ describe('POST /api/assessments', () => {
 
   describe('Error Handling', () => {
     it('should handle database initialization errors', async () => {
+      const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation();
       AppDataSource.initialize.mockRejectedValue(new Error('Connection failed'));
       
       const request = createMockRequest(validFormData);
@@ -571,18 +691,24 @@ describe('POST /api/assessments', () => {
       expect(response.status).toBe(500);
       expect(data.success).toBe(false);
       expect(data.error).toBe('Connection failed');
+      
+      consoleErrorSpy.mockRestore();
     });
 
     it('should handle lead creation errors', async () => {
+      const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation();
       mockLeadRepository.save.mockRejectedValue(new Error('Lead save failed'));
       
       const request = createMockRequest(validFormData);
       const response = await POST(request);
       
       expect(response.status).toBe(500);
+      
+      consoleErrorSpy.mockRestore();
     });
 
     it('should return user-friendly error message', async () => {
+      const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation();
       AppDataSource.transaction.mockRejectedValue(new Error('Database error'));
       
       const request = createMockRequest(validFormData);
@@ -592,11 +718,14 @@ describe('POST /api/assessments', () => {
       expect(data.message).toBe(
         'We encountered an issue while creating your assessment. Please check your information and try again.'
       );
+      
+      consoleErrorSpy.mockRestore();
     });
 
     it('should include error details in development mode', async () => {
+      const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation();
       const originalEnv = process.env.NODE_ENV;
-      process.env.NODE_ENV = 'development';
+      (process.env as { NODE_ENV?: string }).NODE_ENV = 'development';
       
       AppDataSource.transaction.mockRejectedValue(new Error('Detailed error'));
       
@@ -607,12 +736,14 @@ describe('POST /api/assessments', () => {
       expect(data.error).toBe('Detailed error');
       expect(data.stack).toBeDefined();
       
-      process.env.NODE_ENV = originalEnv;
+      (process.env as { NODE_ENV?: string }).NODE_ENV = originalEnv;
+      consoleErrorSpy.mockRestore();
     });
 
     it('should not expose error stack in production', async () => {
+      const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation();
       const originalEnv = process.env.NODE_ENV;
-      process.env.NODE_ENV = 'production';
+      (process.env as { NODE_ENV?: string }).NODE_ENV = 'production';
       
       AppDataSource.transaction.mockRejectedValue(new Error('Production error'));
       
@@ -622,10 +753,12 @@ describe('POST /api/assessments', () => {
       
       expect(data.stack).toBeUndefined();
       
-      process.env.NODE_ENV = originalEnv;
+      (process.env as { NODE_ENV?: string }).NODE_ENV = originalEnv;
+      consoleErrorSpy.mockRestore();
     });
 
     it('should handle non-Error exceptions', async () => {
+      const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation();
       AppDataSource.transaction.mockRejectedValue('String error');
       
       const request = createMockRequest(validFormData);
@@ -635,11 +768,14 @@ describe('POST /api/assessments', () => {
       expect(response.status).toBe(500);
       expect(data.success).toBe(false);
       expect(data.error).toBe('An unexpected error occurred');
+      
+      consoleErrorSpy.mockRestore();
     });
   });
 
   describe('Request Body Validation', () => {
     it('should handle malformed JSON', async () => {
+      const consoleErrorSpy = jest.spyOn(console, 'error').mockImplementation();
       const request = {
         json: jest.fn().mockRejectedValue(new Error('Invalid JSON'))
       } as unknown as NextRequest;
@@ -647,6 +783,8 @@ describe('POST /api/assessments', () => {
       const response = await POST(request);
       
       expect(response.status).toBe(500);
+      
+      consoleErrorSpy.mockRestore();
     });
 
     it('should process all required fields', async () => {

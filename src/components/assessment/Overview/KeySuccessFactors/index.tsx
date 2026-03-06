@@ -41,8 +41,6 @@ const KeySuccessFactors = ({
       <SectionTitle
         index={2}
         title='Key success factors'
-        onProgressClick={() => {}}
-        onResponsesClick={() => {}}
       />
 
       {keyFatorsData.map((item) => (

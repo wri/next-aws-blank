@@ -1,4 +1,4 @@
-import { CheckIcon } from '@/components/icons'
+import { CheckCircleIcon, PopulatedCheckIcon, NotStartedIcon, InProgressIcon } from '@/components/icons'
 import { Questions } from '@/types/questions.types'
 import { hasRichTextContent } from '@/utils/validation'
 import { Tag } from '@worldresources/wri-design-systems'
@@ -61,11 +61,11 @@ const KeySuccessFactorsTable = ({
                   </Link>
                   <div className='w-full max-w-[130px] flex'>
                     {q.answer.status === AnswerStatus.COMPLETE ? (
-                      <Tag label='Complete' variant='success' />
+                      <Tag label='Complete' variant='success' icon={<CheckCircleIcon />} />
                     ) : q.answer.status === AnswerStatus.IN_PROGRESS ? (
-                      <Tag label='In progress' variant='info-white' />
+                      <Tag label='In progress' variant='warning' icon={<InProgressIcon />} />
                     ) : (
-                      <Tag label='Not started' variant='info-grey' />
+                      <Tag label='Not started' variant='info-grey' icon={<NotStartedIcon />} />
                     )}
                   </div>
                   <div className='w-full max-w-[130px]'>
@@ -73,7 +73,7 @@ const KeySuccessFactorsTable = ({
                   </div>
                   <div className='w-full max-w-[130px] h-6 flex items-center'>
                     {hasRichTextContent(q.answer.rationale) ? (
-                      <CheckIcon className='text-success-900 h-6 w-6' />
+                      <PopulatedCheckIcon className='h-6 w-6' />
                     ) : (
                       <div className='bg-neutral-600 h-[3px] w-6' />
                     )}
