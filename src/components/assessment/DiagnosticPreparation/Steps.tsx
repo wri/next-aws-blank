@@ -4,6 +4,7 @@ import clsx from 'clsx'
 import Link from 'next/link'
 
 export type StepProps = {
+  id: string
   title: string
   section: string
   guidance: {
@@ -15,7 +16,7 @@ export type StepProps = {
 
 type StepsProps = {
   steps: StepProps[]
-  activeStep: number
+  activeStep: string
   assessmentId: string
 }
 
@@ -23,27 +24,32 @@ const DiagnosticPreparationStep = ({
   stepIdx,
   step,
   activeStep,
+  activeStepIdx,
   assessmentId,
 }: {
   stepIdx: number
   step: StepProps
-  activeStep: number
+  activeStep: string
+  activeStepIdx: number
   assessmentId: string
 }) => {
+  const isActive = activeStep === step.id
+  const isPast = stepIdx < activeStepIdx
+
   return (
     <div
       className={clsx(
         'py-3 px-[10px]',
-        activeStep === stepIdx + 1 && 'bg-secondary-100',
-        stepIdx + 1 < activeStep && 'cursor-pointer hover:bg-secondary-100',
+        isActive && 'bg-secondary-100',
+        isPast && 'cursor-pointer hover:bg-secondary-100',
       )}
     >
-      {stepIdx + 1 < activeStep ? (
+      {isPast ? (
         <Link
-          href={`/assessment/${assessmentId}/preparation/${stepIdx + 1}`}
+          href={`/assessment/${assessmentId}/preparation/${step.id}`}
           className={clsx(
             'text-neutral-800 flex items-center gap-2',
-            activeStep === stepIdx + 1 ? 'font-bold' : '',
+            isActive ? 'font-bold' : '',
           )}
         >
           <div className='flex items-center justify-center pt-0.5 bg-secondary-200 w-4 h-4 text-sm font-bold text-secondary-700 rounded-sm'>
@@ -55,7 +61,7 @@ const DiagnosticPreparationStep = ({
         <div
           className={clsx(
             'text-neutral-800 flex items-center gap-2',
-            activeStep === stepIdx + 1 ? 'font-bold' : '',
+            isActive ? 'font-bold' : '',
           )}
         >
           <div className='flex items-center justify-center pt-0.5 bg-secondary-200 w-4 h-4 text-sm font-bold text-secondary-700 rounded-sm'>
@@ -70,6 +76,8 @@ const DiagnosticPreparationStep = ({
 
 const Steps = ({ steps, activeStep, assessmentId }: StepsProps) => {
   const totalSteps = steps.length
+  const activeStepIdx = steps.findIndex((s) => s.id === activeStep)
+  const activeStepNumber = activeStepIdx >= 0 ? activeStepIdx + 1 : 1
 
   return (
     <div className=''>
@@ -84,10 +92,10 @@ const Steps = ({ steps, activeStep, assessmentId }: StepsProps) => {
 
           <div className='flex items-center gap-2'>
             <span className='text-sm text-neutral-700'>
-              {activeStep}/{totalSteps}
+              {activeStepNumber}/{totalSteps}
             </span>
             <div className='w-full rounded-full'>
-              <ProgressBar progress={(activeStep / totalSteps) * 100} />
+              <ProgressBar progress={(activeStepNumber / totalSteps) * 100} />
             </div>
           </div>
         </div>
@@ -105,6 +113,7 @@ const Steps = ({ steps, activeStep, assessmentId }: StepsProps) => {
                   stepIdx={steps.indexOf(step)}
                   step={step}
                   activeStep={activeStep}
+                  activeStepIdx={activeStepIdx}
                   assessmentId={assessmentId}
                 />
               ))}
@@ -124,6 +133,7 @@ const Steps = ({ steps, activeStep, assessmentId }: StepsProps) => {
                   stepIdx={steps.indexOf(step)}
                   step={step}
                   activeStep={activeStep}
+                  activeStepIdx={activeStepIdx}
                   assessmentId={assessmentId}
                 />
               ))}

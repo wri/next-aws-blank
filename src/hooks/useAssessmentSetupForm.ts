@@ -56,21 +56,19 @@ export const assessmentFormRules = {
   },
   organization: {},
   role: {},
-  country: {
-    required: 'Country is required',
-  },
+  country: {},
   subRegion: {
     required: 'Sub-region is required',
   },
   geographyType: {
-    required: 'Target scale is required',
+    required: 'Please add target scale',
   },
   scope: {
     required: 'Scope is required',
   },
   ecosystems: {
     validate: (val: string[]) =>
-      val.length > 0 || 'Select at least one ecosystem type',
+      val.length > 0 || 'Select at least one (1) ecosystem type',
   },
   terms: {
     validate: (val: boolean) =>

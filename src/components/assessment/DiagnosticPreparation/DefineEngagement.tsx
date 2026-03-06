@@ -1,3 +1,5 @@
+'use client'
+
 import {
   ChevronDownIcon,
   ChevronLeftIcon,
@@ -11,6 +13,7 @@ import { ChakraRichTextEditor } from '../ChakraRichTextEditor'
 import { Collapsible } from '@chakra-ui/react'
 import { useEffect, useState } from 'react'
 import Loader from '@/components/ui/Loader'
+import { PREPARATION_STEPS } from './utils'
 
 const suggestedApproaches = [
   {
@@ -55,7 +58,8 @@ const DefineEngagement = () => {
   const [engagementStrategy, setEngagementStrategy] = useState('')
 
   const assessmentId = params.id as string
-  const activeStep = Number.isNaN(params.step) ? 3 : Number(params.step)
+  const activeStep =
+    (params.step as string) || PREPARATION_STEPS.DEFINE_ENGAGEMENT
 
   const getAssessmentData = async () => {
     setIsLoading(true)
@@ -97,7 +101,9 @@ const DefineEngagement = () => {
     const jsonResult = await result.json()
 
     if (jsonResult.success) {
-      router.push(`/assessment/${assessmentId}/preparation/${activeStep + 1}`)
+      router.push(
+        `/assessment/${assessmentId}/preparation/${PREPARATION_STEPS.GATHER_MATERIALS}`,
+      )
     }
 
     setIsSubmitting(false)
@@ -115,7 +121,7 @@ const DefineEngagement = () => {
         leftIcon={<ChevronLeftIcon className='w-3 h-3' />}
         onClick={() =>
           router.push(
-            `/assessment/${assessmentId}/preparation/${activeStep - 1}`,
+            `/assessment/${assessmentId}/preparation/${PREPARATION_STEPS.RESTORATION_GOALS}`,
           )
         }
       >
@@ -186,11 +192,9 @@ const DefineEngagement = () => {
         </Button>
         <Button
           variant='borderless'
-          onClick={() =>
-            router.push(
-              `/assessment/${assessmentId}/preparation/${activeStep + 1}`,
-            )
-          }
+          onClick={onSubmit}
+          disabled={isSubmitting}
+          loading={isSubmitting}
         >
           Skip
         </Button>

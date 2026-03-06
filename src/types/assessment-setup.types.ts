@@ -13,7 +13,7 @@ export interface AssessmentSetupFormData {
   email: string;
   organization: string;
   role: string;
-  country: string;
+  country?: string;
   countries?: string;
   subRegion: string;
   geographyType: TargetGeographyType;

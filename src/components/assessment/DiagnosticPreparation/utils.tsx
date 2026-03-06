@@ -4,8 +4,18 @@ import RestorationGoals from './RestorationGoals'
 import DefineEngagement from './DefineEngagement'
 import GatherMaterials from './GatherMaterials'
 
+export const PREPARATION_STEPS = {
+  TARGET_GEOGRAPHY: 'target-geography',
+  TIME_HORIZON: 'time-horizon',
+  RESTORATION_GOALS: 'restoration-goals',
+  DEFINE_ENGAGEMENT: 'define-engagement',
+  GATHER_MATERIALS: 'gather-materials',
+  COMPLETE: 'complete',
+}
+
 export const steps = [
   {
+    id: PREPARATION_STEPS.TARGET_GEOGRAPHY,
     title: 'Target geography',
     section: 'scope',
     guidance: [
@@ -23,6 +33,7 @@ export const steps = [
     component: <TargetGeography />,
   },
   {
+    id: PREPARATION_STEPS.TIME_HORIZON,
     title: 'Time horizon',
     section: 'scope',
     guidance: [
@@ -40,6 +51,7 @@ export const steps = [
     component: <TimeHorizon />,
   },
   {
+    id: PREPARATION_STEPS.RESTORATION_GOALS,
     title: 'Restoration goals',
     section: 'scope',
     guidance: [
@@ -57,6 +69,7 @@ export const steps = [
     component: <RestorationGoals />,
   },
   {
+    id: PREPARATION_STEPS.DEFINE_ENGAGEMENT,
     title: 'Define engagement',
     section: 'approach',
     guidance: [
@@ -86,6 +99,7 @@ export const steps = [
     component: <DefineEngagement />,
   },
   {
+    id: PREPARATION_STEPS.GATHER_MATERIALS,
     title: 'Gather materials',
     section: 'approach',
     guidance: [

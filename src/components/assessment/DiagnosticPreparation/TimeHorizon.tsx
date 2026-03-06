@@ -1,8 +1,11 @@
+'use client'
+
 import { ChevronLeftIcon } from '@/components/icons'
 import Loader from '@/components/ui/Loader'
 import { Button, TextInput } from '@worldresources/wri-design-systems'
 import { useParams, useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
+import { PREPARATION_STEPS } from './utils'
 
 const TimeHorizon = () => {
   const params = useParams()
@@ -12,7 +15,7 @@ const TimeHorizon = () => {
   const [timeHorizon, setTimeHorizon] = useState('')
 
   const assessmentId = params.id as string
-  const activeStep = Number.isNaN(params.step) ? 2 : Number(params.step)
+  const activeStep = (params.step as string) || PREPARATION_STEPS.TIME_HORIZON
 
   const getAssessmentData = async () => {
     setIsLoading(true)
@@ -58,7 +61,9 @@ const TimeHorizon = () => {
     const result = await response.json()
 
     if (result.success) {
-      router.push(`/assessment/${assessmentId}/preparation/${activeStep + 1}`)
+      router.push(
+        `/assessment/${assessmentId}/preparation/${PREPARATION_STEPS.RESTORATION_GOALS}`,
+      )
     }
 
     setIsSubmitting(false)
@@ -76,7 +81,7 @@ const TimeHorizon = () => {
         leftIcon={<ChevronLeftIcon className='w-3 h-3' />}
         onClick={() =>
           router.push(
-            `/assessment/${assessmentId}/preparation/${activeStep - 1}`,
+            `/assessment/${assessmentId}/preparation/${PREPARATION_STEPS.TARGET_GEOGRAPHY}`,
           )
         }
       >
@@ -111,11 +116,7 @@ const TimeHorizon = () => {
         </Button>
         <Button
           variant='borderless'
-          onClick={() =>
-            router.push(
-              `/assessment/${assessmentId}/preparation/${activeStep + 1}`,
-            )
-          }
+          onClick={onSubmit}
           disabled={isSubmitting}
           loading={isSubmitting}
         >

@@ -1,3 +1,5 @@
+'use client'
+
 import Loader from '@/components/ui/Loader'
 import { COUNTRIES, TARGET_GEOGRAPHY_TYPE_OPTIONS } from '@/constants'
 import { assessmentFormRules } from '@/hooks/useAssessmentSetupForm'
@@ -8,6 +10,7 @@ import {
   CheckboxList,
   InlineMessage,
   Select,
+  Tag,
   TextInput,
 } from '@worldresources/wri-design-systems'
 import { useParams, useRouter } from 'next/navigation'
@@ -17,7 +20,9 @@ import {
   freshwaterEcosystems,
   marineEcosystems,
   terrestrialEcosystems,
+  PREPARATION_STEPS,
 } from './utils'
+import Link from 'next/link'
 
 type AssessmentData = {
   geographyType: TargetGeographyType
@@ -68,7 +73,8 @@ const TargetGeography = () => {
   const [isLoading, setIsLoading] = useState(true)
 
   const assessmentId = params.id as string
-  const activeStep = Number.isNaN(params.step) ? 1 : Number(params.step)
+  const activeStep =
+    (params.step as string) || PREPARATION_STEPS.TARGET_GEOGRAPHY
 
   const getAssessmentData = async () => {
     setIsLoading(true)
@@ -96,6 +102,8 @@ const TargetGeography = () => {
     register,
     handleSubmit,
     control,
+    watch,
+    setValue,
     formState: { errors },
   } = useForm<TargetGeographyFormData>({
     defaultValues: {
@@ -119,6 +127,14 @@ const TargetGeography = () => {
     mode: 'onBlur',
     reValidateMode: 'onChange',
   })
+
+  const formValues = watch()
+  const selectedEcosystems = formValues.ecosystems || []
+  const allEcosystemOptions = [
+    ...terrestrialEcosystems,
+    ...freshwaterEcosystems,
+    ...marineEcosystems,
+  ]
 
   const onSubmit = async (data: TargetGeographyFormData) => {
     setIsSubmitting(true)
@@ -146,15 +162,20 @@ const TargetGeography = () => {
     if (result.success) {
       setAssessmentData(result.data)
 
-      router.push(`/assessment/${assessmentId}/preparation/${activeStep + 1}`)
+      router.push(
+        `/assessment/${assessmentId}/preparation/${PREPARATION_STEPS.TIME_HORIZON}`,
+      )
     }
   }
 
   const getErrorList = () => {
     const errorMessages: string[] = []
-    Object.entries(errors).forEach(([, error]) => {
-      if (error?.message) {
-        errorMessages.push(`• ${error.message}`)
+    Object.entries(errors).forEach(([key, error]) => {
+      if (key === 'ecosystems' && error?.message) {
+        errorMessages.push('• Capture ecosystem types is mandatory')
+      }
+      if (key === 'geographyType' && error?.message) {
+        errorMessages.push('• Target scale is mandatory')
       }
     })
 
@@ -177,11 +198,9 @@ const TargetGeography = () => {
         will be applied. This may be a country, sub-national administrative
         area, municipality, watershed, biome, or ecological region.
       </p>
-
       <p className='text-neutral-900 text-xl mb-3 font-bold'>
         Define the geographic area
       </p>
-
       <div className='w-96 mb-10'>
         {/* replaces Geography type */}
         <Controller
@@ -237,7 +256,6 @@ const TargetGeography = () => {
         <Controller
           name='country'
           control={control}
-          rules={assessmentFormRules.country}
           render={({ field }) => (
             <Select
               label='Country'
@@ -247,9 +265,7 @@ const TargetGeography = () => {
                 value: country,
                 label: country,
               }))}
-              required
               onChange={(values) => field.onChange(values[0] || '')}
-              errorMessage={errors.country?.message}
             />
           )}
         />
@@ -265,14 +281,61 @@ const TargetGeography = () => {
           defaultValue={assessmentData.gisUrl}
         />
       </div>
-
       <p className='text-neutral-900 text-xl mb-1.5 font-bold'>
         Capture ecosystem types
       </p>
-      <p className='text-neutral-900 mb-3'>
+      <p className='text-neutral-900 mb-0.5'>
         <span className='text-error-500'>*</span> Select all ecosystems being
         restored
       </p>
+      <p className='text-neutral-700 text-sm mb-3'>
+        <span>
+          Ecosystems types based on the{' '}
+          <Link
+            href='https://portals.iucn.org/library/sites/library/files/documents/2020-037-En.pdf'
+            target='_blank'
+            rel='noopener noreferrer'
+            className='underline decoration-dotted'
+          >
+            IUCN Global Ecosystem Typology 2.0
+          </Link>
+          ,{' '}
+          <Link
+            href='https://global-ecosystems.org/'
+            target='_blank'
+            rel='noopener noreferrer'
+            className='underline decoration-dotted'
+          >
+            Global Ecosystem
+          </Link>
+          .
+        </span>
+      </p>
+
+      <div className='mb-4 flex gap-2 items-center flex-wrap'>
+        {selectedEcosystems.map((item) => (
+          <Tag
+            key={item}
+            label={
+              allEcosystemOptions.find((option) => option.value === item)
+                ?.children ?? item
+            }
+            variant='info-grey'
+            onClose={() => {
+              setValue(
+                'ecosystems',
+                selectedEcosystems.filter((value) => value !== item),
+                {
+                  shouldDirty: true,
+                  shouldValidate: true,
+                },
+              )
+            }}
+            closable
+          />
+        ))}
+      </div>
+
       <Controller
         name='ecosystems'
         control={control}
@@ -280,7 +343,10 @@ const TargetGeography = () => {
         render={({ field }) => (
           <div className='flex flex-col gap-4 w-80'>
             <CheckboxList
-              checkboxes={terrestrialEcosystems}
+              checkboxes={terrestrialEcosystems.map((option) => ({
+                ...option,
+                checked: selectedEcosystems.includes(option.value),
+              }))}
               label={{
                 label: 'Terrestrial',
                 name: 'all',
@@ -304,7 +370,10 @@ const TargetGeography = () => {
               required
             />
             <CheckboxList
-              checkboxes={freshwaterEcosystems}
+              checkboxes={freshwaterEcosystems.map((option) => ({
+                ...option,
+                checked: selectedEcosystems.includes(option.value),
+              }))}
               label={{
                 label: 'Freshwater',
                 name: 'all',
@@ -328,7 +397,10 @@ const TargetGeography = () => {
               required
             />
             <CheckboxList
-              checkboxes={marineEcosystems}
+              checkboxes={marineEcosystems.map((option) => ({
+                ...option,
+                checked: selectedEcosystems.includes(option.value),
+              }))}
               label={{
                 label: 'Marine',
                 name: 'all',
@@ -354,7 +426,6 @@ const TargetGeography = () => {
           </div>
         )}
       />
-
       {errorsLength > 0 ? (
         <div className='mt-10'>
           <InlineMessage
@@ -371,7 +442,6 @@ const TargetGeography = () => {
           />
         </div>
       ) : null}
-
       <Button
         className='mt-10'
         type='submit'

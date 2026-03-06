@@ -1,9 +1,12 @@
+'use client'
+
 import { ChevronLeftIcon } from '@/components/icons'
 import { Button } from '@worldresources/wri-design-systems'
 import { useParams, useRouter } from 'next/navigation'
 import { ChakraRichTextEditor } from '../ChakraRichTextEditor'
 import { useEffect, useState } from 'react'
 import Loader from '@/components/ui/Loader'
+import { PREPARATION_STEPS } from './utils'
 
 const RestorationGoals = () => {
   const params = useParams()
@@ -13,7 +16,8 @@ const RestorationGoals = () => {
   const [restorationGoals, setRestorationGoals] = useState('')
 
   const assessmentId = params.id as string
-  const activeStep = Number.isNaN(params.step) ? 3 : Number(params.step)
+  const activeStep =
+    (params.step as string) || PREPARATION_STEPS.RESTORATION_GOALS
 
   const getAssessmentData = async () => {
     setIsLoading(true)
@@ -55,7 +59,9 @@ const RestorationGoals = () => {
     const jsonResult = await result.json()
 
     if (jsonResult.success) {
-      router.push(`/assessment/${assessmentId}/preparation/${activeStep + 1}`)
+      router.push(
+        `/assessment/${assessmentId}/preparation/${PREPARATION_STEPS.DEFINE_ENGAGEMENT}`,
+      )
     }
 
     setIsSubmitting(false)
@@ -73,7 +79,7 @@ const RestorationGoals = () => {
         leftIcon={<ChevronLeftIcon className='w-3 h-3' />}
         onClick={() =>
           router.push(
-            `/assessment/${assessmentId}/preparation/${activeStep - 1}`,
+            `/assessment/${assessmentId}/preparation/${PREPARATION_STEPS.TIME_HORIZON}`,
           )
         }
       >
@@ -113,11 +119,7 @@ const RestorationGoals = () => {
         </Button>
         <Button
           variant='borderless'
-          onClick={() =>
-            router.push(
-              `/assessment/${assessmentId}/preparation/${activeStep + 1}`,
-            )
-          }
+          onClick={onSubmit}
           disabled={isSubmitting}
           loading={isSubmitting}
         >

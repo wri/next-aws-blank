@@ -1,11 +1,12 @@
 import Scope from '@/components/assessment/Overview/Scope'
 import KeySuccessFactors from '@/components/assessment/Overview/KeySuccessFactors'
 import StrategicPlan from '@/components/assessment/Overview/StrategicPlan'
-import { notFound } from 'next/navigation'
+import { notFound, redirect } from 'next/navigation'
 import { cookies } from 'next/headers'
 import { validateSessionCookie } from '@/utils/session'
 import { PasswordPrompt } from '@/components/assessment/PasswordPrompt'
 import FromPreparationModal from '@/components/assessment/Overview/FromPreparationModal'
+import { PREPARATION_STEPS } from '@/components/assessment/DiagnosticPreparation/utils'
 
 export default async function AssessmentPage({
   params,
@@ -44,6 +45,13 @@ export default async function AssessmentPage({
   const assessment = await getAssessmentById(id)
   if (!assessment) {
     return notFound()
+  }
+
+  // COMPLETE is the last step of the preparation
+  if (assessment.preparationStep !== PREPARATION_STEPS.COMPLETE) {
+    return redirect(
+      `/assessment/${id}/preparation/${assessment.preparationStep}`,
+    )
   }
 
   const questionsAnswersData = await getQuestionsWithAnswers(assessment.id)
