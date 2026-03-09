@@ -35,7 +35,7 @@ export default async function ThemeQuestionPage({ params, searchParams }: PagePr
   const { initializeDatabase } = await import('@/db/data-source')
   await initializeDatabase()
   
-  const { getAssessmentById, getQuestionsByTheme, getQuestionsWithAnswers } = await import('@/db/queries/assessment-queries')
+  const { getAssessmentById, getQuestionsByTheme, getQuestionsWithAnswers, getContributorsByAssessment, getContributorsForAllAnswers } = await import('@/db/queries/assessment-queries')
   
   // Fetch data
   const assessment = await getAssessmentById(assessmentId)
@@ -45,6 +45,10 @@ export default async function ThemeQuestionPage({ params, searchParams }: PagePr
   
   const questions = await getQuestionsByTheme(assessment.diagnosticId, theme)
   const answersData = await getQuestionsWithAnswers(assessmentId)
+  
+  // Fetch contributors
+  const allContributors = await getContributorsByAssessment(assessmentId)
+  const contributorsByAnswer = await getContributorsForAllAnswers(assessmentId)
 
   // TODO: Implement language switching
   const language = 'en'
@@ -119,6 +123,23 @@ export default async function ThemeQuestionPage({ params, searchParams }: PagePr
   const prevTheme = canGoPrev ? THEME_ORDER[themeIndex - 1].toLowerCase() : null
   const nextTheme = canGoNext ? THEME_ORDER[themeIndex + 1].toLowerCase() : null
   
+  // Serialize contributors
+  const plainContributors = allContributors.map(c => ({
+    id: c.id,
+    name: c.name,
+    assessmentId: c.assessmentId,
+    createdAt: c.createdAt
+  }))
+  
+  // Serialize contributor associations (answerId → contributor IDs)
+  const initialContributorsByAnswer: Array<[string, string[]]> = []
+  contributorsByAnswer.forEach((contributors, answerId) => {
+    initialContributorsByAnswer.push([
+      answerId,
+      contributors.map(c => c.id)
+    ])
+  })
+  
   return (
     <ThemePageLayout
       assessmentId={assessmentId}
@@ -133,6 +154,8 @@ export default async function ThemeQuestionPage({ params, searchParams }: PagePr
       prevTheme={prevTheme}
       nextTheme={nextTheme}
       allowDataSharing={assessment.allowDataSharing}
+      allContributors={plainContributors}
+      initialContributorsByAnswer={initialContributorsByAnswer}
     />
   )
 }

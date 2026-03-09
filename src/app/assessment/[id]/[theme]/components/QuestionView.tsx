@@ -9,7 +9,7 @@ import { useAutoSave, type AutoSaveStatus } from '@/hooks/useAutoSave'
 import { CheckIcon, ChevronLeftIcon as ChevronLeft, ChevronRightIcon, GoBackIcon } from '@/components/icons'
 import { ProgressNotSavedModal } from '@/components/assessment/ProgressNotSavedModal'
 import { type AnswerValue } from '@/db/entities/Answer.entity'
-import type { PlainQuestion, PlainAnswer } from './ThemePageLayout'
+import type { PlainQuestion, PlainAnswer, PlainContributor } from './ThemePageLayout'
 import { Button, InlineMessage, Modal, Tag } from '@worldresources/wri-design-systems'
 import { Box } from '@chakra-ui/react'
 import { FactorPaginationContainer } from '@/components/assessment/FactorPaginationContainer'
@@ -27,6 +27,8 @@ interface QuestionViewProps {
   prevTheme: string | null
   nextTheme: string | null
   allowDataSharing: boolean
+  allContributors: PlainContributor[]
+  initialContributorsByAnswer: Array<[string, string[]]>
   onSaveStatusChange?: (status: AutoSaveStatus) => void
 }
 
@@ -41,6 +43,8 @@ export function QuestionView({
   prevTheme,
   nextTheme,
   allowDataSharing,
+  allContributors: initialAllContributors,
+  initialContributorsByAnswer,
   onSaveStatusChange,
 }: QuestionViewProps) {
   const router = useRouter()
@@ -48,6 +52,12 @@ export function QuestionView({
   // Reconstruct Map from serialized array (Maps cannot be passed from Server to Client Components)
   const [answersCache, setAnswersCache] = useState(() => 
     new Map<string, PlainAnswer>(initialAnswers)
+  )
+  
+  // Contributor state
+  const [allContributors, setAllContributors] = useState<PlainContributor[]>(initialAllContributors)
+  const [contributorsByAnswer, setContributorsByAnswer] = useState(() =>
+    new Map<string, string[]>(initialContributorsByAnswer)
   )
   
   // Current question state
@@ -66,6 +76,146 @@ export function QuestionView({
   )
   const [showCompleteWarning, setShowCompleteWarning] = useState(false)
   const [showProgressNotSavedModal, setShowProgressNotSavedModal] = useState(false)
+  
+  const currentContributorIds = contributorsByAnswer.get(currentAnswer?.id || '') || []
+  
+  // Handler: Create contributor (optimistic)
+  const handleContributorCreate = useCallback(async (name: string) => {
+    // Generate temporary ID for optimistic update
+    const tempId = crypto.randomUUID()
+    const tempContributor: PlainContributor = {
+      id: tempId,
+      name,
+      assessmentId,
+      createdAt: new Date().toISOString()
+    }
+    
+    // Optimistically add to pool
+    setAllContributors(prev => [...prev, tempContributor].sort((a, b) => 
+      a.name.localeCompare(b.name)
+    ))
+    
+    // Optimistically add to current answer's contributors
+    if (currentAnswer?.id) {
+      setContributorsByAnswer(prev => {
+        const updated = new Map(prev)
+        const current = prev.get(currentAnswer.id) || []
+        updated.set(currentAnswer.id, [...current, tempId])
+        return updated
+      })
+    }
+    
+    // Fire API request in background
+    try {
+      const response = await fetch(`/api/assessments/${assessmentId}/contributors`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name })
+      })
+      
+      if (!response.ok) {
+        throw new Error('Failed to create contributor')
+      }
+      
+      const { contributor } = await response.json()
+      
+      // Replace temp ID with real ID in allContributors
+      setAllContributors(prev => prev.map(c => 
+        c.id === tempId ? contributor : c
+      ))
+      
+      // Replace temp ID with real ID in contributorsByAnswer
+      setContributorsByAnswer(prev => {
+        const updated = new Map(prev)
+        prev.forEach((contributorIds, answerId) => {
+          updated.set(
+            answerId,
+            contributorIds.map(id => id === tempId ? contributor.id : id)
+          )
+        })
+        return updated
+      })
+      
+      // Now fire the association PUT request with the real ID
+      if (currentAnswer?.id) {
+        const contributorIds = [...(contributorsByAnswer.get(currentAnswer.id) || [])]
+          .map(id => id === tempId ? contributor.id : id)
+        
+        const associationResponse = await fetch(
+          `/api/assessments/${assessmentId}/answers/${currentAnswer.id}/contributors`,
+          {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ contributorIds })
+          }
+        )
+        
+        if (!associationResponse.ok) {
+          throw new Error('Failed to associate contributor')
+        }
+      }
+      
+      contributorErrorRef.current = false
+    } catch (error) {
+      console.error('Failed to create contributor:', error)
+      contributorErrorRef.current = true
+      
+      // Revert optimistic update - remove temp contributor
+      setAllContributors(prev => prev.filter(c => c.id !== tempId))
+      
+      // Remove temp ID from contributorsByAnswer
+      setContributorsByAnswer(prev => {
+        const updated = new Map(prev)
+        prev.forEach((contributorIds, answerId) => {
+          updated.set(
+            answerId,
+            contributorIds.filter(id => id !== tempId)
+          )
+        })
+        return updated
+      })
+    }
+    
+    // Return temp contributor immediately for UI feedback
+    return tempContributor
+  }, [assessmentId, currentAnswer, contributorsByAnswer])
+  
+  // Handler: Update contributors for answer
+  const handleContributorsChange = useCallback(async (contributorIds: string[]) => {
+    if (!currentAnswer?.id) return
+    
+    // Optimistic update
+    setContributorsByAnswer(prev => {
+      const updated = new Map(prev)
+      updated.set(currentAnswer.id, contributorIds)
+      return updated
+    })
+    
+    // Save to API
+    try {
+      const response = await fetch(
+        `/api/assessments/${assessmentId}/answers/${currentAnswer.id}/contributors`,
+        {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ contributorIds })
+        }
+      )
+      
+      if (!response.ok) {
+        throw new Error('Failed to save contributors')
+      }
+    } catch (error) {
+      console.error('Failed to save contributors:', error)
+      // Revert optimistic update
+      setContributorsByAnswer(prev => {
+        const updated = new Map(prev)
+        const current = contributorsByAnswer.get(currentAnswer.id) || []
+        updated.set(currentAnswer.id, current)
+        return updated
+      })
+    }
+  }, [assessmentId, currentAnswer, contributorsByAnswer])
   
   // Auto-save function
   const saveAnswer = useCallback(async (data: {
@@ -103,6 +253,8 @@ export function QuestionView({
   
   // Ref to track current save status synchronously (for navigation guards)
   const saveStatusRef = useRef<AutoSaveStatus>('idle')
+  // Track contributor creation errors separately
+  const contributorErrorRef = useRef<boolean>(false)
   // Stores a deferred navigation callback when user tries to leave while saving
   const pendingNavigationRef = useRef<(() => void) | null>(null)
   const pendingCompleteGuardNavigationRef = useRef<(() => void) | null>(null)
@@ -111,9 +263,7 @@ export function QuestionView({
   const handleAutoSaveStatusChange = useCallback((status: AutoSaveStatus) => {
     saveStatusRef.current = status
     onSaveStatusChange?.(status)
-    if (status === 'error') {
-      setShowProgressNotSavedModal(true)
-    }
+    // Don't show modal immediately on error - wait for navigation attempt
   }, [onSaveStatusChange])
 
   const { save } = useAutoSave({
@@ -133,9 +283,9 @@ export function QuestionView({
     return () => window.removeEventListener('beforeunload', handleBeforeUnload)
   }, [])
 
-  // Wraps a navigation action: if saving, defers it and shows modal; otherwise executes immediately
+  // Wraps a navigation action: if saving/error, defers it and shows modal; otherwise executes immediately
   const guardedNavigate = useCallback((navigateFn: () => void) => {
-    if (saveStatusRef.current === 'saving') {
+    if (saveStatusRef.current === 'saving' || saveStatusRef.current === 'error' || contributorErrorRef.current) {
       pendingNavigationRef.current = navigateFn
       setShowProgressNotSavedModal(true)
     } else {
@@ -212,6 +362,7 @@ export function QuestionView({
       setRationale(answer?.rationale || '')
       setNotes(answer?.notes || '')
       setIsVisuallyMarkedAsComplete(answer?.status === AnswerStatus.COMPLETE)
+      // Contributors are loaded from state, no need to update here
     }
   }, [questions, answersCache, assessmentId, theme, router])
 
@@ -394,6 +545,12 @@ export function QuestionView({
             onAnswerChange={handleAnswerChange}
             onRationaleChange={handleRationaleChange}
             isVisuallyMarkedAsComplete={isVisuallyMarkedAsComplete}
+            assessmentId={assessmentId}
+            answerId={currentAnswer?.id}
+            contributors={currentContributorIds}
+            allContributors={allContributors}
+            onContributorsChange={handleContributorsChange}
+            onContributorCreate={handleContributorCreate}
           />
 
           {allowMarkAsComplete && !isVisuallyMarkedAsComplete ? (
@@ -492,6 +649,7 @@ export function QuestionView({
         open={showProgressNotSavedModal}
         onCancel={() => {
           setShowProgressNotSavedModal(false)
+          contributorErrorRef.current = false
           pendingNavigationRef.current = null
           // Retry the last save
           save({
@@ -504,6 +662,7 @@ export function QuestionView({
         }}
         onLeavePageAnyway={() => {
           setShowProgressNotSavedModal(false)
+          contributorErrorRef.current = false
           // Execute the deferred navigation if one was pending
           if (pendingNavigationRef.current) {
             pendingNavigationRef.current()

@@ -431,13 +431,7 @@ const TargetGeography = () => {
           <InlineMessage
             variant='error'
             label={`${errorsLength > 1 ? 'There are' : 'There is'} ${errorsLength} error${errorsLength > 1 ? 's' : ''} in the form`}
-            caption={
-              <div>
-                {getErrorList().map((error, index) => (
-                  <p key={index}>{error}</p>
-                ))}
-              </div>
-            }
+            caption={getErrorList().join(' ')}
             size='full-width'
           />
         </div>

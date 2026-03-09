@@ -4,7 +4,8 @@ import { AnswerOptions } from '@/components/assessment/AnswerOptions'
 import { FollowUpQuestions } from '@/components/assessment/FollowUpQuestions'
 import { ChakraRichTextEditor } from '@/components/assessment/ChakraRichTextEditor'
 import type { AnswerValue } from '@/db/entities/Answer.entity'
-import type { PlainQuestion } from './ThemePageLayout'
+import type { PlainQuestion, PlainContributor } from './ThemePageLayout'
+import { ContributorsCombobox } from '@/components/assessment/ContributorsCombobox'
 import AnswerOptionsResponse from '@/components/assessment/AnswerOptionsResponse'
 import { hasRichTextContent } from '@/utils/validation'
 
@@ -15,6 +16,12 @@ interface QuestionContentProps {
   onAnswerChange: (value: AnswerValue) => void
   onRationaleChange: (value: string) => void
   isVisuallyMarkedAsComplete: boolean
+  assessmentId: string
+  answerId: string | undefined
+  contributors: string[]
+  allContributors: PlainContributor[]
+  onContributorsChange: (contributorIds: string[]) => void
+  onContributorCreate: (name: string) => Promise<PlainContributor>
 }
 
 export function QuestionContent({
@@ -24,6 +31,12 @@ export function QuestionContent({
   onAnswerChange,
   onRationaleChange,
   isVisuallyMarkedAsComplete,
+  assessmentId,
+  answerId,
+  contributors,
+  allContributors,
+  onContributorsChange,
+  onContributorCreate,
 }: QuestionContentProps) {
   const hideRationale = selectedAnswer === 'na'
   
@@ -85,6 +98,20 @@ export function QuestionContent({
           />
         </div>
       )}
+      
+      {/* Contributors - Edit mode */}
+      {!hideRationale && !isVisuallyMarkedAsComplete && (
+        <div className="mt-8">
+          <ContributorsCombobox
+            assessmentId={assessmentId}
+            answerId={answerId}
+            selectedContributorIds={contributors}
+            allContributors={allContributors}
+            onContributorsChange={onContributorsChange}
+            onContributorCreate={onContributorCreate}
+          />
+        </div>
+      )}
 
       {isVisuallyMarkedAsComplete && hasRichTextContent(rationale) ? (
         <div>
@@ -95,6 +122,22 @@ export function QuestionContent({
           />
         </div>
       ) : null}
+      
+      {/* Contributors - View-only mode */}
+      {isVisuallyMarkedAsComplete && contributors.length > 0 && (
+        <div className="mt-6">
+          <p className="font-bold text-neutral-900 mb-2">Contributors</p>
+          <ul className="list-disc list-inside space-y-1">
+            {allContributors
+              .filter(c => contributors.includes(c.id))
+              .map(contributor => (
+                <li key={contributor.id} className="text-neutral-800">
+                  {contributor.name}
+                </li>
+              ))}
+          </ul>
+        </div>
+      )}
     </section>
   )
 }

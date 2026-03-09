@@ -38,6 +38,13 @@ export interface PlainAnswer {
   status: AnswerStatus
 }
 
+export interface PlainContributor {
+  id: string
+  name: string
+  assessmentId: string
+  createdAt: Date | string
+}
+
 interface ThemePageLayoutProps {
   assessmentId: string
   theme: 'Motivate' | 'Enable' | 'Implement'
@@ -51,6 +58,8 @@ interface ThemePageLayoutProps {
   prevTheme: string | null
   nextTheme: string | null
   allowDataSharing: boolean
+  allContributors: PlainContributor[]
+  initialContributorsByAnswer: Array<[string, string[]]>
 }
 
 export function ThemePageLayout({
@@ -64,6 +73,8 @@ export function ThemePageLayout({
   prevTheme,
   nextTheme,
   allowDataSharing,
+  allContributors,
+  initialContributorsByAnswer,
 }: ThemePageLayoutProps) {
   const [saveStatus, setSaveStatus] = useState<AutoSaveStatus>('idle')
 
@@ -92,6 +103,8 @@ export function ThemePageLayout({
           prevTheme={prevTheme}
           nextTheme={nextTheme}
           allowDataSharing={allowDataSharing}
+          allContributors={allContributors}
+          initialContributorsByAnswer={initialContributorsByAnswer}
           onSaveStatusChange={handleSaveStatusChange}
         />
       </div>

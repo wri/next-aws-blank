@@ -6,6 +6,8 @@ import { Diagnostic } from './entities/Diagnostic.entity'
 import { Assessment } from './entities/Assessment.entity'
 import { Question } from './entities/Question.entity'
 import { Answer } from './entities/Answer.entity'
+import { Contributor } from './entities/Contributor.entity'
+import { AnswerContributor } from './entities/AnswerContributor.entity'
 
 const DATABASE_URL =
   process.env.DATABASE_URL ||
@@ -24,6 +26,8 @@ const MigrationDataSource = new DataSource({
     Assessment,
     Question,
     Answer,
+    Contributor,
+    AnswerContributor,
   ],
   migrations: ['src/db/migrations/**/*.ts'],
   subscribers: [],
