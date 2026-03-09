@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import { Footer as WriFooter } from '@worldresources/wri-design-systems'
+import { externalLinks } from '@/constants/external-links'
 
 const partnerLogos = [
   <Image 
@@ -18,8 +19,8 @@ const partnerLogos = [
 export const Footer = () => {
   return (
     <WriFooter maxWidth={1440} filled additionalLogos={partnerLogos}>
-      <Link href={'#'}>Privacy policy</Link>
-      <Link href={'#'}>Terms of service</Link>
+      <Link rel='noopener noreferrer' href={externalLinks.privacy} target="_blank">Privacy policy</Link>
+      <Link rel='noopener noreferrer' href={externalLinks.tos} target='_blank'>Terms of service</Link>
     </WriFooter>
   )
 }

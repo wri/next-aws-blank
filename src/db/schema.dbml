@@ -35,7 +35,7 @@ Table lead {
   id varchar [pk, note: 'UUID v4']
   job_title varchar [null, note: 'Title: Mr/Mrs/Ms/Miss/Dr/Prof']
   name varchar [not null]
-  email varchar [not null, note: 'Lowercase, validated']
+  email varchar [not null, note: 'Lowercase, validated. Not unique - multiple leads can share same email with different org/role']
   organization varchar [null]
   role varchar [null]
   gender varchar [null, note: 'Optional demographic field for reporting']
@@ -45,7 +45,7 @@ Table lead {
   updated_at timestamp [default: `now()`]
   
   Indexes {
-    email [unique]
+    email [name: 'IDX_lead_email', note: 'Non-unique index for performance']
   }
 }
 

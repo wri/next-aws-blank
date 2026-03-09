@@ -255,9 +255,11 @@ describe('POST /api/assessments', () => {
       
       await POST(request);
       
-      expect(mockLeadRepository.findOne).toHaveBeenCalledWith({
-        where: { email: 'john.doe@example.com' }
-      });
+      expect(mockLeadRepository.create).toHaveBeenCalledWith(
+        expect.objectContaining({
+          email: 'john.doe@example.com'
+        })
+      );
     });
 
     it('should trim whitespace from email', async () => {
@@ -268,9 +270,11 @@ describe('POST /api/assessments', () => {
       
       await POST(request);
       
-      expect(mockLeadRepository.findOne).toHaveBeenCalledWith({
-        where: { email: 'john.doe@example.com' }
-      });
+      expect(mockLeadRepository.create).toHaveBeenCalledWith(
+        expect.objectContaining({
+          email: 'john.doe@example.com'
+        })
+      );
     });
 
     it('should reject invalid email format - missing @', async () => {
@@ -357,17 +361,14 @@ describe('POST /api/assessments', () => {
     });
   });
 
-  describe('Lead Creation/Lookup', () => {
-    it('should create new lead if email does not exist', async () => {
-      mockLeadRepository.findOne.mockResolvedValue(null);
-      
+  describe('Lead Creation', () => {
+    it('should always create new lead for each assessment', async () => {
       const request = createMockRequest(validFormData);
       
       await POST(request);
       
-      expect(mockLeadRepository.findOne).toHaveBeenCalledWith({
-        where: { email: 'john.doe@example.com' }
-      });
+      // Should NOT look up existing leads - always create new
+      expect(mockLeadRepository.findOne).not.toHaveBeenCalled();
       
       expect(mockLeadRepository.create).toHaveBeenCalledWith({
         jobTitle: 'Director',
@@ -381,25 +382,9 @@ describe('POST /api/assessments', () => {
       });
       
       expect(mockLeadRepository.save).toHaveBeenCalled();
-    });
-
-    it('should reuse existing lead if email exists', async () => {
-      const existingLead = { ...mockLead, id: 'existing-lead-123', gender: null, ageRange: null, identity: null };
-      mockLeadRepository.findOne.mockResolvedValue(existingLead);
-      
-      const request = createMockRequest(validFormData);
-      
-      await POST(request);
-      
-      expect(mockLeadRepository.findOne).toHaveBeenCalled();
-      expect(mockLeadRepository.create).not.toHaveBeenCalled();
-      // Lead should NOT be saved when no demographic fields are provided
-      expect(mockLeadRepository.save).not.toHaveBeenCalled();
     });
 
     it('should create lead with demographic fields when provided', async () => {
-      mockLeadRepository.findOne.mockResolvedValue(null);
-      
       const formDataWithDemographics = {
         ...validFormData,
         gender: 'female',
@@ -422,88 +407,41 @@ describe('POST /api/assessments', () => {
       });
     });
 
-    it('should update demographic fields on existing lead when provided', async () => {
-      const existingLead = { 
-        ...mockLead, 
-        id: 'existing-lead-123',
-        gender: null,
-        ageRange: null,
-        identity: null
-      };
-      mockLeadRepository.findOne.mockResolvedValue(existingLead);
-      mockLeadRepository.save.mockResolvedValue({ ...existingLead, gender: 'male', ageRange: '35-44', identity: 'local' });
-      
-      const formDataWithDemographics = {
+    it('should create separate leads for same email with different roles', async () => {
+      // First assessment
+      const request1 = createMockRequest({
         ...validFormData,
-        gender: 'male',
-        ageRange: '35-44',
-        identity: 'local'
-      };
-      const request = createMockRequest(formDataWithDemographics);
+        role: 'Researcher'
+      });
       
-      await POST(request);
+      await POST(request1);
       
-      expect(mockLeadRepository.findOne).toHaveBeenCalled();
-      expect(mockLeadRepository.create).not.toHaveBeenCalled();
-      expect(mockLeadRepository.save).toHaveBeenCalled();
+      expect(mockLeadRepository.create).toHaveBeenCalledWith(
+        expect.objectContaining({
+          email: 'john.doe@example.com',
+          role: 'Researcher'
+        })
+      );
       
-      // Verify the lead was updated with demographic fields
-      const saveCall = mockLeadRepository.save.mock.calls[0][0];
-      expect(saveCall.gender).toBe('male');
-      expect(saveCall.ageRange).toBe('35-44');
-      expect(saveCall.identity).toBe('local');
-    });
-
-    it('should not save lead when demographic fields match existing values', async () => {
-      const existingLead = { 
-        ...mockLead, 
-        id: 'existing-lead-123',
-        gender: 'female',
-        ageRange: '25-34',
-        identity: 'indigenous'
-      };
-      mockLeadRepository.findOne.mockResolvedValue(existingLead);
+      // Reset mock for second call
+      mockLeadRepository.create.mockClear();
       
-      const formDataWithSameDemographics = {
+      // Second assessment with same email, different role
+      const request2 = createMockRequest({
         ...validFormData,
-        gender: 'female',
-        ageRange: '25-34',
-        identity: 'indigenous'
-      };
-      const request = createMockRequest(formDataWithSameDemographics);
+        role: 'Coordinator',
+        organization: 'Different Org'
+      });
       
-      await POST(request);
+      await POST(request2);
       
-      expect(mockLeadRepository.findOne).toHaveBeenCalled();
-      expect(mockLeadRepository.create).not.toHaveBeenCalled();
-      // No save should occur since values haven't changed
-      expect(mockLeadRepository.save).not.toHaveBeenCalled();
-    });
-
-    it('should save lead when only some demographic fields change', async () => {
-      const existingLead = { 
-        ...mockLead, 
-        id: 'existing-lead-123',
-        gender: 'female',
-        ageRange: '25-34',
-        identity: 'indigenous'
-      };
-      mockLeadRepository.findOne.mockResolvedValue(existingLead);
-      mockLeadRepository.save.mockResolvedValue({ ...existingLead, ageRange: '35-44' });
-      
-      const formDataWithPartialChange = {
-        ...validFormData,
-        gender: 'female', // unchanged
-        ageRange: '35-44', // changed
-        identity: 'indigenous' // unchanged
-      };
-      const request = createMockRequest(formDataWithPartialChange);
-      
-      await POST(request);
-      
-      expect(mockLeadRepository.save).toHaveBeenCalled();
-      const saveCall = mockLeadRepository.save.mock.calls[0][0];
-      expect(saveCall.ageRange).toBe('35-44');
+      expect(mockLeadRepository.create).toHaveBeenCalledWith(
+        expect.objectContaining({
+          email: 'john.doe@example.com',
+          role: 'Coordinator',
+          organization: 'Different Org'
+        })
+      );
     });
   });
 

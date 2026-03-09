@@ -31,12 +31,9 @@ import type { AssessmentCreatedResponse } from '@/types/api.types'
 import Image from 'next/image'
 import { Box } from '@chakra-ui/react'
 import { useLanguage } from '@/contexts/LanguageContext'
+import { externalLinks } from '@/constants/external-links'
 
-const externalLinks = {
-  offlineDownload: 'https://files.wri.org/d8/s3fs-public/guide-restoration-opportunities-assessment-methodology.pdf',
-  tos: 'https://www.wri.org/about/wri-data-platforms-tos',
-  privacy: 'https://www.wri.org/about/privacy-policy',
-}
+
 
 export default function SetupAssessmentPage() {
   const router = useRouter()
@@ -245,7 +242,12 @@ export default function SetupAssessmentPage() {
                       '& label': {
                         fontSize: 'xl',
                         fontWeight: '600',
-                        color: getThemedColor('neutral', 700)
+                        color: getThemedColor('neutral', 800),
+                        marginBottom: '2'
+                      },
+                      '& span': {
+                        fontSize: 'lg',
+                        color: getThemedColor('neutral', 800)
                       }
                     }}>
                     <TextInput

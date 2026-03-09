@@ -19,7 +19,7 @@ export class Lead {
   @Column({ type: 'varchar' })
   name!: string
 
-  @Column({ type: 'varchar', unique: true })
+  @Column({ type: 'varchar' })
   email!: string
 
   @Column({ type: 'varchar', nullable: true })
