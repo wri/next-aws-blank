@@ -4,19 +4,19 @@ import { Button, Modal } from '@worldresources/wri-design-systems'
 
 interface ProgressNotSavedModalProps {
   open: boolean
-  onCancel: () => void
+  onDismiss: () => void
   onLeavePageAnyway: () => void
 }
 
 export function ProgressNotSavedModal({
   open,
-  onCancel,
+  onDismiss,
   onLeavePageAnyway,
 }: ProgressNotSavedModalProps) {
   return (
     <Modal
       open={open}
-      onClose={onCancel}
+      onClose={onDismiss}
       header={
         <p className='text-neutral-800 font-bold'>Progress not saved</p>
       }
@@ -38,7 +38,7 @@ export function ProgressNotSavedModal({
         <>
           <Button
             label='Cancel'
-            onClick={onCancel}
+            onClick={onDismiss}
           />
           <Button
             label='Continue anyway'

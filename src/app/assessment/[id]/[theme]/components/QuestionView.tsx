@@ -354,7 +354,7 @@ export function QuestionView({
     // Don't show modal immediately on error - wait for navigation attempt
   }, [onSaveStatusChange])
 
-  const { save } = useAutoSave({
+  const { save, clearError } = useAutoSave({
     onSave: saveAnswer,
     debounceMs: 1000,
     onStatusChange: handleAutoSaveStatusChange,
@@ -733,22 +733,25 @@ export function QuestionView({
 
       <ProgressNotSavedModal
         open={showProgressNotSavedModal}
-        onCancel={() => {
+        onDismiss={() => {
           setShowProgressNotSavedModal(false)
           contributorErrorRef.current = false
           pendingNavigationRef.current = null
-          // Retry the last save
+        }}
+        onLeavePageAnyway={() => {
+          setShowProgressNotSavedModal(false)
+          contributorErrorRef.current = false
+          // Clear the error state so future navigations aren't blocked
+          clearError()
+          saveStatusRef.current = 'idle'
+          // Fire-and-forget save attempt (best-effort)
           save({
             questionId: currentQuestion.id,
             value: selectedAnswer,
             rationale,
             notes,
             status: isVisuallyMarkedAsComplete ? AnswerStatus.COMPLETE : AnswerStatus.IN_PROGRESS,
-          }, true)
-        }}
-        onLeavePageAnyway={() => {
-          setShowProgressNotSavedModal(false)
-          contributorErrorRef.current = false
+          }, true).catch(() => { /* best-effort */ })
           // Execute the deferred navigation if one was pending
           if (pendingNavigationRef.current) {
             pendingNavigationRef.current()

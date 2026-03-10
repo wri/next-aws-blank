@@ -35,13 +35,18 @@ export function useAutoSave<T = unknown>({ onSave, debounceMs = 1000, onStatusCh
   }, [state.status, state.error])
   
   const timeoutRef = useRef<NodeJS.Timeout | null>(null)
+  const idleResetTimeoutRef = useRef<NodeJS.Timeout | null>(null)
   const pendingDataRef = useRef<T | null>(null)
   
   const save = useCallback(async (data: T, immediate = false) => {
-    // Clear any pending timeout
+    // Clear any pending timeouts
     if (timeoutRef.current) {
       clearTimeout(timeoutRef.current)
       timeoutRef.current = null
+    }
+    if (idleResetTimeoutRef.current) {
+      clearTimeout(idleResetTimeoutRef.current)
+      idleResetTimeoutRef.current = null
     }
     
     pendingDataRef.current = data
@@ -60,13 +65,14 @@ export function useAutoSave<T = unknown>({ onSave, debounceMs = 1000, onStatusCh
         })
         
         // Reset to idle after 2 seconds
-        setTimeout(() => {
+        idleResetTimeoutRef.current = setTimeout(() => {
           setState(prev => {
             if (prev.status === 'saved') {
               return { ...prev, status: 'idle' }
             }
             return prev
           })
+          idleResetTimeoutRef.current = null
         }, 2000)
       } catch (error) {
         const errorMessage = error instanceof Error ? error.message : 'Failed to save'
@@ -85,14 +91,27 @@ export function useAutoSave<T = unknown>({ onSave, debounceMs = 1000, onStatusCh
     }
   }, [onSave, debounceMs])
   
+  // Clear error state (used when user acknowledges error via "Continue anyway")
+  const clearError = useCallback(() => {
+    setState(prev => {
+      if (prev.status === 'error') {
+        return { ...prev, status: 'idle', error: null }
+      }
+      return prev
+    })
+  }, [])
+
   // Cleanup on unmount
   useEffect(() => {
     return () => {
       if (timeoutRef.current) {
         clearTimeout(timeoutRef.current)
       }
+      if (idleResetTimeoutRef.current) {
+        clearTimeout(idleResetTimeoutRef.current)
+      }
     }
   }, [])
   
-  return { ...state, save }
+  return { ...state, save, clearError }
 }
