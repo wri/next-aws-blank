@@ -87,7 +87,12 @@ export function ThemePageLayout({
       
       {/* Sub-navbar - Custom */}
       <header className="border-b border-slate-200 sticky top-0 bg-white z-40">
-        <SubNavbar saveStatus={saveStatus} />
+        <SubNavbar 
+          saveStatus={saveStatus} 
+          assessmentId={assessmentId}
+          questions={questions}
+          focusQuestionCode={focusQuestionCode}
+        />
       </header>
       
       {/* Main content with gradient background */}

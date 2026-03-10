@@ -1,8 +1,6 @@
 'use client'
 
 import type { AnswerValue } from '@/db/entities/Answer.entity'
-import { Button } from '@worldresources/wri-design-systems';
-import { PlusIcon } from '../icons';
 
 interface FollowUpQuestionsProps {
   followUpQuestions: { 'if yes'?: string[]; 'if no'?: string[] } | null
@@ -34,12 +32,15 @@ export function FollowUpQuestions({ followUpQuestions, selectedAnswer }: FollowU
   
   return (
     <div className="space-y-2">
+      <p className="text-sm text-slate-600">
+        Topics to include
+      </p>
       <ul className="list-disc pl-5 space-y-1 text-sm text-slate-600">
         {questions.map((question, index) => (
           <li key={index}>{question}</li>
         ))}
       </ul>
-      <div>
+      {/* Out of scope: <div>
         <Button 
           variant="secondary"
           size="small"
@@ -47,7 +48,7 @@ export function FollowUpQuestions({ followUpQuestions, selectedAnswer }: FollowU
           style={{ borderRadius: '8px' }}>
           add custom topic
         </Button>
-      </div>
+      </div> */}
     </div>
   )
 }

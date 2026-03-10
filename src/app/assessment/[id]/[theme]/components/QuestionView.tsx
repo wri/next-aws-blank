@@ -6,7 +6,7 @@ import { ThemeNavigation } from './ThemeNavigation'
 import { QuestionContent } from './QuestionContent'
 import { GuidanceSidebar } from './GuidanceSidebar'
 import { useAutoSave, type AutoSaveStatus } from '@/hooks/useAutoSave'
-import { CheckIcon, ChevronLeftIcon as ChevronLeft, ChevronRightIcon, GoBackIcon } from '@/components/icons'
+import { CheckIcon, ChevronLeftIcon as ChevronLeft, ChevronRightIcon, GoBackIcon, CheckCircleIcon, InProgressIcon, NotStartedIcon } from '@/components/icons'
 import { ProgressNotSavedModal } from '@/components/assessment/ProgressNotSavedModal'
 import { type AnswerValue } from '@/db/entities/Answer.entity'
 import type { PlainQuestion, PlainAnswer, PlainContributor } from './ThemePageLayout'
@@ -532,11 +532,6 @@ export function QuestionView({
     }, true)
   }
   
-  // Calculate current question position within theme for Tag display
-  const currentIndex = questions.findIndex(q => q.questionCode === currentQuestionCode)
-  const questionPosition = currentIndex + 1
-  const totalQuestions = questions.length
-  
   const allowMarkAsComplete =
     selectedAnswer !== null && hasRichTextContent(rationale)
 
@@ -581,8 +576,8 @@ export function QuestionView({
       {/* Main Content */}
       <main className="flex-1 pb-20 bg-transparent">
         <div className="max-w-4xl mx-auto pr-8 py-8">
-          {/* Auto-save indicator */}
           <div className="flex items-center justify-between mb-6">
+            {/* Back to overview */}
             <Button
               variant="borderless" 
               className="text-neutral-700"
@@ -596,20 +591,30 @@ export function QuestionView({
             >
               <span className="underline underline-offset-1">Back to overview</span>
             </Button>
-          </div>
-          <div className="flex items-center justify-between mb-6">
-            <Tag
-              label={`Success Factor ${questionPosition} of ${totalQuestions}`}
-              variant="info-white"
-            />
             
-            {isVisuallyMarkedAsComplete ? (
-              <div className='flex items-center gap-2'>
-                <Tag
-                  label='Complete'
-                  variant='success'
-                  icon={<CheckIcon />}
+            {/* Right side: Status indicator + Mark complete/Edit factor button */}
+            <div className="flex items-center gap-3">
+              {/* Status Tag indicator */}
+              {currentAnswer?.status === AnswerStatus.COMPLETE ? (
+                <Tag 
+                  label='Complete' 
+                  variant='success' 
+                  icon={<CheckCircleIcon />} 
                 />
+              ) : currentAnswer?.status === AnswerStatus.IN_PROGRESS ? (
+                <div className="flex items-center gap-2 px-3 py-1">
+                  <InProgressIcon className="w-4 h-4" />
+                  <span className="text-sm text-neutral-700">In progress</span>
+                </div>
+              ) : (
+                <div className="flex items-center gap-2 px-3 py-1">
+                  <NotStartedIcon className="w-4 h-4" />
+                  <span className="text-sm text-neutral-700">Not started</span>
+                </div>
+              )}
+              
+              {/* Mark complete or Edit factor button */}
+              {isVisuallyMarkedAsComplete ? (
                 <Button
                   leftIcon={<GoBackIcon />}
                   variant='borderless'
@@ -617,18 +622,18 @@ export function QuestionView({
                   onClick={() => setIsVisuallyMarkedAsComplete(false)}
                   label='Edit factor'
                 />
-              </div>
-            ) : (
-              <Button
-                leftIcon={<CheckIcon />}
-                variant='primary'
-                size='small'
-                onClick={markAsCompleteHandler}
-                disabled={!allowMarkAsComplete}
-              >
-                Mark complete
-              </Button>
-            )}
+              ) : (
+                <Button
+                  leftIcon={<CheckIcon />}
+                  variant='primary'
+                  size='small'
+                  onClick={markAsCompleteHandler}
+                  disabled={!allowMarkAsComplete}
+                >
+                  Mark complete
+                </Button>
+              )}
+            </div>
           </div>
 
           <QuestionContent

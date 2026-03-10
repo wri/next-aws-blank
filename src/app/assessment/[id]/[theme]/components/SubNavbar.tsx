@@ -1,19 +1,50 @@
 'use client'
 
-import { Button, getThemedColor } from '@worldresources/wri-design-systems'
+import { Button, Breadcrumb, getThemedColor } from '@worldresources/wri-design-systems'
 import { Box } from '@chakra-ui/react'
 import { CheckIcon, ErrorCircleFilledIcon, ShareIcon } from '@/components/icons'
 import type { AutoSaveStatus } from '@/hooks/useAutoSave'
+import type { PlainQuestion } from './ThemePageLayout'
+import Link from 'next/link'
 
 interface SubNavbarProps {
   saveStatus?: AutoSaveStatus
+  assessmentId: string
+  questions: PlainQuestion[]
+  focusQuestionCode: string
 }
 
-export function SubNavbar({ saveStatus = 'idle' }: SubNavbarProps) {
+export function SubNavbar({ 
+  saveStatus = 'idle', 
+  assessmentId, 
+  questions, 
+  focusQuestionCode 
+}: SubNavbarProps) {
+  // Find current question
+  const currentQuestion = questions.find(q => q.questionCode === focusQuestionCode)
+  
+  // Build breadcrumb links
+  const breadcrumbLinks = [
+    { label: 'Overview', link: `/assessment/${assessmentId}` },
+  ]
+  
+  // Add current question if it exists
+  if (currentQuestion) {
+    // Use empty string for current page (no link needed as it's the active page)
+    breadcrumbLinks.push({ 
+      label: currentQuestion.minimalKeySuccessFactor,
+      link: '' 
+    })
+  }
+  
   return (
     <div className="mx-auto py-2 px-4 flex items-center h-[44px] justify-between border-t-2 border-slate-100 shadow-sm">
       <div className="flex items-center gap-3">
-        <h2 className="text-md text-grey-700">Overview</h2>
+        <Breadcrumb 
+          links={breadcrumbLinks}
+          linkRouter={Link}
+          size="default"
+        />
       </div>
 
       <div className="flex items-center gap-0">
