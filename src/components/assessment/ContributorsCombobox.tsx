@@ -12,8 +12,6 @@ export interface PlainContributor {
 }
 
 interface ContributorsComboboxProps {
-  assessmentId: string
-  answerId: string | undefined
   selectedContributorIds: string[]
   allContributors: PlainContributor[]
   onContributorsChange: (contributorIds: string[]) => void
@@ -22,7 +20,6 @@ interface ContributorsComboboxProps {
 }
 
 export function ContributorsCombobox({
-  answerId,
   selectedContributorIds,
   allContributors,
   onContributorsChange,
@@ -94,14 +91,15 @@ export function ContributorsCombobox({
     }
   }
   
-  const handleValueChange = async (details: { value: string[] }) => {
+  const handleValueChange = (details: { value: string[] }) => {
     // Check if CREATE_NEW was selected
     if (details.value.includes('CREATE_NEW')) {
-      await handleCreate()
+      handleCreate() // Fire async, creates and auto-selects in parent
+      // Don't call onContributorsChange - the create handler already updates selection
       return
     }
     
-    // Normal selection
+    // Normal selection - parent now handles answer creation if needed
     onContributorsChange(details.value)
   }
   
@@ -123,12 +121,13 @@ export function ContributorsCombobox({
       <Combobox.Root
         multiple
         closeOnSelect={false}
+        openOnClick
         inputValue={inputValue}
         value={selectedContributorIds}
         collection={collection}
         onValueChange={handleValueChange}
         onInputValueChange={handleInputValueChange}
-        disabled={disabled || !answerId}
+        disabled={disabled}
       >
         <Combobox.Control>
           <Combobox.Input
@@ -199,28 +198,31 @@ export function ContributorsCombobox({
                   )
                 })}
               </Combobox.ItemGroup>
-              <Combobox.Empty
-                css={{
-                  padding: '8px 12px',
-                  fontSize: '14px',
-                  color: 'slate.500',
-                }}
-              >
-                No contributors found
-              </Combobox.Empty>
+              {inputValue.trim() !== '' && (
+                <Combobox.Empty
+                  css={{
+                    padding: '8px 12px',
+                    fontSize: '14px',
+                    color: 'slate.500',
+                  }}
+                >
+                  No contributors found
+                </Combobox.Empty>
+              )}
             </Combobox.Content>
           </Combobox.Positioner>
         </Portal>
       </Combobox.Root>
       
-      {/* Selected contributors as tags - Grid layout with 5 per row */}
+      {/* Selected contributors as tags - Column layout */}
       {selectedContributors.length > 0 && (
         <div
           style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(5, auto)',
+            display: 'flex',
+            flexDirection: 'column',
             gap: '0.5rem',
-            justifyContent: 'start',
+            marginTop: '0.75rem',
+            alignItems: 'flex-start',
           }}
         >
           {selectedContributors.map((contributor) => (
@@ -234,12 +236,6 @@ export function ContributorsCombobox({
             />
           ))}
         </div>
-      )}
-      
-      {!answerId && (
-        <p className="text-sm text-slate-500 italic">
-          Answer the question first to add contributors
-        </p>
       )}
     </div>
   )
