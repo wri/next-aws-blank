@@ -145,15 +145,14 @@ export function QuestionView({
       } catch (error) {
         console.error('Failed to create answer for contributor:', error)
         contributorErrorRef.current = true
-        return { id: '', name, assessmentId, createdAt: new Date().toISOString() }
+        throw error
       }
     }
     
     // Defensive check (should never happen after ensureAnswerExists)
     if (!answerToUse) {
-      console.error('No answer available for contributor')
       contributorErrorRef.current = true
-      return { id: '', name, assessmentId, createdAt: new Date().toISOString() }
+      throw new Error('No answer available for contributor')
     }
     
     // Generate temporary ID for optimistic update
@@ -210,7 +209,8 @@ export function QuestionView({
       })
       
       // Fire the association PUT request with the real ID
-      const contributorIds = [...(contributorsByAnswer.get(answerToUse.id) || [])]
+      // Read from ref to get the latest state (avoids stale closure from useCallback deps)
+      const contributorIds = [...(contributorsByAnswerRef.current.get(answerToUse.id) || [])]
         .map(id => id === tempId ? contributor.id : id)
       
       const associationResponse = await fetch(
@@ -249,7 +249,7 @@ export function QuestionView({
     
     // Return temp contributor immediately for UI feedback
     return tempContributor
-  }, [assessmentId, currentAnswer, contributorsByAnswer, ensureAnswerExists])
+  }, [assessmentId, currentAnswer, ensureAnswerExists])
   
   // Handler: Update contributors for answer
   const handleContributorsChange = useCallback(async (contributorIds: string[]) => {
@@ -343,6 +343,11 @@ export function QuestionView({
   const contributorErrorRef = useRef<boolean>(false)
   // Track pending answer creation to prevent race conditions
   const pendingAnswerCreationRef = useRef<Promise<PlainAnswer> | null>(null)
+  // Keep a ref to the latest contributorsByAnswer for use in async callbacks (avoids stale closures)
+  const contributorsByAnswerRef = useRef(contributorsByAnswer)
+  useEffect(() => {
+    contributorsByAnswerRef.current = contributorsByAnswer
+  }, [contributorsByAnswer])
   // Stores a deferred navigation callback when user tries to leave while saving
   const pendingNavigationRef = useRef<(() => void) | null>(null)
   const pendingCompleteGuardNavigationRef = useRef<(() => void) | null>(null)
