@@ -16,7 +16,16 @@ export async function POST(
   
   try {
     const body = await request.json()
-    const { questionId, value, rationale, notes, status, id: answerId, allowDataSharing } = body
+    const {
+      questionId,
+      value,
+      rationale,
+      notes,
+      status,
+      id: answerId,
+      allowDataSharing,
+      strategies,
+    } = body
     
     if (!questionId) {
       return NextResponse.json(
@@ -34,6 +43,7 @@ export async function POST(
       status || AnswerStatus.IN_PROGRESS,
       answerId,
       allowDataSharing,
+      strategies || undefined,
     )
     
     return NextResponse.json({ 

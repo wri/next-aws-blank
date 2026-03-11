@@ -10,6 +10,7 @@ export interface Answer {
   updatedAt: Date
   value: string
   status: string
+  strategies: string
 }
 
 export interface Questions {

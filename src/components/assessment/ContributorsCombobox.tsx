@@ -3,13 +3,7 @@
 import { useState, useMemo } from 'react'
 import { Combobox, Portal, createListCollection } from '@chakra-ui/react'
 import { Tag, getThemedColor } from '@worldresources/wri-design-systems'
-
-export interface PlainContributor {
-  id: string
-  name: string
-  assessmentId: string
-  createdAt: Date | string
-}
+import { PlainContributor } from '@/types/answer.types'
 
 interface ContributorsComboboxProps {
   selectedContributorIds: string[]

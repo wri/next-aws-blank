@@ -179,6 +179,7 @@ export async function saveAnswer(
   status?: AnswerStatus,
   answerId?: string,
   allowDataSharing?: boolean,
+  strategies?: string,
 ) {
   await initializeDatabase()
   const answerRepo = AppDataSource.getRepository(Answer)
@@ -213,6 +214,7 @@ export async function saveAnswer(
         value,
         rationale: rationale || null,
         notes: notes || null,
+        strategies: strategies || null,
         status: AnswerStatus.COMPLETE,
         createdAt: answer.createdAt,
         updatedAt: updatedRecordTime, // new timestamp 1
@@ -231,6 +233,7 @@ export async function saveAnswer(
           value,
           rationale: rationale || null,
           notes: notes || null,
+          strategies: strategies || null,
           status: AnswerStatus.COMPLETE,
           createdAt: answer.createdAt,
           updatedAt: historyRecordTime, // newer timestamp 2
@@ -250,6 +253,7 @@ export async function saveAnswer(
         value,
         rationale: rationale || null,
         notes: notes || null,
+        strategies: strategies || null,
         status: AnswerStatus.IN_PROGRESS,
         createdAt: answer.createdAt,
         updatedAt: newEditTime,
@@ -267,6 +271,7 @@ export async function saveAnswer(
       value,
       rationale: rationale || null,
       notes: notes || null,
+      strategies: strategies || null,
       status: AnswerStatus.IN_PROGRESS,
       updatedAt: newRecordTime,
     })

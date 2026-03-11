@@ -4,35 +4,44 @@ import { AnswerOptions } from '@/components/assessment/AnswerOptions'
 import { FollowUpQuestions } from '@/components/assessment/FollowUpQuestions'
 import { ChakraRichTextEditor } from '@/components/assessment/ChakraRichTextEditor'
 import type { AnswerValue } from '@/db/entities/Answer.entity'
-import type { PlainQuestion, PlainContributor } from './ThemePageLayout'
+import type { PlainQuestion } from './ThemePageLayout'
 import { ContributorsCombobox } from '@/components/assessment/ContributorsCombobox'
 import AnswerOptionsResponse from '@/components/assessment/AnswerOptionsResponse'
 import { hasRichTextContent } from '@/utils/validation'
+import Strategies from './Strategies'
+import StrategiesReadOnly from './Strategies/ReadOnly'
+import { PlainContributor } from '@/types/answer.types'
 
 interface QuestionContentProps {
   question: PlainQuestion
   selectedAnswer: AnswerValue | null
   rationale: string
+  strategies: string
   onAnswerChange: (value: AnswerValue) => void
   onRationaleChange: (value: string) => void
+  onStrategysChange: (value: string) => void
   isVisuallyMarkedAsComplete: boolean
   contributors: string[]
   allContributors: PlainContributor[]
   onContributorsChange: (contributorIds: string[]) => void
   onContributorCreate: (name: string) => Promise<PlainContributor>
+  assessmentId: string
 }
 
 export function QuestionContent({
   question,
   selectedAnswer,
   rationale,
+  strategies,
   onAnswerChange,
   onRationaleChange,
+  onStrategysChange,
   isVisuallyMarkedAsComplete,
   contributors,
   allContributors,
   onContributorsChange,
   onContributorCreate,
+  assessmentId,
 }: QuestionContentProps) {
   const hideRationale = selectedAnswer === 'na'
   
@@ -103,6 +112,17 @@ export function QuestionContent({
           />
         </div>
       )}
+      
+      {/* Strategies - Edit mode */}
+      {!hideRationale && !isVisuallyMarkedAsComplete && (
+        <Strategies
+          question={question}
+          strategies={strategies}
+          onStrategysChange={onStrategysChange}
+          allContributors={allContributors}
+          assessmentId={assessmentId}
+        />
+      )}
 
       {isVisuallyMarkedAsComplete && hasRichTextContent(rationale) ? (
         <div>
@@ -129,6 +149,16 @@ export function QuestionContent({
           </ul>
         </div>
       )}
+
+      {isVisuallyMarkedAsComplete &&
+        strategies &&
+        JSON.parse(strategies).length > 0 && (
+          <StrategiesReadOnly
+            strategies={strategies}
+            keySuccessFactor={question.keySuccessFactor}
+            allContributors={allContributors}
+          />
+        )}
     </section>
   )
 }

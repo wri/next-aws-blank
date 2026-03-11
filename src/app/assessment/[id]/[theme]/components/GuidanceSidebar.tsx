@@ -58,14 +58,6 @@ export function GuidanceSidebar({ question, notes, onNotesChange }: GuidanceSide
               <Text className="text-slate-400 italic">No considerations available.</Text>
             )}
           </Collapsible>
-          
-          <Collapsible title="Example Strategies">
-            {question.strategyExamples ? (
-              <Text className="prose prose-sm max-w-none whitespace-pre-line">{question.strategyExamples}</Text>
-            ) : (
-              <Text className="text-slate-400 italic">No example strategies available.</Text>
-            )}
-          </Collapsible>
         </div>
       ) : (
         <div className="p-4">

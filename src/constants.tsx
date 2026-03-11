@@ -280,3 +280,26 @@ export const COUNTRIES = [
   'Zambia',
   'Zimbabwe',
 ]
+
+export const SCALE_OPTIONS = [
+  { value: 'National', label: 'National' },
+  {
+    value: 'Subnational (municipality, province, district)',
+    label: 'Subnational (municipality, province, district)',
+  },
+  {
+    value: 'Landscape (or seascape if applicable)',
+    label: 'Landscape (or seascape if applicable)',
+  },
+  { value: 'Restoration site', label: 'Restoration site' },
+  {
+    value: 'Transboundary (two or more countries)',
+    label: 'Transboundary (two or more countries)',
+  },
+]
+
+export const PRIORITY_OPTIONS = [
+  { value: 'high', label: 'High' },
+  { value: 'medium', label: 'Medium' },
+  { value: 'low', label: 'Low' },
+]

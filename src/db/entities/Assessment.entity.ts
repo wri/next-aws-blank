@@ -112,6 +112,6 @@ export class Assessment {
   @Column({ name: 'materials', type: 'varchar', default: '' })
   materials!: string
 
-  @Column({ name: 'preparation_step', type: 'varchar', default: 'target_geography' })
+  @Column({ name: 'preparation_step', type: 'varchar', default: 'target-geography' })
   preparationStep!: string
 }

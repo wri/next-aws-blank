@@ -14,7 +14,7 @@ const KeySuccessFactors = ({
   assessmentId,
   questions,
 }: KeySuccessFactorsProps) => {
-  const keyFatorsData = [
+  const keyFactorsData = [
     {
       theme: Theme.MOTIVATE,
       title: 'Motivate',
@@ -38,12 +38,9 @@ const KeySuccessFactors = ({
 
   return (
     <div>
-      <SectionTitle
-        index={2}
-        title='Key success factors'
-      />
+      <SectionTitle index={2} title='Key success factors' />
 
-      {keyFatorsData.map((item) => (
+      {keyFactorsData.map((item) => (
         <KeySuccessFactorsSection
           key={item.theme}
           questions={item.questions}

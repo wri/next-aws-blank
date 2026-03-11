@@ -75,6 +75,6 @@ export class Answer {
   @Index()
   status!: AnswerStatus
 
-  // @OneToMany(() => Strategy, (strategy) => strategy.answer) // On hold
-  // strategies!: Strategy[]
+  @Column({ type: 'text', nullable: true })
+  strategies!: string | null
 }

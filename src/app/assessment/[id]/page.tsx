@@ -39,8 +39,11 @@ export default async function AssessmentPage({
   if (!hasValidSession) {
     return <PasswordPrompt assessmentId={id} />
   }
-  const { getAssessmentById, getQuestionsWithAnswers } =
-    await import('@/db/queries/assessment-queries')
+  const {
+    getAssessmentById,
+    getQuestionsWithAnswers,
+    getContributorsByAssessment,
+  } = await import('@/db/queries/assessment-queries')
 
   const assessment = await getAssessmentById(id)
   if (!assessment) {
@@ -80,7 +83,16 @@ export default async function AssessmentPage({
       updatedAt: qa.answer?.updatedAt ?? qa.createdAt,
       value: qa.answer?.value ?? '',
       status: qa.answer?.status ?? '',
+      strategies: qa.answer?.strategies ?? '',
     },
+  }))
+
+  const allContributors = await getContributorsByAssessment(assessment.id)
+  const plainContributors = allContributors.map(c => ({
+    id: c.id,
+    name: c.name,
+    assessmentId: c.assessmentId,
+    createdAt: c.createdAt
   }))
 
   const scopeData = {
@@ -119,7 +131,11 @@ export default async function AssessmentPage({
       <div className='w-full max-w-screen-1100 p-4 mx-auto flex flex-col gap-10'>
         <Scope data={scopeData} />
         <KeySuccessFactors assessmentId={id} questions={questions} />
-        <StrategicPlan />
+        <StrategicPlan
+          assessmentId={id}
+          questions={questions}
+          allContributors={plainContributors}
+        />
         <FromPreparationModal
           autoOpen={isFromPreparation === 'true'}
           assessmentId={id}
