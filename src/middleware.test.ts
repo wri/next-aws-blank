@@ -242,14 +242,16 @@ describe('Middleware Authentication', () => {
       expect(redirectUrl.pathname).toBe('/assessment/uuid-123-abc');
     });
 
-    it('does not match assessment routes with extra path segments', async () => {
+    it('matches assessment routes with extra path segments and enforces authentication', async () => {
       const request = createMockRequest('http://localhost:3000/assessment/test-id/motivate/extra');
       await middleware(request as unknown as NextRequest);
 
-      // Should not match the pattern, so it passes through
-      expect(mockNext).toHaveBeenCalled();
-      expect(mockRedirect).not.toHaveBeenCalled();
-      expect(mockValidateSessionCookie).not.toHaveBeenCalled();
+      // It matches, so we expect a redirect to the overview page if there is no session
+      expect(mockNext).not.toHaveBeenCalled();
+      expect(mockRedirect).toHaveBeenCalled();
+      const redirectUrl = mockRedirect.mock.calls[0][0] as URL;
+      expect(redirectUrl.pathname).toBe('/assessment/test-id');
+      expect(redirectUrl.searchParams.get('returnTo')).toBe('/assessment/test-id/motivate/extra');
     });
 
     it('handles missing session cookie gracefully', async () => {

@@ -27,7 +27,6 @@ export async function middleware(request: NextRequest) {
     const excludedPatterns = [
       /^\/assessment\/setup/,
       /^\/assessment\/[^\/]+\/created$/,
-      /^\/assessment\/[^\/]+\/preparation$/,
     ];
 
     const isExcluded = excludedPatterns.some(pattern => pattern.test(path));
@@ -36,24 +35,24 @@ export async function middleware(request: NextRequest) {
     }
 
     // Check if route needs protection
-    // Matches: /assessment/[id] or /assessment/[id]/[theme]
-    const protectedRoutePattern = /^\/assessment\/([^\/]+)(?:\/([^\/]+))?$/;
+    // Matches: /assessment/[id] or /assessment/[id]/[subRoute]...
+    const protectedRoutePattern = /^\/assessment\/([^\/]+)(?:\/(.+))?$/;
     const match = path.match(protectedRoutePattern);
 
     if (!match) {
       return NextResponse.next();
     }
 
-    // Extract assessment ID and optional theme from URL
+    // Extract assessment ID and optional sub-route from URL
     const assessmentId = match[1];
-    const theme = match[2]; // undefined for overview page
+    const subRoute = match[2]; // undefined for overview page
 
     // Allow overview page to pass through - it has its own PasswordPrompt
-    if (!theme) {
+    if (!subRoute) {
       return NextResponse.next();
     }
 
-    // For all other assessment routes (theme pages), enforce authentication
+    // For all other assessment routes (theme pages, preparation pages), enforce authentication
     const sessionCookie = request.cookies.get('assessment_session');
 
     if (!sessionCookie) {
@@ -88,9 +87,9 @@ export async function middleware(request: NextRequest) {
     if (match) {
       const assessmentId = match[1];
       const overviewUrl = new URL(`/assessment/${assessmentId}`, request.url);
-      // Only add returnTo if there's a theme (not for overview itself)
-      const themeMatch = path.match(/^\/assessment\/[^\/]+\/([^\/]+)$/);
-      if (themeMatch) {
+      // Only add returnTo if there's a subRoute (not for overview itself)
+      const subRouteMatch = path.match(/^\/assessment\/[^\/]+\/(.+)$/);
+      if (subRouteMatch) {
         overviewUrl.searchParams.set('returnTo', path);
       }
       return NextResponse.redirect(overviewUrl);
