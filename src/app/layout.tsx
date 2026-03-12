@@ -5,6 +5,7 @@ import './globals.css'
 import Providers from '@/components/Providers'
 import { Footer } from '@/components/Footer'
 import GlobalNavbar from '@/components/GlobalNavbar'
+import { HotjarScript } from '@/components/HotjarScript'
 
 // Partner logo for footer
 const acuminPro = localFont({
@@ -35,6 +36,7 @@ export default function RootLayout({
   return (
     <html lang='en'>
       <body className={`${acuminPro.className} antialiased`}>
+        <HotjarScript />
         <Providers>
           <GlobalNavbar />
           <div className='pb-44 lg:pb-0'>{children}</div>
