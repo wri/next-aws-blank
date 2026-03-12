@@ -17,6 +17,7 @@ import {
 import {
   DownloadIcon,
 } from '@/components/icons'
+import { AccessDetailsModal } from '@/components/assessment/AccessDetailsModal'
 import {
   useAssessmentSetupForm,
   assessmentFormRules,
@@ -44,6 +45,9 @@ export default function SetupAssessmentPage() {
     error?: string
     stack?: string
   } | null>(null)
+  const [showAccessModal, setShowAccessModal] = useState(false)
+  const [createdAssessmentId, setCreatedAssessmentId] = useState<string | null>(null)
+  const [assessmentPassword, setAssessmentPassword] = useState<string | null>(null)
 
   const isDev = process.env.NODE_ENV === 'development'
 
@@ -73,9 +77,9 @@ export default function SetupAssessmentPage() {
       const result: AssessmentCreatedResponse = await response.json()
 
       if (result.success && result.assessmentId && result.password) {
-        router.push(
-          `/assessment/${result.assessmentId}/created?token=${encodeURIComponent(result.password)}`,
-        )
+        setCreatedAssessmentId(result.assessmentId)
+        setAssessmentPassword(result.password)
+        setShowAccessModal(true)
       } else {
         setError({
           message: result.message || 'Failed to create assessment',
@@ -91,6 +95,12 @@ export default function SetupAssessmentPage() {
       })
     } finally {
       setIsSubmitting(false)
+    }
+  }
+
+  const handleContinueAssessment = () => {
+    if (createdAssessmentId) {
+      router.push(`/assessment/${createdAssessmentId}/preparation`)
     }
   }
 
@@ -444,6 +454,15 @@ export default function SetupAssessmentPage() {
           </div>
         </div>
       </form>
+
+      {showAccessModal && createdAssessmentId && assessmentPassword && (
+        <AccessDetailsModal
+          open={showAccessModal}
+          assessmentId={createdAssessmentId}
+          password={assessmentPassword}
+          onContinue={handleContinueAssessment}
+        />
+      )}
     </>
   )
 }
