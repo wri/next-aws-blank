@@ -72,11 +72,11 @@ const Strategies = ({
           Examples of strategies for this factor:
         </p>
         {question.strategyExamples ? (
-          <Text className='prose prose-sm max-w-none whitespace-pre-wrap'>
+          <Text className='prose prose-sm max-w-none whitespace-pre-wrap text-neutral-800'>
             {question.strategyExamples}
           </Text>
         ) : (
-          <Text className='text-slate-400 italic'>
+          <Text className='text-neutral-700 italic'>
             No example strategies available.
           </Text>
         )}
