@@ -118,7 +118,6 @@ const FromPreparationModal = ({
           </div>
         </div>
       }
-      blocking
     />
   )
 }
