@@ -18,7 +18,7 @@ const partnerLogos = [
 
 export const Footer = () => {
   return (
-    <WriFooter maxWidth={1440} filled additionalLogos={partnerLogos}>
+    <WriFooter filled additionalLogos={partnerLogos}>
       <Link rel='noopener noreferrer' href={externalLinks.privacy} target="_blank">Privacy policy</Link>
       <Link rel='noopener noreferrer' href={externalLinks.tos} target='_blank'>Terms of service</Link>
     </WriFooter>

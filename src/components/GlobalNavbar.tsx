@@ -8,6 +8,7 @@ import { WriLogoIcon } from '@/components/icons'
 import { languageOptions } from '@/constants/language-options'
 import { usePathname } from 'next/navigation'
 import { useLanguage } from '@/contexts/LanguageContext'
+import { externalLinks } from '@/constants/external-links'
 
 const sourceSerif4 = Source_Serif_4({
   subsets: ['latin'],
@@ -51,10 +52,9 @@ export default function GlobalNavbar() {
           items={languageOptions}
           onSelect={setLanguage}
         />,
+        <Link key="contact-link" href={externalLinks.contactLink} target='_blank'>Contact</Link>
       ]}
       actionsSection={[]}
-      maxWidth={1440}
-      fixed
     />
   )
 }
