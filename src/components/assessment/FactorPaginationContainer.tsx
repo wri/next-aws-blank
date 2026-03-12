@@ -100,7 +100,7 @@ export function FactorPaginationContainer({
       }}
     >
       {/* Previous Factor Card */}
-      {!hasPrevInTheme && !canGoPrevTheme ? <div>&nbsp;</div> : (<PaginationCard
+      {!hasPrevInTheme && !canGoPrevTheme ? <div aria-hidden>&nbsp;</div> : (<PaginationCard
         direction="left"
         label="Previous factor"
         factorName={prevFactorName}
@@ -119,23 +119,24 @@ export function FactorPaginationContainer({
       />)}
       
       {/* Next Factor Card */}
-      <PaginationCard
-        direction="right"
-        label="Next factor"
-        factorName={nextFactorName}
-        href={!isMarkedAsComplete ? '#' : nextHref}
-        isDisabled={!hasNextInTheme && !canGoNextTheme}
-        onClick={() => {
-          if (!isMarkedAsComplete) {
-            setIsNextOrPrev('next')
-            return
-          }
-
-          if (hasNextInTheme && onNavigate) {
-            onNavigate(nextQuestion.questionCode)
-          }
-        }}
-      />
+      {!hasNextInTheme && !canGoNextTheme ? <div aria-hidden>&nbsp;</div> : (
+        <PaginationCard
+          direction="right"
+          label="Next factor"
+          factorName={nextFactorName}
+          href={!isMarkedAsComplete ? '#' : nextHref}
+          isDisabled={!hasNextInTheme && !canGoNextTheme}
+          onClick={() => {
+            if (!isMarkedAsComplete) {
+              setIsNextOrPrev('next')
+              return
+            }
+  
+            if (hasNextInTheme && onNavigate) {
+              onNavigate(nextQuestion.questionCode)
+            }
+          }}
+        />)}
     </Box>
   )
 }

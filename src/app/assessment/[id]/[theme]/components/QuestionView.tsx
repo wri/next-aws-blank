@@ -6,12 +6,12 @@ import { ThemeNavigation } from './ThemeNavigation'
 import { QuestionContent } from './QuestionContent'
 import { GuidanceSidebar } from './GuidanceSidebar'
 import { useAutoSave, type AutoSaveStatus } from '@/hooks/useAutoSave'
-import { CheckIcon, ChevronLeftIcon as ChevronLeft, ChevronRightIcon, GoBackIcon, CheckCircleIcon, InProgressIcon, NotStartedIcon } from '@/components/icons'
+import { CheckIcon, ChevronLeftIcon as ChevronLeft, ChevronRightIcon, CheckCircleIcon, InProgressIcon, NotStartedIcon, EditIcon } from '@/components/icons'
 import { ProgressNotSavedModal } from '@/components/assessment/ProgressNotSavedModal'
 import { type AnswerValue } from '@/db/entities/Answer.entity'
 import type { PlainQuestion, PlainAnswer } from './ThemePageLayout'
-import { Button, InlineMessage, Modal, Tag } from '@worldresources/wri-design-systems'
-import { Box } from '@chakra-ui/react'
+import { Button, getThemedColor, InlineMessage, Modal } from '@worldresources/wri-design-systems'
+import { Box, Flex, Text } from '@chakra-ui/react'
 import { FactorPaginationContainer } from '@/components/assessment/FactorPaginationContainer'
 import { AnswerStatus, PlainContributor } from '@/types/answer.types'
 import { hasRichTextContent } from '@/utils/validation'
@@ -629,33 +629,32 @@ export function QuestionView({
             <div className="flex items-center gap-3">
               {/* Status Tag indicator */}
               {currentAnswer?.status === AnswerStatus.COMPLETE ? (
-                <Tag 
-                  label='Complete' 
-                  variant='success' 
-                  icon={<CheckCircleIcon />} 
-                />
+                <Flex align="center" gap={2} px={3} py={1} color={getThemedColor("success", 900)}>
+                  <CheckCircleIcon boxSize="12px" />
+                  <Text fontSize="sm">Complete</Text>
+                </Flex>
               ) : currentAnswer?.status === AnswerStatus.IN_PROGRESS ? (
-                <div className="flex items-center gap-2 px-3 py-1">
-                  <InProgressIcon className="w-4 h-4" />
-                  <span className="text-sm text-neutral-700">In progress</span>
-                </div>
+                <Flex align="center" gap={2} px={3} py={1} color={getThemedColor("primary", 800)}>
+                  <InProgressIcon boxSize="12px" />
+                  <Text fontSize="sm">In progress</Text>
+                </Flex>
               ) : (
-                <div className="flex items-center gap-2 px-3 py-1">
-                  <NotStartedIcon className="w-4 h-4" />
-                  <span className="text-sm text-neutral-700">Not started</span>
-                </div>
+                <Flex align="center" gap={2} px={3} py={1} color={getThemedColor("neutral", 800)}>
+                  <NotStartedIcon boxSize="12px" />
+                  <Text fontSize="sm">Not started</Text>
+                </Flex>
               )}
               
               {/* Mark complete or Edit factor button */}
               {isVisuallyMarkedAsComplete ? (
                 <Button
-                  leftIcon={<GoBackIcon />}
-                  variant='borderless'
+                  leftIcon={<EditIcon css={{ width: '12px', height: '12px' }} />}
+                  variant='secondary'
                   size='small'
                   onClick={() => setIsVisuallyMarkedAsComplete(false)}
                   label='Edit factor'
                 />
-              ) : (
+              ) : currentAnswer?.status && currentAnswer.status !== AnswerStatus.NOT_STARTED ? (
                 <Button
                   leftIcon={<CheckIcon />}
                   variant='primary'
@@ -663,9 +662,9 @@ export function QuestionView({
                   onClick={markAsCompleteHandler}
                   disabled={!allowMarkAsComplete}
                 >
-                  Mark complete
+                  Complete
                 </Button>
-              )}
+              ) : null}
             </div>
           </div>
 
@@ -717,7 +716,7 @@ export function QuestionView({
                 label='This factor is marked as complete.'
                 size='full-width'
                 onActionClick={() => setIsVisuallyMarkedAsComplete(false)}
-                buttonLeftIcon={<GoBackIcon />}
+                buttonLeftIcon={<EditIcon css={{ width: '12px', height: '12px' }} />}
                 variant='success'
               />
             </div>

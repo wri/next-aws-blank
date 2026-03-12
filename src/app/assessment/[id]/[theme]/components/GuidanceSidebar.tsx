@@ -53,7 +53,15 @@ export function GuidanceSidebar({ question, notes, onNotesChange }: GuidanceSide
           
           <Collapsible title="Considerations">
             {question.considerations ? (
-              <Text className="prose prose-sm max-w-none whitespace-pre-line">{question.considerations}</Text>
+              <ul className="prose prose-sm max-w-none list-disc pl-5 space-y-2">
+                {question.considerations
+                  .split(/\r?\n/)
+                  .filter(line => line.trim() !== '')
+                  .map((line, index) => (
+                    <li key={index}>{line.trim()}</li>
+                  ))
+                }
+              </ul>
             ) : (
               <Text className="text-slate-400 italic">No considerations available.</Text>
             )}

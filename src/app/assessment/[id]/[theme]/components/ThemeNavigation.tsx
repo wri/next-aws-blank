@@ -222,10 +222,7 @@ export function ThemeNavigation({
       css={{
         '& > div': {
           width: '240px',
-          position: 'sticky',
-          top: '60px',
-          height: 'calc(100vh - 120px)',
-          overflowY: 'auto',
+          height: 'auto',
           borderRight: '1px solid #e2e8f0',
           '&::-webkit-scrollbar': {
             display: 'none'
