@@ -143,8 +143,8 @@ export default function AssessmentCreatedPage() {
         content={
           <div className="space-y-6">
             <p className="text-gray-700 leading-relaxed">
-              The access credentials for this assessment are no longer available. 
-              Please create a new assessment or use your saved link and password to access an existing one.
+              The access credentials for this diagnostic are no longer available. 
+              Please create a new diagnostic or use your saved link and password to access an existing one.
             </p>
             <Button
               label="Back to setup"
@@ -168,11 +168,11 @@ export default function AssessmentCreatedPage() {
       content={
         <div className="space-y-6">
           <p className="text-gray-700 leading-relaxed">
-            This assessment doesn&apos;t use accounts. To keep your progress secure and return later, 
-            you&apos;ll need to save both the assessment link and password.
+            This diagnostic doesn&apos;t use accounts. To keep your progress secure and return later, 
+            you&apos;ll need to save both the diagnostic link and password.
           </p>
 
-          {/* Assessment Link */}
+          {/* diagnostic Link */}
           <div className="flex gap-3 items-end">
             <div className="flex-1 space-y-2">
               <label className="block text-sm font-semibold text-gray-700">Assessment link</label>
