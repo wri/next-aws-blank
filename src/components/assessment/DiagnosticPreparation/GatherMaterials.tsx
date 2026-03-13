@@ -8,12 +8,16 @@ import {
   SendIcon,
 } from '@/components/icons'
 import { Button, TextInput } from '@worldresources/wri-design-systems'
-import { useParams, useRouter } from 'next/navigation'
+import { useParams, useRouter, useSearchParams } from 'next/navigation'
 import { Collapsible } from '@chakra-ui/react'
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import Loader from '@/components/ui/Loader'
-import { PREPARATION_STEPS } from './utils'
+import { PREPARATION_STEPS } from '@/constants'
 import RichText from '@/components/ui/RichText'
+import {
+  usePreparationSubmit,
+  type PreparationSubmitAction,
+} from './PreparationSubmitContext'
 
 const suggestedDocuments = [
   {
@@ -69,6 +73,10 @@ const GatherMaterials = () => {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
   const [materials, setMaterials] = useState('')
+  const searchParams = useSearchParams()
+  const isEditMode = searchParams.get('isEditMode')
+  const isEditing = isEditMode === 'true'
+  const { registerSubmitHandler } = usePreparationSubmit()
 
   const assessmentId = params.id as string
   const activeStep =
@@ -96,27 +104,47 @@ const GatherMaterials = () => {
     getAssessmentData()
   }, [])
 
-  const onSubmit = async () => {
-    setIsSubmitting(true)
+  const onSubmit = useCallback(
+    async (action: PreparationSubmitAction = 'advance') => {
+      setIsSubmitting(true)
 
-    const payload = {
-      materials,
-      step: activeStep,
-    }
+      const payload = {
+        materials,
+        step: activeStep,
+        isEditing,
+      }
 
-    const result = await fetch(`/api/assessments/${assessmentId}/preparation`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(payload),
-    })
-    const jsonResult = await result.json()
+      const result = await fetch(
+        `/api/assessments/${assessmentId}/preparation`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(payload),
+        },
+      )
+      const jsonResult = await result.json()
 
-    if (jsonResult.success) {
-      router.push(`/assessment/${assessmentId}?isFromPreparation=true`)
-    }
-  }
+      if (jsonResult.success) {
+        const destination =
+          action === 'exit' || isEditing
+            ? `/assessment/${assessmentId}`
+            : `/assessment/${assessmentId}?isFromPreparation=true`
+
+        router.push(destination)
+      }
+
+      setIsSubmitting(false)
+    },
+    [activeStep, assessmentId, isEditing, materials, router],
+  )
+
+  useEffect(() => {
+    registerSubmitHandler(onSubmit)
+
+    return () => registerSubmitHandler(null)
+  }, [onSubmit, registerSubmitHandler])
 
   if (isLoading) {
     return <Loader />
@@ -193,7 +221,7 @@ const GatherMaterials = () => {
 
         <div className='flex items-center gap-5 mt-10'>
           <Button
-            onClick={onSubmit}
+            onClick={() => onSubmit('advance')}
             disabled={isSubmitting}
             loading={isSubmitting}
           >
@@ -201,7 +229,7 @@ const GatherMaterials = () => {
           </Button>
           <Button
             variant='borderless'
-            onClick={onSubmit}
+            onClick={() => onSubmit('advance')}
             disabled={isSubmitting}
             loading={isSubmitting}
           >

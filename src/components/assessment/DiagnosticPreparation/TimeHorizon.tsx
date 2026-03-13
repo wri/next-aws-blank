@@ -3,9 +3,13 @@
 import { ChevronLeftIcon } from '@/components/icons'
 import Loader from '@/components/ui/Loader'
 import { Button, TextInput } from '@worldresources/wri-design-systems'
-import { useParams, useRouter } from 'next/navigation'
-import { useEffect, useState } from 'react'
-import { PREPARATION_STEPS } from './utils'
+import { useParams, useRouter, useSearchParams } from 'next/navigation'
+import { useCallback, useEffect, useState } from 'react'
+import { PREPARATION_STEPS } from '@/constants'
+import {
+  usePreparationSubmit,
+  type PreparationSubmitAction,
+} from './PreparationSubmitContext'
 
 const TimeHorizon = () => {
   const params = useParams()
@@ -13,6 +17,10 @@ const TimeHorizon = () => {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
   const [timeHorizon, setTimeHorizon] = useState('')
+  const searchParams = useSearchParams()
+  const isEditMode = searchParams.get('isEditMode')
+  const isEditing = isEditMode === 'true'
+  const { registerSubmitHandler } = usePreparationSubmit()
 
   const assessmentId = params.id as string
   const activeStep = (params.step as string) || PREPARATION_STEPS.TIME_HORIZON
@@ -39,35 +47,48 @@ const TimeHorizon = () => {
     getAssessmentData()
   }, [])
 
-  const onSubmit = async () => {
-    setIsSubmitting(true)
+  const onSubmit = useCallback(
+    async (action: PreparationSubmitAction = 'advance') => {
+      setIsSubmitting(true)
 
-    const payload = {
-      timeHorizon,
-      step: activeStep,
-    }
+      const payload = {
+        timeHorizon,
+        step: activeStep,
+        isEditing,
+      }
 
-    const response = await fetch(
-      `/api/assessments/${assessmentId}/preparation`,
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
+      const response = await fetch(
+        `/api/assessments/${assessmentId}/preparation`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(payload),
         },
-        body: JSON.stringify(payload),
-      },
-    )
-
-    const result = await response.json()
-
-    if (result.success) {
-      router.push(
-        `/assessment/${assessmentId}/preparation/${PREPARATION_STEPS.RESTORATION_GOALS}`,
       )
-    }
 
-    setIsSubmitting(false)
-  }
+      const result = await response.json()
+
+      if (result.success) {
+        const destination =
+          action === 'exit'
+            ? `/assessment/${assessmentId}`
+            : `/assessment/${assessmentId}/preparation/${PREPARATION_STEPS.RESTORATION_GOALS}${isEditing ? '?isEditMode=true' : ''}`
+
+        router.push(destination)
+      }
+
+      setIsSubmitting(false)
+    },
+    [activeStep, assessmentId, isEditing, router, timeHorizon],
+  )
+
+  useEffect(() => {
+    registerSubmitHandler(onSubmit)
+
+    return () => registerSubmitHandler(null)
+  }, [onSubmit, registerSubmitHandler])
 
   if (isLoading) {
     return <Loader />
@@ -108,7 +129,7 @@ const TimeHorizon = () => {
 
       <div className='flex items-center gap-5 mt-10'>
         <Button
-          onClick={onSubmit}
+          onClick={() => onSubmit('advance')}
           disabled={isSubmitting}
           loading={isSubmitting}
         >
@@ -116,7 +137,7 @@ const TimeHorizon = () => {
         </Button>
         <Button
           variant='borderless'
-          onClick={onSubmit}
+          onClick={() => onSubmit('advance')}
           disabled={isSubmitting}
           loading={isSubmitting}
         >

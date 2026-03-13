@@ -1,10 +1,8 @@
 import { Assessment } from '@/db/entities'
 import { AssessmentSetupFormData } from '@/types/assessment-setup.types'
 import { type NextRequest } from 'next/server'
-import {
-  PREPARATION_STEPS,
-  steps,
-} from '@/components/assessment/DiagnosticPreparation/utils'
+import { PREPARATION_STEPS } from '@/constants'
+import { steps } from '@/components/assessment/DiagnosticPreparation/utils'
 
 export async function GET(
   request: NextRequest,
@@ -105,9 +103,11 @@ export async function POST(
         await regionRepository.save(region)
       }
 
+      const isEditing = body.isEditing
       const currentStepIndex = steps.findIndex((s) => s.id === body.step)
-      const nextStepId =
-        currentStepIndex !== -1 && currentStepIndex < steps.length - 1
+      const nextStepId = isEditing
+        ? PREPARATION_STEPS.COMPLETE
+        : currentStepIndex !== -1 && currentStepIndex < steps.length - 1
           ? steps[currentStepIndex + 1].id
           : PREPARATION_STEPS.COMPLETE
 

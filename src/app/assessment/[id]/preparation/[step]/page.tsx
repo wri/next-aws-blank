@@ -2,10 +2,8 @@
 
 import Guidance from '@/components/assessment/DiagnosticPreparation/Guidance'
 import Steps from '@/components/assessment/DiagnosticPreparation/Steps'
-import {
-  PREPARATION_STEPS,
-  steps,
-} from '@/components/assessment/DiagnosticPreparation/utils'
+import { PREPARATION_STEPS } from '@/constants'
+import { steps } from '@/components/assessment/DiagnosticPreparation/utils'
 import { redirect, useParams } from 'next/navigation'
 
 const PreparationPage = () => {

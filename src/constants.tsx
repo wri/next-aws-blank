@@ -303,3 +303,12 @@ export const PRIORITY_OPTIONS = [
   { value: 'medium', label: 'Medium' },
   { value: 'low', label: 'Low' },
 ]
+
+export const PREPARATION_STEPS = {
+  TARGET_GEOGRAPHY: 'target-geography',
+  TIME_HORIZON: 'time-horizon',
+  RESTORATION_GOALS: 'restoration-goals',
+  DEFINE_ENGAGEMENT: 'define-engagement',
+  GATHER_MATERIALS: 'gather-materials',
+  COMPLETE: 'complete',
+}

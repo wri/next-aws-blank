@@ -13,16 +13,20 @@ import {
   Tag,
   TextInput,
 } from '@worldresources/wri-design-systems'
-import { useParams, useRouter } from 'next/navigation'
-import { useEffect, useState } from 'react'
+import { useParams, useRouter, useSearchParams } from 'next/navigation'
+import { useCallback, useEffect, useState } from 'react'
 import { Controller, useForm } from 'react-hook-form'
 import {
   freshwaterEcosystems,
   marineEcosystems,
   terrestrialEcosystems,
-  PREPARATION_STEPS,
 } from './utils'
+import { PREPARATION_STEPS } from '@/constants'
 import Link from 'next/link'
+import {
+  usePreparationSubmit,
+  type PreparationSubmitAction,
+} from './PreparationSubmitContext'
 
 type AssessmentData = {
   geographyType: TargetGeographyType
@@ -71,6 +75,10 @@ const TargetGeography = () => {
     ecosystems: '',
   })
   const [isLoading, setIsLoading] = useState(true)
+  const searchParams = useSearchParams()
+  const isEditMode = searchParams.get('isEditMode')
+  const isEditing = isEditMode === 'true'
+  const { registerSubmitHandler } = usePreparationSubmit()
 
   const assessmentId = params.id as string
   const activeStep =
@@ -136,37 +144,54 @@ const TargetGeography = () => {
     ...marineEcosystems,
   ]
 
-  const onSubmit = async (data: TargetGeographyFormData) => {
-    setIsSubmitting(true)
+  const onSubmit = useCallback(
+    async (
+      data: TargetGeographyFormData,
+      action: PreparationSubmitAction = 'advance',
+    ) => {
+      setIsSubmitting(true)
 
-    const payload = {
-      ...data,
-      step: activeStep,
-    }
+      const payload = {
+        ...data,
+        step: activeStep,
+        isEditing,
+      }
 
-    const response = await fetch(
-      `/api/assessments/${assessmentId}/preparation`,
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
+      const response = await fetch(
+        `/api/assessments/${assessmentId}/preparation`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(payload),
         },
-        body: JSON.stringify(payload),
-      },
+      )
+      const result = await response.json()
+
+      setIsSubmitting(false)
+
+      if (result.success) {
+        setAssessmentData(result.data)
+
+        const destination =
+          action === 'exit'
+            ? `/assessment/${assessmentId}`
+            : `/assessment/${assessmentId}/preparation/${PREPARATION_STEPS.TIME_HORIZON}${isEditing ? '?isEditMode=true' : ''}`
+
+        router.push(destination)
+      }
+    },
+    [activeStep, assessmentId, isEditing, router],
+  )
+
+  useEffect(() => {
+    registerSubmitHandler((action = 'advance') =>
+      handleSubmit((data) => onSubmit(data, action))(),
     )
 
-    const result = await response.json()
-
-    setIsSubmitting(false)
-
-    if (result.success) {
-      setAssessmentData(result.data)
-
-      router.push(
-        `/assessment/${assessmentId}/preparation/${PREPARATION_STEPS.TIME_HORIZON}`,
-      )
-    }
-  }
+    return () => registerSubmitHandler(null)
+  }, [handleSubmit, onSubmit, registerSubmitHandler])
 
   const getErrorList = () => {
     const errorMessages: string[] = []
@@ -189,7 +214,11 @@ const TargetGeography = () => {
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} noValidate className='pb-28'>
+    <form
+      onSubmit={handleSubmit((data) => onSubmit(data, 'advance'))}
+      noValidate
+      className='pb-28'
+    >
       <h1 className='text-3xl font-bold text-neutral-900 mb-2'>
         Target geography
       </h1>

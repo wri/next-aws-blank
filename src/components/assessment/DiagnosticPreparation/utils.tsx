@@ -3,15 +3,7 @@ import TimeHorizon from './TimeHorizon'
 import RestorationGoals from './RestorationGoals'
 import DefineEngagement from './DefineEngagement'
 import GatherMaterials from './GatherMaterials'
-
-export const PREPARATION_STEPS = {
-  TARGET_GEOGRAPHY: 'target-geography',
-  TIME_HORIZON: 'time-horizon',
-  RESTORATION_GOALS: 'restoration-goals',
-  DEFINE_ENGAGEMENT: 'define-engagement',
-  GATHER_MATERIALS: 'gather-materials',
-  COMPLETE: 'complete',
-}
+import { PREPARATION_STEPS } from '@/constants'
 
 export const steps = [
   {

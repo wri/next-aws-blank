@@ -1,6 +1,6 @@
 'use client'
 
-import { PREPARATION_STEPS } from '@/components/assessment/DiagnosticPreparation/utils'
+import { PREPARATION_STEPS } from '@/constants'
 import { ChecklistIcon, ScopeIcon } from '@/components/icons'
 import { Button, Tag } from '@worldresources/wri-design-systems'
 import { useParams, useRouter } from 'next/navigation'

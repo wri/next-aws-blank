@@ -29,6 +29,7 @@ export interface AssessmentSetupFormData {
   restorationGoals?: string;
   engagementStrategy?: string;
   materials?: string;
+  isEditing?: boolean;
 }
 
 export interface AssessmentSetupFormErrors {
