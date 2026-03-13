@@ -19,15 +19,11 @@ data "terraform_remote_state" "shared_vpc" {
 
 locals {
   # Resolve VPC ID: remote state > explicit var > create new
-  shared_vpc_id    = var.shared_vpc_state_key != "" ? data.terraform_remote_state.shared_vpc[0].outputs.vpc_id : null
-  effective_vpc_id = local.shared_vpc_id != null ? local.shared_vpc_id : (var.vpc_id != "" ? var.vpc_id : null)
-  create_vpc       = local.effective_vpc_id == null
-  vpc_id           = local.create_vpc ? aws_vpc.main[0].id : local.effective_vpc_id
-
-  # Resolve subnets: prefer remote state outputs (more reliable than re-querying by tag)
-  public_subnet_ids = local.create_vpc ? aws_subnet.public[*].id : (
-    var.shared_vpc_state_key != "" ? data.terraform_remote_state.shared_vpc[0].outputs.public_subnet_ids : data.aws_subnets.public[0].ids
-  )
+  shared_vpc_id     = var.shared_vpc_state_key != "" ? data.terraform_remote_state.shared_vpc[0].outputs.vpc_id : null
+  effective_vpc_id  = local.shared_vpc_id != null ? local.shared_vpc_id : (var.vpc_id != "" ? var.vpc_id : null)
+  create_vpc        = local.effective_vpc_id == null
+  vpc_id            = local.create_vpc ? aws_vpc.main[0].id : local.effective_vpc_id
+  public_subnet_ids = local.create_vpc ? aws_subnet.public[*].id : data.aws_subnets.public[0].ids
 }
 
 # =============================================================================
