@@ -121,6 +121,15 @@ variable "listener_rule_priority" {
 }
 
 # =============================================================================
+# RDS Variables
+# =============================================================================
+
+variable "rds_security_group_id" {
+  description = "Security group ID of the RDS instance (created via AWS Console). ECS tasks will be granted ingress on port 5432."
+  type        = string
+}
+
+# =============================================================================
 # Application Variables
 # =============================================================================
 

@@ -100,3 +100,17 @@ resource "aws_security_group_rule" "ecs_egress_all" {
   protocol          = "-1"
   cidr_blocks       = ["0.0.0.0/0"]
 }
+
+# =============================================================================
+# RDS Security Group Rule (RDS SG managed outside Terraform)
+# =============================================================================
+
+resource "aws_security_group_rule" "rds_ingress_from_ecs" {
+  security_group_id        = var.rds_security_group_id
+  type                     = "ingress"
+  description              = "PostgreSQL from ${var.environment} ECS tasks"
+  from_port                = 5432
+  to_port                  = 5432
+  protocol                 = "tcp"
+  source_security_group_id = aws_security_group.ecs.id
+}
