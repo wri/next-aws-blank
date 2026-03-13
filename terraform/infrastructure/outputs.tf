@@ -12,10 +12,7 @@ output "public_subnet_ids" {
   value       = local.public_subnet_ids
 }
 
-output "private_subnet_ids" {
-  description = "IDs of the private subnets"
-  value       = local.private_subnet_ids
-}
+
 
 # =============================================================================
 # ECR Outputs
