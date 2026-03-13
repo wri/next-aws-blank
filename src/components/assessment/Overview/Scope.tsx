@@ -7,6 +7,7 @@ import { CheckCircleIcon, CopyIcon } from '../../icons'
 import { useState } from 'react'
 import { copyTextToClipboard } from '@/utils/validation'
 import { TARGET_GEOGRAPHY_TYPE_OPTIONS } from '@/constants'
+import RichText from '@/components/ui/RichText'
 
 const Title = ({ title }: { title: string }) => {
   return (
@@ -188,12 +189,7 @@ const Scope = ({ data }: ScopeProps) => {
           <div>
             <p className='text-neutral-700 text-sm'>Goals</p>
             <div className='flex flex-wrap gap-2'>
-              <div
-                className='[&_h1]:text-2xl [&_h1]:font-bold [&_h1]:text-neutral-800 [&_h1]:mb-1 [&_h2]:text-xl [&_h2]:font-bold [&_h2]:text-neutral-800 [&_h2]:mb-1 [&_h3]:text-lg [&_h3]:font-bold [&_h3]:text-neutral-800 [&_h3]:mb-1 [&_p]:text-neutral-800 [&_p]:mb-2'
-                dangerouslySetInnerHTML={{
-                  __html: data.diagnosticScope.restorationGoals.goals,
-                }}
-              />
+              <RichText html={data.diagnosticScope.restorationGoals.goals} />
             </div>
           </div>
           <div>

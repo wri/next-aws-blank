@@ -1,6 +1,7 @@
 import { PlainContributor, Strategy } from '@/types/answer.types'
 import { Modal } from '@worldresources/wri-design-systems'
 import { formatDeadline } from './utils'
+import RichText from '@/components/ui/RichText'
 
 const StrategiesReadOnlyModal = ({
   strategy,
@@ -42,12 +43,7 @@ const StrategiesReadOnlyModal = ({
           <div className='mb-6'>
             <p className='font-bold mb-1'>Description</p>
             {strategy?.description ? (
-              <div
-                className='[&_h1]:text-2xl [&_h1]:font-bold [&_h1]:text-neutral-800 [&_h1]:mb-1 [&_h2]:text-xl [&_h2]:font-bold [&_h2]:text-neutral-800 [&_h2]:mb-1 [&_h3]:text-lg [&_h3]:font-bold [&_h3]:text-neutral-800 [&_h3]:mb-1 [&_p]:text-neutral-800 [&_p]:mb-2'
-                dangerouslySetInnerHTML={{
-                  __html: strategy.description,
-                }}
-              />
+              <RichText html={strategy.description} />
             ) : (
               'No description'
             )}

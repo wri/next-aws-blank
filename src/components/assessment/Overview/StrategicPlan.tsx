@@ -10,7 +10,10 @@ import {
   Tag,
 } from '@worldresources/wri-design-systems'
 import { PlainContributor, Strategy } from '@/types/answer.types'
-import { formatDeadline } from '@/app/assessment/[id]/[theme]/components/Strategies/utils'
+import {
+  formatDeadline,
+  sortStrategies,
+} from '@/app/assessment/[id]/[theme]/components/Strategies/utils'
 import { useState } from 'react'
 import StrategiesReadOnlyModal from '@/app/assessment/[id]/[theme]/components/Strategies/ReadOnlyModal'
 import Link from 'next/link'
@@ -160,13 +163,7 @@ const StrategicPlan = ({
                 )
               }}
               onSortColumn={({ key, order }) => {
-                data.sort((a, b) => {
-                  const aValue = a[key as keyof Data] || ''
-                  const bValue = b[key as keyof Data] || ''
-                  return order === 'asc'
-                    ? aValue.localeCompare(bValue)
-                    : bValue.localeCompare(aValue)
-                })
+                data.sort((a, b) => sortStrategies(a, b, key as string, order))
               }}
             />
           ) : (

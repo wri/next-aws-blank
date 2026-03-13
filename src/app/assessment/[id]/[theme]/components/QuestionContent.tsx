@@ -11,6 +11,7 @@ import { hasRichTextContent } from '@/utils/validation'
 import Strategies from './Strategies'
 import StrategiesReadOnly from './Strategies/ReadOnly'
 import { PlainContributor } from '@/types/answer.types'
+import RichText from '@/components/ui/RichText'
 
 interface QuestionContentProps {
   question: PlainQuestion
@@ -127,10 +128,7 @@ export function QuestionContent({
       {isVisuallyMarkedAsComplete && hasRichTextContent(rationale) ? (
         <div>
           <p className='font-bold text-neutral-900 mb-2'>Rationale</p>
-          <div
-            className="[&_h1]:text-2xl [&_h1]:font-bold [&_h1]:text-neutral-800 [&_h1]:mb-1 [&_h2]:text-xl [&_h2]:font-bold [&_h2]:text-neutral-800 [&_h2]:mb-1 [&_h3]:text-lg [&_h3]:font-bold [&_h3]:text-neutral-800 [&_h3]:mb-1 [&_p]:text-neutral-800 [&_p]:mb-2"
-            dangerouslySetInnerHTML={{ __html: rationale }}
-          />
+          <RichText html={rationale} />
         </div>
       ) : null}
       

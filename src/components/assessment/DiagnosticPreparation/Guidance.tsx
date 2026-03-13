@@ -1,6 +1,7 @@
 import { ChevronDownIcon, InfoIcon } from '@/components/icons'
 import { StepProps } from './Steps'
 import { Collapsible } from '@chakra-ui/react'
+import RichText from '@/components/ui/RichText'
 
 const Guidance = ({
   steps,
@@ -35,9 +36,9 @@ const Guidance = ({
             </div>
           </Collapsible.Trigger>
           <Collapsible.Content>
-            <div
+            <RichText
+              html={guidance.content}
               className='px-4 pb-6 text-neutral-700 text-sm [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:mt-1.5 [&_li]:mb-0.5 [&_p]:mb-0'
-              dangerouslySetInnerHTML={{ __html: guidance.content }}
             />
           </Collapsible.Content>
         </Collapsible.Root>

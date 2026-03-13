@@ -14,6 +14,7 @@ import { Collapsible } from '@chakra-ui/react'
 import { useEffect, useState } from 'react'
 import Loader from '@/components/ui/Loader'
 import { PREPARATION_STEPS } from './utils'
+import RichText from '@/components/ui/RichText'
 
 const suggestedApproaches = [
   {
@@ -160,9 +161,9 @@ const DefineEngagement = () => {
               </div>
             </Collapsible.Trigger>
             <Collapsible.Content>
-              <div
+              <RichText
+                html={approach.content}
                 className='p-3 text-neutral-700 text-sm [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:mt-1.5 [&_li]:mb-0.5 [&_p]:mb-0 border-t border-neutral-300'
-                dangerouslySetInnerHTML={{ __html: approach.content }}
               />
             </Collapsible.Content>
           </Collapsible.Root>
@@ -172,9 +173,7 @@ const DefineEngagement = () => {
       <div className='mb-10'>
         <p className='text-neutral-900 text-xl mb-4 font-bold'>
           Engagement strategy notes{' '}
-          <span className='font-normal text-sm text-neutral-700'>
-            (optional)
-          </span>
+          <span className='font-normal text-neutral-700'>(Optional)</span>
         </p>
         <ChakraRichTextEditor
           value={engagementStrategy}

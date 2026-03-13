@@ -13,6 +13,7 @@ import { Collapsible } from '@chakra-ui/react'
 import { useEffect, useState } from 'react'
 import Loader from '@/components/ui/Loader'
 import { PREPARATION_STEPS } from './utils'
+import RichText from '@/components/ui/RichText'
 
 const suggestedDocuments = [
   {
@@ -172,9 +173,9 @@ const GatherMaterials = () => {
                 </div>
               </Collapsible.Trigger>
               <Collapsible.Content>
-                <div
+                <RichText
+                  html={document.content}
                   className='p-3 text-neutral-700 text-sm [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:mt-1.5 [&_li]:mb-0.5 [&_p]:mb-0 border-t border-neutral-300'
-                  dangerouslySetInnerHTML={{ __html: document.content }}
                 />
               </Collapsible.Content>
             </Collapsible.Root>

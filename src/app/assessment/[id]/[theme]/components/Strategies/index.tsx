@@ -123,7 +123,7 @@ const Strategies = ({
               <div className='mb-5'>
                 <p className='text-neutral-900'>
                   Description{' '}
-                  <span className='text-neutral-700 text-sm'>(optional)</span>
+                  <span className='text-neutral-700'>(Optional)</span>
                 </p>
                 <div className='mt-1'>
                   <ChakraRichTextEditor
@@ -138,7 +138,7 @@ const Strategies = ({
               <div className='grid grid-cols-2 gap-5'>
                 <div className='flex flex-col'>
                   <Select
-                    label='Scale (optional)'
+                    label='Scale (Optional)'
                     placeholder='Select scale'
                     items={SCALE_OPTIONS}
                     onChange={(vals) =>
@@ -150,7 +150,7 @@ const Strategies = ({
                 <div className='flex flex-col mt-1.5'>
                   <p className='text-neutral-900'>
                     Deadline{' '}
-                    <span className='text-neutral-700 text-sm'>(optional)</span>
+                    <span className='text-neutral-700'>(Optional)</span>
                   </p>
                   <DatePicker
                     defaultValue={strategy.deadline}
@@ -179,7 +179,7 @@ const Strategies = ({
                 </div>
                 <div className='flex flex-col'>
                   <Select
-                    label='Priority (optional)'
+                    label='Priority (Optional)'
                     placeholder='Select priority'
                     items={PRIORITY_OPTIONS}
                     onChange={(vals) =>
