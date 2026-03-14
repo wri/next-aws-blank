@@ -6,7 +6,11 @@ export function HotjarScript() {
   // More: https://gfw.atlassian.net/browse/RD-75
   // Production: 6664922, QA: 6664921
 
-  console.log("🚀 ~ HotjarScript ~ process.env:", process.env)
+  console.log("🚀 ~ HotjarScript ~ process.env.ENVIRONMENT:", process.env.ENVIRONMENT)
+  console.log("🚀 ~ HotjarScript ~ process.env.RD_APP_ENV:", process.env.RD_APP_ENV)
+  console.log("🚀 ~ HotjarScript ~ process.env.NEXT_PUBLIC_ENVIRONMENT:", process.env.NEXT_PUBLIC_ENVIRONMENT)
+  console.log("🚀 ~ HotjarScript ~ process.env.NODE_ENV:", process.env.NODE_ENV)
+  
   const environment =
     process.env.RD_APP_ENV || process.env.NEXT_PUBLIC_ENVIRONMENT || process.env.NODE_ENV || 'production';
   console.log("🚀 ~ HotjarScript ~ environment:", environment)
