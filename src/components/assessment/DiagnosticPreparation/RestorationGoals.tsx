@@ -103,7 +103,7 @@ const RestorationGoals = () => {
         leftIcon={<ChevronLeftIcon className='w-3 h-3' />}
         onClick={() =>
           router.push(
-            `/assessment/${assessmentId}/preparation/${PREPARATION_STEPS.TIME_HORIZON}`,
+            `/assessment/${assessmentId}/preparation/${PREPARATION_STEPS.TIME_HORIZON}${isEditing ? '?isEditMode=true' : ''}`,
           )
         }
       >

@@ -96,7 +96,7 @@ export async function POST(
           geographyType: body.geographyType,
           countries: body.country,
           subRegion: body.subRegion,
-          gisUrl: body.gisUrl || undefined,
+          gisUrl: body.gisUrl || '',
           ecosystems: JSON.stringify(body.ecosystems),
         })
 
@@ -116,37 +116,31 @@ export async function POST(
         preparationStep: nextStepId,
       }
 
-      if (body.step === PREPARATION_STEPS.TIME_HORIZON && body.timeHorizon) {
+      if (body.step === PREPARATION_STEPS.TIME_HORIZON) {
         updatedAssessmentData = {
           ...updatedAssessmentData,
-          timeHorizon: body.timeHorizon,
+          timeHorizon: body.timeHorizon || '',
         }
       }
 
-      if (
-        body.step === PREPARATION_STEPS.RESTORATION_GOALS &&
-        body.restorationGoals
-      ) {
+      if (body.step === PREPARATION_STEPS.RESTORATION_GOALS) {
         updatedAssessmentData = {
           ...updatedAssessmentData,
-          restorationGoals: body.restorationGoals,
+          restorationGoals: body.restorationGoals || '',
         }
       }
 
-      if (
-        body.step === PREPARATION_STEPS.DEFINE_ENGAGEMENT &&
-        body.engagementStrategy
-      ) {
+      if (body.step === PREPARATION_STEPS.DEFINE_ENGAGEMENT) {
         updatedAssessmentData = {
           ...updatedAssessmentData,
-          engagementStrategy: body.engagementStrategy,
+          engagementStrategy: body.engagementStrategy || '',
         }
       }
 
-      if (body.step === PREPARATION_STEPS.GATHER_MATERIALS && body.materials) {
+      if (body.step === PREPARATION_STEPS.GATHER_MATERIALS) {
         updatedAssessmentData = {
           ...updatedAssessmentData,
-          materials: body.materials,
+          materials: body.materials || '',
         }
       }
 

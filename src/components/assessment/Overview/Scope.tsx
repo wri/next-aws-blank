@@ -5,7 +5,7 @@ import CardContainer from './CardContainer'
 import { IconButton, Tag } from '@worldresources/wri-design-systems'
 import { CheckCircleIcon, CopyIcon } from '../../icons'
 import { useState } from 'react'
-import { copyTextToClipboard } from '@/utils/validation'
+import { copyTextToClipboard, hasRichTextContent } from '@/utils/validation'
 import { PREPARATION_STEPS, TARGET_GEOGRAPHY_TYPE_OPTIONS } from '@/constants'
 import RichText from '@/components/ui/RichText'
 import { useRouter } from 'next/navigation'
@@ -200,15 +200,23 @@ const Scope = ({ data, assessmentId }: ScopeProps) => {
           </div>
           <div>
             <p className='text-neutral-700 text-sm'>Country</p>
-            <p className='text-neutral-800 font-bold mt-1'>
-              {data.diagnosticScope.geography.country}
-            </p>
+            {data.diagnosticScope.geography.country ? (
+              <p className='text-neutral-800 font-bold mt-1'>
+                {data.diagnosticScope.geography.country}
+              </p>
+            ) : (
+              <NoInformation />
+            )}
           </div>
           <div>
             <p className='text-neutral-700 text-sm'>Sub-region / Province</p>
-            <p className='text-neutral-800 font-bold mt-1'>
-              {data.diagnosticScope.geography.subRegion}
-            </p>
+            {data.diagnosticScope.geography.subRegion ? (
+              <p className='text-neutral-800 font-bold mt-1'>
+                {data.diagnosticScope.geography.subRegion}
+              </p>
+            ) : (
+              <NoInformation />
+            )}
           </div>
           <div>
             <p className='text-neutral-700 text-sm'>
@@ -231,9 +239,7 @@ const Scope = ({ data, assessmentId }: ScopeProps) => {
                 )}
               </div>
             ) : (
-              <p className='text-neutral-800 font-bold'>
-                No information provided
-              </p>
+              <NoInformation />
             )}
           </div>
           <div>
@@ -254,9 +260,13 @@ const Scope = ({ data, assessmentId }: ScopeProps) => {
         <div className='grid grid-col-1 sm:grid-cols-2 gap-x-8 gap-y-4 mb-8'>
           <div>
             <p className='text-neutral-700 text-sm'>Completion year</p>
-            <p className='text-neutral-800 font-bold mt-1'>
-              {data.diagnosticScope.timeHorizon.completionYear}
-            </p>
+            {data.diagnosticScope.timeHorizon.completionYear ? (
+              <p className='text-neutral-800 font-bold mt-1'>
+                {data.diagnosticScope.timeHorizon.completionYear}
+              </p>
+            ) : (
+              <NoInformation />
+            )}
           </div>
         </div>
 
@@ -264,9 +274,13 @@ const Scope = ({ data, assessmentId }: ScopeProps) => {
         <div className='grid grid-col-1 gap-x-8 gap-y-4 mb-8'>
           <div>
             <p className='text-neutral-700 text-sm'>Goals</p>
-            <div className='flex flex-wrap gap-2 mt-1'>
-              <RichText html={data.diagnosticScope.restorationGoals.goals} />
-            </div>
+            {hasRichTextContent(data.diagnosticScope.restorationGoals.goals) ? (
+              <div className='flex flex-wrap gap-2 mt-1'>
+                <RichText html={data.diagnosticScope.restorationGoals.goals} />
+              </div>
+            ) : (
+              <NoInformation />
+            )}
           </div>
         </div>
 
@@ -274,33 +288,43 @@ const Scope = ({ data, assessmentId }: ScopeProps) => {
         <div className='grid grid-col-1 sm:grid-cols-2 gap-x-8 gap-y-4 mb-8'>
           <div>
             <p className='text-neutral-700 text-sm'>Engagement strategy</p>
-            <div className='flex flex-wrap gap-2 mt-1'>
-              <RichText
-                html={
-                  data.diagnosticScope.diagnosticPlanning.engagementStrategy
-                }
-              />
-            </div>
+            {hasRichTextContent(
+              data.diagnosticScope.diagnosticPlanning.engagementStrategy,
+            ) ? (
+              <div className='flex flex-wrap gap-2 mt-1'>
+                <RichText
+                  html={
+                    data.diagnosticScope.diagnosticPlanning.engagementStrategy
+                  }
+                />
+              </div>
+            ) : (
+              <NoInformation />
+            )}
           </div>
           <div>
             <p className='text-neutral-700 text-sm'>Shared folder link</p>
-            <div className='flex items-center gap-2 mt-1'>
-              <p className='text-neutral-800 font-bold underline decoration-primary-700 decoration-dotted'>
-                {data.diagnosticScope.diagnosticPlanning.materials}
-              </p>
-              {isMaterialsLinkCopied ? (
-                <CheckCircleIcon className='text-success-500 h-5 w-5' />
-              ) : (
-                <IconButton
-                  icon={<CopyIcon />}
-                  onClick={() =>
-                    handleCopyMaterialsLink(
-                      data.diagnosticScope.diagnosticPlanning.materials,
-                    )
-                  }
-                />
-              )}
-            </div>
+            {data.diagnosticScope.diagnosticPlanning.materials ? (
+              <div className='flex items-center gap-2 mt-1'>
+                <p className='text-neutral-800 font-bold underline decoration-primary-700 decoration-dotted'>
+                  {data.diagnosticScope.diagnosticPlanning.materials}
+                </p>
+                {isMaterialsLinkCopied ? (
+                  <CheckCircleIcon className='text-success-500 h-5 w-5' />
+                ) : (
+                  <IconButton
+                    icon={<CopyIcon />}
+                    onClick={() =>
+                      handleCopyMaterialsLink(
+                        data.diagnosticScope.diagnosticPlanning.materials,
+                      )
+                    }
+                  />
+                )}
+              </div>
+            ) : (
+              <NoInformation />
+            )}
           </div>
         </div>
       </CardContainer>

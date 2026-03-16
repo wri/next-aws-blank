@@ -159,7 +159,7 @@ const GatherMaterials = () => {
           leftIcon={<ChevronLeftIcon className='w-3 h-3' />}
           onClick={() =>
             router.push(
-              `/assessment/${assessmentId}/preparation/${PREPARATION_STEPS.DEFINE_ENGAGEMENT}`,
+              `/assessment/${assessmentId}/preparation/${PREPARATION_STEPS.DEFINE_ENGAGEMENT}${isEditing ? '?isEditMode=true' : ''}`,
             )
           }
         >
