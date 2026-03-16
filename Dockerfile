@@ -12,6 +12,10 @@ RUN npm ci --legacy-peer-deps
 # Copy source files
 COPY . .
 
+# Build arg for Next.js public env vars (baked at build time)
+ARG NEXT_PUBLIC_ENVIRONMENT
+ENV NEXT_PUBLIC_ENVIRONMENT=$NEXT_PUBLIC_ENVIRONMENT
+
 # Build the application
 # NODE_TLS_REJECT_UNAUTHORIZED=0: allows font downloads behind TLS-inspecting proxies (e.g. Zscaler)
 RUN NODE_TLS_REJECT_UNAUTHORIZED=0 npm run build
