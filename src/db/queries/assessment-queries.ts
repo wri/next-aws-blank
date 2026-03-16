@@ -4,6 +4,7 @@ import { Answer, AnswerValue } from '../entities/Answer.entity'
 import { Assessment } from '../entities/Assessment.entity'
 import { Contributor } from '../entities/Contributor.entity'
 import { AnswerContributor } from '../entities/AnswerContributor.entity'
+import { Diagnostic } from '../entities/Diagnostic.entity'
 import { AnswerStatus } from '@/types/answer.types'
 
 /**
@@ -82,6 +83,90 @@ export async function getQuestionsWithAnswers(assessmentId: string) {
     .getMany()
 
   return questionsWithAnswers
+}
+
+export async function getLocalizedQuestionsWithAnswers(
+  assessmentId: string,
+  language: string,
+) {
+  await initializeDatabase()
+  const assessmentRepo = AppDataSource.getRepository(Assessment)
+
+  const assessment = await assessmentRepo.findOne({
+    where: { id: assessmentId },
+    relations: ['diagnostic'],
+  })
+
+  if (!assessment) {
+    throw new Error('Assessment not found')
+  }
+
+  const questionRepo = AppDataSource.getRepository(Question)
+  const diagnosticRepo = AppDataSource.getRepository(Diagnostic)
+
+  const originalQuestions = await questionRepo
+    .createQueryBuilder('question')
+    .leftJoinAndMapOne(
+      'question.answer',
+      Answer,
+      'answer',
+      'answer.question_id = question.id AND answer.assessment_id = :assessmentId',
+      { assessmentId },
+    )
+    .where('question.diagnostic_id = :diagnosticId', {
+      diagnosticId: assessment.diagnosticId,
+    })
+    .orderBy('question.theme', 'ASC')
+    .addOrderBy('question.sort_order', 'ASC')
+    .addOrderBy('answer.updatedAt', 'DESC')
+    .getMany()
+
+  if (assessment.diagnostic.language === language) {
+    return originalQuestions
+  }
+
+  const localizedDiagnostic = await diagnosticRepo.findOne({
+    where: {
+      version: assessment.diagnostic.version,
+      language,
+    },
+  })
+
+  if (!localizedDiagnostic) {
+    return originalQuestions
+  }
+
+  const localizedQuestions = await questionRepo.find({
+    where: { diagnosticId: localizedDiagnostic.id },
+    order: {
+      theme: 'ASC',
+      sortOrder: 'ASC',
+    },
+  })
+
+  const localizedByCode = new Map(
+    localizedQuestions.map((question) => [question.questionCode, question]),
+  )
+
+  return originalQuestions.map((question) => {
+    const localizedQuestion = localizedByCode.get(question.questionCode)
+
+    if (!localizedQuestion) {
+      return question
+    }
+
+    return {
+      ...question,
+      theme: localizedQuestion.theme,
+      enablingCondition: localizedQuestion.enablingCondition,
+      keySuccessFactor: localizedQuestion.keySuccessFactor,
+      definition: localizedQuestion.definition,
+      questionText: localizedQuestion.questionText,
+      considerations: localizedQuestion.considerations,
+      followUpQuestions: localizedQuestion.followUpQuestions,
+      strategyExamples: localizedQuestion.strategyExamples,
+    }
+  })
 }
 
 /**

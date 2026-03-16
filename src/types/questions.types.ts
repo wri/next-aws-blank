@@ -13,7 +13,7 @@ export interface Answer {
   strategies: string
 }
 
-export interface Questions {
+export interface QuestionWithAnswer {
   id: string
   questionCode: string
   theme: Theme
@@ -29,3 +29,5 @@ export interface Questions {
   diagnosticId: string
   answer: Answer
 }
+
+export type Questions = QuestionWithAnswer

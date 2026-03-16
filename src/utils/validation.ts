@@ -38,14 +38,32 @@ export const hasRichTextContent = (value?: string) => {
   if (!value) return false
   if (/<(img|video|iframe|embed|object|svg|canvas)\b/i.test(value)) return true
 
-  const plainText = value
-    .replace(/<style[\s\S]*?<\/style>/gi, '')
-    .replace(/<script[\s\S]*?<\/script>/gi, '')
-    .replace(/<[^>]*>/g, '')
-    .replace(/&nbsp;|&#160;/gi, ' ')
-    .trim()
+  const plainText = richTextToPlainText(value)
 
   return plainText.length > 0
+}
+
+export const richTextToPlainText = (value?: string | null) => {
+  if (!value) return ''
+
+  return value
+    .replace(/<style[\s\S]*?<\/style>/gi, '')
+    .replace(/<script[\s\S]*?<\/script>/gi, '')
+    .replace(/<br\s*\/?>/gi, '\n')
+    .replace(/<\/(p|div|li|h[1-6]|blockquote)>/gi, '\n')
+    .replace(/<li[^>]*>/gi, '- ')
+    .replace(/<[^>]*>/g, '')
+    .replace(/&nbsp;|&#160;/gi, ' ')
+    .replace(/&amp;/gi, '&')
+    .replace(/&lt;/gi, '<')
+    .replace(/&gt;/gi, '>')
+    .replace(/&quot;/gi, '"')
+    .replace(/&#39;|&apos;/gi, "'")
+    .replace(/\r\n/g, '\n')
+    .replace(/\n{3,}/g, '\n\n')
+    .replace(/[ \t]+\n/g, '\n')
+    .replace(/\n[ \t]+/g, '\n')
+    .trim()
 }
 
 export const copyTextToClipboard = async (text: string) => {

@@ -2,7 +2,7 @@
 
 import SectionTitle from './SectionTitle'
 import CardContainer from './CardContainer'
-import { Questions } from '@/types/questions.types'
+import { QuestionWithAnswer } from '@/types/questions.types'
 import {
   Table,
   TableCell,
@@ -20,7 +20,7 @@ import Link from 'next/link'
 
 interface StrategicPlanProps {
   assessmentId: string
-  questions: Questions[]
+  questions: QuestionWithAnswer[]
   allContributors: PlainContributor[]
 }
 

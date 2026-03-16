@@ -7,6 +7,8 @@ import { validateSessionCookie } from '@/utils/session'
 import { PasswordPrompt } from '@/components/assessment/PasswordPrompt'
 import FromPreparationModal from '@/components/assessment/Overview/FromPreparationModal'
 import { PREPARATION_STEPS } from '@/constants'
+import ExportResponses from '@/components/assessment/Overview/ExportResponses'
+import { QuestionWithAnswer } from '@/types/questions.types'
 
 export default async function AssessmentPage({
   params,
@@ -59,7 +61,7 @@ export default async function AssessmentPage({
 
   const questionsAnswersData = await getQuestionsWithAnswers(assessment.id)
 
-  const questions = questionsAnswersData.map((qa) => ({
+  const questions: QuestionWithAnswer[] = questionsAnswersData.map((qa) => ({
     id: qa.id,
     questionCode: qa.questionCode,
     theme: qa.theme,
@@ -131,8 +133,9 @@ export default async function AssessmentPage({
 
   return (
     <div className='pb-20 pt-12'>
-      <div className='h-11 px-4 border-b border-neutral-400 mb-16 sticky top-0 bg-white z-10 flex items-center'>
+      <div className='h-11 px-4 border-b border-neutral-400 mb-16 sticky top-0 bg-white z-10 flex items-center justify-between'>
         <h1 className='font-bold text-neutral-800'>Overview</h1>
+        <ExportResponses assessmentId={assessment.id} />
       </div>
 
       <div className='w-full max-w-screen-1100 p-4 mx-auto flex flex-col gap-10'>

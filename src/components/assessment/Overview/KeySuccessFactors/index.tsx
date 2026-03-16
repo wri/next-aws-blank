@@ -1,13 +1,13 @@
 'use client'
 
 import SectionTitle from '../SectionTitle'
-import { Questions } from '@/types/questions.types'
+import { QuestionWithAnswer } from '@/types/questions.types'
 import { Theme } from '@/db/entities'
 import KeySuccessFactorsSection from './KeySuccessFactorsSection'
 
 interface KeySuccessFactorsProps {
   assessmentId: string
-  questions: Questions[]
+  questions: QuestionWithAnswer[]
 }
 
 const KeySuccessFactors = ({

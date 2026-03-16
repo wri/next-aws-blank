@@ -576,6 +576,30 @@
         "description": ""
       }
     },
+    "exportResponses": {
+      "headers": {
+        "id": "ID",
+        "theme": "Tema",
+        "enablingCondition": "Condición habilitante",
+        "keyFactor": "Factor clave",
+        "status": "Estado",
+        "response": "Respuesta",
+        "rationale": "Justificación"
+      },
+      "status": {
+        "notStarted": "No iniciado",
+        "inProgress": "En progreso",
+        "complete": "Completo",
+        "empty": ""
+      },
+      "response": {
+        "yes": "Sí",
+        "partly": "Parcialmente",
+        "no": "No",
+        "na": "No aplica",
+        "empty": ""
+      }
+    },
     "sectionTitle": {
       "tabs": {
         "progress": "",
