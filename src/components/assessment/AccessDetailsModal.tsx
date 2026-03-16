@@ -138,10 +138,10 @@ export function AccessDetailsModal({
       header={<Text fontWeight={'bold'}>Save your access details</Text>}
       blocking={true}
       content={
-        <div className="space-y-6">
+        <div className="space-y-4">
           <p className="text-gray-700 leading-relaxed">
-            This diagnostic doesn&apost use accounts. To keep your progress secure and return later, 
-            you&aposll need to save both the diagnostic link and password.
+            This diagnostic doesn&apos;t use accounts. To keep your progress secure and return later, 
+            you&apos;ll need to save both the diagnostic link and password.
           </p>
 
           {/* input box */}
@@ -223,7 +223,7 @@ export function AccessDetailsModal({
           </label>
 
           {/* Start Button */}
-          <div className="pt-2">
+          <div>
             <Button
               label="Continue"
               variant="primary"
