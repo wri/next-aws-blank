@@ -74,16 +74,15 @@ export const steps = [
         title: 'Ensuring inclusion and equity',
         content: `
           <p>
-            Some participants may hesitate to share in group settings, and local social/gender dynamics can exclude some groups.
-            The coordinating team should adapt engagement methods to ensure diverse perspectives are captured. This can be done by:
+            Some participants may hesitate to share in group settings, and local social/gender dynamics can exclude some groups. The coordinating team should adapt engagement methods to ensure diverse perspectives are captured. This can be done by:
           </p>
           <ul>
-            <li>holding separate focus groups for women and/or Indigenous communities</li>
-            <li>using local languages</li>
-            <li>including trusted intermediaries</li>
-            <li>providing travel/compensation where needed</li>
-            <li>creating safe space agreements</li>
-            <li>allowing anonymous written input for sensitive questions</li>
+            <li>Holding separate focus groups for women and/or Indigenous communities</li>
+            <li>Using local languages</li>
+            <li>Including trusted intermediaries</li>
+            <li>Providing travel/compensation where needed</li>
+            <li>Creating safe space agreements</li>
+            <li>Allowing anonymous written input for sensitive questions</li>
           </ul>
           `,
       },

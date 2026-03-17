@@ -112,7 +112,7 @@ export default function SetupAssessmentPage() {
         errorMessages.push(`• ${error.message}`)
       }
     })
-    return errorMessages.join('\n')
+    return errorMessages
   }
 
   const hasErrors = Object.keys(errors).length > 0
@@ -196,19 +196,6 @@ export default function SetupAssessmentPage() {
                       width={640}
                       height={480}
                     />
-                  </div>
-
-                  <div className='my-4 px-4 py-3 border border-neutral-300 rounded-lg bg-white'>
-                    <div className='flex items-center justify-between gap-4'>
-                      <div className='flex-1'>
-                        <h3 className='font-bold text-lg text-neutral-800'>
-                          Complete offline
-                        </h3>
-                        <p className='text-neutral-800'>
-                          Download the spreadsheet template and PDF guidance document to complete a simplified version of the Diagnostic offline.
-                        </p>
-                      </div>
-                    </div>
                   </div>
                 </div>
               }
@@ -427,14 +414,16 @@ export default function SetupAssessmentPage() {
 
             {hasErrors && (
               <div className='mb-4'>
-                <div className='p-4 bg-error-50 border-l-4 border-error-500 rounded'>
-                  <p className='font-bold text-error-900 text-sm mb-3'>
-                    There are errors in the form:
-                  </p>
-                  <div className='space-y-1 text-sm text-error-800 whitespace-pre-line'>
-                    {getErrorList()}
-                  </div>
-                </div>
+                <InlineMessage
+                  variant='error'
+                  label={`${ Object.keys(errors).length > 1 ? 'There are' : 'There is'} ${ Object.keys(errors).length} error${ Object.keys(errors).length > 1 ? 's' : ''} in the form`}
+                  caption={ 
+                    <div className='flex flex-col'>
+                      {getErrorList().map((error: string) => (<p key={error}>{error}</p>))}
+                    </div>
+                  }
+                  size='full-width'
+                />
               </div>
             )}
             <Button

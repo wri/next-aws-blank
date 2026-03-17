@@ -125,7 +125,7 @@
       },
       "validation": {
         "titleRequired": "Title is required",
-        "fullNameRequired": "Full name is required",
+        "fullNameRequired": "Name is required",
         "fullNameMinLength": "Name must be at least 2 characters",
         "emailRequired": "Email address is required",
         "emailInvalid": "Add a valid email address",

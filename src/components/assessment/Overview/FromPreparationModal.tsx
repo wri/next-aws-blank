@@ -38,8 +38,7 @@ const FromPreparationModal = ({
       content={
         <div className='text-base'>
           <p className='text-neutral-700 mb-2'>
-            You can now assess whether the 31 key success factors for
-            restoration in your chosen ecosystem are currently:
+            You can now assess whether the 31 key success factors for restoration in your chosen geography are currently:
           </p>
 
           <div className='mb-4'>
@@ -87,7 +86,7 @@ const FromPreparationModal = ({
                 <p className='text-neutral-800'>Motivate (8 questions)</p>
               </div>
               <div className='border border-neutral-300 px-4 py-3 rounded-[4px] flex items-center gap-2'>
-                <UserIcon className='text-secondary-500 h-5 w-5' />
+                <UserIcon className='text-secondary-500 h-5 w-5' height="20px" width="20px" />
                 <p className='text-neutral-800'>Plan (13 questions)</p>
               </div>
               <div className='border border-neutral-300 px-4 py-3 rounded-[4px] flex items-center gap-2'>
@@ -95,15 +94,6 @@ const FromPreparationModal = ({
                 <p className='text-neutral-800'>Implement (9 questions)</p>
               </div>
             </div>
-          </div>
-
-          <div className='flex items-start gap-2 py-2.5 px-3 bg-secondary-100 rounded-md border border-secondary-200 mb-3'>
-            <InfoIcon className='text-secondary-500 h-4 w-4' />
-            <p className='text-secondary-700'>
-              You can export or share your progress (in view-only or editable
-              format) at any time; or use workshop mode (enabled from the top
-              right of the screen) to see a simplified full screen view.
-            </p>
           </div>
 
           <div className='flex items-center justify-start'>

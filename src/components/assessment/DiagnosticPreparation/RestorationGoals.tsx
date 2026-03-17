@@ -117,11 +117,12 @@ const RestorationGoals = () => {
         Restoration goals describe the intended outcomes for the landscape.
         These may focus on a single ecosystem type or on a mix of ecosystems.
       </p>
-      <p className='text-neutral-800 mb-8'>
+      <p className='text-neutral-800 mb-2'>
         Goals commonly relate to biodiversity conservation, climate mitigation or adaptation, livelihood improvement, water security, or food production.
+      </p>
+      <p className='text-neutral-800 mb-8'>
         Restoration goals can be described either before or after running the diagnostic, depending on the context and how the diagnostic is completed.
       </p>
-
       <div className='mb-10'>
         <p className='text-neutral-900 text-xl mb-4 font-bold'>
           Describe your goals for restoration

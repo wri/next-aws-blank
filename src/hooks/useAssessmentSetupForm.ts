@@ -46,7 +46,7 @@ export const assessmentFormRules = {
   },
   jobTitle: {},
   fullName: {
-    required: 'Full name is required',
+    required: 'Name is required',
     minLength: {
       value: 2,
       message: 'Name must be at least 2 characters',

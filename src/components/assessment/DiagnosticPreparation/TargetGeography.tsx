@@ -458,7 +458,11 @@ const TargetGeography = () => {
           <InlineMessage
             variant='error'
             label={`${errorsLength > 1 ? 'There are' : 'There is'} ${errorsLength} error${errorsLength > 1 ? 's' : ''} in the form`}
-            caption={getErrorList().join(' ')}
+            caption={ 
+              <div className='flex flex-col'>
+                {getErrorList().map((error: string) => (<p key={error}>{error}</p>))}
+              </div>
+            }
             size='full-width'
           />
         </div>
