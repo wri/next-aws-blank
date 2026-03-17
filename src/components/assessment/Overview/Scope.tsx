@@ -9,6 +9,11 @@ import { copyTextToClipboard, hasRichTextContent } from '@/utils/validation'
 import { PREPARATION_STEPS, TARGET_GEOGRAPHY_TYPE_OPTIONS } from '@/constants'
 import RichText from '@/components/ui/RichText'
 import { useRouter } from 'next/navigation'
+import {
+  ageRangeOptions,
+  genderOptions,
+  identityOptions,
+} from '@/constants/setup-assessment'
 
 const NoInformation = () => {
   return <div className='h-[3px] w-6 bg-neutral-400 mt-[14.5px]' />
@@ -146,7 +151,11 @@ const Scope = ({ data, assessmentId }: ScopeProps) => {
             <p className='text-neutral-700 text-sm'>Gender</p>
             {data.diagnosticLead.gender ? (
               <p className='text-neutral-800 font-bold mt-1'>
-                {data.diagnosticLead.gender}
+                {
+                  genderOptions.find(
+                    (option) => option.value === data.diagnosticLead.gender,
+                  )?.label
+                }
               </p>
             ) : (
               <NoInformation />
@@ -156,7 +165,11 @@ const Scope = ({ data, assessmentId }: ScopeProps) => {
             <p className='text-neutral-700 text-sm'>Age range</p>
             {data.diagnosticLead.ageRange ? (
               <p className='text-neutral-800 font-bold mt-1'>
-                {data.diagnosticLead.ageRange}
+                {
+                  ageRangeOptions.find(
+                    (option) => option.value === data.diagnosticLead.ageRange,
+                  )?.label
+                }
               </p>
             ) : (
               <NoInformation />
@@ -168,7 +181,11 @@ const Scope = ({ data, assessmentId }: ScopeProps) => {
             </p>
             {data.diagnosticLead.identity ? (
               <p className='text-neutral-800 font-bold mt-1'>
-                {data.diagnosticLead.identity}
+                {
+                  identityOptions.find(
+                    (option) => option.value === data.diagnosticLead.identity,
+                  )?.children
+                }
               </p>
             ) : (
               <NoInformation />
