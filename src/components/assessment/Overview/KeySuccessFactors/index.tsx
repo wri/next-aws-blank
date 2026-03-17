@@ -19,19 +19,19 @@ const KeySuccessFactors = ({
       theme: Theme.MOTIVATE,
       title: 'Motivate',
       caption:
-        'Factors that create incentives and demand for restoration among investors, policymakers, and implementers.',
+        'Factors that inspire or motivate to catalyze processes that lead to restoration such as incentives that drive demand for restoration among investors, policymakers, and land stewards.',
       questions: questions.filter((q) => q.theme === Theme.MOTIVATE),
     },
     {
       theme: Theme.ENABLE,
       title: 'Enable',
-      caption: 'Policies, institutions, finance, and land tenure conditions.',
+      caption: 'Factors that create a favorable context for restoration such as policies, finance and land tenure considerations.',
       questions: questions.filter((q) => q.theme === Theme.ENABLE),
     },
     {
       theme: Theme.IMPLEMENT,
       title: 'Implement',
-      caption: 'Technical capacity, knowledge, and operational readiness.',
+      caption: 'Factors that are related with capacities and resources to mobilize implementation of restoration on-the-ground such as technical capacity, knowledge, and operational readiness.',
       questions: questions.filter((q) => q.theme === Theme.IMPLEMENT),
     },
   ]

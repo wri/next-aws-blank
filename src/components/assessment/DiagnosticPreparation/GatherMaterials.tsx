@@ -28,7 +28,7 @@ const suggestedDocuments = [
         <li>National restoration strategies or programs.</li>
         <li>Laws and regulations (Forestry, Agriculture, Land Use, Water).</li>
         <li>International commitments (UNFCCC, CBD, UNCCD).</li>
-        <li>National development plans and NDCs.</li>
+        <li>National development plans. </li>
       </ul>
     `,
   },
@@ -167,7 +167,7 @@ const GatherMaterials = () => {
         </Button>
 
         <h1 className='text-3xl font-bold text-neutral-900 mb-2'>
-          Gather materials
+          Gather supporting materials
         </h1>
         <p className='text-neutral-800 mb-8'>
           Before starting the diagnostic, it is useful to gather key documents

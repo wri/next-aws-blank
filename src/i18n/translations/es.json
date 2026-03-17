@@ -60,6 +60,13 @@
         "getStartedDescription": "",
         "diagnosticLead": "",
         "diagnosticLeadDescription": "",
+        "demographicInfoModal": {
+          "title": "",
+          "description1": "",
+          "description2": "",
+          "buttonLabel": "",
+          "closeButton": ""
+        },
         "geography": "",
         "geographyDescription": ""
       },

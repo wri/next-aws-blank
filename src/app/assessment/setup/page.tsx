@@ -15,7 +15,7 @@ import {
   RadioList,
 } from '@worldresources/wri-design-systems'
 import {
-  DownloadIcon,
+  InfoIcon,
 } from '@/components/icons'
 import { AccessDetailsModal } from '@/components/assessment/AccessDetailsModal'
 import {
@@ -30,7 +30,7 @@ import {
 import type { AssessmentSetupFormData } from '@/types/assessment-setup.types'
 import type { AssessmentCreatedResponse } from '@/types/api.types'
 import Image from 'next/image'
-import { Box } from '@chakra-ui/react'
+import { Box, Text } from '@chakra-ui/react'
 import { useLanguage } from '@/contexts/LanguageContext'
 import { externalLinks } from '@/constants/external-links'
 
@@ -48,7 +48,8 @@ export default function SetupAssessmentPage() {
   const [showAccessModal, setShowAccessModal] = useState(false)
   const [createdAssessmentId, setCreatedAssessmentId] = useState<string | null>(null)
   const [assessmentPassword, setAssessmentPassword] = useState<string | null>(null)
-
+  const [showDemographicInfoModal, setShowDemographicInfoModal] = useState(false)
+  
   const isDev = process.env.NODE_ENV === 'development'
 
   const {
@@ -179,13 +180,13 @@ export default function SetupAssessmentPage() {
               content={
                 <div className='p-6 sm:p-8'>
                   <h2 className='font-bold text-4xl text-neutral-800 mb-2'>
-                    Welcome to the Restoration Diagnostic Tool
+                    Run the Restoration Diagnostic
                   </h2>
 
                   <p className='text-lg text-neutral-800 mb-4'>
-                    A rapid assessment tool to evaluate the readiness of your
-                    landscape/geography for restoration and design strategic
-                    actions to ensure long-term success.
+                    Using the Diagnostic tool helps you assess the readiness of the 
+                    geography or scale selected for restoration and design strategic 
+                    actions to promote long-term success.
                   </p>
 
                   <div className='rounded-lg overflow-hidden'>
@@ -207,26 +208,8 @@ export default function SetupAssessmentPage() {
                           Download the spreadsheet template and PDF guidance document to complete a simplified version of the Diagnostic offline.
                         </p>
                       </div>
-                      <Button
-                        variant='secondary'
-                        size='small'
-                        leftIcon={<DownloadIcon />}
-                        label='Download'
-                        onClick={() =>
-                          window.open(
-                            externalLinks.offlineDownload,
-                            '_blank',
-                            'noopener noreferrer',
-                          )
-                        }
-                      />
                     </div>
                   </div>
-
-                  <p className='mt-3 text-sm text-neutral-700'>
-                    Fields marked with <span className='text-error-500'>*</span>{' '}
-                    are required.
-                  </p>
                 </div>
               }
             />
@@ -255,7 +238,7 @@ export default function SetupAssessmentPage() {
                         color: getThemedColor('neutral', 800),
                         marginBottom: '2'
                       },
-                      '& span': {
+                      '& span[data-part="helper-text"]': {
                         fontSize: 'lg',
                         color: getThemedColor('neutral', 800)
                       }
@@ -291,8 +274,8 @@ export default function SetupAssessmentPage() {
 
                     <div className='grid grid-cols-1 gap-4'>
                       <TextInput
-                        label='Full name'
-                        placeholder='Enter full name'
+                        label='Name'
+                        placeholder='Enter name'
                         required
                         {...register('fullName', assessmentFormRules.fullName)}
                         errorMessage={errors.fullName?.message}
@@ -328,9 +311,19 @@ export default function SetupAssessmentPage() {
                         <h3 className='text-lg font-bold text-neutral-800'>
                           Demographic information
                         </h3>
-                        <p className='text-sm text-neutral-600'>
-                          The following questions are used for aggregated reporting only and do not affect participation.
+                        <p className='text-neutral-700'>
+                          WRI asks for this demographic information as an indicator of how accessible the Restoration Diagnostic tool is to certain groups. This information is not required.
                         </p>
+                        <div>
+                          <Button 
+                            variant="secondary"
+                            size="small"
+                            leftIcon={<InfoIcon />}
+                            style={{ borderRadius: '8px' }}
+                            onClick={() => setShowDemographicInfoModal(true)}>
+                            How this information is used
+                          </Button>
+                        </div>
                       </div>
 
                       <Controller
@@ -461,6 +454,31 @@ export default function SetupAssessmentPage() {
           assessmentId={createdAssessmentId}
           password={assessmentPassword}
           onContinue={handleContinueAssessment}
+        />
+      )}
+
+      {showDemographicInfoModal && (
+        <Modal
+          open={showDemographicInfoModal}
+          onClose={() => setShowDemographicInfoModal(false)}
+          size='medium'
+          header={<Text fontWeight={'bold'}>How demographic information is used</Text>}
+          content={
+            <div className='space-y-4'>
+              <p className='text-neutral-700 leading-relaxed'>
+                If you choose to provide demographic information, select staff
+                members from WRI&apos;s Data Lab and Restoration teams will have
+                access to it, and will use it to inform any suggested
+                improvements to WRI&apos;s approach to user engagement.
+              </p>
+              <p className='text-neutral-700 leading-relaxed'>
+                WRI is committed to prioritizing people&apos;s rights to consent,
+                privacy, security and ownership when using data in social
+                change and advocacy efforts, and implementing values and
+                practices of transparency and openness.
+              </p>
+            </div>
+          }
         />
       )}
     </>

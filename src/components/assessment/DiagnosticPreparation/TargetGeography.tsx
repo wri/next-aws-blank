@@ -223,9 +223,7 @@ const TargetGeography = () => {
         Target geography
       </h1>
       <p className='text-neutral-800 mb-8'>
-        The target geography defines the landscape or area where the diagnostic
-        will be applied. This may be a country, sub-national administrative
-        area, municipality, watershed, biome, or ecological region.
+        The target geography defines the area or scale where the diagnostic will be applied. This may be a country, sub-national administrative area, municipality, watershed, biome, or ecological region.
       </p>
       <p className='text-neutral-900 text-xl mb-3 font-bold'>
         Define the geographic area

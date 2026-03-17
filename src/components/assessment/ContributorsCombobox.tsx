@@ -108,7 +108,7 @@ export function ContributorsCombobox({
           Contributors
         </h3>
         <p className="text-sm text-slate-600 mb-4">
-          Add the full name of everyone involved in answering this question.
+          List everyone involved in answering this question:
         </p>
       </div>
       

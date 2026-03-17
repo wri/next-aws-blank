@@ -18,9 +18,9 @@ const PreparationPage = () => {
         </h1>
 
         <p className='text-neutral-800 mt-2'>
-          This step helps you get ready to run the diagnostic effectively. You
-          will decide how you will conduct the process and define the scope of
-          the assessment.
+          In this phase, you will have the opportunity to set the scope, designate a lead for the process, 
+          choose stakeholder engagement methods, gather the necessary documentation, 
+          define the target geography or scale, and outline your restoration goals and the timeline for the efforts.
         </p>
         <p className='text-neutral-800 mt-2'>
           Taking time to prepare ensures the diagnostic is focused,

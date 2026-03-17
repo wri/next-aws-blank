@@ -67,6 +67,13 @@
         },
         "demographicInformation": "Demographic information",
         "demographicInformationDescription": "The following questions are used for aggregated reporting only and do not affect participation.",
+        "demographicInfoModal": {
+          "title": "How demographic information is used",
+          "description1": "If you choose to provide demographic information, select staff members from WRI's Data Lab and Restoration teams will have access to it, and will use it to inform any suggested improvements to WRI's approach to user engagement.",
+          "description2": "WRI is committed to prioritizing people's rights to consent, privacy, security and ownership when using data in social change and advocacy efforts, and implementing values and practices of transparency and openness.",
+          "buttonLabel": "How this information is used",
+          "closeButton": "Close"
+        },
         "geography": "Geography",
         "geographyDescription": "Enter details about the location of your restoration project."
       },
@@ -121,7 +128,7 @@
         "fullNameRequired": "Full name is required",
         "fullNameMinLength": "Name must be at least 2 characters",
         "emailRequired": "Email address is required",
-        "emailInvalid": "Please provide a valid email address",
+        "emailInvalid": "Add a valid email address",
         "countryRequired": "Country is required",
         "subRegionRequired": "Sub-region is required",
         "geographyTypeRequired": "Geography type is required",

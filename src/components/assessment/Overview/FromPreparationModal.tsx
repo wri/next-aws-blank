@@ -6,10 +6,10 @@ import { useRouter } from 'next/navigation'
 import {
   BulbIcon,
   InfoIcon,
+  LeadThemeIcon,
   NoAnswerIcon,
   PartlyAnswerIcon,
-  SettingsIcon,
-  StarIcon,
+  UserIcon,
   YesAnswerIcon,
 } from '@/components/icons'
 
@@ -83,16 +83,16 @@ const FromPreparationModal = ({
             </p>
             <div className='flex flex-col gap-2.5'>
               <div className='border border-neutral-300 px-4 py-3 rounded-[4px] flex items-center gap-2'>
-                <StarIcon className='text-secondary-500 h-5 w-5' />
+                <BulbIcon className='text-secondary-500 h-5 w-5' />
                 <p className='text-neutral-800'>Motivate (8 questions)</p>
               </div>
               <div className='border border-neutral-300 px-4 py-3 rounded-[4px] flex items-center gap-2'>
-                <BulbIcon className='text-secondary-500 h-5 w-5' />
+                <UserIcon className='text-secondary-500 h-5 w-5' />
                 <p className='text-neutral-800'>Plan (13 questions)</p>
               </div>
               <div className='border border-neutral-300 px-4 py-3 rounded-[4px] flex items-center gap-2'>
-                <SettingsIcon className='text-secondary-500 h-5 w-5' />
-                <p className='text-neutral-800'>Implement (10 questions)</p>
+                <LeadThemeIcon className='text-secondary-500 h-5 w-5' />
+                <p className='text-neutral-800'>Implement (9 questions)</p>
               </div>
             </div>
           </div>

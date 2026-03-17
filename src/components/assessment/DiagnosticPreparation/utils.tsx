@@ -55,7 +55,7 @@ export const steps = [
       {
         title: 'How to do it',
         content:
-          'Agree on goals early with key stakeholders and keep them specific enough to inform decisions. Where helpful, use the ROAM methodology to support goal-setting and alignment.',
+          'Agree on goals early with key stakeholders and keep them specific enough to inform decisions by including information about the type of ecosystem to be restored, the target beneficiaries, and any other desired environmental or socioeconomic goals. Where helpful, use the ROAM methodology to support goal-setting and alignment.',
       },
     ],
     component: <RestorationGoals />,
@@ -74,7 +74,7 @@ export const steps = [
         title: 'Ensuring inclusion and equity',
         content: `
           <p>
-            Some participants may hesitate to share in group settings, and local social/gender dynamics can exclude marginalized groups.
+            Some participants may hesitate to share in group settings, and local social/gender dynamics can exclude some groups.
             The coordinating team should adapt engagement methods to ensure diverse perspectives are captured. This can be done by:
           </p>
           <ul>
@@ -97,11 +97,17 @@ export const steps = [
     guidance: [
       {
         title: 'Preparing your evidence',
-        content:
-          'The diagnostic asks you to assess whether key enabling conditions are in place. To answer confidently and consistently, you will need to refer to existing documents, data sources, and policy materials.',
+        content: `
+          <p>
+            The diagnostic asks you to assess whether key enabling conditions are in place. To answer confidently and consistently, you will need to refer to existing documents, data sources, and policy materials.
+          </p>
+          <p>
+            Please note that evidence can be collected throughout the entire process, if necessary.
+          </p>
+        `,
       },
       {
-        title: 'Organising access to documents',
+        title: 'Organizing access to documents',
         content:
           'Add links to a shared folder or individual documents stored online (for example, in a shared drive or document platform). This ensures that everyone involved can quickly access the same information during workshops or distributed completion.',
       },

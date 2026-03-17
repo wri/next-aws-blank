@@ -2,7 +2,7 @@
 
 import { Button, Breadcrumb, getThemedColor } from '@worldresources/wri-design-systems'
 import { Box } from '@chakra-ui/react'
-import { CheckIcon, ErrorCircleFilledIcon, ShareIcon } from '@/components/icons'
+import { CheckIcon, ErrorCircleFilledIcon } from '@/components/icons'
 import type { AutoSaveStatus } from '@/hooks/useAutoSave'
 import type { PlainQuestion } from './ThemePageLayout'
 import Link from 'next/link'
@@ -96,14 +96,6 @@ export function SubNavbar({
             )}
           </div>
         )}
-
-        {/* Share button (static, no functionality) */}
-        <Button
-          variant='borderless'
-          size='small'
-          leftIcon={<ShareIcon />}
-          label='Share'
-        />
       </div>
     </div>
   )

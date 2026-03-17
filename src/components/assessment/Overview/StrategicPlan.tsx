@@ -71,7 +71,7 @@ const StrategicPlan = ({
         <SectionTitle index={3} title='Strategic Plan' />
         <CardContainer
           title='Strategic Plan'
-          caption='All strategies added across Diagnostic factors.'
+          caption='Identified actions that increase the likelihood of successful restoration in the target geography.'
           hideLabel='table'
           noHorizontalPadding
           noPaddingBottom
