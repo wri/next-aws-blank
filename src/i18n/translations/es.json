@@ -98,7 +98,7 @@
       "labels": {
         "diagnosticTitle": "Título del diagnóstico",
         "jobTitle": "Título del puesto",
-        "fullName": "Nombre completo",
+        "fullName": "Nombre",
         "email": "Correo electrónico",
         "organization": "Organización",
         "role": "Rol laboral",
