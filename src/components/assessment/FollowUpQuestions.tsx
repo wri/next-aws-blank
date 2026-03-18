@@ -1,6 +1,7 @@
 'use client'
 
 import type { AnswerValue } from '@/db/entities/Answer.entity'
+import { useTranslations } from '@/i18n/useTranslations'
 
 interface FollowUpQuestionsProps {
   followUpQuestions: { 'if yes'?: string[]; 'if no'?: string[] } | null
@@ -8,6 +9,7 @@ interface FollowUpQuestionsProps {
 }
 
 export function FollowUpQuestions({ followUpQuestions, selectedAnswer }: FollowUpQuestionsProps) {
+  const t = useTranslations()
   // Don't show for N/A or no answer
   if (!selectedAnswer || selectedAnswer === 'na' || !followUpQuestions) {
     return null
@@ -33,7 +35,7 @@ export function FollowUpQuestions({ followUpQuestions, selectedAnswer }: FollowU
   return (
     <div className="space-y-2">
       <p className="text-sm text-slate-600">
-        Topics to include
+        {t('assessment.content.subheadings.topicsToInclude')}
       </p>
       <ul className="list-disc pl-5 space-y-1 text-sm text-slate-600">
         {questions.map((question, index) => (

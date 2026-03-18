@@ -17,6 +17,7 @@
 import { readFileSync, readdirSync, existsSync } from 'fs'
 import { initializeDatabase } from '../../db/data-source'
 import { Question } from '../../db/entities/Question.entity'
+import { locales } from '../config'
 
 const EXPECTED_CODES = [
   'M01','M02','M03','M04','M05','M06','M07','M08',
@@ -39,7 +40,7 @@ async function validateTranslations(options: { questionsOnly?: boolean; ci?: boo
   
   try {
     const expectedQuestions = 31
-    const supportedLocales = ['en'] // Expand to ['en', 'es'] when Spanish is added
+    const supportedLocales = [...locales] // Import from canonical config
     
     for (const locale of supportedLocales) {
       const count = await dataSource

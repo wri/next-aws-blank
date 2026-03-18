@@ -4,5 +4,7 @@
 
 export const languageOptions = [
   { label: 'English', value: 'en' },
-  { label: 'Spanish', value: 'es' },
+  { label: 'Español', value: 'es' },
+  { label: 'Français', value: 'fr' },
+  { label: 'Português', value: 'pt' },
 ];

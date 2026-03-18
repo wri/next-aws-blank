@@ -154,6 +154,25 @@ export function sanitizeText(text: string | null | undefined): string | null {
     .trim() || null
 }
 
+/**
+ * Sanitize text that contains bullet-separated list items.
+ * Preserves bullet characters (•) for proper formatting in UI.
+ * Use for fields like strategyExamples that are displayed as lists.
+ */
+export function sanitizeListText(text: string | null | undefined): string | null {
+  if (!text) return null
+  return text
+    .replace(/\uFFFD/g, '') // Remove replacement characters
+    .replace(/ï¿½/g, '')    // Remove corrupted UTF-8 sequences
+    .replace(/[""]/g, '"')  // Normalize quotes
+    .replace(/['']/g, "'")
+    .split('\n')
+    .map(line => line.trim())
+    .filter(line => line.length > 0)
+    .join('\n')
+    .trim() || null
+}
+
 export function sanitizeQuestionText(text: string | null | undefined): string {
   if (!text) return ''
   return text

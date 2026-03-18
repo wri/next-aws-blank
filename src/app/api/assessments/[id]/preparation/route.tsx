@@ -2,7 +2,7 @@ import { Assessment } from '@/db/entities'
 import { AssessmentSetupFormData } from '@/types/assessment-setup.types'
 import { type NextRequest } from 'next/server'
 import { PREPARATION_STEPS } from '@/constants'
-import { steps } from '@/components/assessment/DiagnosticPreparation/utils'
+import { preparationStepOrder } from '@/components/assessment/DiagnosticPreparation/utils'
 
 export async function GET(
   request: NextRequest,
@@ -104,11 +104,14 @@ export async function POST(
       }
 
       const isEditing = body.isEditing
-      const currentStepIndex = steps.findIndex((s) => s.id === body.step)
+      const currentStepIndex = preparationStepOrder.findIndex(
+        (stepId) => stepId === body.step,
+      )
       const nextStepId = isEditing
         ? PREPARATION_STEPS.COMPLETE
-        : currentStepIndex !== -1 && currentStepIndex < steps.length - 1
-          ? steps[currentStepIndex + 1].id
+        : currentStepIndex !== -1 &&
+            currentStepIndex < preparationStepOrder.length - 1
+          ? preparationStepOrder[currentStepIndex + 1]
           : PREPARATION_STEPS.COMPLETE
 
       let updatedAssessmentData = {

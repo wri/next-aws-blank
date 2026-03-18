@@ -4,6 +4,7 @@ import { DownloadIcon } from '@/components/icons'
 import { useLanguage } from '@/contexts/LanguageContext'
 import { Button } from '@worldresources/wri-design-systems'
 import { useState } from 'react'
+import { useTranslations } from '@/i18n/useTranslations'
 
 const ExportResponses = ({
   assessmentId,
@@ -12,6 +13,7 @@ const ExportResponses = ({
 }) => {
   const { language } = useLanguage()
   const [isDownloading, setIsDownloading] = useState(false)
+  const t = useTranslations()
 
   const downloadResponses = async () => {
     setIsDownloading(true)
@@ -49,7 +51,7 @@ const ExportResponses = ({
   return (
     <Button
       variant='secondary'
-      label='Export responses'
+      label={t('overview.exportResponses.button')}
       size='small'
       leftIcon={<DownloadIcon />}
       onClick={downloadResponses}

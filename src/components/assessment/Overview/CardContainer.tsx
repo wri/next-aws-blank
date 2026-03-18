@@ -1,9 +1,12 @@
+'use client'
+
 import { Button, Tag } from '@worldresources/wri-design-systems'
 import { ChevronDownIcon, EditIcon } from '../../icons'
 import { Collapsible } from '@chakra-ui/react'
 import { useState } from 'react'
 import { TrailingIcon } from '../../icons/Trailing'
 import clsx from 'clsx'
+import { useTranslations } from '@/i18n/useTranslations'
 
 const CardContainer = ({
   title,
@@ -31,6 +34,7 @@ const CardContainer = ({
   noPaddingBottom?: boolean
 }) => {
   const [open, setOpen] = useState(openByDefault || false)
+  const t = useTranslations()
 
   let tagVariant = 'info-grey' as
     | 'info-white'
@@ -38,7 +42,9 @@ const CardContainer = ({
     | 'success'
     | 'warning'
     | 'error'
-  if (tag === 'Complete') tagVariant = 'success'
+  if (tag === t('overview.keySuccessFactors.status.complete')) {
+    tagVariant = 'success'
+  }
 
   return (
     <div
@@ -80,7 +86,8 @@ const CardContainer = ({
                 className='text-sm text-neutral-500'
                 size='small'
               >
-                Start <TrailingIcon className='ml-1.5' />
+                {t('overview.keySuccessFactors.actions.start')}{' '}
+                <TrailingIcon className='ml-1.5' />
               </Button>
             ) : onContinue ? (
               <Button
@@ -88,7 +95,8 @@ const CardContainer = ({
                 className='text-sm text-neutral-500'
                 size='small'
               >
-                Continue <TrailingIcon className='ml-1.5' />
+                {t('overview.keySuccessFactors.actions.continue')}{' '}
+                <TrailingIcon className='ml-1.5' />
               </Button>
             ) : null}
 
@@ -99,7 +107,7 @@ const CardContainer = ({
                 size='small'
               >
                 <EditIcon className='mr-1.5' />
-                Edit
+                {t('overview.cardContainer.actions.edit')}
               </Button>
             ) : null}
 
@@ -109,7 +117,12 @@ const CardContainer = ({
                   onClick={() => setOpen(!open)}
                   size='small'
                   variant='secondary'
-                  label={`${open ? 'Hide' : 'Show'} ${hideLabel}`}
+                  label={t(
+                    open
+                      ? 'overview.cardContainer.actions.hide'
+                      : 'overview.cardContainer.actions.show',
+                    { label: hideLabel },
+                  )}
                   rightIcon={
                     <ChevronDownIcon className={open ? 'rotate-180' : ''} />
                   }

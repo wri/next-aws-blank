@@ -6,8 +6,17 @@ import { AnswerStatus, AnswerValue } from '@/db/entities/Answer.entity'
 import { richTextToPlainText } from '@/utils/validation'
 import enTranslations from '@/i18n/translations/en.json'
 import esTranslations from '@/i18n/translations/es.json'
+import frTranslations from '@/i18n/translations/fr.json'
+import ptTranslations from '@/i18n/translations/pt.json'
 
-const exportLabels = {
+const exportLabels: Record<
+  string,
+  {
+    headers: string[]
+    status: Record<AnswerStatus | 'empty', string>
+    response: Record<AnswerValue | 'empty', string>
+  }
+> = {
   en: {
     headers: [
       enTranslations.overview.exportResponses.headers.id,
@@ -64,6 +73,62 @@ const exportLabels = {
       empty: esTranslations.overview.exportResponses.response.empty,
     },
   },
+  fr: {
+    headers: [
+      frTranslations.overview.exportResponses.headers.id,
+      frTranslations.overview.exportResponses.headers.theme,
+      frTranslations.overview.exportResponses.headers.enablingCondition,
+      frTranslations.overview.exportResponses.headers.keyFactor,
+      frTranslations.overview.exportResponses.headers.status,
+      frTranslations.overview.exportResponses.headers.response,
+      frTranslations.overview.exportResponses.headers.rationale,
+    ],
+    status: {
+      [AnswerStatus.NOT_STARTED]:
+        frTranslations.overview.exportResponses.status.notStarted,
+      [AnswerStatus.IN_PROGRESS]:
+        frTranslations.overview.exportResponses.status.inProgress,
+      [AnswerStatus.COMPLETE]:
+        frTranslations.overview.exportResponses.status.complete,
+      empty: frTranslations.overview.exportResponses.status.empty,
+    },
+    response: {
+      [AnswerValue.YES]: frTranslations.overview.exportResponses.response.yes,
+      [AnswerValue.PARTLY]:
+        frTranslations.overview.exportResponses.response.partly,
+      [AnswerValue.NO]: frTranslations.overview.exportResponses.response.no,
+      [AnswerValue.NA]: frTranslations.overview.exportResponses.response.na,
+      empty: frTranslations.overview.exportResponses.response.empty,
+    },
+  },
+  pt: {
+    headers: [
+      ptTranslations.overview.exportResponses.headers.id,
+      ptTranslations.overview.exportResponses.headers.theme,
+      ptTranslations.overview.exportResponses.headers.enablingCondition,
+      ptTranslations.overview.exportResponses.headers.keyFactor,
+      ptTranslations.overview.exportResponses.headers.status,
+      ptTranslations.overview.exportResponses.headers.response,
+      ptTranslations.overview.exportResponses.headers.rationale,
+    ],
+    status: {
+      [AnswerStatus.NOT_STARTED]:
+        ptTranslations.overview.exportResponses.status.notStarted,
+      [AnswerStatus.IN_PROGRESS]:
+        ptTranslations.overview.exportResponses.status.inProgress,
+      [AnswerStatus.COMPLETE]:
+        ptTranslations.overview.exportResponses.status.complete,
+      empty: ptTranslations.overview.exportResponses.status.empty,
+    },
+    response: {
+      [AnswerValue.YES]: ptTranslations.overview.exportResponses.response.yes,
+      [AnswerValue.PARTLY]:
+        ptTranslations.overview.exportResponses.response.partly,
+      [AnswerValue.NO]: ptTranslations.overview.exportResponses.response.no,
+      [AnswerValue.NA]: ptTranslations.overview.exportResponses.response.na,
+      empty: ptTranslations.overview.exportResponses.response.empty,
+    },
+  },
 } as const
 
 const sanitizeFilenamePart = (value: string) =>
@@ -107,7 +172,7 @@ export async function GET(
     }
 
     const languageParam = request.nextUrl.searchParams.get('language')
-    const language = languageParam === 'es' ? 'es' : 'en'
+    const language = languageParam || 'en'
 
     const { getAssessmentById, getLocalizedQuestionsWithAnswers } =
       await import('@/db/queries/assessment-queries')

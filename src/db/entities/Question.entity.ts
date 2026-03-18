@@ -58,6 +58,9 @@ export class Question {
   @Column({ name: 'sort_order', type: 'int' })
   sortOrder!: number
 
+  @Column({ type: 'varchar', length: 10, default: 'en' })
+  locale!: string
+
   @CreateDateColumn({ name: 'created_at' })
   createdAt!: Date
 

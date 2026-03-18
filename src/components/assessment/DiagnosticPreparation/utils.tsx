@@ -4,111 +4,95 @@ import RestorationGoals from './RestorationGoals'
 import DefineEngagement from './DefineEngagement'
 import GatherMaterials from './GatherMaterials'
 import { PREPARATION_STEPS } from '@/constants'
+import type { createTranslator } from '@/i18n/utils'
 
-export const steps = [
+type TranslationFunction = ReturnType<typeof createTranslator>
+
+export const preparationStepOrder = [
+  PREPARATION_STEPS.TARGET_GEOGRAPHY,
+  PREPARATION_STEPS.TIME_HORIZON,
+  PREPARATION_STEPS.RESTORATION_GOALS,
+  PREPARATION_STEPS.DEFINE_ENGAGEMENT,
+  PREPARATION_STEPS.GATHER_MATERIALS,
+]
+
+export const getPreparationSteps = (t: TranslationFunction) => [
   {
     id: PREPARATION_STEPS.TARGET_GEOGRAPHY,
-    title: 'Target geography',
+    title: t('scoping.sidebar.steps.targetGeography'),
     section: 'scope',
     guidance: [
       {
-        title: 'Why set the target geography',
-        content:
-          'The geographic area determines which ecosystems/landscapes and scales are assessed, which stakeholders are involved and which restoration options are considered.',
+        title: t('scoping.guidance.step1.whySetTargetGeography.title'),
+        content: t('scoping.guidance.step1.whySetTargetGeography.content'),
       },
       {
-        title: 'How to do it',
-        content:
-          'Group areas with similar ecological and socio-economic conditions. Avoid splitting ecologically similar areas into separate diagnostics, instead separating areas that differ clearly in ecology, land use, or governance.',
+        title: t('scoping.guidance.step1.howToDoIt.title'),
+        content: t('scoping.guidance.step1.howToDoIt.content'),
       },
     ],
     component: <TargetGeography />,
   },
   {
     id: PREPARATION_STEPS.TIME_HORIZON,
-    title: 'Time horizon',
+    title: t('scoping.sidebar.steps.timeHorizon'),
     section: 'scope',
     guidance: [
       {
-        title: 'Why set the time horizon',
-        content:
-          'Restoration outcomes often take several years to fully materialise. A clear time horizon helps set realistic expectations, choose appropriate restoration approaches, and align the diagnostic with relevant policy and planning processes.',
+        title: t('scoping.guidance.step2.whySetTimeHorizon.title'),
+        content: t('scoping.guidance.step2.whySetTimeHorizon.content'),
       },
       {
-        title: 'How to do it',
-        content:
-          'Use a long-term vision for restoration, while recognising that implementation may occur in phases. Where possible, align the timeframe with existing national or sub-national plans to support coordination and uptake.',
+        title: t('scoping.guidance.step2.howToDoIt.title'),
+        content: t('scoping.guidance.step2.howToDoIt.content'),
       },
     ],
     component: <TimeHorizon />,
   },
   {
     id: PREPARATION_STEPS.RESTORATION_GOALS,
-    title: 'Restoration goals',
+    title: t('scoping.sidebar.steps.restorationGoals'),
     section: 'scope',
     guidance: [
       {
-        title: 'Why set restoration goals',
-        content:
-          'Clear restoration goals guide which restoration options are assessed, help manage trade-offs, and define what success looks like for the diagnostic.',
+        title: t('scoping.guidance.step3.whySetRestorationGoals.title'),
+        content: t('scoping.guidance.step3.whySetRestorationGoals.content'),
       },
       {
-        title: 'How to do it',
-        content:
-          'Agree on goals early with key stakeholders and keep them specific enough to inform decisions by including information about the type of ecosystem to be restored, the target beneficiaries, and any other desired environmental or socioeconomic goals. Where helpful, use the ROAM methodology to support goal-setting and alignment.',
+        title: t('scoping.guidance.step3.howToDoIt.title'),
+        content: t('scoping.guidance.step3.howToDoIt.content'),
       },
     ],
     component: <RestorationGoals />,
   },
   {
     id: PREPARATION_STEPS.DEFINE_ENGAGEMENT,
-    title: 'Define engagement',
+    title: t('scoping.sidebar.steps.engagement'),
     section: 'approach',
     guidance: [
       {
-        title: 'Designing stakeholder engagement',
-        content:
-          'Start by mapping the social landscape around restoration: who the users are, who is affected, and who has influence. Identify stakeholder needs, motivations, and relationships to understand where friction or alignment may occur. Use this insight to design engagement touchpoints—workshops, interviews, feedback loops—that are inclusive, iterative, and responsive to context. Treat stakeholders as co-designers, not just data sources, to improve usability, relevance, and adoption of the tool.',
+        title: t('scoping.guidance.step4.designingEngagement.title'),
+        content: t('scoping.guidance.step4.designingEngagement.content'),
       },
       {
-        title: 'Ensuring inclusion and equity',
-        content: `
-          <p>
-            Some participants may hesitate to share in group settings, and local social/gender dynamics can exclude some groups. The coordinating team should adapt engagement methods to ensure diverse perspectives are captured. This can be done by:
-          </p>
-          <ul>
-            <li>Holding separate focus groups for women and/or Indigenous communities</li>
-            <li>Using local languages</li>
-            <li>Including trusted intermediaries</li>
-            <li>Providing travel/compensation where needed</li>
-            <li>Creating safe space agreements</li>
-            <li>Allowing anonymous written input for sensitive questions</li>
-          </ul>
-          `,
+        title: t('scoping.guidance.step4.ensuringInclusion.title'),
+        content: t('scoping.guidance.step4.ensuringInclusion.content'),
       },
     ],
     component: <DefineEngagement />,
   },
   {
     id: PREPARATION_STEPS.GATHER_MATERIALS,
-    title: 'Gather materials',
+    title: t('scoping.sidebar.steps.materials'),
     section: 'approach',
     guidance: [
       {
-        title: 'Preparing your evidence',
-        content: `
-          <p>
-            The diagnostic asks you to assess whether key enabling conditions are in place. To answer confidently and consistently, you will need to refer to existing documents, data sources, and policy materials.
-          </p>
-          <p>
-            Please note that evidence can be collected throughout the entire process, if necessary.
-          </p>
-        `,
+        title: t('scoping.guidance.step5.preparingEvidence.title'),
+        content: t('scoping.guidance.step5.preparingEvidence.content'),
       },
       {
-        title: 'Organizing access to documents',
-        content:
-          'Add links to a shared folder or individual documents stored online (for example, in a shared drive or document platform). This ensures that everyone involved can quickly access the same information during workshops or distributed completion.',
+        title: t('scoping.guidance.step5.organizingAccess.title'),
+        content: t('scoping.guidance.step5.organizingAccess.content'),
       },
     ],
     component: <GatherMaterials />,
@@ -121,90 +105,94 @@ type EcosystemOption = {
   value: string
 }
 
-export const terrestrialEcosystems: EcosystemOption[] = [
+export const getTerrestrialEcosystems = (
+  t: TranslationFunction,
+): EcosystemOption[] => [
   {
-    children: 'Tropical-subtropical forests',
+    children: t('scoping.ecosystems.terrestrial.types.tropicalSubtropicalForests'),
     name: 'tropical-subtropical-forests',
     value: 'tropical-subtropical-forests',
   },
   {
-    children: 'Temperate-boreal forests and woodlands',
+    children: t('scoping.ecosystems.terrestrial.types.temperateForests'),
     name: 'temperate-boreal-forests-and-woodlands',
     value: 'temperate-boreal-forests-and-woodlands',
   },
   {
-    children: 'Shrublands and shrubby woodlands',
+    children: t('scoping.ecosystems.terrestrial.types.shrublands'),
     name: 'shrublands-and-shrubby-woodlands',
     value: 'shrublands-and-shrubby-woodlands',
   },
   {
-    children: 'Savannas and grasslands',
+    children: t('scoping.ecosystems.terrestrial.types.savannas'),
     name: 'savannas-and-grasslands',
     value: 'savannas-and-grasslands',
   },
   {
-    children: 'Deserts and semi-deserts',
+    children: t('scoping.ecosystems.terrestrial.types.deserts'),
     name: 'deserts-and-semi-deserts',
     value: 'deserts-and-semi-deserts',
   },
   {
-    children: 'Polar-alpine',
+    children: t('scoping.ecosystems.terrestrial.types.polarAlpine'),
     name: 'polar-alpine',
     value: 'polar-alpine',
   },
   {
-    children: 'Productive and agricultural systems',
+    children: t('scoping.ecosystems.terrestrial.types.agricultural'),
     name: 'productive-and-agricultural-systems',
     value: 'productive-and-agricultural-systems',
   },
   {
-    children: 'Urban Landscapes',
+    children: t('scoping.ecosystems.terrestrial.types.urban'),
     name: 'urban-landscapes',
     value: 'urban-landscapes',
   },
 ]
 
-export const freshwaterEcosystems: EcosystemOption[] = [
+export const getFreshwaterEcosystems = (
+  t: TranslationFunction,
+): EcosystemOption[] => [
   {
-    children: 'Peatlands',
+    children: t('scoping.ecosystems.freshwater.types.peatlands'),
     name: 'peatlands',
     value: 'peatlands',
   },
   {
-    children: 'Wetlands',
+    children: t('scoping.ecosystems.freshwater.types.wetlands'),
     name: 'wetlands',
     value: 'wetlands',
   },
   {
-    children: 'Riparian ecosystems',
+    children: t('scoping.ecosystems.freshwater.types.riparian'),
     name: 'riparian-ecosystems',
     value: 'riparian-ecosystems',
   },
   {
-    children: 'Catchments',
+    children: t('scoping.ecosystems.freshwater.types.catchments'),
     name: 'catchments',
     value: 'catchments',
   },
   {
-    children: 'Artificial fresh waters',
+    children: t('scoping.ecosystems.freshwater.types.artificialFreshwaters'),
     name: 'artificial-fresh-waters',
     value: 'artificial-fresh-waters',
   },
 ]
 
-export const marineEcosystems: EcosystemOption[] = [
+export const getMarineEcosystems = (t: TranslationFunction): EcosystemOption[] => [
   {
-    children: 'Marine shelfs',
+    children: t('scoping.ecosystems.marine.types.marineShelfs'),
     name: 'marine-shelfs',
     value: 'marine-shelfs',
   },
   {
-    children: 'Mangroves and shoreline systems',
+    children: t('scoping.ecosystems.marine.types.mangroves'),
     name: 'mangroves-and-shoreline-systems',
     value: 'mangroves-and-shoreline-systems',
   },
   {
-    children: 'Deep-sea floors',
+    children: t('scoping.ecosystems.marine.types.deepSeaFloors'),
     name: 'deep-sea-floors',
     value: 'deep-sea-floors',
   },

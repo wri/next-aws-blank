@@ -24,8 +24,11 @@
     "languageMenu": "Language",
     "languages": {
       "en": "English",
-      "es": "Español"
+      "es": "Español",
+      "fr": "Français",
+      "pt": "Português"
     },
+    "contact": "Contact",
     "themes": {
       "motivate": "Motivate",
       "enable": "Enable",
@@ -52,6 +55,10 @@
     "setup": {
       "title": "Welcome to the Restoration Diagnostic Tool",
       "subtitle": "A rapid assessment tool to evaluate the readiness of your landscape/geography for restoration and design strategic actions to ensure long-term success.",
+      "page": {
+        "title": "Run the Restoration Diagnostic",
+        "subtitle": "Using the Diagnostic tool helps you assess the readiness of the geography or scale selected for restoration and design strategic actions to promote long-term success."
+      },
       "features": {
         "steps": "3 step process",
         "duration": "3 - 5 weeks to complete"
@@ -168,7 +175,31 @@
       },
       "checkboxes": {
         "terms": "I agree to WRI's Terms of Service and Privacy Policy so I can save and manage my progress.",
+        "termsPrefix": "I agree to WRI's",
+        "termsMiddle": "and",
+        "termsSuffix": "so I can save and manage my progress.",
         "allowDataSharing": "I allow my anonymized data to be used in global research and meta-analysis to help identify restoration trends."
+      },
+      "accessModal": {
+        "title": "Save your access details",
+        "description": "This diagnostic doesn't use accounts. To keep your progress secure and return later, you'll need to save both the diagnostic link and password.",
+        "fields": {
+          "link": "Diagnostic link",
+          "password": "Password"
+        },
+        "actions": {
+          "copyBoth": "Copy link & password",
+          "copied": "Copied!"
+        },
+        "aria": {
+          "copyLink": "Copy diagnostic link to clipboard",
+          "linkCopied": "Diagnostic link copied to clipboard",
+          "copyPassword": "Copy password to clipboard",
+          "passwordCopied": "Password copied to clipboard",
+          "copyBoth": "Copy both link and password to clipboard",
+          "bothCopied": "Link and password copied to clipboard"
+        },
+        "confirmation": "I've saved the link and password securely, and understand that if I lose these I will not be able to access the diagnostic."
       },
       "ecosystems": {
         "forest": {
@@ -202,17 +233,18 @@
   "scoping": {
     "intro": {
       "heading": "Prepare for the diagnostic",
-      "description1": "Before you begin the diagnostic, it's important to prepare the necessary context and materials. This preparation will help ensure that your responses are accurate and well-informed.",
-      "description2": "There are 2 parts to this step:",
+      "description1": "In this phase, you will have the opportunity to set the scope, choose stakeholder engagement methods, gather the necessary documentation, define the target geography or scale, and outline your restoration goals and timeline.",
+      "description2": "Taking time to prepare ensures the diagnostic is focused, well-supported, and aligned with your restoration context.",
+      "description3": "There are 2 parts to this step:",
       "parts": {
         "scope": {
           "title": "Set the scope",
-          "description": "Define the target landscape, time horizon, and restoration goals"
+          "description": "Define the target landscape, time horizon, and restoration goals."
         },
         "approach": {
           "title": "Plan your diagnostic approach",
           "badge": "Optional",
-          "description": "Decide how you will engage stakeholders and gather information"
+          "description": "Decide how you will engage stakeholders and gather supporting materials."
         }
       },
       "button": "Start preparation"
@@ -230,6 +262,9 @@
         "restorationGoals": "Restoration goals",
         "engagement": "Define engagement strategy",
         "materials": "Gather materials"
+      },
+      "guidance": {
+        "title": "Guidance"
       }
     },
     "common": {
@@ -239,9 +274,14 @@
         "previous": "Previous"
       }
     },
+    "toolbar": {
+      "saveAndExit": "Save and exit",
+      "editDiagnosticScope": "Edit diagnostic scope"
+    },
     "step1": {
       "heading": "Target geography",
-      "description": "Define the geographic scope of your restoration diagnostic. This information will help contextualize your responses throughout the assessment.",
+      "description": "The target geography defines the area or scale where the diagnostic will be applied. This may be a country, sub-national administrative area, municipality, watershed, biome, or ecological region.",
+      "defineGeographicArea": "Define the geographic area",
       "fields": {
         "targetScale": {
           "label": "Target scale",
@@ -250,7 +290,8 @@
             "national": "National",
             "subnational": "Subnational",
             "landscape": "Landscape",
-            "site": "Site"
+            "site": "Restoration site",
+            "transboundary": "Transboundary"
           }
         },
         "country": {
@@ -264,17 +305,23 @@
         "restorationBoundary": {
           "label": "Restoration boundary link",
           "placeholder": "Enter URL or file link",
-          "optional": true
+          "optional": true,
+          "caption": "Add a link to a GIS dataset or boundary file"
         },
         "ecosystems": {
           "label": "Capture ecosystem types",
-          "description": "Select all ecosystem types present in your target area"
+          "description": "Select all ecosystem types present in your target area",
+          "requiredLabel": "Select all ecosystems being restored",
+          "sourcePrefix": "Ecosystem types based on the",
+          "sourceLink1Label": "IUCN Global Ecosystem Typology 2.0",
+          "sourceLink2Label": "Global Ecosystem",
+          "sourceSuffix": "."
         }
       }
     },
     "step2": {
       "heading": "Time horizon",
-      "description": "Specify the timeframe for your restoration activities. This helps set realistic expectations for outcomes and monitoring.",
+      "description": "The time horizon should reflect the long-term nature of restoration, even if actions begin in the short term. It may align with an existing national or sub-national planning cycle or strategy.",
       "fields": {
         "restorationPeriod": {
           "label": "Restoration period (years)",
@@ -286,6 +333,9 @@
     "step3": {
       "heading": "Restoration goals",
       "description": "Describe your overarching goals for restoration. Consider objectives related to biodiversity, climate mitigation, livelihoods, and ecosystem services.",
+      "description1": "Restoration goals describe the intended outcomes for the landscape. These may focus on a single ecosystem type or on a mix of ecosystems.",
+      "description2": "Goals commonly relate to biodiversity conservation, climate mitigation or adaptation, livelihood improvement, water security, or food production.",
+      "description3": "Restoration goals can be described either before or after running the diagnostic, depending on the context and how the diagnostic is completed.",
       "fields": {
         "goals": {
           "label": "Describe your goals for restoration",
@@ -295,10 +345,12 @@
     },
     "step4": {
       "heading": "Define engagement strategy",
-      "description": "How will you engage stakeholders in completing this diagnostic? Select the approaches that best fit your context.",
+      "description": "You will engage stakeholders at different stages of the diagnostic. Review the suggested approaches below and plan how you will involve them. You may wish to outline your strategy below.",
+      "suggestedApproachesHeading": "Suggested engagement approaches",
       "accordions": {
         "participatory": {
           "title": "Participatory workshops",
+          "content": "<ul><li>Convene a half-day or full-day workshop (virtual or in-person)</li><li>Use structured facilitation to guide responses</li><li>Best when time is limited and participation is desired</li></ul>",
           "items": [
             "Bring together diverse stakeholders to discuss and answer questions collaboratively",
             "Facilitates dialogue and ensures multiple perspectives are considered",
@@ -307,6 +359,7 @@
         },
         "interviews": {
           "title": "Interviews / focus groups",
+          "content": "<ul><li>Semi-structured interviews with key actors</li><li>Useful for sensitive topics (e.g., tenure insecurity, governance challenges)</li></ul>",
           "items": [
             "Conduct one-on-one or small group discussions with key informants",
             "Allows for in-depth exploration of specific topics",
@@ -315,6 +368,7 @@
         },
         "distributed": {
           "title": "Distributed completion",
+          "content": "<ul><li>Share the worksheet found under Step 2 with stakeholders</li><li>Ask them to complete sections relevant to their expertise</li><li>Coordinate synthesis and discussion afterward</li></ul>",
           "items": [
             "Share the diagnostic with stakeholders to complete independently",
             "Allows individuals to respond at their own pace",
@@ -331,11 +385,13 @@
       }
     },
     "step5": {
-      "heading": "Gather materials",
-      "description": "Collect relevant documents and data sources that will inform your diagnostic responses. Organize these materials for easy reference.",
+      "heading": "Gather supporting materials",
+      "description": "Before starting the diagnostic, it is useful to gather key documents and data sources in order to refer to them as evidence. We recommend organising them in a shared folder so all contributors can access the same evidence during the diagnostic.",
+      "suggestedDocumentationHeading": "Suggested documentation",
       "accordions": {
         "policy": {
           "title": "Policy & legal context",
+          "content": "<ul><li>National restoration strategies or programs.</li><li>Laws and regulations (Forestry, Agriculture, Land Use, Water).</li><li>International commitments (UNFCCC, CBD, UNCCD).</li><li>National development plans.</li></ul>",
           "items": [
             "National or regional restoration commitments and policies",
             "Land tenure regulations and customary rights frameworks",
@@ -344,6 +400,7 @@
         },
         "implementation": {
           "title": "Implementation & planning",
+          "content": "<ul><li>Sub-national or regional restoration action plans.</li><li>Municipal development plans for the target landscapes.</li><li>Donor-funded program documentation.</li><li>Existing institutional budgets and organizational charts.</li></ul>",
           "items": [
             "Existing restoration plans or strategies",
             "Budget allocations and funding sources",
@@ -352,6 +409,7 @@
         },
         "biophysical": {
           "title": "Biophysical & socioeconomic data",
+          "content": "<ul><li>Land cover and land degradation assessments.</li><li>Restoration opportunity maps (e.g., ROAM outputs).</li><li>Socioeconomic data (tenure status, livelihood dependence, market analyses).</li></ul>",
           "items": [
             "Land use and land cover maps",
             "Biodiversity assessments and species inventories",
@@ -360,6 +418,7 @@
         },
         "monitoring": {
           "title": "Monitoring & baselines",
+          "content": "<ul><li>Data from landscape monitoring systems (e.g., Global Forest Watch).</li><li>Existing restoration indicators and historical progress reports.</li></ul>",
           "items": [
             "Baseline data on ecosystem condition",
             "Historical trends in land degradation or restoration",
@@ -372,7 +431,7 @@
           "label": "Shared folder link",
           "placeholder": "Enter URL to shared folder (e.g., Google Drive, Dropbox)",
           "optional": true,
-          "caption": "Optional: Provide a link where your team can access relevant documents"
+          "caption": "This link will be shown to anyone you provide access to the Diagnostic. Ensure everyone supporting the diagnostic has permission to view."
         }
       }
     },
@@ -450,6 +509,7 @@
         },
         "ensuringInclusion": {
           "title": "Ensuring inclusion and equity",
+          "content": "<p>Some participants may hesitate to share in group settings, and local social/gender dynamics can exclude some groups. The coordinating team should adapt engagement methods to ensure diverse perspectives are captured. This can be done by:</p><ul><li>Holding separate focus groups for women and/or Indigenous communities</li><li>Using local languages</li><li>Including trusted intermediaries</li><li>Providing travel/compensation where needed</li><li>Creating safe space agreements</li><li>Allowing anonymous written input for sensitive questions</li></ul>",
           "items": [
             "Actively seek out voices from marginalized or underrepresented groups, including women, youth, and Indigenous Peoples",
             "Consider language, accessibility, and timing when planning engagement activities",
@@ -461,11 +521,11 @@
       "step5": {
         "preparingEvidence": {
           "title": "Preparing your evidence",
-          "content": "Gathering relevant documents and data sources before starting the diagnostic will help you provide well-informed responses. This preparation phase can also reveal gaps in available information that may need to be addressed."
+          "content": "<p>The diagnostic asks you to assess whether key enabling conditions are in place. To answer confidently and consistently, you will need to refer to existing documents, data sources, and policy materials.</p><p>Please note that evidence can be collected throughout the entire process, if necessary.</p>"
         },
         "organizingAccess": {
           "title": "Organizing access to documents",
-          "content": "Consider creating a shared folder (e.g., Google Drive, Dropbox, or SharePoint) where all team members can access relevant materials. Organize documents by category and ensure they are clearly labeled. This will make it easier to reference specific evidence when completing the diagnostic."
+          "content": "Add links to a shared folder or individual documents stored online (for example, in a shared drive or document platform). This ensures that everyone involved can quickly access the same information during workshops or distributed completion."
         }
       }
     },
@@ -490,11 +550,11 @@
         "required": "Please describe your restoration goals.",
         "summary": "Restoration goals is mandatory"
       },
-      "formErrors": "There are {count} errors in the form:"
+      "formErrors": "There {verb} {count} error{plural} in the form"
     },
     "success": {
       "heading": "Diagnostic successfully created",
-      "description": "You can now assess whether the 31 key success factors for restoration in your chosen ecosystem are currently:",
+      "description": "You can now assess whether the 31 key success factors for restoration in your chosen geography are currently:",
       "statusList": {
         "inPlace": "In place",
         "partlyInPlace": "Partly in place",
@@ -510,7 +570,7 @@
         "description": "The overview screen shows how much progress you have made through each theme.",
         "cards": {
           "motivate": "Motivate ({count} questions)",
-          "enable": "Enable ({count} questions)",
+          "enable": "Plan ({count} questions)",
           "implement": "Implement ({count} questions)"
         }
       },
@@ -524,34 +584,44 @@
     "scope": {
       "sectionTitle": "Scope",
       "aboutDiagnostic": {
-        "title": "About the diagnostic",
+        "title": "About this diagnostic",
         "sections": {
           "title": "Title",
           "diagnosticLead": "Diagnostic lead"
         },
         "fields": {
-          "fullName": "Full name",
+          "name": "Name",
           "email": "Email",
           "organization": "Organization",
-          "jobRole": "Job role"
+          "jobRole": "Job role",
+          "gender": "Gender",
+          "ageRange": "Age range",
+          "identity": "Indigenous People & Local Community identification"
         }
       },
       "diagnosticScope": {
-        "title": "Diagnostic scope",
+        "title": "Diagnostic scope & planning",
         "sections": {
           "geography": "Geography",
           "timeHorizon": "Time horizon",
-          "restorationGoals": "Restoration goals"
+          "restorationGoals": "Restoration goals",
+          "diagnosticPlanning": "Diagnostic planning"
         },
         "fields": {
           "country": "Country",
-          "geographyType": "Geography type",
+          "targetScale": "Target scale",
           "subRegion": "Sub-region / Province",
-          "gisLink": "GIS Link",
+          "restorationBoundaryLink": "Restoration boundary link",
           "completionYear": "Completion year",
           "goals": "Goals",
-          "ecosystems": "Ecosystems"
+          "ecosystemTypes": "Ecosystem types",
+          "engagementStrategy": "Engagement strategy",
+          "sharedFolderLink": "Shared folder link"
         }
+      },
+      "labels": {
+        "section": "section",
+        "table": "table"
       },
       "actions": {
         "copied": "Copied"
@@ -586,7 +656,9 @@
           "response": "Response",
           "rationale": "Rationale",
           "strategies": "Strategies"
-        }
+        },
+        "na": "N/A",
+        "added": "{count} added"
       },
       "status": {
         "complete": "Complete",
@@ -601,13 +673,37 @@
     "strategicPlan": {
       "sectionTitle": "Strategic Plan",
       "title": "Strategic Plan",
-      "caption": "All strategies added across Diagnostic factors.",
+      "caption": "Identified actions that increase the likelihood of successful restoration in the target geography.",
+      "table": {
+        "headers": {
+          "strategy": "Strategy",
+          "keySuccessFactor": "Key Success Factor",
+          "priority": "Priority",
+          "scale": "Scale"
+        },
+        "noTitle": "No title",
+        "deadline": "Deadline {value}",
+        "ownedBy": "Owned by",
+        "priorities": {
+          "low": "Low",
+          "medium": "Medium",
+          "high": "High"
+        },
+        "scales": {
+          "national": "National",
+          "subnational": "Subnational (municipality, province, district)",
+          "landscape": "Landscape (or seascape if applicable)",
+          "site": "Restoration site",
+          "transboundary": "Transboundary (two or more countries)"
+        }
+      },
       "empty": {
         "title": "No strategies created",
         "description": "When you add strategies under a factor they will appear here"
       }
     },
     "exportResponses": {
+      "button": "Export responses",
       "headers": {
         "id": "ID",
         "theme": "Theme",
@@ -648,6 +744,8 @@
   "assessment": {
     "navigation": {
       "progress": "{answered}/{total}",
+      "responses": "Responses:",
+      "other": "Other",
       "status": {
         "yes": "Yes",
         "partly": "Partly",
@@ -656,18 +754,29 @@
         "notAnswered": "Not answered"
       }
     },
+    "pagination": {
+      "previousFactor": "Previous factor",
+      "nextFactor": "Next factor",
+      "firstFactorIn": "First factor in {theme}",
+      "lastFactorIn": "Last factor in {theme}"
+    },
     "content": {
       "headers": {
         "question": "Question",
         "response": "Response",
-        "rationale": "Rationale"
+        "rationale": "Rationale",
+        "contributors": "Contributors"
       },
       "subheadings": {
         "topicsToInclude": "Topics to include"
       },
       "placeholders": {
+        "startWriting": "Start writing...",
         "rationale": "Add your rationale...",
         "notes": "Add notes about this question..."
+      },
+      "empty": {
+        "noQuestions": "No questions found for this theme."
       }
     },
     "answers": {
@@ -707,15 +816,16 @@
       },
       "messages": {
         "readyToFinish": "Ready to finish this factor?",
-        "markAsComplete": "Mark as complete"
+        "markAsComplete": "Mark complete",
+        "factorMarkedComplete": "This factor is marked as complete."
       },
       "captions": {
-        "markComplete": "Mark this factor as complete when you've finished reviewing..."
+        "markComplete": "Mark this factor as complete when you've finished reviewing the response, rationale, and strategies."
       },
       "modal": {
         "markComplete": {
           "header": "Mark factor as complete?",
-          "content": "You've filled in the response and required fields...",
+          "content": "You've filled in the response and required fields for this factor. Would you like to mark it as complete before moving on?",
           "confirmButton": "Mark complete & continue",
           "cancelButton": "Continue without marking"
         }
@@ -725,18 +835,23 @@
       "heading": "Contributors",
       "description": "Add the full name of everyone involved in answering this question.",
       "field": {
-        "placeholder": "Type to search"
-      }
+        "placeholder": "Type to search or add contributor"
+      },
+      "empty": "No contributors found"
     },
     "strategies": {
       "heading": "Strategies",
       "exampleIntro": "Examples of strategies for this factor:",
       "warning": "Strategic importance: Strategies addressing these key factors can have varying complexities and timescales. Restoration can be beneficial to countries or communities with historical/cultural connection to lands. It can be a way for governments to meet commitments to international agreements (e.g., UNFCCC, UNCCD, CBD, Aichi Challenges).",
+      "labels": {
+        "strategyNumber": "Strategy {number}"
+      },
       "fields": {
         "title": {
           "label": "Title",
           "placeholder": "Enter strategy title",
-          "maxLength": "(Maximum {remaining} characters remaining)"
+          "maxLength": "(Maximum {remaining} characters remaining)",
+          "remaining": "You have {remaining} characters remaining"
         },
         "description": {
           "label": "Description",
@@ -747,9 +862,10 @@
           "placeholder": "Select scale",
           "options": {
             "national": "National",
-            "subnational": "Subnational",
-            "landscape": "Landscape",
-            "site": "Site"
+            "subnational": "Subnational (municipality, province, district)",
+            "landscape": "Landscape (or seascape if applicable)",
+            "site": "Restoration site",
+            "transboundary": "Transboundary (two or more countries)"
           }
         },
         "deadline": {
@@ -758,11 +874,69 @@
         },
         "responsibility": {
           "label": "Responsibility",
-          "placeholder": "Enter name"
+          "placeholder": "Type to search or add responsibility"
+        },
+        "priority": {
+          "label": "Priority",
+          "placeholder": "Select priority",
+          "options": {
+            "high": "High",
+            "medium": "Medium",
+            "low": "Low"
+          }
         }
       },
       "actions": {
-        "addStrategy": "+ Add strategy"
+        "addStrategy": "Add strategy",
+        "about": "About",
+        "delete": "Delete"
+      },
+      "readOnly": {
+        "headers": {
+          "strategy": "Strategy",
+          "priority": "Priority",
+          "scale": "Scale"
+        },
+        "noTitle": "No title",
+        "due": "Due {value}",
+        "ownedBy": "Owned by"
+      },
+      "modal": {
+        "title": "Strategy",
+        "relatedKeySuccessFactor": "Related key success factor",
+        "noDescription": "No description",
+        "na": "N/A"
+      },
+      "about": {
+        "title": "About strategies",
+        "sections": {
+          "why": {
+            "title": "Why set strategies",
+            "body": "Adding strategies allows you to plan how you will address key factors that are missing or only partly in place, while maintaining those already being addressed. The aim is to identify practical actions that increase the likelihood of successful restoration in the target geography."
+          },
+          "include": {
+            "title": "What to include",
+            "body1": "Strategies may include policy changes, incentives, institutional reforms, capacity-building activities, or cross-sector interventions (such as agriculture, finance, or land tenure). When defining strategies, consider how they align with existing policy processes, planning cycles, regulatory reform opportunities, and available technical capacity.",
+            "body2": "Each strategy should clearly describe who will act, what will be done, why the action is needed, when it should happen, and how it will be implemented and funded."
+          },
+          "considerations": {
+            "title": "Key considerations",
+            "body1": "A single strategy may address multiple key factors. If so, record it under the most relevant factor and note in the other related factors that they are addressed by this strategy.",
+            "body2": "Example strategies for each factor can be found in the key factor guidance. These are illustrative and should be adapted to local context."
+          },
+          "priority": {
+            "title": "Prioritizing strategies",
+            "body1": "Because resources are limited, strategies should be prioritized. Consider the urgency of the gap, dependencies between actions (for example land tenure before incentives), feasibility, cost, time to impact, and the scale of implementation.",
+            "body2": "The tool may suggest a recommended priority based on your response to a key factor (for example, gaps marked “No” may be flagged as higher priority). This recommendation is a guide and can be adjusted."
+          }
+        },
+        "note": {
+          "title": "Important note",
+          "body": "Strategies identified through the diagnostic are intended to inform planning and decision-making, not prescribe specific interventions or provide detailed implementation guidance. Results should be validated with relevant stakeholders.",
+          "linkPrefix": "For further guidance, consult the",
+          "linkLabel": "Restoration Opportunities Assessment Methodology (ROAM)",
+          "linkSuffix": "."
+        }
       }
     },
     "autoSave": {

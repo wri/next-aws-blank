@@ -4,6 +4,7 @@ import SectionTitle from '../SectionTitle'
 import { QuestionWithAnswer } from '@/types/questions.types'
 import { Theme } from '@/db/entities'
 import KeySuccessFactorsSection from './KeySuccessFactorsSection'
+import { useTranslations } from '@/i18n/useTranslations'
 
 interface KeySuccessFactorsProps {
   assessmentId: string
@@ -14,31 +15,35 @@ const KeySuccessFactors = ({
   assessmentId,
   questions,
 }: KeySuccessFactorsProps) => {
+  const t = useTranslations()
+
   const keyFactorsData = [
     {
       theme: Theme.MOTIVATE,
-      title: 'Motivate',
-      caption:
-        'Factors that inspire or motivate to catalyze processes that lead to restoration such as incentives that drive demand for restoration among investors, policymakers, and land stewards.',
+      title: t('overview.keySuccessFactors.themes.motivate.title'),
+      caption: t('overview.keySuccessFactors.themes.motivate.caption'),
       questions: questions.filter((q) => q.theme === Theme.MOTIVATE),
     },
     {
       theme: Theme.ENABLE,
-      title: 'Enable',
-      caption: 'Factors that create a favorable context for restoration such as policies, finance and land tenure considerations.',
+      title: t('overview.keySuccessFactors.themes.enable.title'),
+      caption: t('overview.keySuccessFactors.themes.enable.caption'),
       questions: questions.filter((q) => q.theme === Theme.ENABLE),
     },
     {
       theme: Theme.IMPLEMENT,
-      title: 'Implement',
-      caption: 'Factors that are related with capacities and resources to mobilize implementation of restoration on-the-ground such as technical capacity, knowledge, and operational readiness.',
+      title: t('overview.keySuccessFactors.themes.implement.title'),
+      caption: t('overview.keySuccessFactors.themes.implement.caption'),
       questions: questions.filter((q) => q.theme === Theme.IMPLEMENT),
     },
   ]
 
   return (
     <div>
-      <SectionTitle index={2} title='Key success factors' />
+      <SectionTitle
+        index={2}
+        title={t('overview.keySuccessFactors.sectionTitle')}
+      />
 
       {keyFactorsData.map((item) => (
         <KeySuccessFactorsSection

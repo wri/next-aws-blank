@@ -27,7 +27,7 @@ import { dirname } from 'path'
 import { initializeDatabase } from '../../db/data-source'
 import { Question } from '../../db/entities/Question.entity'
 import { Diagnostic } from '../../db/entities/Diagnostic.entity'
-import { sanitizeText, sanitizeQuestionText, parseFollowUpQuestions, decodeCSVBuffer } from '../../db/seeds/utils/sanitize-text'
+import { sanitizeText, sanitizeQuestionText, parseFollowUpQuestions, decodeCSVBuffer, sanitizeListText } from '../../db/seeds/utils/sanitize-text'
 
 interface CSVRow {
   id: string
@@ -59,6 +59,22 @@ const QUESTION_CODE_MAP: { [key: number]: string } = {
   22: 'I01', 23: 'I02', 24: 'I03', 25: 'I04', 26: 'I05', 27: 'I06', 28: 'I07', 29: 'I08', 30: 'I09', 31: 'I10'
 }
 
+// Map translated theme values to English enum values
+const THEME_MAP: { [key: string]: string } = {
+  // English
+  'Motivate': 'Motivate',
+  'Enable': 'Enable',
+  'Implement': 'Implement',
+  // Spanish / Portuguese (same words)
+  'Motivar': 'Motivate',
+  'Habilitar': 'Enable',
+  'Implementar': 'Implement',
+  // French
+  'Motiver': 'Motivate',
+  'Activer': 'Enable',
+  'Mettre en œuvre': 'Implement',
+}
+
 async function importQuestionsFromCSV(
   filePath: string,
   options: { dryRun?: boolean; force?: boolean; cleanup?: boolean; language?: string; encoding?: 'utf-8' | 'windows-1252' } = {}
@@ -86,6 +102,7 @@ async function importQuestionsFromCSV(
       columns: true,
       skip_empty_lines: true,
       trim: true,
+      relax_column_count: true, // Handle CSVs with inconsistent column counts (trailing commas)
     })
     
     console.log(`Found ${rows.length} rows in CSV\n`)
@@ -94,27 +111,24 @@ async function importQuestionsFromCSV(
     await queryRunner.connect()
     await queryRunner.startTransaction()
     
-    // Resolve the target diagnostic
-    const diagnostic = await queryRunner.manager.findOne(Diagnostic, {
+    // Resolve or create the target diagnostic
+    let diagnostic = await queryRunner.manager.findOne(Diagnostic, {
       where: { version: 'v1.0.0', language }
     })
     
     if (!diagnostic) {
-      console.error(`❌ No diagnostic found for v1.0.0 (${language}).`)
-      console.error(`   Create the diagnostic first, then re-run this import.`)
-      console.error(`   Currently available diagnostics:`)
-      const available = await queryRunner.manager.find(Diagnostic, { 
-        select: ['language', 'version'],
-        order: { version: 'DESC', language: 'ASC' }
+      console.log(`📝 Diagnostic v1.0.0 (${language}) not found. Creating...`)
+      diagnostic = queryRunner.manager.create(Diagnostic, {
+        version: 'v1.0.0',
+        language,
+        title: `Restoration Diagnostic v1.0.0 (${language})`,
+        description: `Restoration diagnostic assessment questions translated to ${language}`,
       })
-      available.forEach(d => console.error(`     - ${d.version} (${d.language})`))
-      await queryRunner.rollbackTransaction()
-      await queryRunner.release()
-      await dataSource.destroy()
-      process.exit(1)
+      await queryRunner.manager.save(diagnostic)
+      console.log(`✅ Created diagnostic: ${diagnostic.id} (${diagnostic.version}/${diagnostic.language})\n`)
+    } else {
+      console.log(`✅ Resolved diagnostic: ${diagnostic.id} (${diagnostic.version}/${diagnostic.language})\n`)
     }
-    
-    console.log(`✅ Resolved diagnostic: ${diagnostic.id} (${diagnostic.version}/${diagnostic.language})\n`)
     
     const changes: Change[] = []
     let processed = 0
@@ -147,11 +161,12 @@ async function importQuestionsFromCSV(
         definition: sanitizeText(row.Definition),
         considerations: sanitizeText(row.Guidance),
         followUpQuestions: parseFollowUpQuestions(row['Follow up question(s)']),
-        strategyExamples: sanitizeText(row['Examples of strategies to address gap in key factor']),
+        strategyExamples: sanitizeListText(row['Examples of strategies to address gap in key factor']),
         keySuccessFactor: row['Key Factor'] || question.keySuccessFactor,
         minimalKeySuccessFactor: row.Minimal || question.minimalKeySuccessFactor,
         enablingCondition: row['Enabling condition'] || question.enablingCondition,
-        theme: (row.Theme as Question['theme']) || question.theme,
+        theme: (THEME_MAP[row.Theme] || row.Theme) as Question['theme'],
+        locale: language, // Set locale from language flag
       }
       
       // Track what changed

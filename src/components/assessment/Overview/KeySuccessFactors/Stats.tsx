@@ -1,3 +1,5 @@
+'use client'
+
 import {
   YesAnswerIcon,
   PartlyAnswerIcon,
@@ -5,6 +7,7 @@ import {
 } from '@/components/icons'
 import { Questions } from '@/types/questions.types'
 import clsx from 'clsx'
+import { useTranslations } from '@/i18n/useTranslations'
 
 const Stats = ({
   questions,
@@ -13,6 +16,7 @@ const Stats = ({
   questions: Questions[]
   className?: string
 }) => {
+  const t = useTranslations()
   const yes = questions.filter(
     (q) => q?.answer?.value?.toLowerCase() === 'yes',
   ).length
@@ -32,7 +36,7 @@ const Stats = ({
   return (
     <div className={clsx('flex items-center gap-2 mt-2 mb-5', className)}>
       <p className='text-neutral-700 text-sm'>
-        {complete}/{total} complete
+        {t('overview.keySuccessFactors.stats.complete', { complete, total })}
       </p>
       <div className='w-[1px] h-5 bg-neutral-300' />
       <div className='flex items-center gap-2'>

@@ -1,4 +1,7 @@
+'use client'
+
 import { TabBar } from '@worldresources/wri-design-systems'
+import { useTranslations } from '@/i18n/useTranslations'
 
 const SectionTitle = ({
   index,
@@ -11,6 +14,8 @@ const SectionTitle = ({
   onProgressClick?: () => void
   onResponsesClick?: () => void
 }) => {
+  const t = useTranslations()
+
   return (
     <div className='mb-6'>
       <div className='flex items-center gap-3'>
@@ -26,8 +31,14 @@ const SectionTitle = ({
           <div className='w-[280px]'>
             <TabBar
               tabs={[
-                { label: 'Progress', value: 'progress' },
-                { label: 'Responses', value: 'responses' },
+                {
+                  label: t('overview.sectionTitle.tabs.progress'),
+                  value: 'progress',
+                },
+                {
+                  label: t('overview.sectionTitle.tabs.responses'),
+                  value: 'responses',
+                },
               ]}
               onTabClick={(value) => {
                 if (value === 'progress') {

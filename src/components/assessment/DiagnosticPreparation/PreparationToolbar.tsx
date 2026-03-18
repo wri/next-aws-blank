@@ -3,28 +3,35 @@
 import { Breadcrumb, Button } from '@worldresources/wri-design-systems'
 import Link from 'next/link'
 import { useSearchParams, useParams } from 'next/navigation'
-import { steps } from './utils'
+import { getPreparationSteps } from './utils'
 import { SaveIcon } from '@/components/icons'
 import { useState } from 'react'
 import { usePreparationSubmit } from './PreparationSubmitContext'
+import { useTranslations } from '@/i18n/useTranslations'
 
 const PreparationToolbar = () => {
   const params = useParams()
   const searchParams = useSearchParams()
   const [isSubmitting, setIsSubmitting] = useState(false)
+  const t = useTranslations()
   const isEditMode = searchParams.get('isEditMode')
   const isEditing = isEditMode === 'true'
   const { submitHandler } = usePreparationSubmit()
 
   const { id, step } = params as { id: string; step: string }
+  const steps = getPreparationSteps(t)
 
   const stepData = steps.find((s) => s.id === step)
 
-  const breadcrumbLinks = [{ label: 'Overview', link: `/assessment/${id}` }]
+  const breadcrumbLinks = [
+    { label: t('overview.page.title'), link: `/assessment/${id}` },
+  ]
 
   if (stepData) {
     breadcrumbLinks.push({
-      label: isEditing ? 'Edit Diagnostic Scope' : stepData.title,
+      label: isEditing
+        ? t('scoping.toolbar.editDiagnosticScope')
+        : stepData.title,
       link: `/assessment/${id}/preparation/${step}`,
     })
   }
@@ -47,7 +54,7 @@ const PreparationToolbar = () => {
 
       {isEditMode ? (
         <Button
-          label='Save and exit'
+          label={t('scoping.toolbar.saveAndExit')}
           leftIcon={<SaveIcon />}
           size='small'
           onClick={handleSaveAndExit}

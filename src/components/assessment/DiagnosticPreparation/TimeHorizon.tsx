@@ -10,6 +10,7 @@ import {
   usePreparationSubmit,
   type PreparationSubmitAction,
 } from './PreparationSubmitContext'
+import { useTranslations } from '@/i18n/useTranslations'
 
 const TimeHorizon = () => {
   const params = useParams()
@@ -17,6 +18,7 @@ const TimeHorizon = () => {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
   const [timeHorizon, setTimeHorizon] = useState('')
+  const t = useTranslations()
   const searchParams = useSearchParams()
   const isEditMode = searchParams.get('isEditMode')
   const isEditing = isEditMode === 'true'
@@ -105,20 +107,22 @@ const TimeHorizon = () => {
             `/assessment/${assessmentId}/preparation/${PREPARATION_STEPS.TARGET_GEOGRAPHY}${isEditing ? '?isEditMode=true' : ''}`,
           )
         }
-      >
-        <span className='underline underline-offset-1'>Previous</span>
+        >
+        <span className='underline underline-offset-1'>
+          {t('scoping.common.buttons.previous')}
+        </span>
       </Button>
 
-      <h1 className='text-3xl font-bold text-neutral-900 mb-2'>Time horizon</h1>
+      <h1 className='text-3xl font-bold text-neutral-900 mb-2'>
+        {t('scoping.step2.heading')}
+      </h1>
       <p className='text-neutral-800 mb-8'>
-        The time horizon should reflect the long-term nature of restoration,
-        even if actions begin in the short term. It may align with an existing
-        national or sub-national planning cycle or strategy.
+        {t('scoping.step2.description')}
       </p>
 
       <div className='mb-10'>
         <TextInput
-          label='Restoration period (years)'
+          label={t('scoping.step2.fields.restorationPeriod.label')}
           style={{ width: '120px' }}
           type='number'
           min={1}
@@ -133,7 +137,7 @@ const TimeHorizon = () => {
           disabled={isSubmitting}
           loading={isSubmitting}
         >
-          Save and continue
+          {t('scoping.common.buttons.saveAndContinue')}
         </Button>
         <Button
           variant='borderless'
@@ -141,7 +145,7 @@ const TimeHorizon = () => {
           disabled={isSubmitting}
           loading={isSubmitting}
         >
-          Skip
+          {t('scoping.common.buttons.skip')}
         </Button>
       </div>
     </div>

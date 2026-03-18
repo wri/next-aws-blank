@@ -7,6 +7,7 @@ import { YesAnswerIcon, PartlyAnswerIcon, NoAnswerIcon } from '@/components/icon
 import { Box } from '@chakra-ui/react'
 import { Button, getThemedColor } from '@worldresources/wri-design-systems'
 import { css } from '@emotion/react'
+import { useTranslations } from '@/i18n/useTranslations'
 
 interface AnswerButtonProps extends React.ComponentPropsWithoutRef<typeof Button> {
   isSelected: boolean
@@ -105,49 +106,6 @@ interface AnswerOptionsProps {
   disabled?: boolean
 }
 
-const answerConfig: Record<AnswerValue, { 
-  label: string
-  icon: React.ReactNode
-  selectedColor: string
-  bgColor: string
-  borderColor: string
-}> = {
-  yes: {
-    label: 'Yes',
-    icon: <YesAnswerIcon />,
-    selectedColor: getThemedColor('success', 500),
-    bgColor: getThemedColor('success', 100),
-    borderColor: getThemedColor('success', 500),
-  },
-  partly: {
-    label: 'Partly',
-    icon: <PartlyAnswerIcon />,
-    selectedColor: getThemedColor('warning', 500),
-    bgColor: getThemedColor('warning', 100),
-    borderColor: getThemedColor('warning', 500),
-  },
-  no: {
-    label: 'No',
-    icon: <NoAnswerIcon />,
-    selectedColor: getThemedColor('error', 500),
-    bgColor: getThemedColor('error', 100),
-    borderColor: getThemedColor('error', 500),
-  },
-  na: {
-    label: 'N/A',
-    icon: <Box css={css({ 
-      width: '2rem', 
-      height: '2rem', 
-      borderRadius: '9999px', 
-      border: '2px solid',
-      borderColor: getThemedColor('neutral', 600)
-    })} />,
-    selectedColor: getThemedColor('neutral', 600),
-    bgColor: getThemedColor('neutral', 200),
-    borderColor: getThemedColor('neutral', 400)
-  }
-}
-
 const iconContainerStyles = (isSelected: boolean, color: string) => css({
   display: 'flex',
   alignItems: 'center',
@@ -165,7 +123,51 @@ const labelStyles = (isSelected: boolean) => css({
 })
 
 export function AnswerOptions({ value, onChange, disabled }: AnswerOptionsProps) {
+  const t = useTranslations()
   const unselectedColor = getThemedColor('neutral', 400);
+  const answerConfig: Record<AnswerValue, { 
+    label: string
+    icon: React.ReactNode
+    selectedColor: string
+    bgColor: string
+    borderColor: string
+  }> = {
+    yes: {
+      label: t('assessment.answers.labels.yes'),
+      icon: <YesAnswerIcon />,
+      selectedColor: getThemedColor('success', 500),
+      bgColor: getThemedColor('success', 100),
+      borderColor: getThemedColor('success', 500),
+    },
+    partly: {
+      label: t('assessment.answers.labels.partly'),
+      icon: <PartlyAnswerIcon />,
+      selectedColor: getThemedColor('warning', 500),
+      bgColor: getThemedColor('warning', 100),
+      borderColor: getThemedColor('warning', 500),
+    },
+    no: {
+      label: t('assessment.answers.labels.no'),
+      icon: <NoAnswerIcon />,
+      selectedColor: getThemedColor('error', 500),
+      bgColor: getThemedColor('error', 100),
+      borderColor: getThemedColor('error', 500),
+    },
+    na: {
+      label: t('assessment.answers.labels.na'),
+      icon: <Box css={css({ 
+        width: '2rem', 
+        height: '2rem', 
+        borderRadius: '9999px', 
+        border: '2px solid',
+        borderColor: getThemedColor('neutral', 600)
+      })} />,
+      selectedColor: getThemedColor('neutral', 600),
+      bgColor: getThemedColor('neutral', 200),
+      borderColor: getThemedColor('neutral', 400)
+    }
+  }
+
   return (
     <Box css={css({
       display: 'grid',

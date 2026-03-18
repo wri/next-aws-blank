@@ -11,6 +11,7 @@ import {
   usePreparationSubmit,
   type PreparationSubmitAction,
 } from './PreparationSubmitContext'
+import { useTranslations } from '@/i18n/useTranslations'
 
 const RestorationGoals = () => {
   const params = useParams()
@@ -18,6 +19,7 @@ const RestorationGoals = () => {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
   const [restorationGoals, setRestorationGoals] = useState('')
+  const t = useTranslations()
   const searchParams = useSearchParams()
   const isEditMode = searchParams.get('isEditMode')
   const isEditing = isEditMode === 'true'
@@ -106,26 +108,27 @@ const RestorationGoals = () => {
             `/assessment/${assessmentId}/preparation/${PREPARATION_STEPS.TIME_HORIZON}${isEditing ? '?isEditMode=true' : ''}`,
           )
         }
-      >
-        <span className='underline underline-offset-1'>Previous</span>
+        >
+        <span className='underline underline-offset-1'>
+          {t('scoping.common.buttons.previous')}
+        </span>
       </Button>
 
       <h1 className='text-3xl font-bold text-neutral-900 mb-2'>
-        Restoration goals
+        {t('scoping.step3.heading')}
       </h1>
       <p className='text-neutral-800 mb-2'>
-        Restoration goals describe the intended outcomes for the landscape.
-        These may focus on a single ecosystem type or on a mix of ecosystems.
+        {t('scoping.step3.description1')}
       </p>
       <p className='text-neutral-800 mb-2'>
-        Goals commonly relate to biodiversity conservation, climate mitigation or adaptation, livelihood improvement, water security, or food production.
+        {t('scoping.step3.description2')}
       </p>
       <p className='text-neutral-800 mb-8'>
-        Restoration goals can be described either before or after running the diagnostic, depending on the context and how the diagnostic is completed.
+        {t('scoping.step3.description3')}
       </p>
       <div className='mb-10'>
         <p className='text-neutral-900 text-xl mb-4 font-bold'>
-          Describe your goals for restoration
+          {t('scoping.step3.fields.goals.label')}
         </p>
         <ChakraRichTextEditor
           value={restorationGoals}
@@ -139,7 +142,7 @@ const RestorationGoals = () => {
           disabled={isSubmitting}
           loading={isSubmitting}
         >
-          Save and continue
+          {t('scoping.common.buttons.saveAndContinue')}
         </Button>
         <Button
           variant='borderless'
@@ -147,7 +150,7 @@ const RestorationGoals = () => {
           disabled={isSubmitting}
           loading={isSubmitting}
         >
-          Skip
+          {t('scoping.common.buttons.skip')}
         </Button>
       </div>
     </div>

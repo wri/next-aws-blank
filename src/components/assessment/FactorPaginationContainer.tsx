@@ -3,6 +3,7 @@
 import { Box } from '@chakra-ui/react'
 import { PaginationCard } from './PaginationCard'
 import type { PlainQuestion } from '@/app/assessment/[id]/[theme]/components/ThemePageLayout'
+import { useTranslations } from '@/i18n/useTranslations'
 
 /**
  * FactorPaginationContainer - Navigation between success factors
@@ -50,6 +51,7 @@ export function FactorPaginationContainer({
   isMarkedAsComplete,
   setIsNextOrPrev,
 }: FactorPaginationContainerProps) {
+  const t = useTranslations()
   // Find current question index
   const currentIndex = questions.findIndex(q => q.questionCode === currentQuestionCode)
   
@@ -77,16 +79,23 @@ export function FactorPaginationContainer({
       : '#'
   
   // Get factor names for display
+  const getThemeLabel = (name: string | null) =>
+    name ? t(`navigation.themes.${name.toLowerCase()}`) : ''
+
   const prevFactorName = hasPrevInTheme
     ? prevQuestion.minimalKeySuccessFactor
     : canGoPrevTheme
-      ? `Last factor in ${capitalize(prevTheme)}`
+      ? t('assessment.pagination.lastFactorIn', {
+          theme: getThemeLabel(prevTheme),
+        })
       : ''
-  
+
   const nextFactorName = hasNextInTheme
     ? nextQuestion.minimalKeySuccessFactor
     : canGoNextTheme
-      ? `First factor in ${capitalize(nextTheme)}`
+      ? t('assessment.pagination.firstFactorIn', {
+          theme: getThemeLabel(nextTheme),
+        })
       : ''
   
   return (
@@ -102,7 +111,7 @@ export function FactorPaginationContainer({
       {/* Previous Factor Card */}
       {!hasPrevInTheme && !canGoPrevTheme ? <div aria-hidden>&nbsp;</div> : (<PaginationCard
         direction="left"
-        label="Previous factor"
+        label={t('assessment.pagination.previousFactor')}
         factorName={prevFactorName}
         href={!isMarkedAsComplete ? '#' : prevHref}
         isDisabled={!hasPrevInTheme && !canGoPrevTheme}
@@ -122,7 +131,7 @@ export function FactorPaginationContainer({
       {!hasNextInTheme && !canGoNextTheme ? <div aria-hidden>&nbsp;</div> : (
         <PaginationCard
           direction="right"
-          label="Next factor"
+          label={t('assessment.pagination.nextFactor')}
           factorName={nextFactorName}
           href={!isMarkedAsComplete ? '#' : nextHref}
           isDisabled={!hasNextInTheme && !canGoNextTheme}
@@ -139,10 +148,4 @@ export function FactorPaginationContainer({
         />)}
     </Box>
   )
-}
-
-// Helper function
-function capitalize(str: string | null): string {
-  if (!str) return ''
-  return str.charAt(0).toUpperCase() + str.slice(1)
 }

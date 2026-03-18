@@ -1,3 +1,5 @@
+'use client'
+
 import { InfoIcon, PlusIcon, TrashIcon } from '@/components/icons'
 import { Button, TextInput, Select } from '@worldresources/wri-design-systems'
 import { useState } from 'react'
@@ -6,10 +8,10 @@ import { Text } from '@chakra-ui/react'
 import { ChakraRichTextEditor } from '@/components/assessment/ChakraRichTextEditor'
 import DatePicker from '@/components/ui/DatePicker'
 import clsx from 'clsx'
-import { PRIORITY_OPTIONS, SCALE_OPTIONS } from '@/constants'
 import StrategiesAboutModal from './AboutModal'
 import { PlainContributor, Strategy } from '@/types/answer.types'
 import { Responsibility } from './Responsibility'
+import { useTranslations } from '@/i18n/useTranslations'
 
 const Strategies = ({
   question,
@@ -24,8 +26,45 @@ const Strategies = ({
   allContributors: PlainContributor[]
   assessmentId: string
 }) => {
+  const t = useTranslations()
   const [showAboutModal, setShowAboutModal] = useState(false)
   const newStrategies: Strategy[] = strategies ? JSON.parse(strategies) : []
+  const scaleOptions = [
+    {
+      value: 'national',
+      label: t('assessment.strategies.fields.scale.options.national'),
+    },
+    {
+      value: 'subnational',
+      label: t('assessment.strategies.fields.scale.options.subnational'),
+    },
+    {
+      value: 'landscape',
+      label: t('assessment.strategies.fields.scale.options.landscape'),
+    },
+    {
+      value: 'site',
+      label: t('assessment.strategies.fields.scale.options.site'),
+    },
+    {
+      value: 'transboundary',
+      label: t('assessment.strategies.fields.scale.options.transboundary'),
+    },
+  ]
+  const priorityOptions = [
+    {
+      value: 'high',
+      label: t('assessment.strategies.fields.priority.options.high'),
+    },
+    {
+      value: 'medium',
+      label: t('assessment.strategies.fields.priority.options.medium'),
+    },
+    {
+      value: 'low',
+      label: t('assessment.strategies.fields.priority.options.low'),
+    },
+  ]
 
   const handleAddStrategy = () => {
     const next = [
@@ -59,17 +98,19 @@ const Strategies = ({
     <>
       <div className='!mt-8'>
         <div className='flex items-center gap-3 mb-1'>
-          <p className='text-2xl font-bold text-neutral-900'>Strategies</p>
+          <p className='text-2xl font-bold text-neutral-900'>
+            {t('assessment.strategies.heading')}
+          </p>
           <Button
             variant='borderless'
             size='small'
             rightIcon={<InfoIcon />}
-            label='About'
+            label={t('assessment.strategies.actions.about')}
             onClick={() => setShowAboutModal(true)}
           />
         </div>
         <p className='text-neutral-800 mb-2'>
-          Examples of strategies for this factor:
+          {t('assessment.strategies.exampleIntro')}
         </p>
         {question.strategyExamples ? (
           <Text className='prose prose-sm max-w-none whitespace-pre-wrap text-neutral-800'>
@@ -77,7 +118,7 @@ const Strategies = ({
           </Text>
         ) : (
           <Text className='text-neutral-700 italic'>
-            No example strategies available.
+            {t('assessment.guidance.empty.exampleStrategies')}
           </Text>
         )}
 
@@ -91,13 +132,15 @@ const Strategies = ({
             >
               <div className='flex items-center justify-between mb-4'>
                 <p className='text-lg font-bold text-neutral-900'>
-                  Strategy {index + 1}
+                  {t('assessment.strategies.labels.strategyNumber', {
+                    number: index + 1,
+                  })}
                 </p>
                 <div className='flex items-center gap-2'>
                   <Button
                     variant='secondary'
                     size='small'
-                    label='Delete'
+                    label={t('assessment.strategies.actions.delete')}
                     className='!text-error-900 !border-error-300 !bg-error-100 hover:!bg-error-200'
                     leftIcon={<TrashIcon className='w-4 h-4 text-error-900' />}
                     onClick={() => handleDeleteStrategy(strategy.id)}
@@ -107,23 +150,29 @@ const Strategies = ({
 
               <div className='mb-5'>
                 <TextInput
-                  label='Title'
+                  label={t('assessment.strategies.fields.title.label')}
                   value={strategy.title}
                   onChange={(e) =>
                     updateStrategy(strategy.id, 'title', e.target.value)
                   }
-                  placeholder='Strategy title'
+                  placeholder={t(
+                    'assessment.strategies.fields.title.placeholder',
+                  )}
                   maxLength={200}
                 />
                 <p className='text-sm text-neutral-500 -mt-1'>
-                  You have {200 - strategy.title.length} characters remaining
+                  {t('assessment.strategies.fields.title.remaining', {
+                    remaining: 200 - strategy.title.length,
+                  })}
                 </p>
               </div>
 
               <div className='mb-5'>
                 <p className='text-neutral-900'>
-                  Description{' '}
-                  <span className='text-neutral-700'>(Optional)</span>
+                  {t('assessment.strategies.fields.description.label')}{' '}
+                  <span className='text-neutral-700'>
+                    ({t('common.optional')})
+                  </span>
                 </p>
                 <div className='mt-1'>
                   <ChakraRichTextEditor
@@ -138,9 +187,11 @@ const Strategies = ({
               <div className='grid grid-cols-2 gap-5'>
                 <div className='flex flex-col'>
                   <Select
-                    label='Scale (Optional)'
-                    placeholder='Select scale'
-                    items={SCALE_OPTIONS}
+                    label={`${t('assessment.strategies.fields.scale.label')} (${t('common.optional')})`}
+                    placeholder={t(
+                      'assessment.strategies.fields.scale.placeholder',
+                    )}
+                    items={scaleOptions}
                     onChange={(vals) =>
                       updateStrategy(strategy.id, 'scale', vals[0] || '')
                     }
@@ -149,8 +200,10 @@ const Strategies = ({
                 </div>
                 <div className='flex flex-col mt-1.5'>
                   <p className='text-neutral-900'>
-                    Deadline{' '}
-                    <span className='text-neutral-700'>(Optional)</span>
+                    {t('assessment.strategies.fields.deadline.label')}{' '}
+                    <span className='text-neutral-700'>
+                      ({t('common.optional')})
+                    </span>
                   </p>
                   <DatePicker
                     defaultValue={strategy.deadline}
@@ -179,9 +232,11 @@ const Strategies = ({
                 </div>
                 <div className='flex flex-col'>
                   <Select
-                    label='Priority (Optional)'
-                    placeholder='Select priority'
-                    items={PRIORITY_OPTIONS}
+                    label={`${t('assessment.strategies.fields.priority.label')} (${t('common.optional')})`}
+                    placeholder={t(
+                      'assessment.strategies.fields.priority.placeholder',
+                    )}
+                    items={priorityOptions}
                     onChange={(vals) =>
                       updateStrategy(strategy.id, 'priority', vals[0] || '')
                     }
@@ -198,7 +253,7 @@ const Strategies = ({
           size='small'
           variant='secondary'
           leftIcon={<PlusIcon />}
-          label='Add strategy'
+          label={t('assessment.strategies.actions.addStrategy')}
           onClick={handleAddStrategy}
         />
       </div>

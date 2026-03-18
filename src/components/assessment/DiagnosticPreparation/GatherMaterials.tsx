@@ -18,54 +18,7 @@ import {
   usePreparationSubmit,
   type PreparationSubmitAction,
 } from './PreparationSubmitContext'
-
-const suggestedDocuments = [
-  {
-    title: 'Policy & legal context',
-    icon: <PeopleIcon className='w-4 h-4 text-secondary-500' />,
-    content: `
-      <ul>
-        <li>National restoration strategies or programs.</li>
-        <li>Laws and regulations (Forestry, Agriculture, Land Use, Water).</li>
-        <li>International commitments (UNFCCC, CBD, UNCCD).</li>
-        <li>National development plans. </li>
-      </ul>
-    `,
-  },
-  {
-    title: 'Implementation & planning',
-    icon: <InterviewIcon className='w-4 h-4 text-secondary-500' />,
-    content: `
-      <ul>
-        <li>Sub-national or regional restoration action plans.</li>
-        <li>Municipal development plans for the target landscapes.</li>
-        <li>Donor-funded program documentation.</li>
-        <li>Existing institutional budgets and organizational charts.</li>
-      </ul>
-    `,
-  },
-  {
-    title: 'Biophysical & socioeconomic data',
-    icon: <SendIcon className='w-4 h-4 text-secondary-500' />,
-    content: `
-      <ul>
-        <li>Land cover and land degradation assessments.</li>
-        <li>Restoration opportunity maps (e.g., ROAM outputs).</li>
-        <li>Socioeconomic data (tenure status, livelihood dependence, market analyses).</li>
-      </ul>
-    `,
-  },
-  {
-    title: 'Monitoring & baselines',
-    icon: <SendIcon className='w-4 h-4 text-secondary-500' />,
-    content: `
-      <ul>
-        <li>Data from landscape monitoring systems (e.g., Global Forest Watch).</li>
-        <li>Existing restoration indicators and historical progress reports.</li>
-      </ul>
-    `,
-  },
-]
+import { useTranslations } from '@/i18n/useTranslations'
 
 const GatherMaterials = () => {
   const params = useParams()
@@ -73,6 +26,7 @@ const GatherMaterials = () => {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
   const [materials, setMaterials] = useState('')
+  const t = useTranslations()
   const searchParams = useSearchParams()
   const isEditMode = searchParams.get('isEditMode')
   const isEditing = isEditMode === 'true'
@@ -150,6 +104,29 @@ const GatherMaterials = () => {
     return <Loader />
   }
 
+  const suggestedDocuments = [
+    {
+      title: t('scoping.step5.accordions.policy.title'),
+      icon: <PeopleIcon className='w-4 h-4 text-secondary-500' />,
+      content: t('scoping.step5.accordions.policy.content'),
+    },
+    {
+      title: t('scoping.step5.accordions.implementation.title'),
+      icon: <InterviewIcon className='w-4 h-4 text-secondary-500' />,
+      content: t('scoping.step5.accordions.implementation.content'),
+    },
+    {
+      title: t('scoping.step5.accordions.biophysical.title'),
+      icon: <SendIcon className='w-4 h-4 text-secondary-500' />,
+      content: t('scoping.step5.accordions.biophysical.content'),
+    },
+    {
+      title: t('scoping.step5.accordions.monitoring.title'),
+      icon: <SendIcon className='w-4 h-4 text-secondary-500' />,
+      content: t('scoping.step5.accordions.monitoring.content'),
+    },
+  ]
+
   return (
     <>
       <div className='pb-28'>
@@ -163,22 +140,21 @@ const GatherMaterials = () => {
             )
           }
         >
-          <span className='underline underline-offset-1'>Previous</span>
+          <span className='underline underline-offset-1'>
+            {t('scoping.common.buttons.previous')}
+          </span>
         </Button>
 
         <h1 className='text-3xl font-bold text-neutral-900 mb-2'>
-          Gather supporting materials
+          {t('scoping.step5.heading')}
         </h1>
         <p className='text-neutral-800 mb-8'>
-          Before starting the diagnostic, it is useful to gather key documents
-          and data sources in order to refer to them as evidence. We recommend
-          organising them in a shared folder so all contributors can access the
-          same evidence during the diagnostic.
+          {t('scoping.step5.description')}
         </p>
 
         <div className='mb-10'>
           <p className='text-neutral-900 text-xl mb-4 font-bold'>
-            Suggested documentation
+            {t('scoping.step5.suggestedDocumentationHeading')}
           </p>
 
           {suggestedDocuments.map((document, idx) => (
@@ -212,8 +188,8 @@ const GatherMaterials = () => {
 
         <div className='w-96 mb-8'>
           <TextInput
-            label='Shared folder link'
-            caption='This link will be shown to anyone you provide access to the Diagnostic. Ensure everyone supporting the diagnostic has permission to view.'
+            label={t('scoping.step5.fields.sharedFolder.label')}
+            caption={t('scoping.step5.fields.sharedFolder.caption')}
             value={materials}
             onChange={(e) => setMaterials(e.target.value)}
           />
@@ -225,7 +201,7 @@ const GatherMaterials = () => {
             disabled={isSubmitting}
             loading={isSubmitting}
           >
-            Save and continue
+            {t('scoping.common.buttons.saveAndContinue')}
           </Button>
           <Button
             variant='borderless'
@@ -233,7 +209,7 @@ const GatherMaterials = () => {
             disabled={isSubmitting}
             loading={isSubmitting}
           >
-            Skip
+            {t('scoping.common.buttons.skip')}
           </Button>
         </div>
       </div>

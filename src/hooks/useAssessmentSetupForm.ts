@@ -1,6 +1,7 @@
 import { useForm, UseFormReturn } from 'react-hook-form'
 import { AssessmentSetupFormData, TargetGeographyType } from '@/types/assessment-setup.types'
 import { validateEmailFormat } from '@/utils/validation'
+import type { createTranslator } from '@/i18n/utils'
 
 const defaultFormValues: AssessmentSetupFormData = {
   title: '',
@@ -36,49 +37,52 @@ export function useAssessmentSetupForm(): UseFormReturn<AssessmentSetupFormData>
   return formMethods
 }
 
+type TranslationFunction = ReturnType<typeof createTranslator>
+
 /**
  * Validation rules for each field in the assessment setup form
  * Compatible with React Hook Form's register function
  */
-export const assessmentFormRules = {
-  title: {
-    required: 'Title is required',
-  },
-  jobTitle: {},
-  fullName: {
-    required: 'Name is required',
-    minLength: {
-      value: 2,
-      message: 'Name must be at least 2 characters',
+export const getAssessmentFormRules = (t: TranslationFunction) =>
+  ({
+    title: {
+      required: t('forms.setup.validation.titleRequired'),
     },
-  },
-  email: {
-    required: 'Email address is required',
-    validate: (val: string) =>
-      validateEmailFormat(val) || 'Add a valid email address',
-  },
-  organization: {},
-  role: {},
-  country: {},
-  gender: {},
-  ageRange: {},
-  identity: {},
-  subRegion: {
-    required: 'Sub-region is required',
-  },
-  geographyType: {
-    required: 'Please add target scale',
-  },
-  scope: {
-    required: 'Scope is required',
-  },
-  ecosystems: {
-    validate: (val: string[]) =>
-      val.length > 0 || 'Select at least one (1) ecosystem type',
-  },
-  terms: {
-    validate: (val: boolean) =>
-      val || 'You must agree to the terms and conditions',
-  },
-  allowDataSharing: {},
-} as const
+    jobTitle: {},
+    fullName: {
+      required: t('forms.setup.validation.fullNameRequired'),
+      minLength: {
+        value: 2,
+        message: t('forms.setup.validation.fullNameMinLength'),
+      },
+    },
+    email: {
+      required: t('forms.setup.validation.emailRequired'),
+      validate: (val: string) =>
+        validateEmailFormat(val) || t('forms.setup.validation.emailInvalid'),
+    },
+    organization: {},
+    role: {},
+    country: {},
+    gender: {},
+    ageRange: {},
+    identity: {},
+    subRegion: {
+      required: t('forms.setup.validation.subRegionRequired'),
+    },
+    geographyType: {
+      required: t('scoping.validation.targetScale.required'),
+    },
+    scope: {
+      required: t('forms.setup.validation.scopeRequired'),
+    },
+    ecosystems: {
+      validate: (val: string[]) =>
+        val.length > 0 || t('scoping.validation.ecosystems.required'),
+    },
+    terms: {
+      validate: (val: boolean) =>
+        val || t('forms.setup.validation.termsRequired'),
+    },
+    allowDataSharing: {},
+  }) as const

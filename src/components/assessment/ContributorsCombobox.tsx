@@ -4,6 +4,7 @@ import { useState, useMemo } from 'react'
 import { Combobox, Portal, createListCollection } from '@chakra-ui/react'
 import { Tag, getThemedColor } from '@worldresources/wri-design-systems'
 import { PlainContributor } from '@/types/answer.types'
+import { useTranslations } from '@/i18n/useTranslations'
 
 interface ContributorsComboboxProps {
   selectedContributorIds: string[]
@@ -20,6 +21,7 @@ export function ContributorsCombobox({
   onContributorCreate,
   disabled = false,
 }: ContributorsComboboxProps) {
+  const t = useTranslations()
   const [inputValue, setInputValue] = useState('')
   
   const selectedContributors = allContributors.filter(c => 
@@ -105,10 +107,10 @@ export function ContributorsCombobox({
     <div>
       <div>
         <h3 className="text-xl font-bold text-slate-900 mb-2">
-          Contributors
+          {t('assessment.contributors.heading')}
         </h3>
         <p className="text-sm text-slate-600 mb-4">
-          List everyone involved in answering this question:
+          {t('assessment.contributors.description')}
         </p>
       </div>
       
@@ -125,7 +127,7 @@ export function ContributorsCombobox({
       >
         <Combobox.Control>
           <Combobox.Input
-            placeholder="Type to search or add contributor"
+            placeholder={t('assessment.contributors.field.placeholder')}
             css={{
               backgroundColor: 'white',
               borderColor: 'neutral.300',
@@ -195,7 +197,7 @@ export function ContributorsCombobox({
                     color: 'slate.500',
                   }}
                 >
-                  No contributors found
+                  {t('assessment.contributors.empty')}
                 </Combobox.Empty>
               )}
             </Combobox.Content>

@@ -3,6 +3,7 @@
 import { RichTextEditor, Control } from '@/components/ui/rich-text-editor'
 import { useRichTextEditor } from '@/hooks/useRichTextEditor'
 import { Box } from '@chakra-ui/react'
+import { useTranslations } from '@/i18n/useTranslations'
 
 interface ChakraRichTextEditorProps {
   value: string
@@ -12,25 +13,27 @@ interface ChakraRichTextEditorProps {
 
 /**
  * Chakra UI Rich Text Editor wrapper component
- * 
+ *
  * Provides a consistent rich text editing experience across the application
  * with auto-save integration for answer rationale and question notes.
- * 
+ *
  * Uses Tiptap editor with pre-configured extensions for formatting, lists,
  * headings, links, and more.
- * 
+ *
  * @param value - HTML string content
  * @param onChange - Callback fired on content change (debounced by parent)
  * @param placeholder - Placeholder text when empty
  */
-export function ChakraRichTextEditor({ 
-  value, 
-  onChange, 
-  placeholder = 'Start writing...',
+export function ChakraRichTextEditor({
+  value,
+  onChange,
+  placeholder,
 }: ChakraRichTextEditorProps) {
+  const t = useTranslations()
   const editor = useRichTextEditor({
     content: value,
-    placeholder,
+    placeholder:
+      placeholder ?? t('assessment.content.placeholders.startWriting'),
     onUpdate: onChange,
   })
 
@@ -39,7 +42,7 @@ export function ChakraRichTextEditor({
   }
 
   return (
-    <Box 
+    <Box
       css={{
         backgroundColor: 'white',
       }}

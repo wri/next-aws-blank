@@ -6,14 +6,10 @@ import { IconButton, Tag } from '@worldresources/wri-design-systems'
 import { CheckCircleIcon, CopyIcon } from '../../icons'
 import { useState } from 'react'
 import { copyTextToClipboard, hasRichTextContent } from '@/utils/validation'
-import { PREPARATION_STEPS, TARGET_GEOGRAPHY_TYPE_OPTIONS } from '@/constants'
+import { PREPARATION_STEPS } from '@/constants'
 import RichText from '@/components/ui/RichText'
 import { useRouter } from 'next/navigation'
-import {
-  ageRangeOptions,
-  genderOptions,
-  identityOptions,
-} from '@/constants/setup-assessment'
+import { useTranslations } from '@/i18n/useTranslations'
 
 const NoInformation = () => {
   return <div className='h-[3px] w-6 bg-neutral-400 mt-[14.5px]' />
@@ -68,6 +64,62 @@ const Scope = ({ data, assessmentId }: ScopeProps) => {
   const [isLinkCopied, setIsLinkCopied] = useState(false)
   const [isMaterialsLinkCopied, setIsMaterialsLinkCopied] = useState(false)
   const router = useRouter()
+  const t = useTranslations()
+  const genderLabelMap: Record<string, string> = {
+    woman: t('forms.setup.genderOptions.woman'),
+    man: t('forms.setup.genderOptions.man'),
+    non_binary: t('forms.setup.genderOptions.nonBinary'),
+    transgender: t('forms.setup.genderOptions.transgender'),
+    intersex: t('forms.setup.genderOptions.intersex'),
+    prefer_not_to_say: t('forms.setup.genderOptions.preferNotToSay'),
+    identity_not_listed: t('forms.setup.genderOptions.identityNotListed'),
+  }
+  const ageRangeLabelMap: Record<string, string> = {
+    under_25: t('forms.setup.ageRangeOptions.under25'),
+    '25_34': t('forms.setup.ageRangeOptions.25to34'),
+    '35_44': t('forms.setup.ageRangeOptions.35to44'),
+    '45_54': t('forms.setup.ageRangeOptions.45to54'),
+    '55_64': t('forms.setup.ageRangeOptions.55to64'),
+    '65_plus': t('forms.setup.ageRangeOptions.65plus'),
+    prefer_not_to_say: t('forms.setup.ageRangeOptions.preferNotToSay'),
+  }
+  const identityLabelMap: Record<string, string> = {
+    indigenous_peoples: t('forms.setup.identityOptions.indigenousPeoples'),
+    local_communities: t('forms.setup.identityOptions.localCommunities'),
+    both: t('forms.setup.identityOptions.both'),
+    prefer_not_to_say: t('forms.setup.identityOptions.preferNotToSay'),
+    none: t('forms.setup.identityOptions.none'),
+  }
+  const allEcosystemLabelMap: Record<string, string> = {
+    'tropical-subtropical-forests': t(
+      'scoping.ecosystems.terrestrial.types.tropicalSubtropicalForests',
+    ),
+    'temperate-boreal-forests-and-woodlands': t(
+      'scoping.ecosystems.terrestrial.types.temperateForests',
+    ),
+    'shrublands-and-shrubby-woodlands': t(
+      'scoping.ecosystems.terrestrial.types.shrublands',
+    ),
+    'savannas-and-grasslands': t('scoping.ecosystems.terrestrial.types.savannas'),
+    'deserts-and-semi-deserts': t('scoping.ecosystems.terrestrial.types.deserts'),
+    'polar-alpine': t('scoping.ecosystems.terrestrial.types.polarAlpine'),
+    'productive-and-agricultural-systems': t(
+      'scoping.ecosystems.terrestrial.types.agricultural',
+    ),
+    'urban-landscapes': t('scoping.ecosystems.terrestrial.types.urban'),
+    peatlands: t('scoping.ecosystems.freshwater.types.peatlands'),
+    wetlands: t('scoping.ecosystems.freshwater.types.wetlands'),
+    'riparian-ecosystems': t('scoping.ecosystems.freshwater.types.riparian'),
+    catchments: t('scoping.ecosystems.freshwater.types.catchments'),
+    'artificial-fresh-waters': t(
+      'scoping.ecosystems.freshwater.types.artificialFreshwaters',
+    ),
+    'marine-shelfs': t('scoping.ecosystems.marine.types.marineShelfs'),
+    'mangroves-and-shoreline-systems': t(
+      'scoping.ecosystems.marine.types.mangroves',
+    ),
+    'deep-sea-floors': t('scoping.ecosystems.marine.types.deepSeaFloors'),
+  }
 
   const handleCopyEmail = async (text: string | undefined) => {
     if (!text) return
@@ -98,21 +150,28 @@ const Scope = ({ data, assessmentId }: ScopeProps) => {
 
   return (
     <div>
-      <SectionTitle index={1} title='Scope' />
-      <CardContainer title='About this diagnostic' hideLabel='section'>
-        <Title title='Title' />
+      <SectionTitle index={1} title={t('overview.scope.sectionTitle')} />
+      <CardContainer
+        title={t('overview.scope.aboutDiagnostic.title')}
+        hideLabel={t('overview.scope.labels.section')}
+      >
+        <Title title={t('overview.scope.aboutDiagnostic.sections.title')} />
         <p className='text-neutral-700 mb-8'>{data.title}</p>
 
-        <Title title='Diagnostic lead' />
+        <Title title={t('overview.scope.aboutDiagnostic.sections.diagnosticLead')} />
         <div className='grid grid-col-1 sm:grid-cols-2 gap-x-8 gap-y-4'>
           <div>
-            <p className='text-neutral-700 text-sm'>Name</p>
+            <p className='text-neutral-700 text-sm'>
+              {t('overview.scope.aboutDiagnostic.fields.name')}
+            </p>
             <p className='text-neutral-800 font-bold mt-1'>
               {data.diagnosticLead.name}
             </p>
           </div>
           <div>
-            <p className='text-neutral-700 text-sm'>Email</p>
+            <p className='text-neutral-700 text-sm'>
+              {t('overview.scope.aboutDiagnostic.fields.email')}
+            </p>
             <div className='flex items-center gap-2 mt-1'>
               <p className='text-neutral-800 font-bold underline decoration-primary-700 decoration-dotted'>
                 {data.diagnosticLead.email}
@@ -128,7 +187,9 @@ const Scope = ({ data, assessmentId }: ScopeProps) => {
             </div>
           </div>
           <div>
-            <p className='text-neutral-700 text-sm'>Organization</p>
+            <p className='text-neutral-700 text-sm'>
+              {t('overview.scope.aboutDiagnostic.fields.organization')}
+            </p>
             {data.diagnosticLead.organization ? (
               <p className='text-neutral-800 font-bold mt-1'>
                 {data.diagnosticLead.organization}
@@ -138,7 +199,9 @@ const Scope = ({ data, assessmentId }: ScopeProps) => {
             )}
           </div>
           <div>
-            <p className='text-neutral-700 text-sm'>Job role</p>
+            <p className='text-neutral-700 text-sm'>
+              {t('overview.scope.aboutDiagnostic.fields.jobRole')}
+            </p>
             {data.diagnosticLead.role ? (
               <p className='text-neutral-800 font-bold mt-1'>
                 {data.diagnosticLead.role}
@@ -148,27 +211,13 @@ const Scope = ({ data, assessmentId }: ScopeProps) => {
             )}
           </div>
           <div>
-            <p className='text-neutral-700 text-sm'>Gender</p>
+            <p className='text-neutral-700 text-sm'>
+              {t('overview.scope.aboutDiagnostic.fields.gender')}
+            </p>
             {data.diagnosticLead.gender ? (
               <p className='text-neutral-800 font-bold mt-1'>
                 {
-                  genderOptions.find(
-                    (option) => option.value === data.diagnosticLead.gender,
-                  )?.label
-                }
-              </p>
-            ) : (
-              <NoInformation />
-            )}
-          </div>
-          <div>
-            <p className='text-neutral-700 text-sm'>Age range</p>
-            {data.diagnosticLead.ageRange ? (
-              <p className='text-neutral-800 font-bold mt-1'>
-                {
-                  ageRangeOptions.find(
-                    (option) => option.value === data.diagnosticLead.ageRange,
-                  )?.label
+                  genderLabelMap[data.diagnosticLead.gender]
                 }
               </p>
             ) : (
@@ -177,14 +226,26 @@ const Scope = ({ data, assessmentId }: ScopeProps) => {
           </div>
           <div>
             <p className='text-neutral-700 text-sm'>
-              Indigenous People & Local Community identification
+              {t('overview.scope.aboutDiagnostic.fields.ageRange')}
+            </p>
+            {data.diagnosticLead.ageRange ? (
+              <p className='text-neutral-800 font-bold mt-1'>
+                {
+                  ageRangeLabelMap[data.diagnosticLead.ageRange]
+                }
+              </p>
+            ) : (
+              <NoInformation />
+            )}
+          </div>
+          <div>
+            <p className='text-neutral-700 text-sm'>
+              {t('overview.scope.aboutDiagnostic.fields.identity')}
             </p>
             {data.diagnosticLead.identity ? (
               <p className='text-neutral-800 font-bold mt-1'>
                 {
-                  identityOptions.find(
-                    (option) => option.value === data.diagnosticLead.identity,
-                  )?.children
+                  identityLabelMap[data.diagnosticLead.identity]
                 }
               </p>
             ) : (
@@ -195,28 +256,32 @@ const Scope = ({ data, assessmentId }: ScopeProps) => {
       </CardContainer>
 
       <CardContainer
-        title='Diagnostic scope & planning'
+        title={t('overview.scope.diagnosticScope.title')}
         onEdit={() =>
           router.push(
             `/assessment/${assessmentId}/preparation/${PREPARATION_STEPS.TARGET_GEOGRAPHY}?isEditMode=true`,
           )
         }
-        hideLabel='section'
+        hideLabel={t('overview.scope.labels.section')}
       >
-        <Title title='Geography' />
+        <Title title={t('overview.scope.diagnosticScope.sections.geography')} />
         <div className='grid grid-col-1 sm:grid-cols-2 gap-x-8 gap-y-4 mb-8'>
           <div>
-            <p className='text-neutral-700 text-sm'>Target scale</p>
+            <p className='text-neutral-700 text-sm'>
+              {t('overview.scope.diagnosticScope.fields.targetScale')}
+            </p>
             <p className='text-neutral-800 font-bold mt-1'>
               {data.diagnosticScope.geography.geographyType
-                ? TARGET_GEOGRAPHY_TYPE_OPTIONS[
-                    data.diagnosticScope.geography.geographyType
-                  ]
-                : 'No information provided'}
+                ? t(
+                    `scoping.step1.fields.targetScale.options.${data.diagnosticScope.geography.geographyType}`,
+                  )
+                : t('overview.scope.empty.noInformation')}
             </p>
           </div>
           <div>
-            <p className='text-neutral-700 text-sm'>Country</p>
+            <p className='text-neutral-700 text-sm'>
+              {t('overview.scope.diagnosticScope.fields.country')}
+            </p>
             {data.diagnosticScope.geography.country ? (
               <p className='text-neutral-800 font-bold mt-1'>
                 {data.diagnosticScope.geography.country}
@@ -226,7 +291,9 @@ const Scope = ({ data, assessmentId }: ScopeProps) => {
             )}
           </div>
           <div>
-            <p className='text-neutral-700 text-sm'>Sub-region / Province</p>
+            <p className='text-neutral-700 text-sm'>
+              {t('overview.scope.diagnosticScope.fields.subRegion')}
+            </p>
             {data.diagnosticScope.geography.subRegion ? (
               <p className='text-neutral-800 font-bold mt-1'>
                 {data.diagnosticScope.geography.subRegion}
@@ -237,7 +304,7 @@ const Scope = ({ data, assessmentId }: ScopeProps) => {
           </div>
           <div>
             <p className='text-neutral-700 text-sm'>
-              Restoration boundary link
+              {t('overview.scope.diagnosticScope.fields.restorationBoundaryLink')}
             </p>
             {data.diagnosticScope.geography.gisUrl ? (
               <div className='flex items-center gap-2 mt-1'>
@@ -260,12 +327,17 @@ const Scope = ({ data, assessmentId }: ScopeProps) => {
             )}
           </div>
           <div>
-            <p className='text-neutral-700 text-sm'>Ecosystem types</p>
+            <p className='text-neutral-700 text-sm'>
+              {t('overview.scope.diagnosticScope.fields.ecosystemTypes')}
+            </p>
             <div className='flex flex-wrap gap-2 mt-1'>
               {data.diagnosticScope.restorationGoals.ecosystems.map((item) => (
                 <Tag
                   key={item}
-                  label={item.charAt(0).toUpperCase() + item.slice(1)}
+                  label={
+                    allEcosystemLabelMap[item] ??
+                    item.charAt(0).toUpperCase() + item.slice(1)
+                  }
                   variant='info-white'
                 />
               ))}
@@ -273,10 +345,12 @@ const Scope = ({ data, assessmentId }: ScopeProps) => {
           </div>
         </div>
 
-        <Title title='Time horizon' />
+        <Title title={t('overview.scope.diagnosticScope.sections.timeHorizon')} />
         <div className='grid grid-col-1 sm:grid-cols-2 gap-x-8 gap-y-4 mb-8'>
           <div>
-            <p className='text-neutral-700 text-sm'>Completion year</p>
+            <p className='text-neutral-700 text-sm'>
+              {t('overview.scope.diagnosticScope.fields.completionYear')}
+            </p>
             {data.diagnosticScope.timeHorizon.completionYear ? (
               <p className='text-neutral-800 font-bold mt-1'>
                 {data.diagnosticScope.timeHorizon.completionYear}
@@ -287,10 +361,12 @@ const Scope = ({ data, assessmentId }: ScopeProps) => {
           </div>
         </div>
 
-        <Title title='Restoration goals' />
+        <Title title={t('overview.scope.diagnosticScope.sections.restorationGoals')} />
         <div className='grid grid-col-1 gap-x-8 gap-y-4 mb-8'>
           <div>
-            <p className='text-neutral-700 text-sm'>Goals</p>
+            <p className='text-neutral-700 text-sm'>
+              {t('overview.scope.diagnosticScope.fields.goals')}
+            </p>
             {hasRichTextContent(data.diagnosticScope.restorationGoals.goals) ? (
               <div className='flex flex-wrap gap-2 mt-1'>
                 <RichText html={data.diagnosticScope.restorationGoals.goals} />
@@ -301,10 +377,12 @@ const Scope = ({ data, assessmentId }: ScopeProps) => {
           </div>
         </div>
 
-        <Title title='Diagnostic planning' />
+        <Title title={t('overview.scope.diagnosticScope.sections.diagnosticPlanning')} />
         <div className='grid grid-col-1 sm:grid-cols-2 gap-x-8 gap-y-4 mb-8'>
           <div>
-            <p className='text-neutral-700 text-sm'>Engagement strategy</p>
+            <p className='text-neutral-700 text-sm'>
+              {t('overview.scope.diagnosticScope.fields.engagementStrategy')}
+            </p>
             {hasRichTextContent(
               data.diagnosticScope.diagnosticPlanning.engagementStrategy,
             ) ? (
@@ -320,7 +398,9 @@ const Scope = ({ data, assessmentId }: ScopeProps) => {
             )}
           </div>
           <div>
-            <p className='text-neutral-700 text-sm'>Shared folder link</p>
+            <p className='text-neutral-700 text-sm'>
+              {t('overview.scope.diagnosticScope.fields.sharedFolderLink')}
+            </p>
             {data.diagnosticScope.diagnosticPlanning.materials ? (
               <div className='flex items-center gap-2 mt-1'>
                 <p className='text-neutral-800 font-bold underline decoration-primary-700 decoration-dotted'>

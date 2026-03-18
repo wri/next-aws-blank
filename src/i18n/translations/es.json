@@ -1,594 +1,714 @@
 {
   "common": {
-    "brand": "",
+    "brand": "Restoration Diagnostic",
     "buttons": {
-      "continue": "",
-      "save": "",
-      "cancel": "",
-      "close": "",
-      "download": "",
-      "backToSetup": "",
-      "backToOverview": ""
+      "continue": "Continuar",
+      "save": "Guardar",
+      "cancel": "Cancelar",
+      "close": "Cerrar",
+      "download": "Descargar",
+      "share": "Compartir",
+      "backToSetup": "Volver a la configuración",
+      "backToOverview": "Volver al resumen"
     },
     "footer": {
-      "privacyPolicy": "",
-      "termsOfService": ""
+      "privacyPolicy": "Política de privacidad",
+      "termsOfService": "Términos de servicio"
     },
-    "loading": "",
-    "required": "",
-    "optional": ""
+    "loading": "Cargando...",
+    "required": "Obligatorio",
+    "optional": "Opcional"
   },
   "navigation": {
-    "brand": "",
-    "languageMenu": "",
+    "brand": "Restoration Diagnostic",
+    "languageMenu": "Idioma",
     "languages": {
       "en": "English",
-      "es": "Español"
+      "es": "Español",
+      "fr": "Français",
+      "pt": "Português"
     },
+    "contact": "Contacto",
     "themes": {
-      "motivate": "",
-      "enable": "",
-      "implement": ""
+      "motivate": "Motivar",
+      "enable": "Habilitar",
+      "implement": "Implementar"
     },
-    "overview": "",
+    "overview": "Resumen",
     "tooltips": {
-      "previousTheme": "",
-      "nextTheme": ""
+      "previousTheme": "Tema anterior",
+      "nextTheme": "Siguiente tema"
     }
   },
   "home": {
     "hero": {
-      "title": "",
-      "description1": "",
-      "description2": "",
-      "ctaButton": ""
+      "title": "Restoration Diagnostic",
+      "description1": "Un método estructurado para identificar qué factores clave de éxito para la restauración de ecosistemas ya tiene implementados, parcialmente implementados o le faltan dentro de un país o paisaje que tiene oportunidades de restauración.",
+      "description2": "Un método estructurado para evaluar la preparación para la restauración de ecosistemas. El diagnóstico le ayudará a identificar los factores clave de éxito que tiene establecidos, parcialmente establecidos o que aún necesita considerar cómo incluir.",
+      "ctaButton": "Iniciar Diagnóstico"
     }
   },
   "forms": {
     "common": {
-      "requiredNote": ""
+      "requiredNote": "Los campos marcados con * son obligatorios."
     },
     "setup": {
-      "title": "",
-      "subtitle": "",
+      "title": "Bienvenido a la Herramienta de Diagnóstico de Restauración",
+      "subtitle": "Una herramienta de evaluación rápida para evaluar la preparación de su paisaje/geografía para la restauración y diseñar acciones estratégicas para asegurar el éxito a largo plazo.",
+      "page": {
+        "title": "Ejecutar el Diagnóstico de Restauración",
+        "subtitle": "El uso de la herramienta de Diagnóstico le ayuda a evaluar la preparación de la geografía o escala seleccionada para la restauración y a diseñar acciones estratégicas para promover el éxito a largo plazo."
+      },
       "features": {
-        "steps": "",
-        "duration": ""
+        "steps": "Proceso de 3 pasos",
+        "duration": "3 - 5 semanas para completar"
       },
       "sections": {
-        "getStarted": "",
-        "getStartedDescription": "",
-        "diagnosticLead": "",
-        "diagnosticLeadDescription": "",
-        "demographicInfoModal": {
-          "title": "",
-          "description1": "",
-          "description2": "",
-          "buttonLabel": "",
-          "closeButton": ""
+        "getStarted": "Comenzar",
+        "getStartedDescription": "Ingrese algunos detalles básicos sobre este diagnóstico para comenzar.",
+        "diagnosticLead": "Líder del diagnóstico",
+        "diagnosticLeadDescription": "Agregue los detalles de la persona que coordinará y supervisará este diagnóstico. Puede ser usted u otro miembro de su equipo.",
+        "diagnosticLeadWarning": {
+          "label": "Respondiendo en nombre del líder del diagnóstico",
+          "caption": "Si está ingresando detalles para otra persona, proporcione esta información con su conocimiento y consentimiento. Siempre que sea posible, recomendamos que el líder del diagnóstico cree el diagnóstico para asegurar la continuidad."
         },
-        "geography": "",
-        "geographyDescription": ""
+        "demographicInformation": "Información demográfica",
+        "demographicInformationDescription": "Las siguientes preguntas se utilizan únicamente para informes agregados y no afectan la participación.",
+        "demographicInfoModal": {
+          "title": "Cómo se utiliza la información demográfica",
+          "description1": "Si decide proporcionar información demográfica, miembros seleccionados del personal de los equipos Data Lab y Restoration de WRI tendrán acceso a ella y la utilizarán para informar cualquier mejora sugerida en el enfoque de WRI para la participación de los usuarios.",
+          "description2": "WRI se compromete a priorizar los derechos de las personas al consentimiento, la privacidad, la seguridad y la propiedad al utilizar datos en esfuerzos de cambio social y defensa, e implementar valores y prácticas de transparencia y apertura.",
+          "buttonLabel": "Cómo se usa esta información",
+          "closeButton": "Cerrar"
+        },
+        "geography": "Geografía",
+        "geographyDescription": "Ingrese detalles sobre la ubicación de su proyecto de restauración."
       },
       "collapsible": {
-        "whatIs": "",
-        "whatIsContent": ""
+        "whatIs": "¿Qué es la Herramienta de Diagnóstico de Restauración?",
+        "whatIsContent": "El Diagnóstico de Restauración de WRI ayuda a evaluar si las \"condiciones habilitadoras\" culturales, financieras, políticas y ambientales apoyan la restauración de los ecosistemas. Al identificar los cuellos de botella, puede pasar de la planificación general a la acción específica y efectiva."
       },
       "downloads": {
-        "preparationGuide": {
-          "title": "",
-          "description": ""
-        },
-        "spreadsheet": {
-          "title": "",
-          "description": ""
+        "offline": {
+          "title": "Completar fuera de línea",
+          "description": "Descargue la plantilla de hoja de cálculo y el documento de orientación en PDF para completar una versión simplificada del Diagnóstico fuera de línea.",
+          "button": "Descargar"
         }
       },
       "labels": {
-        "diagnosticTitle": "",
-        "jobTitle": "",
-        "fullName": "",
-        "email": "",
-        "organization": "",
-        "role": "",
-        "country": "",
-        "subRegion": "",
-        "geographyType": "",
-        "scope": "",
-        "gisLink": "",
-        "ecosystemContext": ""
+        "diagnosticTitle": "Título del diagnóstico",
+        "jobTitle": "Título del puesto",
+        "fullName": "Nombre completo",
+        "email": "Correo electrónico",
+        "organization": "Organización",
+        "role": "Rol laboral",
+        "gender": "Género (opcional)",
+        "ageRange": "Rango de edad (opcional)",
+        "identity": "¿El líder del diagnóstico se identifica como parte de alguno de los siguientes grupos? (opcional)",
+        "country": "País",
+        "subRegion": "Subregión / Provincia",
+        "geographyType": "Tipo de geografía",
+        "scope": "Alcance",
+        "gisLink": "Enlace SIG",
+        "ecosystemContext": "Contexto del ecosistema"
       },
       "placeholders": {
-        "diagnosticTitle": "",
-        "fullName": "",
-        "email": "",
-        "organization": "",
-        "role": "",
-        "country": "",
-        "subRegion": "",
-        "geographyType": "",
-        "scope": "",
-        "gisLink": ""
+        "diagnosticTitle": "Ingrese un título para el diagnóstico",
+        "fullName": "Ingrese el nombre completo",
+        "email": "nombre@organizacion.com",
+        "organization": "Ingrese el nombre de una organización",
+        "role": "ej. Gerente de Proyecto",
+        "gender": "Por favor seleccione",
+        "ageRange": "Por favor seleccione",
+        "country": "Seleccionar país",
+        "subRegion": "Ingrese subregión",
+        "geographyType": "Seleccionar tipo de geografía",
+        "scope": "Seleccionar alcance",
+        "gisLink": "Ingrese enlace SIG"
       },
       "captions": {
-        "diagnosticTitle": "",
-        "ecosystemContext": ""
+        "diagnosticTitle": "Incluya un título descriptivo para su diagnóstico. Este se mostrará a cualquier persona que acceda al diagnóstico.",
+        "ecosystemContext": "Seleccione todos los tipos de ecosistemas presentes en su área de evaluación."
       },
       "validation": {
-        "titleRequired": "",
-        "fullNameRequired": "",
-        "fullNameMinLength": "",
-        "emailRequired": "",
-        "emailInvalid": "",
-        "countryRequired": "",
-        "subRegionRequired": "",
-        "geographyTypeRequired": "",
-        "scopeRequired": "",
-        "ecosystemsRequired": "",
-        "termsRequired": ""
+        "titleRequired": "El título es obligatorio",
+        "fullNameRequired": "El nombre es obligatorio",
+        "fullNameMinLength": "El nombre debe tener al menos 2 caracteres",
+        "emailRequired": "El correo electrónico es obligatorio",
+        "emailInvalid": "Agregue un correo electrónico válido",
+        "countryRequired": "El país es obligatorio",
+        "subRegionRequired": "La subregión es obligatoria",
+        "geographyTypeRequired": "El tipo de geografía es obligatorio",
+        "scopeRequired": "El alcance es obligatorio",
+        "ecosystemsRequired": "Seleccione al menos un tipo de ecosistema",
+        "termsRequired": "Debe aceptar los términos y condiciones"
       },
       "offlineMessage": {
-        "title": "",
-        "description": "",
-        "button": ""
+        "title": "Completar fuera de línea",
+        "description": "Puede descargar y completar este diagnóstico fuera de línea utilizando un formato de hoja de cálculo o PDF. Envíe su archivo completado para recibir sus resultados.",
+        "button": "Descargar"
       },
-      "leadIdentity": {
-        "question": "",
-        "options": {
-          "indigenousPeoples": "",
-          "localCommunities": "",
-          "both": "",
-          "preferNotToSay": "",
-          "noneOfTheAbove": ""
-        }
+      "genderOptions": {
+        "woman": "Mujer",
+        "man": "Hombre",
+        "nonBinary": "No binario",
+        "transgender": "Transgénero",
+        "intersex": "Intersexual",
+        "preferNotToSay": "Prefiero no decirlo",
+        "identityNotListed": "Mi identidad no aparece en la lista"
+      },
+      "ageRangeOptions": {
+        "under25": "Menor de 25",
+        "25to34": "25–34",
+        "35to44": "35–44",
+        "45to54": "45–54",
+        "55to64": "55–64",
+        "65plus": "65+",
+        "preferNotToSay": "Prefiero no decirlo"
+      },
+      "identityOptions": {
+        "indigenousPeoples": "Pueblos Indígenas",
+        "localCommunities": "Comunidades locales",
+        "both": "Tanto Pueblos Indígenas como comunidades locales",
+        "preferNotToSay": "Prefiero no decirlo",
+        "none": "Ninguno de los anteriores"
       },
       "checkboxes": {
-        "terms": "",
-        "allowDataSharing": ""
+        "terms": "Acepto los Términos de Servicio y la Política de Privacidad de WRI para poder guardar y gestionar mi progreso.",
+        "termsPrefix": "Acepto los",
+        "termsMiddle": "y la",
+        "termsSuffix": "de WRI para poder guardar y gestionar mi progreso.",
+        "allowDataSharing": "Permito que mis datos anonimizados se utilicen en investigaciones globales y metaanálisis para ayudar a identificar tendencias de restauración."
+      },
+      "accessModal": {
+        "title": "Guarde sus detalles de acceso",
+        "description": "Este diagnóstico no utiliza cuentas. Para mantener su progreso seguro y volver más tarde, deberá guardar tanto el enlace del diagnóstico como la contraseña.",
+        "fields": {
+          "link": "Enlace del diagnóstico",
+          "password": "Contraseña"
+        },
+        "actions": {
+          "copyBoth": "Copiar enlace y contraseña",
+          "copied": "¡Copiado!"
+        },
+        "aria": {
+          "copyLink": "Copiar enlace del diagnóstico al portapapeles",
+          "linkCopied": "Enlace del diagnóstico copiado al portapapeles",
+          "copyPassword": "Copiar contraseña al portapapeles",
+          "passwordCopied": "Contraseña copiada al portapapeles",
+          "copyBoth": "Copiar tanto el enlace como la contraseña al portapapeles",
+          "bothCopied": "Enlace y contraseña copiados al portapapeles"
+        },
+        "confirmation": "He guardado el enlace y la contraseña de forma segura, y entiendo que si los pierdo no podré acceder al diagnóstico."
       },
       "ecosystems": {
         "forest": {
-          "label": "",
-          "description": ""
+          "label": "Bosque",
+          "description": "Ecosistemas de bosques tropicales, templados o boreales"
         },
         "grassland": {
-          "label": "",
-          "description": ""
+          "label": "Pastizal",
+          "description": "Sabanas, praderas y estepas"
         },
         "wetland": {
-          "label": "",
-          "description": ""
+          "label": "Humedal",
+          "description": "Marismas, pantanos y llanuras aluviales"
         },
         "coastal": {
-          "label": "",
-          "description": ""
+          "label": "Costero",
+          "description": "Manglares, estuarios y zonas costeras"
         },
         "peatland": {
-          "label": "",
-          "description": ""
+          "label": "Turbera",
+          "description": "Bofedales, turberas y bosques de pantano de turba"
         }
       },
       "errors": {
-        "title": "",
-        "networkError": "",
-        "genericError": ""
+        "title": "Hay errores en el formulario:",
+        "networkError": "No se puede conectar con el servidor. Por favor, compruebe su conexión e intente de nuevo.",
+        "genericError": "Algo salió mal"
       }
     }
   },
   "scoping": {
     "intro": {
-      "heading": "",
-      "description1": "",
-      "description2": "",
+      "heading": "Prepárese para el diagnóstico",
+      "description1": "En esta fase, tendrá la oportunidad de establecer el alcance, elegir métodos de participación de las partes interesadas, reunir la documentación necesaria, definir la geografía o escala objetivo y esbozar sus objetivos y cronograma de restauración.",
+      "description2": "Tomarse el tiempo para prepararse garantiza que el diagnóstico esté enfocado, bien respaldado y alineado con su contexto de restauración.",
+      "description3": "Hay 2 partes en este paso:",
       "parts": {
         "scope": {
-          "title": "",
-          "description": ""
+          "title": "Establecer el alcance",
+          "description": "Defina el paisaje objetivo, el horizonte temporal y los objetivos de restauración."
         },
         "approach": {
-          "title": "",
-          "badge": "",
-          "description": ""
+          "title": "Planificar su enfoque de diagnóstico",
+          "badge": "Opcional",
+          "description": "Decida cómo involucrará a las partes interesadas y reunirá materiales de apoyo."
         }
       },
-      "button": ""
+      "button": "Iniciar preparación"
     },
     "sidebar": {
-      "title": "",
-      "progress": "",
+      "title": "Preparación del diagnóstico",
+      "progress": "{current}/{total}",
       "groups": {
-        "scope": "",
-        "approach": ""
+        "scope": "Estableciendo el alcance",
+        "approach": "Planifique su enfoque"
       },
       "steps": {
-        "targetGeography": "",
-        "timeHorizon": "",
-        "restorationGoals": "",
-        "engagement": "",
-        "materials": ""
+        "targetGeography": "Geografía objetivo",
+        "timeHorizon": "Horizonte temporal",
+        "restorationGoals": "Objetivos de restauración",
+        "engagement": "Definir estrategia de participación",
+        "materials": "Reunir materiales"
+      },
+      "guidance": {
+        "title": "Guía"
       }
     },
     "common": {
       "buttons": {
-        "saveAndContinue": "",
-        "skip": "",
-        "previous": ""
+        "saveAndContinue": "Guardar y continuar",
+        "skip": "Omitir",
+        "previous": "Anterior"
       }
     },
+    "toolbar": {
+      "saveAndExit": "Guardar y salir",
+      "editDiagnosticScope": "Editar alcance del diagnóstico"
+    },
     "step1": {
-      "heading": "",
-      "description": "",
+      "heading": "Geografía objetivo",
+      "description": "La geografía objetivo define el área o escala donde se aplicará el diagnóstico. Puede ser un país, un área administrativa subnacional, un municipio, una cuenca hidrográfica, un bioma o una región ecológica.",
+      "defineGeographicArea": "Definir el área geográfica",
       "fields": {
         "targetScale": {
-          "label": "",
-          "placeholder": "",
+          "label": "Escala objetivo",
+          "placeholder": "Por favor seleccione",
           "options": {
-            "national": "",
-            "subnational": "",
-            "landscape": "",
-            "site": ""
+            "national": "Nacional",
+            "subnational": "Subnacional",
+            "landscape": "Paisaje",
+            "site": "Sitio de restauración",
+            "transboundary": "Transfronterizo"
           }
         },
         "country": {
-          "label": "",
-          "placeholder": ""
+          "label": "País",
+          "placeholder": "Por favor seleccione"
         },
         "subRegion": {
-          "label": "",
-          "placeholder": ""
+          "label": "Subregión / Provincia",
+          "placeholder": "Ingrese subregión o provincia"
         },
         "restorationBoundary": {
-          "label": "",
-          "placeholder": "",
-          "optional": true
+          "label": "Enlace al límite de restauración",
+          "placeholder": "Ingrese URL o enlace de archivo",
+          "optional": true,
+          "caption": "Agregue un enlace a un conjunto de datos SIG o archivo de límites"
         },
         "ecosystems": {
-          "label": "",
-          "description": ""
+          "label": "Capturar tipos de ecosistemas",
+          "description": "Seleccione todos los tipos de ecosistemas presentes en su área objetivo",
+          "requiredLabel": "Seleccione todos los ecosistemas que están siendo restaurados",
+          "sourcePrefix": "Tipos de ecosistemas basados en la",
+          "sourceLink1Label": "Tipología Global de Ecosistemas de la UICN 2.0",
+          "sourceLink2Label": "Ecosistema Global",
+          "sourceSuffix": "."
         }
       }
     },
     "step2": {
-      "heading": "",
-      "description": "",
+      "heading": "Horizonte temporal",
+      "description": "El horizonte temporal debe reflejar la naturaleza a largo plazo de la restauración, incluso si las acciones comienzan a corto plazo. Puede alinearse con un ciclo o estrategia de planificación nacional o subnacional existente.",
       "fields": {
         "restorationPeriod": {
-          "label": "",
-          "placeholder": "",
+          "label": "Periodo de restauración (años)",
+          "placeholder": "Ingrese el número de años",
           "optional": true
         }
       }
     },
     "step3": {
-      "heading": "",
-      "description": "",
+      "heading": "Objetivos de restauración",
+      "description": "Describa sus objetivos generales para la restauración. Considere objetivos relacionados con la biodiversidad, mitigación climática, medios de vida y servicios ecosistémicos.",
+      "description1": "Los objetivos de restauración describen los resultados previstos para el paisaje. Pueden centrarse en un solo tipo de ecosistema o en una mezcla de ecosistemas.",
+      "description2": "Los objetivos comúnmente se relacionan con la conservación de la biodiversidad, la mitigación o adaptación al cambio climático, la mejora de los medios de vida, la seguridad hídrica o la producción de alimentos.",
+      "description3": "Los objetivos de restauración pueden describirse antes o después de ejecutar el diagnóstico, dependiendo del contexto y de cómo se complete el diagnóstico.",
       "fields": {
         "goals": {
-          "label": "",
-          "placeholder": ""
+          "label": "Describa sus objetivos para la restauración",
+          "placeholder": "Ingrese sus objetivos de restauración..."
         }
       }
     },
     "step4": {
-      "heading": "",
-      "description": "",
+      "heading": "Definir estrategia de participación",
+      "description": "Involucrará a las partes interesadas en diferentes etapas del diagnóstico. Revise los enfoques sugeridos a continuación y planifique cómo los involucrará. Es posible que desee esbozar su estrategia a continuación.",
+      "suggestedApproachesHeading": "Enfoques de participación sugeridos",
       "accordions": {
         "participatory": {
-          "title": "",
+          "title": "Talleres participativos",
+          "content": "<ul><li>Convocar un taller de medio día o un día completo (virtual o presencial)</li><li>Usar facilitación estructurada para guiar las respuestas</li><li>Ideal cuando el tiempo es limitado y se desea participación</li></ul>",
           "items": [
-            "",
-            "",
-            ""
+            "Reunir a diversas partes interesadas para discutir y responder preguntas de manera colaborativa",
+            "Facilita el diálogo y garantiza que se consideren múltiples perspectivas",
+            "Ideal para generar consenso y un entendimiento compartido"
           ]
         },
         "interviews": {
-          "title": "",
+          "title": "Entrevistas / grupos focales",
+          "content": "<ul><li>Entrevistas semiestructuradas con actores clave</li><li>Útil para temas sensibles (ej. inseguridad en la tenencia, desafíos de gobernanza)</li></ul>",
           "items": [
-            "",
-            "",
-            ""
+            "Realizar discusiones individuales o en pequeños grupos con informantes clave",
+            "Permite una exploración profunda de temas específicos",
+            "Útil cuando ciertas partes interesadas no pueden asistir a talleres más grandes"
           ]
         },
         "distributed": {
-          "title": "",
+          "title": "Finalización distribuida",
+          "content": "<ul><li>Compartir la hoja de trabajo que se encuentra en el Paso 2 con las partes interesadas</li><li>Pedirles que completen las secciones relevantes para su experiencia</li><li>Coordinar la síntesis y la discusión posterior</li></ul>",
           "items": [
-            "",
-            "",
-            ""
+            "Compartir el diagnóstico con las partes interesadas para que lo completen de forma independiente",
+            "Permite que los individuos respondan a su propio ritmo",
+            "Puede requerir la consolidación de múltiples respuestas"
           ]
         }
       },
       "fields": {
         "notes": {
-          "label": "",
-          "placeholder": "",
+          "label": "Notas de la estrategia de participación",
+          "placeholder": "Agregue cualquier nota sobre su enfoque de participación...",
           "optional": true
         }
       }
     },
     "step5": {
-      "heading": "",
-      "description": "",
+      "heading": "Reunir materiales de apoyo",
+      "description": "Antes de comenzar el diagnóstico, es útil reunir documentos clave y fuentes de datos para referirse a ellos como evidencia. Recomendamos organizarlos en una carpeta compartida para que todos los colaboradores puedan acceder a la misma evidencia durante el diagnóstico.",
+      "suggestedDocumentationHeading": "Documentación sugerida",
       "accordions": {
         "policy": {
-          "title": "",
+          "title": "Contexto político y legal",
+          "content": "<ul><li>Estrategias o programas nacionales de restauración.</li><li>Leyes y reglamentos (Silvicultura, Agricultura, Uso del Suelo, Agua).</li><li>Compromisos internacionales (CMNUCC, CDB, UNCCD).</li><li>Planes nacionales de desarrollo.</li></ul>",
           "items": [
-            "",
-            "",
-            ""
+            "Compromisos y políticas de restauración nacionales o regionales",
+            "Regulaciones de tenencia de la tierra y marcos de derechos consuetudinarios",
+            "Leyes de protección ambiental y mecanismos de aplicación"
           ]
         },
         "implementation": {
-          "title": "",
+          "title": "Implementación y planificación",
+          "content": "<ul><li>Planes de acción de restauración subnacionales o regionales.</li><li>Planes de desarrollo municipal para los paisajes objetivo.</li><li>Documentación de programas financiados por donantes.</li><li>Presupuestos institucionales existentes y organigramas.</li></ul>",
           "items": [
-            "",
-            "",
-            ""
+            "Planes o estrategias de restauración existentes",
+            "Asignaciones presupuestarias y fuentes de financiamiento",
+            "Mapeo de partes interesadas y registros de participación"
           ]
         },
         "biophysical": {
-          "title": "",
+          "title": "Datos biofísicos y socioeconómicos",
+          "content": "<ul><li>Evaluaciones de cobertura terrestre y degradación de la tierra.</li><li>Mapas de oportunidades de restauración (ej. resultados de ROAM).</li><li>Datos socioeconómicos (estatus de tenencia, dependencia de medios de vida, análisis de mercado).</li></ul>",
           "items": [
-            "",
-            "",
-            ""
+            "Mapas de uso del suelo y cobertura terrestre",
+            "Evaluaciones de biodiversidad e inventarios de especies",
+            "Perfiles socioeconómicos de las comunidades locales"
           ]
         },
         "monitoring": {
-          "title": "",
+          "title": "Monitoreo y líneas base",
+          "content": "<ul><li>Datos de sistemas de monitoreo de paisajes (ej. Global Forest Watch).</li><li>Indicadores de restauración existentes e informes de progreso histórico.</li></ul>",
           "items": [
-            "",
-            "",
-            ""
+            "Datos de línea base sobre la condición del ecosistema",
+            "Tendencias históricas en la degradación o restauración de la tierra",
+            "Marcos o indicadores de monitoreo existentes"
           ]
         }
       },
       "fields": {
         "sharedFolder": {
-          "label": "",
-          "placeholder": "",
+          "label": "Enlace a carpeta compartida",
+          "placeholder": "Ingrese URL a carpeta compartida (ej. Google Drive, Dropbox)",
           "optional": true,
-          "caption": ""
+          "caption": "Este enlace se mostrará a cualquier persona a la que le proporcione acceso al Diagnóstico. Asegúrese de que todos los que apoyan el diagnóstico tengan permiso de visualización."
         }
       }
     },
     "ecosystems": {
       "terrestrial": {
-        "label": "",
-        "count": "",
+        "label": "Terrestre",
+        "count": "{selected}/8",
         "types": {
-          "tropicalSubtropicalForests": "",
-          "temperateForests": "",
-          "shrublands": "",
-          "savannas": "",
-          "deserts": "",
-          "polarAlpine": "",
-          "agricultural": "",
-          "urban": ""
+          "tropicalSubtropicalForests": "Bosques tropicales y subtropicales",
+          "temperateForests": "Bosques y arboledas templado-boreales",
+          "shrublands": "Matorrales y arboledas arbustivas",
+          "savannas": "Sabanas y pastizales",
+          "deserts": "Desiertos y semidesiertos",
+          "polarAlpine": "Polar-alpino",
+          "agricultural": "Sistemas productivos y agrícolas",
+          "urban": "Paisajes urbanos"
         }
       },
       "freshwater": {
-        "label": "",
-        "count": "",
+        "label": "Agua dulce",
+        "count": "{selected}/5",
         "types": {
-          "peatlands": "",
-          "wetlands": "",
-          "riparian": "",
-          "catchments": "",
-          "artificialFreshwaters": ""
+          "peatlands": "Turberas",
+          "wetlands": "Humedales",
+          "riparian": "Ecosistemas riparios",
+          "catchments": "Cuencas",
+          "artificialFreshwaters": "Aguas dulces artificiales"
         }
       },
       "marine": {
-        "label": "",
-        "count": "",
+        "label": "Marino",
+        "count": "{selected}/3",
         "types": {
-          "marineShelfs": "",
-          "mangroves": "",
-          "deepSeaFloors": ""
+          "marineShelfs": "Plataformas marinas",
+          "mangroves": "Manglares y sistemas costeros",
+          "deepSeaFloors": "Fondos marinos profundos"
         }
       }
     },
     "guidance": {
       "step1": {
         "whySetTargetGeography": {
-          "title": "",
-          "content": ""
+          "title": "Por qué establecer la geografía objetivo",
+          "content": "Definir el alcance geográfico ayuda a garantizar que las respuestas de su diagnóstico sean contextualmente relevantes y que las recomendaciones puedan adaptarse a su paisaje o jurisdicción específica. También ayuda a identificar qué partes interesadas deben participar y qué fuentes de datos son más aplicables."
         },
         "howToDoIt": {
-          "title": "",
-          "content": ""
+          "title": "Cómo hacerlo",
+          "content": "Comience identificando el límite administrativo o ecológico de su área de restauración. Considere si su enfoque es la política nacional, una jurisdicción subnacional, un paisaje específico o un sitio individual. Seleccione todos los tipos de ecosistemas presentes en su área objetivo para ayudar a guiar sus respuestas a las preguntas específicas del ecosistema."
         }
       },
       "step2": {
         "whySetTimeHorizon": {
-          "title": "",
-          "content": ""
+          "title": "Por qué establecer el horizonte temporal",
+          "content": "Establecer un horizonte temporal ayuda a fijar expectativas realistas para los resultados de la restauración y alinea las respuestas de su diagnóstico con hitos alcanzables. Diferentes actividades de restauración rinden resultados en diferentes escalas de tiempo, desde intervenciones inmediatas hasta la recuperación ecológica a largo plazo."
         },
         "howToDoIt": {
-          "title": "",
-          "content": ""
+          "title": "Cómo hacerlo",
+          "content": "Considere la duración prevista de sus actividades de restauración, desde la planificación inicial hasta la implementación y el monitoreo. Los periodos típicos de restauración oscilan entre 5 y 30 años, dependiendo del tipo de ecosistema y los objetivos de restauración. Si no está seguro, puede dejar este campo en blanco o proporcionar una estimación."
         }
       },
       "step3": {
         "whySetRestorationGoals": {
-          "title": "",
-          "content": ""
+          "title": "Por qué establecer objetivos de restauración",
+          "content": "Los objetivos de restauración claramente articulados proporcionan dirección a su diagnóstico y ayudan a asegurar que sus respuestas se alineen con los resultados previstos. Los objetivos pueden centrarse en la conservación de la biodiversidad, la mitigación del cambio climático, la mejora de los medios de vida, la seguridad hídrica u otros servicios ecosistémicos."
         },
         "howToDoIt": {
-          "title": "",
-          "content": ""
+          "title": "Cómo hacerlo",
+          "content": "Describa lo que espera lograr a través de la restauración en su área objetivo. Sea lo más específico posible sobre los objetivos ambientales, sociales y económicos. Considere tanto los resultados ecológicos (ej. cobertura forestal, recuperación de especies) como los beneficios socioeconómicos (ej. mejores medios de vida, mayor resiliencia)."
         }
       },
       "step4": {
         "designingEngagement": {
-          "title": "",
-          "content": ""
+          "title": "Diseñar la participación de las partes interesadas",
+          "content": "La participación efectiva de las partes interesadas garantiza que se incluyan diversas perspectivas en el diagnóstico. Considere quién debe participar, incluyendo agencias gubernamentales, comunidades locales, pueblos indígenas, organizaciones de la sociedad civil y actores del sector privado."
         },
         "ensuringInclusion": {
-          "title": "",
+          "title": "Garantizar la inclusión y la equidad",
+          "content": "<p>Algunos participantes pueden dudar en compartir en entornos grupales, y las dinámicas sociales/de género locales pueden excluir a algunos grupos. El equipo coordinador debe adaptar los métodos de participación para asegurar que se capturen perspectivas diversas. Esto se puede hacer mediante:</p><ul><li>Realización de grupos focales separados para mujeres y/o comunidades indígenas</li><li>Uso de idiomas locales</li><li>Inclusión de intermediarios de confianza</li><li>Provisión de viajes/compensación cuando sea necesario</li><li>Creación de acuerdos de espacio seguro</li><li>Permitir aportes escritos anónimos para preguntas sensibles</li></ul>",
           "items": [
-            "",
-            "",
-            "",
-            ""
+            "Buscar activamente las voces de grupos marginados o subrepresentados, incluyendo mujeres, jóvenes y pueblos indígenas",
+            "Considerar el idioma, la accesibilidad y el momento al planificar las actividades de participación",
+            "Proporcionar suficiente contexto y materiales de preparación para que todos los participantes puedan contribuir de manera significativa",
+            "Documentar quién participó y cómo se incorporó su aporte"
           ]
         }
       },
       "step5": {
         "preparingEvidence": {
-          "title": "",
-          "content": ""
+          "title": "Preparar su evidencia",
+          "content": "<p>El diagnóstico le pide que evalúe si las condiciones habilitadoras clave están establecidas. Para responder con confianza y coherencia, deberá consultar documentos existentes, fuentes de datos y materiales de políticas.</p><p>Tenga en cuenta que la evidencia se puede recopilar durante todo el proceso, si es necesario.</p>"
         },
         "organizingAccess": {
-          "title": "",
-          "content": ""
+          "title": "Organizar el acceso a los documentos",
+          "content": "Agregue enlaces a una carpeta compartida o documentos individuales almacenados en línea (por ejemplo, en una unidad compartida o plataforma de documentos). Esto garantiza que todos los involucrados puedan acceder rápidamente a la misma información durante los talleres o la finalización distribuida."
         }
       }
     },
     "validation": {
       "targetScale": {
-        "required": "",
-        "summary": ""
+        "required": "Por favor agregue una escala objetivo.",
+        "summary": "La escala objetivo es obligatoria"
       },
       "country": {
-        "required": "",
-        "summary": ""
+        "required": "Por favor seleccione un país.",
+        "summary": "El país es obligatorio"
       },
       "subRegion": {
-        "required": "",
-        "summary": ""
+        "required": "Por favor agregue una subregión o provincia.",
+        "summary": "La subregión / provincia es obligatoria"
       },
       "ecosystems": {
-        "required": "",
-        "summary": ""
+        "required": "Por favor seleccione al menos un (1) tipo de ecosistema.",
+        "summary": "Capturar tipos de ecosistemas es obligatorio"
       },
       "goals": {
-        "required": "",
-        "summary": ""
+        "required": "Por favor describa sus objetivos de restauración.",
+        "summary": "Los objetivos de restauración son obligatorios"
       },
-      "formErrors": ""
+      "formErrors": "Hay {count} error{plural} en el formulario"
     },
     "success": {
-      "heading": "",
-      "description": "",
+      "heading": "Diagnóstico creado con éxito",
+      "description": "Ahora puede evaluar si los 31 factores clave de éxito para la restauración en la geografía elegida están actualmente:",
       "statusList": {
-        "inPlace": "",
-        "partlyInPlace": "",
-        "notInPlace": "",
-        "notApplicable": ""
+        "inPlace": "Establecido",
+        "partlyInPlace": "Parcialmente establecido",
+        "notInPlace": "No establecido",
+        "notApplicable": "No aplica"
       },
       "infoBoxes": {
-        "objective": "",
-        "exportShare": ""
+        "objective": "El objetivo no es producir un desglose exhaustivo de cada aspecto del proceso de restauración, sino identificar rápidamente las fortalezas, debilidades y posibles cuellos de botella.",
+        "exportShare": "Puede exportar o compartir su progreso (en formato de solo lectura o editable) en cualquier momento; o usar el modo taller (habilitado desde la parte superior derecha de la pantalla) para ver una vista simplificada a pantalla completa."
       },
       "themes": {
-        "heading": "",
-        "description": "",
+        "heading": "Hay 3 temas clave para evaluar",
+        "description": "La pantalla de resumen muestra cuánto progreso ha realizado en cada tema.",
         "cards": {
-          "motivate": "",
-          "enable": "",
-          "implement": ""
+          "motivate": "Motivar ({count} preguntas)",
+          "enable": "Planificar ({count} preguntas)",
+          "implement": "Implementar ({count} preguntas)"
         }
       },
-      "button": ""
+      "button": "Continuar"
     }
   },
   "overview": {
     "page": {
-      "title": ""
+      "title": "Resumen"
     },
     "scope": {
-      "sectionTitle": "",
+      "sectionTitle": "Alcance",
       "aboutDiagnostic": {
-        "title": "",
+        "title": "Sobre este diagnóstico",
         "sections": {
-          "title": "",
-          "diagnosticLead": ""
+          "title": "Título",
+          "diagnosticLead": "Líder del diagnóstico"
         },
         "fields": {
-          "fullName": "",
-          "email": "",
-          "organization": "",
-          "jobRole": ""
+          "name": "Nombre",
+          "email": "Correo electrónico",
+          "organization": "Organización",
+          "jobRole": "Rol laboral",
+          "gender": "Género",
+          "ageRange": "Rango de edad",
+          "identity": "Identificación con Pueblos Indígenas y Comunidades Locales"
         }
       },
       "diagnosticScope": {
-        "title": "",
+        "title": "Alcance y planificación del diagnóstico",
         "sections": {
-          "geography": "",
-          "timeHorizon": "",
-          "restorationGoals": ""
+          "geography": "Geografía",
+          "timeHorizon": "Horizonte temporal",
+          "restorationGoals": "Objetivos de restauración",
+          "diagnosticPlanning": "Planificación del diagnóstico"
         },
         "fields": {
-          "country": "",
-          "geographyType": "",
-          "subRegion": "",
-          "gisLink": "",
-          "completionYear": "",
-          "goals": "",
-          "ecosystems": ""
+          "country": "País",
+          "targetScale": "Escala objetivo",
+          "subRegion": "Subregión / Provincia",
+          "restorationBoundaryLink": "Enlace al límite de restauración",
+          "completionYear": "Año de finalización",
+          "goals": "Objetivos",
+          "ecosystemTypes": "Tipos de ecosistemas",
+          "engagementStrategy": "Estrategia de participación",
+          "sharedFolderLink": "Enlace a carpeta compartida"
         }
       },
+      "labels": {
+        "section": "sección",
+        "table": "tabla"
+      },
       "actions": {
-        "copied": ""
+        "copied": "Copiado"
       },
       "empty": {
-        "noInformation": ""
+        "noInformation": "No se proporcionó información"
       }
     },
     "keySuccessFactors": {
-      "sectionTitle": "",
+      "sectionTitle": "Factores clave de éxito",
       "themes": {
         "motivate": {
-          "title": "",
-          "caption": ""
+          "title": "Motivar",
+          "caption": "Factores que crean incentivos y demanda de restauración entre inversores, responsables políticos e implementadores."
         },
         "enable": {
-          "title": "",
-          "caption": ""
+          "title": "Habilitar",
+          "caption": "Políticas, instituciones, finanzas y condiciones de tenencia de la tierra."
         },
         "implement": {
-          "title": "",
-          "caption": ""
+          "title": "Implementar",
+          "caption": "Capacidad técnica, conocimiento y preparación operativa."
         }
       },
       "stats": {
-        "complete": ""
+        "complete": "{complete}/{total} completo"
       },
       "table": {
         "headers": {
-          "keySuccessFactor": "",
-          "status": "",
-          "response": "",
-          "rationale": "",
-          "strategies": ""
-        }
+          "keySuccessFactor": "Factor clave de éxito",
+          "status": "Estado",
+          "response": "Respuesta",
+          "rationale": "Justificación",
+          "strategies": "Estrategias"
+        },
+        "na": "N/A",
+        "added": "{count} añadido"
       },
       "status": {
-        "complete": "",
-        "inProgress": "",
-        "notStarted": ""
+        "complete": "Completo",
+        "inProgress": "En progreso",
+        "notStarted": "No iniciado"
       },
       "actions": {
-        "start": "",
-        "continue": ""
+        "start": "Iniciar",
+        "continue": "Continuar"
       }
     },
     "strategicPlan": {
-      "sectionTitle": "",
-      "title": "",
-      "caption": "",
+      "sectionTitle": "Plan Estratégico",
+      "title": "Plan Estratégico",
+      "caption": "Acciones identificadas que aumentan la probabilidad de éxito de la restauración en la geografía objetivo.",
+      "table": {
+        "headers": {
+          "strategy": "Estrategia",
+          "keySuccessFactor": "Factor Clave de Éxito",
+          "priority": "Prioridad",
+          "scale": "Escala"
+        },
+        "noTitle": "Sin título",
+        "deadline": "Plazo {value}",
+        "ownedBy": "Responsable",
+        "priorities": {
+          "low": "Baja",
+          "medium": "Media",
+          "high": "Alta"
+        },
+        "scales": {
+          "national": "Nacional",
+          "subnational": "Subnacional (municipio, provincia, distrito)",
+          "landscape": "Paisaje (o paisaje marino si aplica)",
+          "site": "Sitio de restauración",
+          "transboundary": "Transfronterizo (dos o más países)"
+        }
+      },
       "empty": {
-        "title": "",
-        "description": ""
+        "title": "No se han creado estrategias",
+        "description": "Cuando agregue estrategias bajo un factor, aparecerán aquí"
       }
     },
     "exportResponses": {
+      "button": "Exportar respuestas",
       "headers": {
         "id": "ID",
         "theme": "Tema",
-        "enablingCondition": "Condición habilitante",
-        "keyFactor": "Factor clave",
+        "enablingCondition": "Condición Habilitadora",
+        "keyFactor": "Factor Clave",
         "status": "Estado",
         "response": "Respuesta",
         "rationale": "Justificación"
@@ -609,215 +729,293 @@
     },
     "sectionTitle": {
       "tabs": {
-        "progress": "",
-        "responses": ""
+        "progress": "Progreso",
+        "responses": "Respuestas"
       }
     },
     "cardContainer": {
       "actions": {
-        "edit": "",
-        "hide": "",
-        "show": ""
+        "edit": "Editar",
+        "hide": "Ocultar {label}",
+        "show": "Mostrar {label}"
       }
     }
   },
   "assessment": {
     "navigation": {
-      "progress": "",
+      "progress": "{answered}/{total}",
+      "responses": "Respuestas:",
+      "other": "Otro",
       "status": {
-        "yes": "",
-        "partly": "",
-        "no": "",
-        "na": "",
-        "notAnswered": ""
+        "yes": "Sí",
+        "partly": "Parcialmente",
+        "no": "No",
+        "na": "N/A",
+        "notAnswered": "No respondido"
       }
+    },
+    "pagination": {
+      "previousFactor": "Factor anterior",
+      "nextFactor": "Siguiente factor",
+      "firstFactorIn": "Primer factor en {theme}",
+      "lastFactorIn": "Último factor en {theme}"
     },
     "content": {
       "headers": {
-        "question": "",
-        "response": "",
-        "rationale": ""
+        "question": "Pregunta",
+        "response": "Respuesta",
+        "rationale": "Justificación",
+        "contributors": "Colaboradores"
       },
       "subheadings": {
-        "topicsToInclude": ""
+        "topicsToInclude": "Temas a incluir"
       },
       "placeholders": {
-        "rationale": "",
-        "notes": ""
+        "startWriting": "Empiece a escribir...",
+        "rationale": "Agregue su justificación...",
+        "notes": "Agregue notas sobre esta pregunta..."
+      },
+      "empty": {
+        "noQuestions": "No se encontraron preguntas para este tema."
       }
     },
     "answers": {
       "labels": {
-        "yes": "",
-        "partly": "",
-        "no": "",
-        "na": ""
+        "yes": "Sí",
+        "partly": "Parcialmente",
+        "no": "No",
+        "na": "N/A"
       }
     },
     "guidance": {
       "tabs": {
-        "guidance": "",
-        "notes": ""
+        "guidance": "Guía",
+        "notes": "Notas"
       },
       "sections": {
-        "definition": "",
-        "considerations": "",
-        "exampleStrategies": ""
+        "definition": "Definición",
+        "considerations": "Consideraciones",
+        "exampleStrategies": "Estrategias de ejemplo"
       },
       "empty": {
-        "definition": "",
-        "considerations": "",
-        "exampleStrategies": ""
+        "definition": "No hay definición disponible.",
+        "considerations": "No hay consideraciones disponibles.",
+        "exampleStrategies": "No hay estrategias de ejemplo disponibles."
       },
-      "notesCaption": ""
+      "notesCaption": "Agregue cualquier nota u observación sobre esta pregunta para su equipo."
     },
     "actions": {
       "buttons": {
-        "markComplete": "",
-        "editFactor": "",
-        "saveAndContinue": "",
-        "continueWithoutMarking": ""
+        "markComplete": "Marcar como completo",
+        "editFactor": "Editar factor",
+        "saveAndContinue": "Guardar y continuar",
+        "continueWithoutMarking": "Continuar sin marcar"
       },
       "tags": {
-        "successFactor": ""
+        "successFactor": "Factor de éxito {n} de {total}"
       },
       "messages": {
-        "readyToFinish": "",
-        "markAsComplete": ""
+        "readyToFinish": "¿Listo para terminar este factor?",
+        "markAsComplete": "Marcar como completo",
+        "factorMarkedComplete": "Este factor ha sido marcado como completo."
       },
       "captions": {
-        "markComplete": ""
+        "markComplete": "Marque este factor como completo cuando haya terminado de revisar la respuesta, la justificación y las estrategias."
       },
       "modal": {
         "markComplete": {
-          "header": "",
-          "content": "",
-          "confirmButton": "",
-          "cancelButton": ""
+          "header": "¿Marcar factor como completo?",
+          "content": "Ha completado la respuesta y los campos obligatorios para este factor. ¿Desea marcarlo como completo antes de continuar?",
+          "confirmButton": "Marcar completo y continuar",
+          "cancelButton": "Continuar sin marcar"
         }
       }
     },
     "contributors": {
-      "heading": "",
-      "description": "",
+      "heading": "Colaboradores",
+      "description": "Agregue el nombre completo de todos los involucrados en responder esta pregunta.",
       "field": {
-        "placeholder": ""
-      }
+        "placeholder": "Escriba para buscar o añadir colaborador"
+      },
+      "empty": "No se encontraron colaboradores"
     },
     "strategies": {
-      "heading": "",
-      "exampleIntro": "",
-      "warning": "",
+      "heading": "Estrategias",
+      "exampleIntro": "Ejemplos de estrategias para este factor:",
+      "warning": "Importancia estratégica: Las estrategias que abordan estos factores clave pueden tener complejidades y escalas de tiempo variables. La restauración puede ser beneficiosa para países o comunidades con conexión histórica/cultural con las tierras. Puede ser una forma para que los gobiernos cumplan con los compromisos de los acuerdos internacionales (ej. CMNUCC, UNCCD, CDB, Desafíos de Aichi).",
+      "labels": {
+        "strategyNumber": "Estrategia {number}"
+      },
       "fields": {
         "title": {
-          "label": "",
-          "placeholder": "",
-          "maxLength": ""
+          "label": "Título",
+          "placeholder": "Ingrese el título de la estrategia",
+          "maxLength": "(Máximo {remaining} caracteres restantes)",
+          "remaining": "Le quedan {remaining} caracteres"
         },
         "description": {
-          "label": "",
-          "placeholder": ""
+          "label": "Descripción",
+          "placeholder": "Describa la estrategia..."
         },
         "scale": {
-          "label": "",
-          "placeholder": "",
+          "label": "Escala",
+          "placeholder": "Seleccionar escala",
           "options": {
-            "national": "",
-            "subnational": "",
-            "landscape": "",
-            "site": ""
+            "national": "Nacional",
+            "subnational": "Subnacional (municipio, provincia, distrito)",
+            "landscape": "Paisaje (o paisaje marino si aplica)",
+            "site": "Sitio de restauración",
+            "transboundary": "Transfronterizo (dos o más países)"
           }
         },
         "deadline": {
-          "label": "",
-          "placeholder": ""
+          "label": "Plazo",
+          "placeholder": "Seleccionar fecha"
         },
         "responsibility": {
-          "label": "",
-          "placeholder": ""
+          "label": "Responsabilidad",
+          "placeholder": "Escriba para buscar o añadir responsabilidad"
+        },
+        "priority": {
+          "label": "Prioridad",
+          "placeholder": "Seleccionar prioridad",
+          "options": {
+            "high": "Alta",
+            "medium": "Media",
+            "low": "Baja"
+          }
         }
       },
       "actions": {
-        "addStrategy": ""
+        "addStrategy": "Añadir estrategia",
+        "about": "Acerca de",
+        "delete": "Eliminar"
+      },
+      "readOnly": {
+        "headers": {
+          "strategy": "Estrategia",
+          "priority": "Prioridad",
+          "scale": "Escala"
+        },
+        "noTitle": "Sin título",
+        "due": "Vence {value}",
+        "ownedBy": "Responsable"
+      },
+      "modal": {
+        "title": "Estrategia",
+        "relatedKeySuccessFactor": "Factor clave de éxito relacionado",
+        "noDescription": "Sin descripción",
+        "na": "N/A"
+      },
+      "about": {
+        "title": "Sobre las estrategias",
+        "sections": {
+          "why": {
+            "title": "¿Por qué establecer estrategias?",
+            "body": "Añadir estrategias le permite planificar cómo abordará los factores clave que faltan o están parcialmente implementados, mientras mantiene aquellos que ya se están abordando. El objetivo es identificar acciones prácticas que aumenten la probabilidad de éxito de la restauración en la geografía objetivo."
+          },
+          "include": {
+            "title": "Qué incluir",
+            "body1": "Las estrategias pueden incluir cambios en las políticas, incentivos, reformas institucionales, actividades de creación de capacidad o intervenciones intersectoriales (como agricultura, finanzas o tenencia de la tierra). Al definir estrategias, considere cómo se alinean con los procesos de políticas existentes, los ciclos de planificación, las oportunidades de reforma regulatoria y la capacidad técnica disponible.",
+            "body2": "Cada estrategia debe describir claramente quién actuará, qué se hará, por qué es necesaria la acción, cuándo debería suceder y cómo se implementará y financiará."
+          },
+          "considerations": {
+            "title": "Consideraciones clave",
+            "body1": "Una sola estrategia puede abordar varios factores clave. Si es así, regístrela bajo el factor más relevante y anote en los otros factores relacionados que son abordados por esta estrategia.",
+            "body2": "En la guía de cada factor clave se pueden encontrar ejemplos de estrategias. Estas son ilustrativas y deben adaptarse al contexto local."
+          },
+          "priority": {
+            "title": "Priorización de estrategias",
+            "body1": "Dado que los recursos son limitados, las estrategias deben priorizarse. Considere la urgencia de la brecha, las dependencias entre acciones (por ejemplo, la tenencia de la tierra antes que los incentivos), la factibilidad, el costo, el tiempo para el impacto y la escala de implementación.",
+            "body2": "La herramienta puede sugerir una prioridad recomendada basada en su respuesta a un factor clave (por ejemplo, las brechas marcadas como \"No\" pueden marcarse como de mayor prioridad). Esta recomendación es una guía y puede ajustarse."
+          }
+        },
+        "note": {
+          "title": "Nota importante",
+          "body": "Las estrategias identificadas a través del diagnóstico pretenden informar la planificación y la toma de decisiones, no prescribir intervenciones específicas ni proporcionar una guía de implementación detallada. Los resultados deben validarse con las partes interesadas pertinentes.",
+          "linkPrefix": "Para obtener más orientación, consulte la",
+          "linkLabel": "Metodología de Evaluación de Oportunidades de Restauración (ROAM)",
+          "linkSuffix": "."
+        }
       }
     },
     "autoSave": {
       "status": {
         "idle": "",
-        "saving": "",
-        "saved": "",
-        "error": ""
+        "saving": "Guardando progreso",
+        "saved": "Progreso guardado automáticamente",
+        "error": "Error al guardar el progreso"
       }
     },
     "modals": {
       "markCompleteConfirm": {
-        "heading": "",
-        "description": "",
-        "confirmButton": "",
-        "cancelButton": ""
+        "heading": "¿Está seguro de que desea marcar como completo?",
+        "description": "Hay información que aún no se ha completado para este factor clave de éxito. Asegúrese de estar satisfecho antes de proceder a marcar como completo.",
+        "confirmButton": "Marcar como completo",
+        "cancelButton": "Cancelar"
       },
       "progressNotSaved": {
-        "heading": "",
-        "description1": "",
-        "description2": "",
-        "description3": "",
-        "cancelButton": "",
-        "leavePageButton": ""
+        "heading": "Progreso no guardado",
+        "description1": "Actualmente tenemos problemas para guardar su progreso.",
+        "description2": "Por favor, compruebe su conexión a Internet e intente de nuevo.",
+        "description3": "Si el problema persiste, le recomendamos copiar sus respuestas a otro documento antes de salir de esta página para evitar perder su trabajo.",
+        "cancelButton": "Cancelar",
+        "leavePageButton": "Salir de la página"
       }
     },
     "created": {
       "sessionExpired": {
-        "title": "",
-        "message": ""
+        "title": "Sesión expirada",
+        "message": "Las credenciales de acceso para esta evaluación ya no están disponibles..."
       }
     }
   },
   "auth": {
     "passwordPrompt": {
-      "title": "",
-      "label": "",
-      "caption": "",
-      "button": ""
+      "title": "Ingrese la contraseña para acceder al diagnóstico",
+      "label": "Contraseña",
+      "caption": "Demasiados intentos",
+      "button": "Reanudar diagnóstico"
     },
     "errors": {
-      "passwordRequired": "",
-      "incorrectPassword": "",
-      "tooManyAttempts": "",
-      "authError": "",
-      "networkError": ""
+      "passwordRequired": "La contraseña es obligatoria",
+      "incorrectPassword": "La contraseña es incorrecta o no coincide con este diagnóstico. Si el problema persiste, póngase en contacto con nuestro equipo.",
+      "tooManyAttempts": "Demasiados intentos fallidos. Inténtelo de nuevo en {time}.",
+      "authError": "Ocurrió un error al autenticar. Por favor, inténtelo de nuevo más tarde.",
+      "networkError": "No se puede conectar con el servidor. Por favor, compruebe su conexión e intente de nuevo."
     }
   },
   "errors": {
     "api": {
-      "invalidEmail": "",
-      "questionIdRequired": "",
-      "failedToSaveAnswer": "",
-      "failedToFetchAnswers": "",
-      "tooManyLoginAttempts": "",
-      "passwordRequired": "",
-      "invalidCredentials": "",
-      "unexpectedError": ""
+      "invalidEmail": "Formato de correo electrónico no válido",
+      "questionIdRequired": "Se requiere questionId",
+      "failedToSaveAnswer": "Error al guardar la respuesta",
+      "failedToFetchAnswers": "Error al obtener las respuestas",
+      "tooManyLoginAttempts": "Demasiados intentos de inicio de sesión. Por favor, inténtelo de nuevo más tarde.",
+      "passwordRequired": "La contraseña es obligatoria",
+      "invalidCredentials": "Credenciales no válidas",
+      "unexpectedError": "Ocurrió un error inesperado. Por favor, inténtelo de nuevo más tarde."
     },
     "generic": {
-      "somethingWentWrong": "",
-      "tryAgain": ""
+      "somethingWentWrong": "Algo salió mal",
+      "tryAgain": "Por favor, inténtelo de nuevo"
     }
   },
   "metadata": {
-    "defaultTitle": "",
-    "defaultDescription": "",
+    "defaultTitle": "Restoration Diagnostic",
+    "defaultDescription": "Diagnóstico de Restauración de WRI",
     "pages": {
       "home": {
-        "title": "",
-        "description": ""
+        "title": "Restoration Diagnostic - Inicio",
+        "description": "Un método estructurado para evaluar la preparación para la restauración de ecosistemas"
       },
       "setup": {
-        "title": "",
-        "description": ""
+        "title": "Configurar Evaluación - Restoration Diagnostic",
+        "description": "Crear una nueva evaluación de diagnóstico de restauración"
       },
       "assessment": {
-        "title": "",
-        "description": ""
+        "title": "{theme} - Restoration Diagnostic",
+        "description": "Complete su evaluación de diagnóstico de restauración"
       }
     }
   }

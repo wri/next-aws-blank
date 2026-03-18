@@ -32,6 +32,7 @@ interface QuestionTranslationJSON {
     minimalKeySuccessFactor: string
     enablingCondition: string
     theme: string
+    locale: string
     lastUpdated: string
   }
 }
@@ -65,6 +66,7 @@ async function exportToJSON(language: string = 'en'): Promise<void> {
         minimalKeySuccessFactor: q.minimalKeySuccessFactor,
         enablingCondition: q.enablingCondition,
         theme: q.theme,
+        locale: q.locale,
         lastUpdated: new Date().toISOString(),
       }
     })
@@ -104,13 +106,21 @@ async function importFromJSON(language: string = 'en'): Promise<void> {
   await queryRunner.startTransaction()
   
   try {
-    // Resolve the target diagnostic
-    const diagnostic = await queryRunner.manager.findOne(Diagnostic, {
+    // Resolve or create the target diagnostic
+    let diagnostic = await queryRunner.manager.findOne(Diagnostic, {
       where: { version: 'v1.0.0', language }
     })
     
     if (!diagnostic) {
-      throw new Error(`Diagnostic v1.0.0 (${language}) not found`)
+      console.log(`📝 Diagnostic v1.0.0 (${language}) not found. Creating...`)
+      diagnostic = queryRunner.manager.create(Diagnostic, {
+        version: 'v1.0.0',
+        language,
+        title: `Restoration Diagnostic v1.0.0 (${language})`,
+        description: `Restoration diagnostic assessment questions translated to ${language}`,
+      })
+      await queryRunner.manager.save(diagnostic)
+      console.log(`✅ Created diagnostic: ${diagnostic.id} (${diagnostic.version}/${diagnostic.language})\n`)
     }
     
     let updated = 0
@@ -133,6 +143,11 @@ async function importFromJSON(language: string = 'en'): Promise<void> {
         continue
       }
       
+      // Validate locale matches language flag
+      if (data.locale && data.locale !== language) {
+        throw new Error(`Locale mismatch for ${questionCode}: JSON has '${data.locale}' but language flag is '${language}'`)
+      }
+      
       await queryRunner.manager.update(Question, question.id, {
         questionText: data.questionText,
         definition: data.definition,
@@ -141,6 +156,9 @@ async function importFromJSON(language: string = 'en'): Promise<void> {
         strategyExamples: data.strategyExamples,
         keySuccessFactor: data.keySuccessFactor,
         minimalKeySuccessFactor: data.minimalKeySuccessFactor,
+        enablingCondition: data.enablingCondition,
+        theme: data.theme as Question['theme'],
+        locale: data.locale ?? language, // Use JSON locale or fall back to language flag
       })
       
       console.log(`✓ ${questionCode}: Synced`)

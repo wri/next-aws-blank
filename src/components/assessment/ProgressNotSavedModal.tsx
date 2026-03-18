@@ -1,6 +1,7 @@
 'use client'
 
 import { Button, Modal } from '@worldresources/wri-design-systems'
+import { useTranslations } from '@/i18n/useTranslations'
 
 interface ProgressNotSavedModalProps {
   open: boolean
@@ -13,35 +14,28 @@ export function ProgressNotSavedModal({
   onDismiss,
   onLeavePageAnyway,
 }: ProgressNotSavedModalProps) {
+  const t = useTranslations()
   return (
     <Modal
       open={open}
       onClose={onDismiss}
       header={
-        <p className='text-neutral-800 font-bold'>Progress not saved</p>
+        <p className='text-neutral-800 font-bold'>
+          {t('assessment.modals.progressNotSaved.heading')}
+        </p>
       }
       content={
         <div className='text-neutral-700 space-y-4'>
-          <p>
-            We&apos;re currently having trouble saving your progress.
-          </p>
-          <p>
-            Please check your internet connection and try again.
-          </p>
-          <p>
-            If the issue continues, we recommend copying your answers to another
-            document before leaving this page to avoid losing your work.
-          </p>
+          <p>{t('assessment.modals.progressNotSaved.description1')}</p>
+          <p>{t('assessment.modals.progressNotSaved.description2')}</p>
+          <p>{t('assessment.modals.progressNotSaved.description3')}</p>
         </div>
       }
       footer={
         <>
+          <Button label={t('common.buttons.cancel')} onClick={onDismiss} />
           <Button
-            label='Cancel'
-            onClick={onDismiss}
-          />
-          <Button
-            label='Continue anyway'
+            label={t('assessment.modals.progressNotSaved.leavePageButton')}
             onClick={onLeavePageAnyway}
             variant='outline'
           />

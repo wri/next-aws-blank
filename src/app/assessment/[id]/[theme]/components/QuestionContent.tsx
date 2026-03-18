@@ -12,6 +12,7 @@ import Strategies from './Strategies'
 import StrategiesReadOnly from './Strategies/ReadOnly'
 import { PlainContributor } from '@/types/answer.types'
 import RichText from '@/components/ui/RichText'
+import { useTranslations } from '@/i18n/useTranslations'
 
 interface QuestionContentProps {
   question: PlainQuestion
@@ -44,50 +45,48 @@ export function QuestionContent({
   onContributorCreate,
   assessmentId,
 }: QuestionContentProps) {
+  const t = useTranslations()
   const hideRationale = selectedAnswer === 'na'
-  
+
   return (
-    <section className="space-y-8">
+    <section className='space-y-8'>
       <div>
         {/* Question heading */}
-        <h2 className="text-3xl font-extrabold text-slate-900 mb-4 leading-tight">
+        <h2 className='text-3xl font-extrabold text-slate-900 mb-4 leading-tight'>
           {question.keySuccessFactor}
         </h2>
 
         {isVisuallyMarkedAsComplete ? (
-          <p className="font-bold text-neutral-900 mb-2 mt-10">
-            Question
+          <p className='font-bold text-neutral-900 mb-2 mt-10'>
+            {t('assessment.content.headers.question')}
           </p>
         ) : null}
         {/* Question body */}
-        <p className="text-slate-600 text-base leading-relaxed max-w-3xl">
+        <p className='text-slate-600 text-base leading-relaxed max-w-3xl'>
           {question.questionText}
         </p>
       </div>
 
       {isVisuallyMarkedAsComplete ? (
         <div>
-          <p className="font-bold text-neutral-900 mb-2">
-            Response
+          <p className='font-bold text-neutral-900 mb-2'>
+            {t('assessment.content.headers.response')}
           </p>
           <AnswerOptionsResponse value={selectedAnswer ?? ''} />
         </div>
       ) : (
-        <AnswerOptions
-          value={selectedAnswer}
-          onChange={onAnswerChange}
-        />
+        <AnswerOptions value={selectedAnswer} onChange={onAnswerChange} />
       )}
-      
+
       {/* Rationale editor - hidden for N/A */}
       {!hideRationale && !isVisuallyMarkedAsComplete && (
-        <div className="space-y-4 mt-4">
+        <div className='space-y-4 mt-4'>
           <div>
-            <h3 className="text-xl font-bold text-slate-900 mb-2">
-              Rationale
+            <h3 className='text-xl font-bold text-slate-900 mb-2'>
+              {t('assessment.content.headers.rationale')}
             </h3>
           </div>
-                
+
           {/* Follow-up questions */}
           <FollowUpQuestions
             followUpQuestions={question.followUpQuestions}
@@ -97,14 +96,14 @@ export function QuestionContent({
           <ChakraRichTextEditor
             value={rationale}
             onChange={onRationaleChange}
-            placeholder="Add your rationale..."
+            placeholder={t('assessment.content.placeholders.rationale')}
           />
         </div>
       )}
-      
+
       {/* Contributors - Edit mode */}
       {!hideRationale && !isVisuallyMarkedAsComplete && (
-        <div className="mt-8">
+        <div className='mt-8'>
           <ContributorsCombobox
             selectedContributorIds={contributors}
             allContributors={allContributors}
@@ -113,7 +112,7 @@ export function QuestionContent({
           />
         </div>
       )}
-      
+
       {/* Strategies - Edit mode */}
       {!hideRationale && !isVisuallyMarkedAsComplete && (
         <Strategies
@@ -127,20 +126,24 @@ export function QuestionContent({
 
       {isVisuallyMarkedAsComplete && hasRichTextContent(rationale) ? (
         <div>
-          <p className='font-bold text-neutral-900 mb-2'>Rationale</p>
+          <p className='font-bold text-neutral-900 mb-2'>
+            {t('assessment.content.headers.rationale')}
+          </p>
           <RichText html={rationale} />
         </div>
       ) : null}
-      
+
       {/* Contributors - View-only mode */}
       {isVisuallyMarkedAsComplete && contributors.length > 0 && (
-        <div className="mt-6">
-          <p className="font-bold text-neutral-900 mb-2">Contributors</p>
-          <ul className="list-disc list-inside space-y-1">
+        <div className='mt-6'>
+          <p className='font-bold text-neutral-900 mb-2'>
+            {t('assessment.content.headers.contributors')}
+          </p>
+          <ul className='list-disc list-inside space-y-1'>
             {allContributors
-              .filter(c => contributors.includes(c.id))
-              .map(contributor => (
-                <li key={contributor.id} className="text-neutral-800">
+              .filter((c) => contributors.includes(c.id))
+              .map((contributor) => (
+                <li key={contributor.id} className='text-neutral-800'>
                   {contributor.name}
                 </li>
               ))}
