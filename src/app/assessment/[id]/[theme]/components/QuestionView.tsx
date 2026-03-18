@@ -44,6 +44,7 @@ interface QuestionViewProps {
   allContributors: PlainContributor[]
   initialContributorsByAnswer: Array<[string, string[]]>
   onSaveStatusChange?: (status: AutoSaveStatus) => void
+  onFocusChange?: (code: string) => void
 }
 
 export function QuestionView({
@@ -60,6 +61,7 @@ export function QuestionView({
   allContributors: initialAllContributors,
   initialContributorsByAnswer,
   onSaveStatusChange,
+  onFocusChange,
 }: QuestionViewProps) {
   const router = useRouter()
   const t = useTranslations()
@@ -68,6 +70,10 @@ export function QuestionView({
   const [answersCache, setAnswersCache] = useState(
     () => new Map<string, PlainAnswer>(initialAnswers),
   )
+
+  useEffect(() => {
+    setAnswersCache(new Map(initialAnswers))
+  }, [initialAnswers])
 
   // Contributor state
   const [allContributors, setAllContributors] = useState<PlainContributor[]>(
@@ -100,6 +106,24 @@ export function QuestionView({
   const [showCompleteWarning, setShowCompleteWarning] = useState(false)
   const [showProgressNotSavedModal, setShowProgressNotSavedModal] =
     useState(false)
+
+  useEffect(() => {
+    const targetQuestion =
+      questions.find((q) => q.questionCode === focusQuestionCode) ||
+      questions[0]
+
+    if (!targetQuestion) return
+
+    setCurrentQuestionCode(targetQuestion.questionCode)
+    const answer = answersCache.get(targetQuestion.id)
+    setSelectedAnswer(answer?.value || null)
+    setRationale(answer?.rationale || '')
+    setNotes(answer?.notes || '')
+    setStrategies(answer?.strategies || '[]')
+    setIsVisuallyMarkedAsComplete(
+      answer?.status === AnswerStatus.COMPLETE,
+    )
+  }, [focusQuestionCode, questions, answersCache])
 
   const currentContributorIds =
     contributorsByAnswer.get(currentAnswer?.id || '') || []
@@ -549,6 +573,7 @@ export function QuestionView({
         )
 
         setCurrentQuestionCode(code)
+        onFocusChange?.(code)
         const answer = answersCache.get(question.id)
         setSelectedAnswer(answer?.value || null)
         setRationale(answer?.rationale || '')

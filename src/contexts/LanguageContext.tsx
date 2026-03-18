@@ -1,6 +1,11 @@
 'use client'
 
-import React, { createContext, useContext, useState, ReactNode } from 'react'
+import React, {
+  createContext,
+  useContext,
+  useState,
+  ReactNode,
+} from 'react'
 
 interface LanguageContextType {
   language: string
@@ -12,11 +17,27 @@ const LanguageContext = createContext<LanguageContextType | undefined>(
 )
 
 export function LanguageProvider({ children }: { children: ReactNode }) {
-  // Default to English ('en')
-  const [language, setLanguage] = useState('en')
+  const [language, setLanguage] = useState(() => {
+    if (typeof document === 'undefined') {
+      return 'en'
+    }
+    const match = document.cookie
+      .split('; ')
+      .find((row) => row.startsWith('language='))
+    const cookieLang = match?.split('=')[1]
+    return cookieLang || 'en'
+  })
+
+  // Persist selection for server-rendered routes
+  const handleSetLanguage = (lang: string) => {
+    setLanguage(lang)
+    if (typeof document !== 'undefined') {
+      document.cookie = `language=${lang}; path=/; max-age=31536000`
+    }
+  }
 
   return (
-    <LanguageContext.Provider value={{ language, setLanguage }}>
+    <LanguageContext.Provider value={{ language, setLanguage: handleSetLanguage }}>
       {children}
     </LanguageContext.Provider>
   )

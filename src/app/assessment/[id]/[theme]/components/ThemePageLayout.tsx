@@ -7,6 +7,7 @@ import type { AnswerValue } from '@/db/entities/Answer.entity'
 import type { Theme } from '@/db/entities/Question.entity'
 import { AnswerStatus, PlainContributor } from '@/types/answer.types'
 import type { AutoSaveStatus } from '@/hooks/useAutoSave'
+import { useLanguage } from '@/contexts/LanguageContext'
 
 // Plain object interfaces for data passed from server
 export interface PlainQuestion {
@@ -72,12 +73,66 @@ export function ThemePageLayout({
   allContributors,
   initialContributorsByAnswer,
 }: ThemePageLayoutProps) {
+  const { language } = useLanguage()
   const [saveStatus, setSaveStatus] = useState<AutoSaveStatus>('idle')
   const [isScrolled, setIsScrolled] = useState(false)
+  const [localizedQuestions, setLocalizedQuestions] = useState(questions)
+  const [answers, setAnswers] = useState(initialAnswers)
+  const [currentFocusCode, setCurrentFocusCode] = useState(focusQuestionCode)
 
   const handleSaveStatusChange = useCallback((status: AutoSaveStatus) => {
     setSaveStatus(status)
   }, [])
+
+  useEffect(() => {
+    const controller = new AbortController()
+
+    const fetchLocalizedQuestions = async () => {
+      try {
+        const response = await fetch(
+          `/api/assessments/${assessmentId}/questions?language=${language}`,
+          { signal: controller.signal },
+        )
+
+        if (!response.ok) {
+          throw new Error('Failed to fetch localized questions')
+        }
+
+        const data = await response.json()
+        const filteredQuestions = (data.questions || []).filter(
+          (q: PlainQuestion) => q.theme === theme,
+        )
+
+        const normalizedAnswers: Array<[string, PlainAnswer]> = []
+        ;(data.answers || []).forEach(
+          (answer: PlainAnswer & { questionId: string }) => {
+            normalizedAnswers.push([answer.questionId, answer])
+          },
+        )
+
+        setLocalizedQuestions(filteredQuestions)
+        setAnswers(normalizedAnswers)
+        setCurrentFocusCode((prev) => {
+          if (
+            filteredQuestions.some(
+              (q: { questionCode: string }) => q.questionCode === prev,
+            )
+          ) {
+            return prev
+          }
+
+          return filteredQuestions[0]?.questionCode || prev
+        })
+      } catch (error) {
+        if ((error as Error).name === 'AbortError') return
+        console.error('Failed to refresh questions on language change:', error)
+      }
+    }
+
+    fetchLocalizedQuestions()
+
+    return () => controller.abort()
+  }, [assessmentId, language, theme])
 
   useEffect(() => {
     const handleScroll = () => {
@@ -91,28 +146,29 @@ export function ThemePageLayout({
   }, [])
 
   return (
-    <div className={`min-h-screen flex flex-col bg-background-light gradient-bg duration-100 transition-[padding] ${isScrolled ? '' : 'pt-[47px]'} `}>
-      
+    <div
+      className={`min-h-screen flex flex-col bg-background-light gradient-bg duration-100 transition-[padding] ${isScrolled ? '' : 'pt-[47px]'} `}
+    >
       {/* Sub-navbar - Custom */}
       <header
         className={`border-b border-slate-200 sticky bg-white z-40 transition-all duration-100 transition-[top] ${isScrolled ? 'top-0' : 'top-[47px]'}`}
       >
-        <SubNavbar 
-          saveStatus={saveStatus} 
+        <SubNavbar
+          saveStatus={saveStatus}
           assessmentId={assessmentId}
-          questions={questions}
-          focusQuestionCode={focusQuestionCode}
+          questions={localizedQuestions}
+          focusQuestionCode={currentFocusCode}
         />
       </header>
-      
+
       {/* Main content with gradient background */}
-      <div className="flex mx-auto w-full relative flex-1">
+      <div className='flex mx-auto w-full relative flex-1'>
         <QuestionView
           assessmentId={assessmentId}
           theme={theme}
-          questions={questions}
-          initialAnswers={initialAnswers}
-          focusQuestionCode={focusQuestionCode}
+          questions={localizedQuestions}
+          initialAnswers={answers}
+          focusQuestionCode={currentFocusCode}
           canGoPrev={canGoPrev}
           canGoNext={canGoNext}
           prevTheme={prevTheme}
@@ -121,10 +177,9 @@ export function ThemePageLayout({
           allContributors={allContributors}
           initialContributorsByAnswer={initialContributorsByAnswer}
           onSaveStatusChange={handleSaveStatusChange}
+          onFocusChange={setCurrentFocusCode}
         />
       </div>
-      
-      
     </div>
   )
 }

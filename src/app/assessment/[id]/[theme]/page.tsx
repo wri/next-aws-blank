@@ -1,4 +1,5 @@
 import { notFound } from 'next/navigation'
+import { cookies } from 'next/headers'
 import { PlainAnswer, ThemePageLayout } from './components/ThemePageLayout'
 import { Theme } from '@/db/entities'
 
@@ -22,6 +23,9 @@ export default async function ThemeQuestionPage({ params, searchParams }: PagePr
   const resolvedSearchParams = await searchParams
   const questionCodeFromUrl = resolvedSearchParams.questionCode as string
 
+  const cookieStore = await cookies()
+  const language = cookieStore.get('language')?.value || 'en'
+
   // Await params as required by Next.js 15
   const { id: assessmentId, theme: themeParam } = await params
   
@@ -35,7 +39,7 @@ export default async function ThemeQuestionPage({ params, searchParams }: PagePr
   const { initializeDatabase } = await import('@/db/data-source')
   await initializeDatabase()
   
-  const { getAssessmentById, getQuestionsByTheme, getQuestionsWithAnswers, getContributorsByAssessment, getContributorsForAllAnswers } = await import('@/db/queries/assessment-queries')
+  const { getAssessmentById, getLocalizedQuestionsWithAnswers, getContributorsByAssessment, getContributorsForAllAnswers } = await import('@/db/queries/assessment-queries')
   
   // Fetch data
   const assessment = await getAssessmentById(assessmentId)
@@ -43,15 +47,17 @@ export default async function ThemeQuestionPage({ params, searchParams }: PagePr
     notFound()
   }
   
-  const questions = await getQuestionsByTheme(assessment.diagnosticId, theme)
-  const answersData = await getQuestionsWithAnswers(assessmentId)
+  const localizedQuestions = await getLocalizedQuestionsWithAnswers(
+    assessmentId,
+    language,
+  )
+  const questions = localizedQuestions.filter((q) => q.theme === theme)
+  const answersData = localizedQuestions
   
   // Fetch contributors
   const allContributors = await getContributorsByAssessment(assessmentId)
   const contributorsByAnswer = await getContributorsForAllAnswers(assessmentId)
 
-  // TODO: Implement language switching
-  const language = 'en'
   const pathname = `/assessment/${assessmentId}/${theme.toLowerCase()}`
   
   // Serialize TypeORM entities to plain objects for client components

@@ -1,11 +1,48 @@
+import { promises as fs } from 'fs'
+import path from 'path'
 import { AppDataSource, initializeDatabase } from '../data-source'
 import { Question, Theme } from '../entities/Question.entity'
 import { Answer, AnswerValue } from '../entities/Answer.entity'
 import { Assessment } from '../entities/Assessment.entity'
 import { Contributor } from '../entities/Contributor.entity'
 import { AnswerContributor } from '../entities/AnswerContributor.entity'
-import { Diagnostic } from '../entities/Diagnostic.entity'
 import { AnswerStatus } from '@/types/answer.types'
+
+type QuestionTranslation = Partial<Pick<
+  Question,
+  | 'questionText'
+  | 'definition'
+  | 'considerations'
+  | 'followUpQuestions'
+  | 'strategyExamples'
+  | 'keySuccessFactor'
+  | 'minimalKeySuccessFactor'
+  | 'enablingCondition'
+  | 'theme'
+>>
+
+const QUESTION_TRANSLATION_FILES: Record<string, string> = {
+  en: 'questions-en.json',
+  es: 'questions-es.json',
+  fr: 'questions-fr.json',
+  pt: 'questions-pt.json',
+}
+
+async function loadQuestionTranslations(language: string) {
+  const filename = QUESTION_TRANSLATION_FILES[language] || QUESTION_TRANSLATION_FILES.en
+  const filePath = path.join(process.cwd(), 'src', 'i18n', 'translations', filename)
+
+  try {
+    const fileContents = await fs.readFile(filePath, 'utf8')
+    return JSON.parse(fileContents) as Record<string, QuestionTranslation>
+  } catch (error) {
+    console.error(`Failed to load question translations for ${language}:`, error)
+    if (language !== 'en') {
+      return loadQuestionTranslations('en')
+    }
+    return {}
+  }
+}
 
 /**
  * Fetch assessment by ID with related data
@@ -102,7 +139,6 @@ export async function getLocalizedQuestionsWithAnswers(
   }
 
   const questionRepo = AppDataSource.getRepository(Question)
-  const diagnosticRepo = AppDataSource.getRepository(Diagnostic)
 
   const originalQuestions = await questionRepo
     .createQueryBuilder('question')
@@ -121,35 +157,14 @@ export async function getLocalizedQuestionsWithAnswers(
     .addOrderBy('answer.updatedAt', 'DESC')
     .getMany()
 
-  if (assessment.diagnostic.language === language) {
-    return originalQuestions
-  }
-
-  const localizedDiagnostic = await diagnosticRepo.findOne({
-    where: {
-      version: assessment.diagnostic.version,
-      language,
-    },
-  })
-
-  if (!localizedDiagnostic) {
-    return originalQuestions
-  }
-
-  const localizedQuestions = await questionRepo.find({
-    where: { diagnosticId: localizedDiagnostic.id },
-    order: {
-      theme: 'ASC',
-      sortOrder: 'ASC',
-    },
-  })
-
-  const localizedByCode = new Map(
-    localizedQuestions.map((question) => [question.questionCode, question]),
-  )
+  const translations = await loadQuestionTranslations(language)
+  const fallbackTranslations =
+    language === 'en' ? translations : await loadQuestionTranslations('en')
 
   return originalQuestions.map((question) => {
-    const localizedQuestion = localizedByCode.get(question.questionCode)
+    const localizedQuestion =
+      translations[question.questionCode] ||
+      fallbackTranslations[question.questionCode]
 
     if (!localizedQuestion) {
       return question
@@ -157,14 +172,22 @@ export async function getLocalizedQuestionsWithAnswers(
 
     return {
       ...question,
-      theme: localizedQuestion.theme,
-      enablingCondition: localizedQuestion.enablingCondition,
-      keySuccessFactor: localizedQuestion.keySuccessFactor,
-      definition: localizedQuestion.definition,
-      questionText: localizedQuestion.questionText,
-      considerations: localizedQuestion.considerations,
-      followUpQuestions: localizedQuestion.followUpQuestions,
-      strategyExamples: localizedQuestion.strategyExamples,
+      theme: (localizedQuestion.theme as Theme) || question.theme,
+      enablingCondition:
+        localizedQuestion.enablingCondition || question.enablingCondition,
+      keySuccessFactor:
+        localizedQuestion.keySuccessFactor || question.keySuccessFactor,
+      minimalKeySuccessFactor:
+        localizedQuestion.minimalKeySuccessFactor ||
+        question.minimalKeySuccessFactor,
+      definition: localizedQuestion.definition ?? question.definition,
+      questionText: localizedQuestion.questionText || question.questionText,
+      considerations:
+        localizedQuestion.considerations ?? question.considerations,
+      followUpQuestions:
+        localizedQuestion.followUpQuestions ?? question.followUpQuestions,
+      strategyExamples:
+        localizedQuestion.strategyExamples ?? question.strategyExamples,
     }
   })
 }

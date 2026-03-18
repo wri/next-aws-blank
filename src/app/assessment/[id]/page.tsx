@@ -1,6 +1,5 @@
 import Scope from '@/components/assessment/Overview/Scope'
-import KeySuccessFactors from '@/components/assessment/Overview/KeySuccessFactors'
-import StrategicPlan from '@/components/assessment/Overview/StrategicPlan'
+import OverviewQuestions from '@/components/assessment/Overview/OverviewQuestions'
 import { notFound, redirect } from 'next/navigation'
 import { cookies } from 'next/headers'
 import { validateSessionCookie } from '@/utils/session'
@@ -25,6 +24,9 @@ export default async function AssessmentPage({
   const cookieStore = await cookies()
   const sessionCookie = cookieStore.get('assessment_session')
 
+  // Get language
+  const language = cookieStore.get('language')?.value || 'en'
+
   let hasValidSession = false
   if (sessionCookie) {
     try {
@@ -43,7 +45,7 @@ export default async function AssessmentPage({
   }
   const {
     getAssessmentById,
-    getQuestionsWithAnswers,
+    getLocalizedQuestionsWithAnswers,
     getContributorsByAssessment,
   } = await import('@/db/queries/assessment-queries')
 
@@ -59,7 +61,10 @@ export default async function AssessmentPage({
     )
   }
 
-  const questionsAnswersData = await getQuestionsWithAnswers(assessment.id)
+  const questionsAnswersData = await getLocalizedQuestionsWithAnswers(
+    assessment.id,
+    language,
+  )
 
   const questions: QuestionWithAnswer[] = questionsAnswersData.map((qa) => ({
     id: qa.id,
@@ -137,10 +142,9 @@ export default async function AssessmentPage({
 
       <div className='w-full max-w-screen-1100 p-4 mx-auto flex flex-col gap-10'>
         <Scope data={scopeData} assessmentId={id} />
-        <KeySuccessFactors assessmentId={id} questions={questions} />
-        <StrategicPlan
+        <OverviewQuestions
           assessmentId={id}
-          questions={questions}
+          initialQuestions={questions}
           allContributors={plainContributors}
         />
         <FromPreparationModal
