@@ -8,7 +8,6 @@ name: Deploy to Production
 on:
   push:
     branches:
-      - main
       - production
   workflow_dispatch:
 
