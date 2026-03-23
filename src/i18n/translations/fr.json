@@ -1083,5 +1083,26 @@
         "description": "Complétez votre évaluation de diagnostic de restauration"
       }
     }
+  },
+  "passwordPrompt": {
+    "title": "Entrez le mot de passe pour accéder au diagnostic",
+    "passwordLabel": "Mot de passe",
+    "tooManyAttempts": "Trop de tentatives",
+    "submitButton": "Reprendre le diagnostic",
+    "submitting": "Authentification...",
+    "timeRemaining": "Temps restant : {time}",
+    "errors": {
+      "required": "Le mot de passe est requis",
+      "rateLimited": "Trop de tentatives échouées. Veuillez réessayer dans {time}.",
+      "incorrect": "Le mot de passe est incorrect ou ne correspond pas à ce diagnostic. Si le problème persiste, veuillez contacter notre équipe.",
+      "generic": "Une erreur s'est produite lors de l'authentification. Veuillez réessayer plus tard.",
+      "network": "Impossible de se connecter au serveur. Veuillez vérifier votre connexion et réessayer."
+    },
+    "time": {
+      "minuteSingular": "{count} minute",
+      "minutePlural": "{count} minutes",
+      "secondSingular": "{count} seconde",
+      "secondPlural": "{count} secondes"
+    }
   }
 }

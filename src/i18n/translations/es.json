@@ -1083,5 +1083,26 @@
         "description": "Complete su evaluación de diagnóstico de restauración"
       }
     }
+  },
+  "passwordPrompt": {
+    "title": "Ingrese la contraseña para acceder al diagnóstico",
+    "passwordLabel": "Contraseña",
+    "tooManyAttempts": "Demasiados intentos",
+    "submitButton": "Reanudar diagnóstico",
+    "submitting": "Autenticando...",
+    "timeRemaining": "Tiempo restante: {time}",
+    "errors": {
+      "required": "Se requiere contraseña",
+      "rateLimited": "Demasiados intentos fallidos. Por favor, inténtelo de nuevo en {time}.",
+      "incorrect": "La contraseña es incorrecta o no coincide con este diagnóstico. Si el problema persiste, comuníquese con nuestro equipo.",
+      "generic": "Ocurrió un error durante la autenticación. Por favor, inténtelo de nuevo más tarde.",
+      "network": "No se puede conectar al servidor. Por favor, verifique su conexión e inténtelo de nuevo."
+    },
+    "time": {
+      "minuteSingular": "{count} minuto",
+      "minutePlural": "{count} minutos",
+      "secondSingular": "{count} segundo",
+      "secondPlural": "{count} segundos"
+    }
   }
 }

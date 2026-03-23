@@ -41,7 +41,7 @@ export default async function AssessmentPage({
 
   // If no valid session, show password prompt
   if (!hasValidSession) {
-    return <PasswordPrompt assessmentId={id} />
+    return <PasswordPrompt assessmentId={id} language={language} />
   }
   const {
     getAssessmentById,

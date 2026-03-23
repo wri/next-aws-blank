@@ -1045,7 +1045,7 @@
     "errors": {
       "passwordRequired": "A senha é obrigatória",
       "incorrectPassword": "A senha está incorreta ou não coincide com este diagnóstico. Se o problema persistir, entre em contato com nossa equipe.",
-      "tooManyAttempts": "Muitas tentativas falhas. Tente novamente em {time}.",
+      "tooManyAttempts": "Muitas tentativas falharam. Tente novamente em {time}.",
       "authError": "Ocorreu um erro ao autenticar. Tente novamente mais tarde.",
       "networkError": "Não foi possível conectar ao servidor. Verifique sua conexão e tente novamente."
     }
@@ -1082,6 +1082,27 @@
         "title": "{theme} - Restoration Diagnostic",
         "description": "Complete sua avaliação de diagnóstico de restauração"
       }
+    }
+  },
+  "passwordPrompt": {
+    "title": "Digite a senha para acessar o diagnóstico",
+    "passwordLabel": "Senha",
+    "tooManyAttempts": "Muitas tentativas",
+    "submitButton": "Retomar diagnóstico",
+    "submitting": "Autenticando...",
+    "timeRemaining": "Tempo restante: {time}",
+    "errors": {
+      "required": "Senha é obrigatória",
+      "rateLimited": "Muitas tentativas falhas. Por favor, tente novamente em {time}.",
+      "incorrect": "A senha está incorreta ou não corresponde a este diagnóstico. Se o problema persistir, entre em contato com nossa equipe.",
+      "generic": "Ocorreu um erro durante a autenticação. Por favor, tente novamente mais tarde.",
+      "network": "Não foi possível conectar ao servidor. Por favor, verifique sua conexão e tente novamente."
+    },
+    "time": {
+      "minuteSingular": "{count} minuto",
+      "minutePlural": "{count} minutos",
+      "secondSingular": "{count} segundo",
+      "secondPlural": "{count} segundos"
     }
   }
 }

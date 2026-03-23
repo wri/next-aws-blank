@@ -13,6 +13,7 @@ const exportLabels: Record<
   string,
   {
     headers: string[]
+    theme: Record<string, string>
     status: Record<AnswerStatus | 'empty', string>
     response: Record<AnswerValue | 'empty', string>
   }
@@ -27,6 +28,11 @@ const exportLabels: Record<
       enTranslations.overview.exportResponses.headers.response,
       enTranslations.overview.exportResponses.headers.rationale,
     ],
+    theme: {
+      Motivate: enTranslations.navigation.themes.motivate,
+      Enable: enTranslations.navigation.themes.enable,
+      Implement: enTranslations.navigation.themes.implement,
+    },
     status: {
       [AnswerStatus.NOT_STARTED]:
         enTranslations.overview.exportResponses.status.notStarted,
@@ -55,6 +61,11 @@ const exportLabels: Record<
       esTranslations.overview.exportResponses.headers.response,
       esTranslations.overview.exportResponses.headers.rationale,
     ],
+    theme: {
+      Motivate: esTranslations.navigation.themes.motivate,
+      Enable: esTranslations.navigation.themes.enable,
+      Implement: esTranslations.navigation.themes.implement,
+    },
     status: {
       [AnswerStatus.NOT_STARTED]:
         esTranslations.overview.exportResponses.status.notStarted,
@@ -83,6 +94,11 @@ const exportLabels: Record<
       frTranslations.overview.exportResponses.headers.response,
       frTranslations.overview.exportResponses.headers.rationale,
     ],
+    theme: {
+      Motivate: frTranslations.navigation.themes.motivate,
+      Enable: frTranslations.navigation.themes.enable,
+      Implement: frTranslations.navigation.themes.implement,
+    },
     status: {
       [AnswerStatus.NOT_STARTED]:
         frTranslations.overview.exportResponses.status.notStarted,
@@ -111,6 +127,11 @@ const exportLabels: Record<
       ptTranslations.overview.exportResponses.headers.response,
       ptTranslations.overview.exportResponses.headers.rationale,
     ],
+    theme: {
+      Motivate: ptTranslations.navigation.themes.motivate,
+      Enable: ptTranslations.navigation.themes.enable,
+      Implement: ptTranslations.navigation.themes.implement,
+    },
     status: {
       [AnswerStatus.NOT_STARTED]:
         ptTranslations.overview.exportResponses.status.notStarted,
@@ -190,7 +211,7 @@ export async function GET(
     const labels = exportLabels[language]
     const rows = questions.map((question) => [
       question.questionCode,
-      question.theme,
+      labels.theme[question.theme] ?? question.theme,
       question.enablingCondition,
       question.keySuccessFactor,
       question.answer?.status

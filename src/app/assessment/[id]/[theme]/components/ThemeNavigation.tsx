@@ -32,6 +32,10 @@ interface ThemeNavigationProps {
   canGoNext: boolean
 }
 
+function sentenceCase(enableContidion: string) { 
+  return enableContidion.charAt(0).toUpperCase() + enableContidion.slice(1).toLowerCase();
+}
+
 // Helper to group questions by enabling condition
 function groupByEnablingCondition(questions: PlainQuestion[], fallbackLabel: string) {
   const grouped: Record<string, PlainQuestion[]> = {}
@@ -264,7 +268,7 @@ export function ThemeNavigation({
                               : 'font-medium text-grey-500'
                           }`}
                         >
-                          {question.minimalKeySuccessFactor}
+                          {sentenceCase(question.minimalKeySuccessFactor)}
                         </p>
                         <AnswerStatusBadge answer={answer} t={t} />
                       </div>

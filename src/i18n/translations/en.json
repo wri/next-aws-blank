@@ -1083,5 +1083,26 @@
         "description": "Complete your restoration diagnostic assessment"
       }
     }
+  },
+  "passwordPrompt": {
+    "title": "Enter password to access the diagnostic",
+    "passwordLabel": "Password",
+    "tooManyAttempts": "Too many attempts",
+    "submitButton": "Resume diagnostic",
+    "submitting": "Authenticating...",
+    "timeRemaining": "Time remaining: {time}",
+    "errors": {
+      "required": "Password is required",
+      "rateLimited": "Too many failed attempts. Please try again in {time}.",
+      "incorrect": "The password is incorrect or does not match this diagnostic. If the issue persists, please contact our team.",
+      "generic": "An error occurred while authenticating. Please try again later.",
+      "network": "Unable to connect to the server. Please check your connection and try again."
+    },
+    "time": {
+      "minuteSingular": "{count} minute",
+      "minutePlural": "{count} minutes",
+      "secondSingular": "{count} second",
+      "secondPlural": "{count} seconds"
+    }
   }
 }

@@ -14,6 +14,10 @@ import AnswerOptionsResponse from '../../AnswerOptionsResponse'
 import { AnswerStatus } from '@/types/answer.types'
 import { useTranslations } from '@/i18n/useTranslations'
 
+function sentenceCase(enableContidion: string) {
+  return enableContidion.charAt(0).toUpperCase() + enableContidion.slice(1).toLowerCase();
+}
+
 interface KeySuccessFactorsTableProps {
   questions: Questions[]
   assessmentId: string
@@ -62,7 +66,7 @@ const KeySuccessFactorsTable = ({
         ([enablingCondition, questions]) => (
           <div key={enablingCondition}>
             <p className='text-neutral-800 font-bold px-5 py-[10px]'>
-              {enablingCondition}
+              {sentenceCase(enablingCondition)}
             </p>
             <div>
               {questions.map((q) => {

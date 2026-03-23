@@ -122,6 +122,40 @@ jest.mock('@chakra-ui/react', () => ({
   Text: ({ children, ...props }: ChakraBoxProps) => <span {...props}>{children}</span>,
 }))
 
+// Mock createTranslator from i18n/utils
+jest.mock('@/i18n/utils', () => ({
+  createTranslator: () => {
+    // Simple mock that returns English translations
+    const translations: Record<string, string> = {
+      'passwordPrompt.title': 'Enter password to access the diagnostic',
+      'passwordPrompt.passwordLabel': 'Password',
+      'passwordPrompt.tooManyAttempts': 'Too many attempts',
+      'passwordPrompt.submitButton': 'Resume diagnostic',
+      'passwordPrompt.submitting': 'Authenticating...',
+      'passwordPrompt.timeRemaining': 'Time remaining: {time}',
+      'passwordPrompt.errors.required': 'Password is required',
+      'passwordPrompt.errors.rateLimited': 'Too many failed attempts. Please try again in {time}.',
+      'passwordPrompt.errors.incorrect': 'The password is incorrect or does not match this diagnostic. If the issue persists, please contact our team.',
+      'passwordPrompt.errors.generic': 'An error occurred while authenticating. Please try again later.',
+      'passwordPrompt.errors.network': 'Unable to connect to the server. Please check your connection and try again.',
+      'passwordPrompt.time.minuteSingular': '{count} minute',
+      'passwordPrompt.time.minutePlural': '{count} minutes',
+      'passwordPrompt.time.secondSingular': '{count} second',
+      'passwordPrompt.time.secondPlural': '{count} seconds',
+    }
+    
+    return (key: string, values?: Record<string, string>) => {
+      let result = translations[key] || key
+      if (values) {
+        Object.entries(values).forEach(([k, v]) => {
+          result = result.replaceAll(`{${k}}`, v)
+        })
+      }
+      return result
+    }
+  },
+}))
+
 // Mock fetch
 global.fetch = jest.fn()
 
@@ -427,7 +461,7 @@ describe('PasswordPrompt Component', () => {
       // The time should be displayed somewhere
       const timeDisplay = screen.getByText(/Time remaining:/).parentElement
       expect(timeDisplay?.textContent).toMatch(/1 minute/)
-      expect(timeDisplay?.textContent).toMatch(/5 second/)
+      expect(timeDisplay?.textContent).toMatch(/5 seconds/)
     })
 
     it('should disable form when rate limited', async () => {
