@@ -21,7 +21,7 @@ export const Footer = () => {
   const t = useTranslations()
 
   return (
-    <WriFooter filled additionalLogos={partnerLogos}>
+    <WriFooter additionalLogos={partnerLogos}>
       <Link rel='noopener noreferrer' href={externalLinks.privacy} target="_blank">
         {t('common.footer.privacyPolicy')}
       </Link>

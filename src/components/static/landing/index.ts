@@ -1,0 +1,5 @@
+export { HeroSection } from './HeroSection'
+export { KeyFactorsSection } from './KeyFactorsSection'
+export { TargetAudienceSection } from './TargetAudienceSection'
+export { ProcessSection } from './ProcessSection'
+export { CTASection } from './CTASection'

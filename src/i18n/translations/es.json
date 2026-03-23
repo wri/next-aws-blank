@@ -42,10 +42,75 @@
   },
   "home": {
     "hero": {
-      "title": "Restoration Diagnostic",
-      "description1": "Un método estructurado para identificar qué factores clave de éxito para la restauración de ecosistemas ya tiene implementados, parcialmente implementados o le faltan dentro de un país o paisaje que tiene oportunidades de restauración.",
-      "description2": "Un método estructurado para evaluar la preparación para la restauración de ecosistemas. El diagnóstico le ayudará a identificar los factores clave de éxito que tiene establecidos, parcialmente establecidos o que aún necesita considerar cómo incluir.",
-      "ctaButton": "Iniciar Diagnóstico"
+      "title": "Herramienta de Diagnóstico de Restauración",
+      "description": "Una herramienta de evaluación rápida desarrollada como parte de ROAM para evaluar la preparación de su paisaje o geografía para la restauración y diseñar acciones estratégicas para garantizar el éxito a largo plazo.",
+      "ctaButton": "Iniciar diagnóstico",
+      "roamButton": "Metodología ROAM"
+    },
+    "keyFactors": {
+      "title": "Evalúe los factores clave para el éxito de la restauración",
+      "description1": "El Diagnóstico de Restauración le ayuda a evaluar su geografía o proyecto en 31 factores clave de éxito, agrupados en tres temas: motivar, habilitar e implementar.",
+      "description2": "Al evaluar estas áreas, puede identificar brechas y priorizar acciones para fortalecer las condiciones para una restauración exitosa.",
+      "categories": {
+        "cultural": "Cultural",
+        "political": "Político",
+        "ecological": "Ecológico",
+        "financial": "Financiero",
+        "institutional": "Institucional",
+        "social": "Social"
+      }
+    },
+    "targetAudience": {
+      "title": "¿Es esta herramienta para usted?",
+      "description": "Esta herramienta está diseñada para líderes y organizaciones que planifican o coordinan la restauración a escala, incluyendo:",
+      "government": {
+        "label": "Gobierno:",
+        "description": "Responsables de políticas nacionales o subnacionales responsables de la planificación de la restauración."
+      },
+      "coordination": {
+        "label": "Plataformas de coordinación:",
+        "description": "Gerentes de programas que coordinan la restauración en sectores y partes interesadas."
+      },
+      "support": {
+        "label": "Organizaciones de apoyo:",
+        "description": "ONG, instituciones de investigación y socios de la sociedad civil que apoyan las iniciativas de restauración."
+      }
+    },
+    "process": {
+      "title": "¿Cómo funciona el diagnóstico?",
+      "description": "El Diagnóstico de Restauración sigue un proceso simple y se completa mejor de forma colaborativa, reuniendo perspectivas de partes interesadas y expertos.",
+      "before": {
+        "label": "Antes de comenzar",
+        "title": "Planifique su enfoque",
+        "description": "Planifique la participación de las partes interesadas y recopile materiales de apoyo.",
+        "downloadGuide": "Descargar guía"
+      },
+      "step1": {
+        "label": "Paso 1",
+        "title": "Defina el alcance",
+        "description": "Identifique el paisaje o la geografía que desea evaluar."
+      },
+      "step2": {
+        "label": "Paso 2",
+        "title": "Evalúe los factores clave de éxito",
+        "description": "Evalúe si las condiciones clave para la restauración están en su lugar."
+      },
+      "step3": {
+        "label": "Paso 3",
+        "title": "Identifique estrategias",
+        "description": "Defina acciones que podrían abordar las brechas y fortalecer las condiciones para el éxito."
+      }
+    },
+    "cta": {
+      "title": "Comience con el diagnóstico",
+      "description": "Cree su diagnóstico para evaluar la preparación para la restauración e identificar prioridades para la acción. Al completar el diagnóstico, obtendrá:",
+      "benefit1": "Una instantánea del entorno habilitador para la restauración en su paisaje",
+      "benefit2": "Una lista de acciones estratégicas para abordar las brechas en los factores clave de éxito",
+      "benefit3": "Una base compartida para la discusión entre las partes interesadas y los tomadores de decisiones",
+      "ctaButton": "Iniciar diagnóstico",
+      "offlineTitle": "Completar sin conexión",
+      "offlineDescription": "Si necesita trabajar sin conexión a Internet, puede solicitar una versión simplificada en hojas de cálculo del diagnóstico. Para la experiencia completa, recomendamos usar la herramienta en línea.",
+      "offlineButton": "Obtener recurso"
     }
   },
   "forms": {

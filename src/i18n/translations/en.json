@@ -42,10 +42,75 @@
   },
   "home": {
     "hero": {
-      "title": "Restoration Diagnostic",
-      "description1": "A structured method for identifying which key success factors for ecosystem restoration you already have in place, partially in place, or are missing within a country or landscape that has restoration opportunities.",
-      "description2": "A structured method for assessing ecosystem restoration readiness. The diagnostic will help you identify key success factors that you have in place, partially in place, or still need to consider how to include.",
-      "ctaButton": "Start Diagnostic"
+      "title": "Restoration Diagnostic Tool",
+      "description": "A rapid assessment tool developed as part of ROAM to evaluate the readiness of your landscape or geography for restoration and to design strategic actions to ensure long-term success.",
+      "ctaButton": "Start diagnostic",
+      "roamButton": "ROAM methodology"
+    },
+    "keyFactors": {
+      "title": "Assess the key factors for restoration success",
+      "description1": "The Restoration Diagnostic helps you evaluate your geography or project across 31 key factors, grouped under three themes: motivate, enable, and implement.",
+      "description2": "By assessing these areas, you can identify gaps and prioritize actions to strengthen conditions for successful restoration.",
+      "categories": {
+        "cultural": "Cultural",
+        "political": "Political",
+        "ecological": "Ecological",
+        "financial": "Financial",
+        "institutional": "Institutional",
+        "social": "Social"
+      }
+    },
+    "targetAudience": {
+      "title": "Is this tool for you?",
+      "description": "This tool is designed for leaders and organizations planning or coordinating restoration at scale, including:",
+      "government": {
+        "label": "Government:",
+        "description": "National or sub-national policymakers responsible for restoration planning."
+      },
+      "coordination": {
+        "label": "Coordination platforms:",
+        "description": "Program managers coordinating restoration across sectors and stakeholders."
+      },
+      "support": {
+        "label": "Support organizations:",
+        "description": "NGOs, research institutions, and civil society partners supporting restoration initiatives."
+      }
+    },
+    "process": {
+      "title": "How does the diagnostic work?",
+      "description": "The Restoration Diagnostic follows a simple process and is best completed collaboratively, bringing together perspectives from stakeholders and experts.",
+      "before": {
+        "label": "Before you start",
+        "title": "Plan your approach",
+        "description": "Plan stakeholder engagement and gather supporting materials.",
+        "downloadGuide": "Download guide"
+      },
+      "step1": {
+        "label": "Step 1",
+        "title": "Define the scope",
+        "description": "Identify the landscape or geography you want to assess."
+      },
+      "step2": {
+        "label": "Step 2",
+        "title": "Assess key success factors",
+        "description": "Evaluate whether the key conditions for restoration are in place."
+      },
+      "step3": {
+        "label": "Step 3",
+        "title": "Identify strategies",
+        "description": "Define actions that could address gaps and strengthen conditions for success."
+      }
+    },
+    "cta": {
+      "title": "Get started with the diagnostic",
+      "description": "Create your diagnostic to assess restoration readiness and identify priorities for action. By completing the diagnostic, you will gain:",
+      "benefit1": "A snapshot of the enabling environment for restoration in your landscape",
+      "benefit2": "A list of strategic actions to address gaps in key success factors",
+      "benefit3": "A shared basis for discussion among stakeholders and decision-makers",
+      "ctaButton": "Start diagnostic",
+      "offlineTitle": "Complete offline",
+      "offlineDescription": "If you need to work without an internet connection, you can request a simplified spreadsheet version of the diagnostic. For the full experience, we recommend using the online tool.",
+      "offlineButton": "Get resource"
     }
   },
   "forms": {

@@ -42,10 +42,75 @@
   },
   "home": {
     "hero": {
-      "title": "Restoration Diagnostic",
-      "description1": "Um método estruturado para identificar quais fatores-chave de sucesso para a restauração de ecossistemas você já tem implementados, parcialmente implementados ou estão faltando em um país ou paisagem que possui oportunidades de restauração.",
-      "description2": "Um método estruturado para avaliar a prontidão para a restauração de ecossistemas. O diagnóstico ajudará você a identificar os fatores-chave de sucesso que você tem estabelecidos, parcialmente estabelecidos ou que ainda precisa considerar como incluir.",
-      "ctaButton": "Iniciar Diagnóstico"
+      "title": "Ferramenta de Diagnóstico de Restauração",
+      "description": "Uma ferramenta de avaliação rápida desenvolvida como parte do ROAM para avaliar a prontidão da sua paisagem ou geografia para a restauração e projetar ações estratégicas para garantir o sucesso a longo prazo.",
+      "ctaButton": "Iniciar diagnóstico",
+      "roamButton": "Metodologia ROAM"
+    },
+    "keyFactors": {
+      "title": "Avalie os fatores-chave para o sucesso da restauração",
+      "description1": "O Diagnóstico de Restauração ajuda você a avaliar sua geografia ou projeto em 31 fatores-chave de sucesso, agrupados em três temas: motivar, habilitar e implementar.",
+      "description2": "Ao avaliar essas áreas, você pode identificar lacunas e priorizar ações para fortalecer as condições para uma restauração bem-sucedida.",
+      "categories": {
+        "cultural": "Cultural",
+        "political": "Político",
+        "ecological": "Ecológico",
+        "financial": "Financeiro",
+        "institutional": "Institucional",
+        "social": "Social"
+      }
+    },
+    "targetAudience": {
+      "title": "Esta ferramenta é para você?",
+      "description": "Esta ferramenta foi projetada para líderes e organizações que planejam ou coordenam a restauração em escala, incluindo:",
+      "government": {
+        "label": "Governo:",
+        "description": "Responsáveis por políticas nacionais ou subnacionais responsáveis pelo planejamento da restauração."
+      },
+      "coordination": {
+        "label": "Plataformas de coordenação:",
+        "description": "Gestores de programas que coordenam a restauração entre setores e partes interessadas."
+      },
+      "support": {
+        "label": "Organizações de apoio:",
+        "description": "ONGs, instituições de pesquisa e parceiros da sociedade civil que apoiam iniciativas de restauração."
+      }
+    },
+    "process": {
+      "title": "Como funciona o diagnóstico?",
+      "description": "O Diagnóstico de Restauração segue um processo simples e é melhor concluído de forma colaborativa, reunindo perspectivas de partes interessadas e especialistas.",
+      "before": {
+        "label": "Antes de começar",
+        "title": "Planeje sua abordagem",
+        "description": "Planeje o envolvimento das partes interessadas e reúna materiais de apoio.",
+        "downloadGuide": "Baixar guia"
+      },
+      "step1": {
+        "label": "Passo 1",
+        "title": "Defina o escopo",
+        "description": "Identifique a paisagem ou a geografia que deseja avaliar."
+      },
+      "step2": {
+        "label": "Passo 2",
+        "title": "Avalie os fatores-chave de sucesso",
+        "description": "Avalie se as condições-chave para a restauração estão em vigor."
+      },
+      "step3": {
+        "label": "Passo 3",
+        "title": "Identifique estratégias",
+        "description": "Defina ações que possam abordar lacunas e fortalecer as condições para o sucesso."
+      }
+    },
+    "cta": {
+      "title": "Comece com o diagnóstico",
+      "description": "Crie seu diagnóstico para avaliar a prontidão para a restauração e identificar prioridades para ação. Ao concluir o diagnóstico, você obterá:",
+      "benefit1": "Um instantâneo do ambiente propício para a restauração na sua paisagem",
+      "benefit2": "Uma lista de ações estratégicas para abordar lacunas nos fatores-chave de sucesso",
+      "benefit3": "Uma base compartilhada para discussão entre partes interessadas e tomadores de decisão",
+      "ctaButton": "Iniciar diagnóstico",
+      "offlineTitle": "Concluir offline",
+      "offlineDescription": "Se você precisar trabalhar sem conexão à internet, pode solicitar uma versão simplificada em planilha do diagnóstico. Para a experiência completa, recomendamos o uso da ferramenta online.",
+      "offlineButton": "Obter recurso"
     }
   },
   "forms": {

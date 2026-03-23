@@ -1,5 +1,20 @@
-import { Hero } from '@/components/static/Hero'
+import {
+  HeroSection,
+  KeyFactorsSection,
+  TargetAudienceSection,
+  ProcessSection,
+  CTASection,
+} from '@/components/static/landing'
 
 export default function Home() {
-  return  <Hero />;
+  return (
+    <>
+      <HeroSection />
+      <KeyFactorsSection />
+      <TargetAudienceSection />
+      <ProcessSection />
+      <CTASection />
+    </>
+  )
 }
+

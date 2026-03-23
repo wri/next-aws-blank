@@ -42,10 +42,75 @@
   },
   "home": {
     "hero": {
-      "title": "Restoration Diagnostic",
-      "description1": "Une méthode structurée pour identifier les facteurs clés de succès de la restauration des écosystèmes que vous avez déjà mis en place, partiellement mis en place ou qui manquent dans un pays ou un paysage présentant des opportunités de restauration.",
-      "description2": "Une méthode structurée pour évaluer l'état de préparation à la restauration des écosystèmes. Le diagnostic vous aidera à identifier les facteurs clés de succès que vous avez mis en place, partiellement mis en place ou que vous devez encore envisager d'inclure.",
-      "ctaButton": "Démarrer le diagnostic"
+      "title": "Outil de diagnostic de restauration",
+      "description": "Un outil d'évaluation rapide développé dans le cadre de ROAM pour évaluer la préparation de votre paysage ou géographie à la restauration et concevoir des actions stratégiques pour assurer un succès à long terme.",
+      "ctaButton": "Démarrer le diagnostic",
+      "roamButton": "Méthodologie ROAM"
+    },
+    "keyFactors": {
+      "title": "Évaluez les facteurs clés du succès de la restauration",
+      "description1": "Le Diagnostic de restauration vous aide à évaluer votre géographie ou projet selon 31 facteurs clés de succès, regroupés en trois thèmes : motiver, favoriser et mettre en œuvre.",
+      "description2": "En évaluant ces domaines, vous pouvez identifier les lacunes et prioriser les actions pour renforcer les conditions d'une restauration réussie.",
+      "categories": {
+        "cultural": "Culturel",
+        "political": "Politique",
+        "ecological": "Écologique",
+        "financial": "Financier",
+        "institutional": "Institutionnel",
+        "social": "Social"
+      }
+    },
+    "targetAudience": {
+      "title": "Cet outil est-il fait pour vous ?",
+      "description": "Cet outil est conçu pour les leaders et les organisations qui planifient ou coordonnent la restauration à grande échelle, notamment :",
+      "government": {
+        "label": "Gouvernement :",
+        "description": "Les décideurs politiques nationaux ou infranationaux responsables de la planification de la restauration."
+      },
+      "coordination": {
+        "label": "Plateformes de coordination :",
+        "description": "Les gestionnaires de programmes coordonnant la restauration entre les secteurs et les parties prenantes."
+      },
+      "support": {
+        "label": "Organisations de soutien :",
+        "description": "ONG, institutions de recherche et partenaires de la société civile soutenant les initiatives de restauration."
+      }
+    },
+    "process": {
+      "title": "Comment fonctionne le diagnostic ?",
+      "description": "Le Diagnostic de restauration suit un processus simple et se complète mieux de manière collaborative, en réunissant les perspectives des parties prenantes et des experts.",
+      "before": {
+        "label": "Avant de commencer",
+        "title": "Planifiez votre approche",
+        "description": "Planifiez l'engagement des parties prenantes et rassemblez les matériaux de soutien.",
+        "downloadGuide": "Télécharger le guide"
+      },
+      "step1": {
+        "label": "Étape 1",
+        "title": "Définissez le périmètre",
+        "description": "Identifiez le paysage ou la géographie que vous souhaitez évaluer."
+      },
+      "step2": {
+        "label": "Étape 2",
+        "title": "Évaluez les facteurs clés de succès",
+        "description": "Évaluez si les conditions clés pour la restauration sont en place."
+      },
+      "step3": {
+        "label": "Étape 3",
+        "title": "Identifiez des stratégies",
+        "description": "Définissez des actions qui pourraient combler les lacunes et renforcer les conditions de succès."
+      }
+    },
+    "cta": {
+      "title": "Commencez avec le diagnostic",
+      "description": "Créez votre diagnostic pour évaluer la préparation à la restauration et identifier les priorités d'action. En complétant le diagnostic, vous obtiendrez :",
+      "benefit1": "Un aperçu de l'environnement favorable à la restauration dans votre paysage",
+      "benefit2": "Une liste d'actions stratégiques pour combler les lacunes dans les facteurs clés de succès",
+      "benefit3": "Une base commune de discussion entre les parties prenantes et les décideurs",
+      "ctaButton": "Démarrer le diagnostic",
+      "offlineTitle": "Compléter hors ligne",
+      "offlineDescription": "Si vous avez besoin de travailler sans connexion Internet, vous pouvez demander une version simplifiée en feuille de calcul du diagnostic. Pour l'expérience complète, nous recommandons d'utiliser l'outil en ligne.",
+      "offlineButton": "Obtenir la ressource"
     }
   },
   "forms": {
