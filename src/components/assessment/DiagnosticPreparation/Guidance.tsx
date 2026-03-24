@@ -19,7 +19,7 @@ const Guidance = ({
   if (!activeStepData) return null
 
   return (
-    <div className='border border-l-neutral-300 bg-white max-h-[calc(100vh-48px-44px-56px)] overflow-y-auto'>
+    <div className='border border-l-neutral-300 bg-white min-h-[100%]'>
       <div className='px-4 py-3 text-neutral-900 border-b border-neutral-300 flex items-center gap-2'>
         <InfoIcon className='h-4 w-4' />
         {t('scoping.sidebar.guidance.title')}
@@ -32,7 +32,7 @@ const Guidance = ({
           defaultOpen
         >
           <Collapsible.Trigger asChild>
-            <div className='px-4 py-3 flex items-start justify-between gap-3 cursor-pointer'>
+            <div className='px-4 py-3 flex items-start justify-between gap-3 cursor-pointer z-[-99]'>
               <div className='font-bold text-neutral-800'>{guidance.title}</div>
               <Collapsible.Indicator _open={{ transform: 'rotate(180deg)' }}>
                 <ChevronDownIcon className='text-neutral-800 h-4 w-4' />

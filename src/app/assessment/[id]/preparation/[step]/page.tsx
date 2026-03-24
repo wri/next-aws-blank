@@ -24,7 +24,7 @@ const PreparationPage = () => {
   }
 
   return (
-    <div className='mx-auto flex max-w-[1280px] overflow-hidden'>
+    <div className='mx-auto flex max-w-[1280px]'>
       <aside className='w-[240px] flex-shrink-0 pt-8 ml-12'>
         <Steps
           steps={steps}
@@ -32,7 +32,7 @@ const PreparationPage = () => {
           assessmentId={assessmentId}
         />
       </aside>
-      <main className='flex-1 overflow-y-auto py-8 w-[560px] px-14 max-h-[calc(100vh-48px-56px)]'>
+      <main className='flex-1 py-8 w-[560px] px-14 '>
         {stepData.component}
       </main>
       <aside className='w-[320px] flex-shrink-0'>

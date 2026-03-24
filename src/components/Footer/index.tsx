@@ -2,9 +2,11 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
-import { Footer as WriFooter } from '@worldresources/wri-design-systems'
+import { getThemedColor, Footer as WriFooter } from '@worldresources/wri-design-systems'
 import { externalLinks } from '@/constants/external-links'
 import { useTranslations } from '@/i18n/useTranslations'
+import { Box } from '@chakra-ui/react'
+import { useEffect, useState } from 'react'
 
 const partnerLogos = [
   <Image 
@@ -13,21 +15,41 @@ const partnerLogos = [
     alt="Assessment Partner" 
     width={32}
     height={32}
+    priority // Preload the image
   />
-]
-
+];
 
 export const Footer = () => {
-  const t = useTranslations()
+  const [isClient, setIsClient] = useState(false)
+  const t = useTranslations();
+
+  // Ensure translations are consistent
+  const privacyPolicy = t('common.footer.privacyPolicy');
+  const termsOfService = t('common.footer.termsOfService');
+
+  // Prevent hydration mismatch - Navbar has responsive logic that checks window dimensions
+  useEffect(() => {
+    setIsClient(true)
+  }, [])
+
+
+  if (!isClient) return <div className='h-12' />
 
   return (
-    <WriFooter additionalLogos={partnerLogos}>
-      <Link rel='noopener noreferrer' href={externalLinks.privacy} target="_blank">
-        {t('common.footer.privacyPolicy')}
-      </Link>
-      <Link rel='noopener noreferrer' href={externalLinks.tos} target='_blank'>
-        {t('common.footer.termsOfService')}
-      </Link>
-    </WriFooter>
-  )
-}
+    <Box css={{
+      '& > Footer': {
+        backgroundColor: getThemedColor('neutral', 100),
+        zIndex: 99,
+      }
+    }}>
+      <WriFooter filled additionalLogos={partnerLogos}>
+        <Link rel='noopener noreferrer' href={externalLinks.privacy} target="_blank">
+          {privacyPolicy}
+        </Link>
+        <Link rel='noopener noreferrer' href={externalLinks.tos} target='_blank'>
+          {termsOfService}
+        </Link>
+      </WriFooter>
+    </Box>
+  );
+};
