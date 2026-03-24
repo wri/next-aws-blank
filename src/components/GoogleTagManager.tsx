@@ -13,9 +13,6 @@ export function GoogleTagManager() {
       <Script
         src="https://plausible.io/js/plausible.js"
         strategy="afterInteractive"
-        onLoad={() => {
-          console.log('Plausible script loaded')
-        }}
       />
     </>
   )
