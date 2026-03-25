@@ -10,7 +10,6 @@ import {
 } from 'typeorm'
 import type { Assessment } from './Assessment.entity'
 import type { Question } from './Question.entity'
-// import { Strategy } from './Strategy.entity.candidate' // On hold
 
 export enum AnswerValue {
   YES = 'yes',

@@ -37,6 +37,9 @@ export class Lead {
   @Column({ type: 'varchar', nullable: true })
   identity!: string | null
 
+  @Column({ name: 'contact_agreement', type: 'boolean', default: false, nullable: true })
+  contactAgreement!: boolean | null
+
   @CreateDateColumn({ name: 'created_at' })
   createdAt!: Date
 

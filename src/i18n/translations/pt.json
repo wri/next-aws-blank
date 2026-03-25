@@ -110,7 +110,39 @@
       "ctaButton": "Iniciar diagnóstico",
       "offlineTitle": "Concluir offline",
       "offlineDescription": "Se você precisar trabalhar sem conexão à internet, pode solicitar uma versão simplificada em planilha do diagnóstico. Para a experiência completa, recomendamos o uso da ferramenta online.",
-      "offlineButton": "Obter recurso"
+      "offlineButton": "Obter recurso",
+      "offlineModal": {
+        "title": "Baixar o Diagnóstico offline",
+        "description": "Forneça alguns detalhes antes de baixar o modelo de planilha. Isso nos ajuda a entender quem está usando a ferramenta e como.",
+        "labels": {
+          "name": "Nome",
+          "email": "Endereço de e-mail",
+          "organization": "Organização",
+          "jobRole": "Cargo",
+          "targetGeography": "Em qual paisagem ou geografia este diagnóstico se concentrará?",
+          "contactAgreement": "Concordo em ser contactado pelo WRI sobre meu diagnóstico e recursos relacionados à restauração."
+        },
+        "placeholders": {
+          "name": "Digite seu nome",
+          "email": "Digite seu endereço de e-mail",
+          "organization": "Digite sua organização",
+          "jobRole": "Digite seu cargo",
+          "targetGeography": "Digite a paisagem ou geografia"
+        },
+        "validation": {
+          "nameRequired": "O nome é obrigatório",
+          "emailRequired": "O endereço de e-mail é obrigatório",
+          "emailInvalid": "Por favor, insira um endereço de e-mail válido",
+          "targetGeographyRequired": "A geografia alvo é obrigatória"
+        },
+        "buttons": {
+          "download": "Baixar arquivo"
+        },
+        "errors": {
+          "unableToConnect": "Impossible de se connecter. Veuillez vérifier votre connexion et réessayer.",
+          "defaultError": "Une erreur s'est produite. Veuillez réessayer."
+        }
+      }
     }
   },
   "forms": {

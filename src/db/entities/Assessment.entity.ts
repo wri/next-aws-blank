@@ -26,6 +26,7 @@ export enum AssessmentStatus {
   IN_PROGRESS = 'in-progress',
   COMPLETED = 'completed',
   ARCHIVED = 'archived',
+  OFFLINE = 'offline',
 }
 
 @Entity('assessments')

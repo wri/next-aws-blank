@@ -110,7 +110,39 @@
       "ctaButton": "Démarrer le diagnostic",
       "offlineTitle": "Compléter hors ligne",
       "offlineDescription": "Si vous avez besoin de travailler sans connexion Internet, vous pouvez demander une version simplifiée en feuille de calcul du diagnostic. Pour l'expérience complète, nous recommandons d'utiliser l'outil en ligne.",
-      "offlineButton": "Obtenir la ressource"
+      "offlineButton": "Obtenir la ressource",
+      "offlineModal": {
+        "title": "Télécharger le Diagnostic hors ligne",
+        "description": "Fournissez quelques détails avant de télécharger le modèle de feuille de calcul. Cela nous aide à comprendre qui utilise l'outil et comment.",
+        "labels": {
+          "name": "Nom",
+          "email": "Adresse e-mail",
+          "organization": "Organisation",
+          "jobRole": "Fonction",
+          "targetGeography": "Sur quel paysage ou géographie ce diagnostic se concentrera-t-il?",
+          "contactAgreement": "J'accepte d'être contacté par WRI concernant mon diagnostic et les ressources de restauration associées."
+        },
+        "placeholders": {
+          "name": "Entrez votre nom",
+          "email": "Entrez votre adresse e-mail",
+          "organization": "Entrez votre organisation",
+          "jobRole": "Entrez votre fonction",
+          "targetGeography": "Entrez le paysage ou la géographie"
+        },
+        "validation": {
+          "nameRequired": "Le nom est requis",
+          "emailRequired": "L'adresse e-mail est requise",
+          "emailInvalid": "Veuillez entrer une adresse e-mail valide",
+          "targetGeographyRequired": "La géographie cible est requise"
+        },
+        "buttons": {
+          "download": "Télécharger le fichier"
+        },
+        "errors": {
+          "unableToConnect": "Impossible de se connecter. Veuillez vérifier votre connexion et réessayer.",
+          "defaultError": "Une erreur s'est produite. Veuillez réessayer."
+        }
+      }
     }
   },
   "forms": {

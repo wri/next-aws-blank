@@ -110,7 +110,39 @@
       "ctaButton": "Iniciar diagnóstico",
       "offlineTitle": "Completar sin conexión",
       "offlineDescription": "Si necesita trabajar sin conexión a Internet, puede solicitar una versión simplificada en hojas de cálculo del diagnóstico. Para la experiencia completa, recomendamos usar la herramienta en línea.",
-      "offlineButton": "Obtener recurso"
+      "offlineButton": "Obtener recurso",
+      "offlineModal": {
+        "title": "Descargar el Diagnóstico sin conexión",
+        "description": "Proporcione algunos detalles antes de descargar la plantilla de hoja de cálculo. Esto nos ayuda a entender quién está usando la herramienta y cómo.",
+        "labels": {
+          "name": "Nombre",
+          "email": "Dirección de correo electrónico",
+          "organization": "Organización",
+          "jobRole": "Cargo",
+          "targetGeography": "¿En qué paisaje o geografía se enfocará este diagnóstico?",
+          "contactAgreement": "Acepto ser contactado por WRI sobre mi diagnóstico y recursos relacionados con la restauración."
+        },
+        "placeholders": {
+          "name": "Ingrese su nombre",
+          "email": "Ingrese su dirección de correo electrónico",
+          "organization": "Ingrese su organización",
+          "jobRole": "Ingrese su cargo",
+          "targetGeography": "Ingrese el paisaje o geografía"
+        },
+        "validation": {
+          "nameRequired": "El nombre es obligatorio",
+          "emailRequired": "La dirección de correo electrónico es obligatoria",
+          "emailInvalid": "Por favor ingrese una dirección de correo electrónico válida",
+          "targetGeographyRequired": "La geografía objetivo es obligatoria"
+        },
+        "buttons": {
+          "download": "Descargar archivo"
+        },
+        "errors": {
+          "unableToConnect": "No se puede conectar. Por favor, verifique su conexión e intente nuevamente.",
+          "defaultError": "Ocurrió un error. Por favor, intente nuevamente."
+        }
+      }
     }
   },
   "forms": {

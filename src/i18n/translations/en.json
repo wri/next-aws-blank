@@ -110,7 +110,39 @@
       "ctaButton": "Start diagnostic",
       "offlineTitle": "Complete offline",
       "offlineDescription": "If you need to work without an internet connection, you can request a simplified spreadsheet version of the diagnostic. For the full experience, we recommend using the online tool.",
-      "offlineButton": "Get resource"
+      "offlineButton": "Get resource",
+      "offlineModal": {
+        "title": "Download the offline Diagnostic",
+        "description": "Provide a few details before downloading the spreadsheet template. This helps us understand who is using the tool and how.",
+        "labels": {
+          "name": "Name",
+          "email": "Email address",
+          "organization": "Organization",
+          "jobRole": "Job role",
+          "targetGeography": "What landscape or geography will this diagnostic focus on?",
+          "contactAgreement": "I agree to be contacted by WRI about my diagnostic and related restoration resources."
+        },
+        "placeholders": {
+          "name": "Enter your name",
+          "email": "Enter your email address",
+          "organization": "Enter your organization",
+          "jobRole": "Enter your job role",
+          "targetGeography": "Enter the landscape or geography"
+        },
+        "validation": {
+          "nameRequired": "Name is required",
+          "emailRequired": "Email address is required",
+          "emailInvalid": "Please enter a valid email address",
+          "targetGeographyRequired": "Target geography is required"
+        },
+        "buttons": {
+          "download": "Download file"
+        },
+        "errors": {
+          "unableToConnect": "Unable to connect. Please check your connection and try again.",
+          "defaultError": "An error occurred. Please try again."
+        }
+      }
     }
   },
   "forms": {

@@ -6,6 +6,7 @@ import { useTranslations } from '@/i18n/useTranslations'
 import { CheckIcon } from '@/components/icons'
 import { Box } from '@chakra-ui/react'
 import { useState } from 'react'
+import { OfflineDownloadModal } from './OfflineDownloadModal'
 
 const BENEFITS = ['benefit1', 'benefit2', 'benefit3'] as const
 
@@ -13,8 +14,10 @@ export const CTASection = () => {
   const router = useRouter()
   const t = useTranslations()
 
+  const [showOfflineModal, setShowOfflineModal] = useState(false)
+
   const downloadButtonHandler = () => {
-    console.log('Download guide (coming soon) RD-74')
+    setShowOfflineModal(true)
   }
 
   const [isCTAClicked, setIsCTAClicked] = useState(false);
@@ -75,6 +78,11 @@ export const CTASection = () => {
           </div>
         </Box>
       </div>
+
+      <OfflineDownloadModal
+        open={showOfflineModal}
+        onClose={() => setShowOfflineModal(false)}
+      />
     </section>
   )
 }
