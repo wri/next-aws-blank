@@ -122,9 +122,9 @@ jest.mock('@chakra-ui/react', () => ({
   Text: ({ children, ...props }: ChakraBoxProps) => <span {...props}>{children}</span>,
 }))
 
-// Mock createTranslator from i18n/utils
-jest.mock('@/i18n/utils', () => ({
-  createTranslator: () => {
+// Mock useTranslations from i18n/useTranslations
+jest.mock('@/i18n/useTranslations', () => ({
+  useTranslations: () => {
     // Simple mock that returns English translations
     const translations: Record<string, string> = {
       'passwordPrompt.title': 'Enter password to access the diagnostic',
@@ -143,7 +143,7 @@ jest.mock('@/i18n/utils', () => ({
       'passwordPrompt.time.secondSingular': '{count} second',
       'passwordPrompt.time.secondPlural': '{count} seconds',
     }
-    
+
     return (key: string, values?: Record<string, string>) => {
       let result = translations[key] || key
       if (values) {

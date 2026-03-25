@@ -10,17 +10,16 @@ import {
   TextInput,
 } from '@worldresources/wri-design-systems'
 import { Box, Text } from '@chakra-ui/react'
-import { createTranslator } from '@/i18n/utils'
+import { useTranslations } from '@/i18n/useTranslations'
 
 interface PasswordPromptProps {
   assessmentId: string
-  language?: string
 }
 
-export function PasswordPrompt({ assessmentId, language = 'en' }: PasswordPromptProps) {
+export function PasswordPrompt({ assessmentId }: PasswordPromptProps) {
   const searchParams = useSearchParams()
   const returnTo = searchParams.get('returnTo')
-  const t = createTranslator(language)
+  const t = useTranslations()
   const [password, setPassword] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)

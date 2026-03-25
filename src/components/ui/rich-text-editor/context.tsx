@@ -3,8 +3,17 @@
 import type { Editor } from "@tiptap/core"
 import * as React from "react"
 
+export interface RichTextEditorLabels {
+  toolbar?: Record<string, string>
+  options?: Record<string, string>
+  prompts?: {
+    enterUrl?: string
+  }
+}
+
 export interface RichTextEditorContextValue {
   editor: Editor | null
+  labels?: RichTextEditorLabels
 }
 
 export const RichTextEditorContext =

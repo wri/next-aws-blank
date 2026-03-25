@@ -6,6 +6,7 @@ import { EditorContent } from "@tiptap/react"
 import type { Editor } from "@tiptap/core"
 import {
   RichTextEditorContext,
+  RichTextEditorLabels,
   useRichTextEditorContext,
 } from "./context"
 import * as React from "react"
@@ -152,14 +153,15 @@ const proseMirrorBaseCss = defineStyle({
 export interface RichTextEditorProps extends BoxProps {
   editor: Editor | null
   disabled?: boolean
+  labels?: RichTextEditorLabels
 }
 
 export const RichTextEditorRoot = React.forwardRef<
   HTMLDivElement,
   RichTextEditorProps
 >(function RichTextEditorRoot(props, ref) {
-  const { editor, children, css, disabled, ...rest } = props
-  const contextValue = React.useMemo(() => ({ editor }), [editor])
+  const { editor, children, css, disabled, labels, ...rest } = props
+  const contextValue = React.useMemo(() => ({ editor, labels }), [editor, labels])
   return (
     <RichTextEditorContext.Provider value={contextValue}>
       <Box

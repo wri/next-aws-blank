@@ -7,6 +7,7 @@ import type { AutoSaveStatus } from '@/hooks/useAutoSave'
 import type { PlainQuestion } from './ThemePageLayout'
 import Link from 'next/link'
 import { useTranslations } from '@/i18n/useTranslations'
+import { useEffect, useState } from 'react'
 
 interface SubNavbarProps {
   saveStatus?: AutoSaveStatus
@@ -22,6 +23,8 @@ export function SubNavbar({
   focusQuestionCode 
 }: SubNavbarProps) {
   const t = useTranslations()
+  const [isClient, setIsClient] = useState(false)
+
   // Find current question
   const currentQuestion = questions.find(q => q.questionCode === focusQuestionCode)
   
@@ -38,9 +41,17 @@ export function SubNavbar({
       link: '' 
     })
   }
+
+  useEffect(() => {
+    setIsClient(true)
+  }, [])
+
+  if (!isClient) return <div className='h-11' />
   
   return (
-    <div className="mx-auto py-2 px-4 flex items-center h-[44px] justify-between border-t-2 border-slate-100 shadow-sm">
+    <header
+      className="h-11 px-4 border-b border-neutral-400 sticky top-0 bg-white z-10 flex items-center justify-between"
+    >
       <div className="flex items-center gap-3">
         <Breadcrumb 
           links={breadcrumbLinks}
@@ -99,6 +110,6 @@ export function SubNavbar({
           </div>
         )}
       </div>
-    </div>
+    </header>
   )
 }

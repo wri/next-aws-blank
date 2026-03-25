@@ -1104,5 +1104,59 @@
       "secondSingular": "{count} second",
       "secondPlural": "{count} seconds"
     }
+  },
+  "richTextEditor": {
+    "toolbar": {
+      "Bold": "Bold",
+      "Italic": "Italic",
+      "Underline": "Underline",
+      "Strikethrough": "Strikethrough",
+      "Code": "Code",
+      "Subscript": "Subscript",
+      "Superscript": "Superscript",
+      "H1": "H1",
+      "H2": "H2",
+      "H3": "H3",
+      "H4": "H4",
+      "Bullet List": "Bullet List",
+      "Ordered List": "Ordered List",
+      "Blockquote": "Blockquote",
+      "Horizontal Rule": "Horizontal Rule",
+      "Link": "Link",
+      "Unlink": "Unlink",
+      "Align Left": "Align Left",
+      "Align Center": "Align Center",
+      "Align Justify": "Align Justify",
+      "Align Right": "Align Right",
+      "Undo": "Undo",
+      "Redo": "Redo",
+      "Text Color": "Text Color",
+      "Highlight": "Highlight",
+      "Font Family": "Font Family",
+      "Font Size": "Font Size",
+      "Text Style": "Text Style",
+      "Alignment": "Alignment"
+    },
+    "options": {
+      "Normal text": "Normal text",
+      "Heading 1": "Heading 1",
+      "Heading 2": "Heading 2",
+      "Heading 3": "Heading 3",
+      "Quote": "Quote",
+      "Divider": "Divider",
+      "Default": "Default",
+      "Serif": "Serif",
+      "Monospace": "Monospace",
+      "Cursive": "Cursive",
+      "Align left": "Align left",
+      "Align center": "Align center",
+      "Align right": "Align right",
+      "Justify": "Justify",
+      "Left": "Left",
+      "Select": "Select"
+    },
+    "prompts": {
+      "enterUrl": "Enter URL"
+    }
   }
 }

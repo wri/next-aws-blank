@@ -14,7 +14,7 @@ import {
   createListCollection,
 } from "@chakra-ui/react"
 import type { Editor } from "@tiptap/core"
-import { useRichTextEditorContext } from "./context"
+import { useRichTextEditorContext, RichTextEditorLabels } from "./context"
 import { Tooltip } from "../tooltip"
 import * as React from "react"
 import {
@@ -76,7 +76,7 @@ export const ButtonControl = React.forwardRef<
 
 export interface BooleanControlConfig extends BaseControlConfig {
   icon: React.ElementType
-  command: (editor: Editor) => void
+  command: (editor: Editor, labels?: RichTextEditorLabels) => void
   getVariant?: (editor: Editor) => IconButtonProps["variant"]
 }
 
@@ -92,8 +92,9 @@ export function createBooleanControl(config: BooleanControlConfig) {
 
   const BooleanControl = React.forwardRef<HTMLButtonElement, IconButtonProps>(
     function BooleanControl(props, ref) {
-      const { editor } = useRichTextEditorContext()
+      const { editor, labels } = useRichTextEditorContext()
       if (!editor) return null
+      const resolvedLabel = labels?.toolbar?.[label] ?? label
       const disabled = isDisabled ? isDisabled(editor) : false
       const dynamicProps = getProps ? getProps(editor) : {}
       const variant =
@@ -102,10 +103,10 @@ export function createBooleanControl(config: BooleanControlConfig) {
       return (
         <ButtonControl
           ref={ref}
-          label={label}
+          label={resolvedLabel}
           icon={<Icon />}
           variant={variant}
-          onClick={() => command(editor)}
+          onClick={() => command(editor, labels)}
           disabled={disabled}
           {...props}
         />
@@ -151,21 +152,28 @@ export function createSelectControl(config: SelectControlConfig) {
     HTMLButtonElement,
     Omit<Select.RootProps, "collection">
   >(function SelectControl(props, ref) {
-    const { editor } = useRichTextEditorContext()
+    const { editor, labels } = useRichTextEditorContext()
     const controlId = React.useId()
 
     if (!editor) return null
 
+    const resolvedLabel = labels?.toolbar?.[label] ?? label
+    const resolvedPlaceholder = labels?.options?.[placeholder] ?? placeholder
     const currentValue = getValue(editor)
     const disabled = isDisabled ? isDisabled(editor) : false
 
-    const currentOption = options.find((o) => o.value === currentValue)
+    const translatedOptions = options.map((opt) => ({
+      ...opt,
+      label: labels?.options?.[opt.label] ?? opt.label,
+    }))
+
+    const currentOption = translatedOptions.find((o) => o.value === currentValue)
     const displayValue =
       renderValue && currentOption
         ? renderValue(currentValue, currentOption)
-        : currentOption?.label || placeholder
+        : currentOption?.label || resolvedPlaceholder
 
-    const collection = createListCollection({ items: options })
+    const collection = createListCollection({ items: translatedOptions })
     const dynamicProps = getProps ? getProps(editor) : {}
 
     return (
@@ -186,7 +194,7 @@ export function createSelectControl(config: SelectControlConfig) {
         }}
         {...dynamicProps}
       >
-        <Tooltip content={label} ids={{ trigger: controlId }}>
+        <Tooltip content={resolvedLabel} ids={{ trigger: controlId }}>
           <Select.Trigger ref={ref}>
             <Select.ValueText>{displayValue}</Select.ValueText>
             <Select.Indicator />
@@ -195,7 +203,7 @@ export function createSelectControl(config: SelectControlConfig) {
         <Portal>
           <Select.Positioner>
             <Select.Content minW="20">
-              {options.map((opt) => (
+              {translatedOptions.map((opt) => (
                 <Select.Item key={opt.value} item={opt.value}>
                   {opt.icon && (
                     <Box as="span" marginEnd="2">
@@ -246,11 +254,12 @@ export function createSwatchControl(config: SwatchControlConfig) {
 
   const SwatchControl = React.forwardRef<HTMLButtonElement, IconButtonProps>(
     function SwatchControl(props, ref) {
-      const { editor } = useRichTextEditorContext()
+      const { editor, labels } = useRichTextEditorContext()
       const [open, setOpen] = React.useState(false)
       const triggerId = React.useId()
 
       if (!editor) return null
+      const resolvedLabel = labels?.toolbar?.[label] ?? label
       const currentValue = getValue(editor)
       const disabled = isDisabled ? isDisabled(editor) : false
       const dynamicProps = getProps ? getProps(editor) : {}
@@ -262,12 +271,12 @@ export function createSwatchControl(config: SwatchControlConfig) {
           ids={{ trigger: triggerId }}
           size="sm"
         >
-          <Tooltip content={label} ids={{ trigger: triggerId }}>
+          <Tooltip content={resolvedLabel} ids={{ trigger: triggerId }}>
             <Popover.Trigger asChild>
               <IconButton
                 ref={ref}
                 size="2xs"
-                aria-label={label}
+                aria-label={resolvedLabel}
                 disabled={disabled}
                 {...dynamicProps}
                 {...props}
@@ -467,8 +476,8 @@ export const Hr = createBooleanControl({
 export const Link = createBooleanControl({
   label: "Link",
   icon: LuLink,
-  command: (editor) => {
-    const url = window.prompt("Enter URL")
+  command: (editor, labels) => {
+    const url = window.prompt(labels?.prompts?.enterUrl ?? "Enter URL")
     if (url)
       editor
         .chain()

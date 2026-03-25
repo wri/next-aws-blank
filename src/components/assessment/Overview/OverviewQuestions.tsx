@@ -1,7 +1,8 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useLanguage } from '@/contexts/LanguageContext'
+import { applyQuestionTranslations } from '@/i18n/question-translations'
 import KeySuccessFactors from './KeySuccessFactors'
 import StrategicPlan from './StrategicPlan'
 import type { QuestionWithAnswer } from '@/types/questions.types'
@@ -32,8 +33,10 @@ const OverviewQuestions = ({
   allContributors,
 }: OverviewQuestionsProps) => {
   const { language } = useLanguage()
-  const [questions, setQuestions] = useState<QuestionWithAnswer[]>(
-    initialQuestions,
+  const [questions, setQuestions] = useState<QuestionWithAnswer[]>(initialQuestions)
+  const localizedQuestions = useMemo(
+    () => applyQuestionTranslations(questions, language),
+    [questions, language],
   )
 
   useEffect(() => {
@@ -42,7 +45,7 @@ const OverviewQuestions = ({
     const fetchQuestions = async () => {
       try {
         const response = await fetch(
-          `/api/assessments/${assessmentId}/questions?language=${language}`,
+          `/api/assessments/${assessmentId}/questions`,
           { signal: controller.signal },
         )
 
@@ -57,24 +60,17 @@ const OverviewQuestions = ({
           answersByQuestionId.set(answer.questionId, answer)
         })
 
-        const nextQuestions: QuestionWithAnswer[] = (data.questions || []).map(
-          (question: QuestionWithAnswer) => ({
-            ...question,
-            followUpQuestions:
-              typeof question.followUpQuestions === 'string'
-                ? question.followUpQuestions
-                : question.followUpQuestions
-                  ? JSON.stringify(question.followUpQuestions)
-                  : null,
+        setQuestions((prev) =>
+          prev.map((q) => ({
+            ...q,
             answer:
-              answersByQuestionId.get(question.id) || {
+              answersByQuestionId.get(q.id) ||
+              q.answer || {
                 ...EMPTY_ANSWER,
-                questionId: question.id,
+                questionId: q.id,
               },
-          }),
+          })),
         )
-
-        setQuestions(nextQuestions)
       } catch (error) {
         if ((error as Error).name === 'AbortError') return
         console.error('Failed to refresh questions:', error)
@@ -84,14 +80,14 @@ const OverviewQuestions = ({
     fetchQuestions()
 
     return () => controller.abort()
-  }, [assessmentId, language])
+  }, [assessmentId])
 
   return (
     <>
-      <KeySuccessFactors assessmentId={assessmentId} questions={questions} />
+      <KeySuccessFactors assessmentId={assessmentId} questions={localizedQuestions} />
       <StrategicPlan
         assessmentId={assessmentId}
-        questions={questions}
+        questions={localizedQuestions}
         allContributors={allContributors}
       />
     </>

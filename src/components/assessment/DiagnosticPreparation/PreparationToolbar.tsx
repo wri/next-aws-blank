@@ -5,18 +5,19 @@ import Link from 'next/link'
 import { useSearchParams, useParams } from 'next/navigation'
 import { getPreparationSteps } from './utils'
 import { SaveIcon } from '@/components/icons'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { usePreparationSubmit } from './PreparationSubmitContext'
 import { useTranslations } from '@/i18n/useTranslations'
 
 const PreparationToolbar = () => {
+  const t = useTranslations()
   const params = useParams()
   const searchParams = useSearchParams()
+  const { submitHandler } = usePreparationSubmit()
   const [isSubmitting, setIsSubmitting] = useState(false)
-  const t = useTranslations()
+  const [isClient, setIsClient] = useState(false)
   const isEditMode = searchParams.get('isEditMode')
   const isEditing = isEditMode === 'true'
-  const { submitHandler } = usePreparationSubmit()
 
   const { id, step } = params as { id: string; step: string }
   const steps = getPreparationSteps(t)
@@ -47,6 +48,12 @@ const PreparationToolbar = () => {
       setIsSubmitting(false)
     }
   }
+
+  useEffect(() => {
+    setIsClient(true)
+  }, [])
+
+  if (!isClient) return <div className='h-11' />
 
   return (
     <div className='h-11 px-4 border-b border-neutral-400 sticky top-0 bg-white z-10 flex items-center justify-between'>

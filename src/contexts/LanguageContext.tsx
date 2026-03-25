@@ -16,17 +16,14 @@ const LanguageContext = createContext<LanguageContextType | undefined>(
   undefined,
 )
 
-export function LanguageProvider({ children }: { children: ReactNode }) {
-  const [language, setLanguage] = useState(() => {
-    if (typeof document === 'undefined') {
-      return 'en'
-    }
-    const match = document.cookie
-      .split('; ')
-      .find((row) => row.startsWith('language='))
-    const cookieLang = match?.split('=')[1]
-    return cookieLang || 'en'
-  })
+export function LanguageProvider({
+  children,
+  initialLanguage = 'en',
+}: {
+  children: ReactNode
+  initialLanguage?: string
+}) {
+  const [language, setLanguage] = useState(initialLanguage)
 
   // Persist selection for server-rendered routes
   const handleSetLanguage = (lang: string) => {

@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useCallback, useEffect } from 'react'
+import { useState, useCallback, useEffect, useMemo } from 'react'
 import { SubNavbar } from './SubNavbar'
 import { QuestionView } from './QuestionView'
 import type { AnswerValue } from '@/db/entities/Answer.entity'
@@ -8,6 +8,7 @@ import type { Theme } from '@/db/entities/Question.entity'
 import { AnswerStatus, PlainContributor } from '@/types/answer.types'
 import type { AutoSaveStatus } from '@/hooks/useAutoSave'
 import { useLanguage } from '@/contexts/LanguageContext'
+import { applyQuestionTranslations } from '@/i18n/question-translations'
 
 // Plain object interfaces for data passed from server
 export interface PlainQuestion {
@@ -57,8 +58,6 @@ interface ThemePageLayoutProps {
   initialContributorsByAnswer: Array<[string, string[]]>
 }
 
-const NAVBAR_RENDERED_HEIGHT = 47
-
 export function ThemePageLayout({
   assessmentId,
   theme,
@@ -75,8 +74,10 @@ export function ThemePageLayout({
 }: ThemePageLayoutProps) {
   const { language } = useLanguage()
   const [saveStatus, setSaveStatus] = useState<AutoSaveStatus>('idle')
-  const [isScrolled, setIsScrolled] = useState(false)
-  const [localizedQuestions, setLocalizedQuestions] = useState(questions)
+  const localizedQuestions = useMemo(
+    () => applyQuestionTranslations(questions, language),
+    [questions, language],
+  )
   const [answers, setAnswers] = useState(initialAnswers)
   const [currentFocusCode, setCurrentFocusCode] = useState(focusQuestionCode)
 
@@ -90,7 +91,7 @@ export function ThemePageLayout({
     const fetchLocalizedQuestions = async () => {
       try {
         const response = await fetch(
-          `/api/assessments/${assessmentId}/questions?language=${language}`,
+          `/api/assessments/${assessmentId}/questions`,
           { signal: controller.signal },
         )
 
@@ -99,10 +100,6 @@ export function ThemePageLayout({
         }
 
         const data = await response.json()
-        const filteredQuestions = (data.questions || []).filter(
-          (q: PlainQuestion) => q.theme === theme,
-        )
-
         const normalizedAnswers: Array<[string, PlainAnswer]> = []
         ;(data.answers || []).forEach(
           (answer: PlainAnswer & { questionId: string }) => {
@@ -110,19 +107,7 @@ export function ThemePageLayout({
           },
         )
 
-        setLocalizedQuestions(filteredQuestions)
         setAnswers(normalizedAnswers)
-        setCurrentFocusCode((prev) => {
-          if (
-            filteredQuestions.some(
-              (q: { questionCode: string }) => q.questionCode === prev,
-            )
-          ) {
-            return prev
-          }
-
-          return filteredQuestions[0]?.questionCode || prev
-        })
       } catch (error) {
         if ((error as Error).name === 'AbortError') return
         console.error('Failed to refresh questions on language change:', error)
@@ -132,35 +117,20 @@ export function ThemePageLayout({
     fetchLocalizedQuestions()
 
     return () => controller.abort()
-  }, [assessmentId, language, theme])
+  }, [assessmentId, theme])
 
-  useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > NAVBAR_RENDERED_HEIGHT)
-    }
-
-    window.addEventListener('scroll', handleScroll, { passive: true })
-    return () => {
-      window.removeEventListener('scroll', handleScroll)
-    }
-  }, [])
 
   return (
     <div
-      className={`min-h-screen flex flex-col bg-background-light gradient-bg duration-100 transition-[padding] ${isScrolled ? '' : 'pt-[47px]'} `}
+      className="min-h-screen flex flex-col bg-background-light gradient-bg duration-100 pt-12"
     >
       {/* Sub-navbar - Custom */}
-      <header
-        className={`border-b border-slate-200 sticky bg-white z-40 transition-all duration-100 transition-[top] ${isScrolled ? 'top-0' : 'top-[47px]'}`}
-      >
-        <SubNavbar
-          saveStatus={saveStatus}
-          assessmentId={assessmentId}
-          questions={localizedQuestions}
-          focusQuestionCode={currentFocusCode}
-        />
-      </header>
-
+      <SubNavbar
+        saveStatus={saveStatus}
+        assessmentId={assessmentId}
+        questions={localizedQuestions}
+        focusQuestionCode={currentFocusCode}
+      />
       {/* Main content with gradient background */}
       <div className='flex mx-auto w-full relative flex-1'>
         <QuestionView

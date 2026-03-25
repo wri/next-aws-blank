@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 
 import localFont from 'next/font/local'
+import { cookies } from 'next/headers'
 import './globals.css'
 
 import Providers from '@/components/Providers'
@@ -30,18 +31,20 @@ export const metadata: Metadata = {
   description: 'WRI Restoration Diagnostic',
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode
 }>) {
+  const cookieStore = await cookies()
+  const initialLanguage = cookieStore.get('language')?.value || 'en'
 
   return (
     <html lang='en'>
       <body className={`${acuminPro.className} antialiased`}>
         <GoogleTagManager />
         <HotjarScript />
-        <Providers>
+        <Providers initialLanguage={initialLanguage}>
           <GlobalNavbar />
           <div className='pb-44 lg:pb-0'>{children}</div>
           <Footer />

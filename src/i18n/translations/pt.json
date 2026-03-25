@@ -1104,5 +1104,59 @@
       "secondSingular": "{count} segundo",
       "secondPlural": "{count} segundos"
     }
+  },
+  "richTextEditor": {
+    "toolbar": {
+      "Bold": "Negrito",
+      "Italic": "Itálico",
+      "Underline": "Sublinhado",
+      "Strikethrough": "Tachado",
+      "Code": "Código",
+      "Subscript": "Subscrito",
+      "Superscript": "Sobrescrito",
+      "H1": "H1",
+      "H2": "H2",
+      "H3": "H3",
+      "H4": "H4",
+      "Bullet List": "Lista com marcadores",
+      "Ordered List": "Lista numerada",
+      "Blockquote": "Citação",
+      "Horizontal Rule": "Linha horizontal",
+      "Link": "Link",
+      "Unlink": "Remover link",
+      "Align Left": "Alinhar à esquerda",
+      "Align Center": "Centralizar",
+      "Align Justify": "Justificar",
+      "Align Right": "Alinhar à direita",
+      "Undo": "Desfazer",
+      "Redo": "Refazer",
+      "Text Color": "Cor do texto",
+      "Highlight": "Destaque",
+      "Font Family": "Família de fontes",
+      "Font Size": "Tamanho da fonte",
+      "Text Style": "Estilo do texto",
+      "Alignment": "Alinhamento"
+    },
+    "options": {
+      "Normal text": "Texto normal",
+      "Heading 1": "Título 1",
+      "Heading 2": "Título 2",
+      "Heading 3": "Título 3",
+      "Quote": "Citação",
+      "Divider": "Divisor",
+      "Default": "Padrão",
+      "Serif": "Serif",
+      "Monospace": "Monoespaçado",
+      "Cursive": "Cursivo",
+      "Align left": "Esquerda",
+      "Align center": "Centro",
+      "Align right": "Direita",
+      "Justify": "Justificar",
+      "Left": "Esquerda",
+      "Select": "Selecionar"
+    },
+    "prompts": {
+      "enterUrl": "Digite o URL"
+    }
   }
 }
