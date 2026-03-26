@@ -1,32 +1,48 @@
 # Restoration Diagnostic Web Application
 
-A production-ready Next.js application for landscape restoration assessments with TypeORM, PostgreSQL, and AWS ECS Fargate deployment using Terraform and GitHub Actions.
+A production-ready Next.js 15 application for landscape restoration assessments featuring multi-language support (EN/ES/FR/PT), interactive maps, rich text editing, and XLSX export — backed by TypeORM + PostgreSQL and deployed to AWS ECS Fargate via Terraform and GitHub Actions.
 
 ## 🏗️ Architecture
 
+```mermaid
+graph TB
+    subgraph AWS Cloud
+        subgraph VPC
+            subgraph Public Subnets
+                ALB[Application Load Balancer]
+                ECS[ECS Fargate Tasks<br/>Ephemeral Public IPs]
+            end
+        end
+        ECR[ECR Repository]
+        CW[CloudWatch Logs]
+        RDS[(RDS PostgreSQL)]
+        S3[S3 - TF State]
+    end
+
+    Client([Browser]) -->|HTTPS| ALB
+    ALB --> ECS
+    ECS --> RDS
+    GH([GitHub Actions]) -->|Deploy| ECR
+    ECR --> ECS
+    ECS -->|Logs| CW
 ```
-┌─────────────────────────────────────────────────────────────────┐
-│                         AWS Cloud                                │
-│  ┌──────────────────────────────────────────────────────────┐  │
-│  │                          VPC                              │  │
-│  │  ┌─────────────────────┐    ┌─────────────────────────┐  │  │
-│  │  │   Public Subnets    │    │    Private Subnets      │  │  │
-│  │  │  ┌───────────────┐  │    │  ┌─────────────────┐    │  │  │
-│  │  │  │      ALB      │  │───▶│  │   ECS Fargate   │    │  │  │
-│  │  │  └───────────────┘  │    │  │     Tasks       │    │  │  │
-│  │  │         │           │    │  └─────────────────┘    │  │  │
-│  │  │  ┌───────────────┐  │    │          │              │  │  │
-│  │  │  │  NAT Gateway  │  │◀───│──────────┘              │  │  │
-│  │  │  └───────────────┘  │    │                         │  │  │
-│  │  └─────────────────────┘    └─────────────────────────┘  │  │
-│  └──────────────────────────────────────────────────────────┘  │
-│                                                                  │
-│  ┌────────────┐  ┌────────────┐  ┌────────────┐  ┌────────────┐│
-│  │    ECR     │  │ CloudWatch │  │    RDS     │  │    S3      ││
-│  │ Repository │  │    Logs    │  │ PostgreSQL │  │  (TF State)││
-│  └────────────┘  └────────────┘  └────────────┘  └────────────┘│
-└─────────────────────────────────────────────────────────────────┘
-```
+
+## 🧰 Tech Stack
+
+| Layer | Technology |
+|-------|-----------|
+| Framework | Next.js 15 (App Router), React 19 |
+| UI | [WRI Design System](https://github.com/wri/wri-design-systems), Chakra UI v3, Tailwind CSS, TipTap Rich Text Editor |
+| Forms | React Hook Form |
+| Database | PostgreSQL 17, TypeORM 0.3 |
+| Auth | Bcrypt password hashing, session tokens (Web Crypto API) |
+| i18n | 4 languages (EN, ES, FR, PT) with JSON translation files |
+| Maps | Interactive map components with layer/legend controls |
+| Export | XLSX assessment export |
+| Analytics | Google Tag Manager, Hotjar |
+| Deployment | AWS ECS Fargate, ALB, ECR, Terraform |
+| CI/CD | GitHub Actions (QA, Production, PR checks) |
+| Testing | Jest, React Testing Library |
 
 ## 📁 Project Structure
 
@@ -34,57 +50,203 @@ A production-ready Next.js application for landscape restoration assessments wit
 .
 ├── .github/
 │   └── workflows/
-│       ├── deploy-qa.yml           # QA deployment workflow
-│       ├── deploy-production.yml   # Production deployment workflow
-│       ├── pr-check.yml            # Pull request validation
-│       └── destroy.yml             # Infrastructure teardown
+│       ├── deploy-qa.yml              # QA deployment workflow
+│       ├── deploy-production.yml      # Production deployment workflow
+│       ├── pr-check.yml               # Pull request validation
+│       └── destroy.yml                # Infrastructure teardown
 ├── src/
-│   ├── db/                         # Database layer
-│   │   ├── schema.dbml             # Database schema (source of truth)
-│   │   ├── data-source.ts          # TypeORM configuration
-│   │   ├── entities/               # TypeORM entities
-│   │   │   ├── Lead.entity.ts
-│   │   │   ├── Region.entity.ts
-│   │   │   ├── Diagnostic.entity.ts
-│   │   │   ├── Assessment.entity.ts
-│   │   │   └── index.ts
-│   │   ├── migrations/             # Database migrations
-│   │   └── seeds/                  # Seed data
-│   │       ├── 001-initial-diagnostic.seed.ts
-│   │       └── index.ts
-│   └── app/                        # Next.js App Router
-│       ├── api/health/route.ts     # Health check endpoint
-│       ├── layout.tsx
-│       ├── page.tsx
-│       └── globals.css
+│   ├── app/                           # Next.js App Router
+│   │   ├── api/
+│   │   │   ├── health/               # Health check endpoint
+│   │   │   └── assessments/           # Assessment REST API
+│   │   │       ├── route.ts           #   POST create assessment
+│   │   │       └── [id]/
+│   │   │           ├── answers/       #   GET/POST answers
+│   │   │           ├── contributors/  #   GET/POST/DELETE contributors
+│   │   │           ├── export-responses/ # XLSX export
+│   │   │           ├── login/         #   Password authentication
+│   │   │           ├── preparation/   #   Preparation workflow
+│   │   │           └── questions/     #   GET questions by language
+│   │   ├── assessment/
+│   │   │   ├── setup/                 # Assessment setup form
+│   │   │   └── [id]/
+│   │   │       ├── page.tsx           # Overview & password prompt
+│   │   │       ├── created/           # Success page
+│   │   │       ├── preparation/       # Multi-step preparation
+│   │   │       │   └── [step]/
+│   │   │       └── [theme]/           # Theme pages (Motivate/Enable/Implement)
+│   │   ├── auth/                      # Sign-in & sign-up pages
+│   │   └── welcome/                   # Welcome page
+│   ├── components/
+│   │   ├── assessment/                # Assessment UI components
+│   │   │   ├── DiagnosticPreparation/ #   Multi-step preparation form
+│   │   │   ├── Overview/              #   Assessment overview & export
+│   │   │   ├── AnswerOptions.tsx      #   Yes/Partly/No/NA selection
+│   │   │   ├── ChakraRichTextEditor.tsx # Rich text editor
+│   │   │   ├── ContributorsCombobox.tsx # Team member selection
+│   │   │   ├── FollowUpQuestions.tsx   #   Dynamic follow-ups
+│   │   │   └── PasswordPrompt.tsx     #   Access control
+│   │   ├── Map/                       # Interactive map with layers & legends
+│   │   ├── static/landing/            # Landing page sections
+│   │   ├── icons/                     # 50+ custom SVG icons
+│   │   ├── Footer/
+│   │   ├── Providers/                 # Chakra UI & language context
+│   │   └── ui/                        # Shared UI (DatePicker, RichText, Loader)
+│   ├── db/                            # Database layer
+│   │   ├── schema.dbml                # Database schema (source of truth)
+│   │   ├── data-source.ts             # TypeORM configuration
+│   │   ├── entities/                  # 8 TypeORM entities
+│   │   │   ├── Assessment.entity.ts   #   Assessment instance
+│   │   │   ├── Answer.entity.ts       #   Answer (yes/partly/no/na)
+│   │   │   ├── AnswerContributor.entity.ts # Junction table
+│   │   │   ├── Contributor.entity.ts  #   Team members
+│   │   │   ├── Diagnostic.entity.ts   #   Assessment template
+│   │   │   ├── Lead.entity.ts         #   Assessment lead (demographics)
+│   │   │   ├── Question.entity.ts     #   Questions (3 themes)
+│   │   │   └── Region.entity.ts       #   Geography & GIS
+│   │   ├── migrations/                # 15+ database migrations
+│   │   ├── seeds/                     # Diagnostic & question seeds
+│   │   ├── queries/                   # Complex assessment queries
+│   │   └── scripts/                   # DB utility scripts
+│   ├── i18n/                          # Internationalization
+│   │   ├── translations/              # EN, ES, FR, PT JSON files
+│   │   └── scripts/                   # Import/export/validate scripts
+│   ├── hooks/                         # Custom React hooks
+│   │   ├── useAutoSave.ts             #   Auto-save answers
+│   │   ├── useAssessmentSetupForm.ts  #   Setup form logic
+│   │   ├── useRichTextEditor.ts       #   Editor state
+│   │   └── useResponsiveFlags.ts      #   Responsive helpers
+│   ├── contexts/                      # React contexts
+│   │   └── LanguageContext.tsx         #   Global language state
+│   ├── constants/                     # App constants & options
+│   ├── types/                         # TypeScript type definitions
+│   ├── utils/                         # Utilities (session, rate-limiter, xlsx)
+│   └── middleware.ts                  # Auth middleware for protected routes
 ├── terraform/
-│   ├── backend-setup/              # Terraform state backend
-│   │   ├── main.tf
-│   │   ├── setup.sh
-│   │   └── teardown.sh
-│   ├── infrastructure/             # Main infrastructure
-│   │   ├── main.tf
-│   │   ├── variables.tf
-│   │   ├── outputs.tf
-│   │   ├── vpc.tf
-│   │   ├── security_groups.tf
-│   │   ├── alb.tf
-│   │   ├── ecr.tf
-│   │   └── ecs.tf
-│   └── environments/               # Environment configs
-│       ├── qa.tfvars
-│       ├── qa.backend.hcl
-│       ├── production.tfvars
-│       └── production.backend.hcl
-├── Dockerfile                      # NextJS App Container 
-├── package.json
-└── README.md
+│   ├── backend-setup/                 # Terraform state backend (S3 + DynamoDB)
+│   ├── infrastructure/                # VPC, ALB, ECS, ECR, Security Groups
+│   └── environments/                  # QA & production tfvars
+├── docs/resources/                    # CSV question sources & schema reference
+├── Dockerfile                         # Multi-stage build (standalone Next.js)
+├── docker-compose.yml                 # Local PostgreSQL for development
+└── package.json
+```
+
+## 🗄️ Database Schema
+
+```mermaid
+erDiagram
+    Diagnostic ||--o{ Question : contains
+    Diagnostic ||--o{ Assessment : "template for"
+    Assessment }o--|| Lead : "led by"
+    Assessment }o--|| Region : "scoped to"
+    Assessment ||--o{ Answer : has
+    Assessment ||--o{ Contributor : has
+    Answer }o--|| Question : "responds to"
+    Answer ||--o{ AnswerContributor : "attributed to"
+    Contributor ||--o{ AnswerContributor : participates
+
+    Diagnostic {
+        uuid id PK
+        string title
+        string version
+        string language
+    }
+    Question {
+        uuid id PK
+        string questionCode
+        string theme "Motivate-Enable-Implement"
+        string enablingCondition
+        string keySuccessFactor
+        string questionText
+        int sortOrder
+        string locale
+    }
+    Assessment {
+        uuid id PK
+        string passwordHash
+        string projectType "GEF_8-WRI-other"
+        string status "draft-inprogress-completed-archived"
+        int diagnosticYear
+        timestamp submittedAt
+    }
+    Lead {
+        uuid id PK
+        string name
+        string email
+        string jobTitle
+        string organization
+        string gender
+        string ageRange
+    }
+    Region {
+        uuid id PK
+        string regionName
+        string geographyType
+        string countries
+        string ecosystems
+        string gisUrl
+    }
+    Answer {
+        uuid id PK
+        string value "yes-partly-no-na"
+        text rationale
+        text notes
+        string status "not_started-in_progress-complete"
+    }
+    Contributor {
+        uuid id PK
+        string name
+    }
+    AnswerContributor {
+        uuid contributorId PK
+        uuid answerId PK
+    }
+```
+
+## 🔌 API Endpoints
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `GET` | `/api/health` | Health check |
+| `POST` | `/api/assessments` | Create assessment (returns ID + password) |
+| `GET` | `/api/assessments/[id]/questions` | Get questions by language |
+| `GET` | `/api/assessments/[id]/answers` | List all answers |
+| `POST` | `/api/assessments/[id]/answers` | Create answers |
+| `GET` | `/api/assessments/[id]/contributors` | List contributors |
+| `POST` | `/api/assessments/[id]/contributors` | Add contributor |
+| `DELETE` | `/api/assessments/[id]/contributors` | Remove contributor |
+| `POST` | `/api/assessments/[id]/login` | Verify password & create session |
+| `GET` | `/api/assessments/[id]/preparation` | Get preparation status |
+| `POST` | `/api/assessments/[id]/preparation` | Save preparation data |
+| `GET` | `/api/assessments/[id]/export-responses` | Export assessment to XLSX |
+
+## 🌐 Internationalization (i18n)
+
+Four languages are supported with both UI and question translations:
+
+| Language | Code | UI File | Questions File |
+|----------|------|---------|---------------|
+| English | `en` | `en.json` | `questions-en.json` |
+| Spanish | `es` | `es.json` | `questions-es.json` |
+| French | `fr` | `fr.json` | `questions-fr.json` |
+| Portuguese | `pt` | `pt.json` | `questions-pt.json` |
+
+Translation files are in `src/i18n/translations/`. Management scripts:
+
+```bash
+npm run i18n:import-csv          # Import questions from CSV
+npm run i18n:export-questions     # Export questions to JSON
+npm run i18n:import-questions     # Import questions from JSON
+npm run i18n:validate            # Validate translation completeness
+npm run i18n:cleanup             # Remove duplicate questions
+```
 
 ## 🚀 Getting Started
 
 ### Prerequisites
 
-- [Node.js](https://nodejs.org/) 22.x (see `.nvmrc`)
+- [Node.js](https://nodejs.org/) 20.x (see `.nvmrc`)
 - [Docker](https://www.docker.com/)
 - [Terraform](https://www.terraform.io/) 1.0+ (for AWS deployment)
 - [AWS CLI](https://aws.amazon.com/cli/) configured with appropriate credentials
@@ -222,7 +384,7 @@ AWS_REGION=us-east-1 PROJECT_NAME=rd-app ./setup.sh
 The AWS credentials need permissions for:
 - ECR (create/push images)
 - ECS (manage clusters, services, tasks)
-- EC2 (VPC, subnets, security groups, NAT gateways)
+- EC2 (VPC, subnets, security groups)
 - ELB (Application Load Balancers)
 - IAM (create roles and policies)
 - CloudWatch (logs)
@@ -251,6 +413,12 @@ npm run dev
 
 # Run tests
 npm test
+
+# Run tests with coverage (CI mode)
+npm run test:ci
+
+# Lint
+npm run lint
 
 # Build for production
 npm run build
@@ -371,20 +539,25 @@ chmod +x teardown.sh
 
 ## 🔐 Security Features
 
-- VPC with public/private subnet isolation
-- NAT Gateways for private subnet internet access
+- VPC with public subnets; exposure limited via security groups and ALB
+- ECS Fargate tasks with ephemeral public IPs (no NAT Gateway)
 - Security groups limiting traffic
 - S3 bucket versioning and encryption for Terraform state
 - ECR image scanning on push
 - Non-root container user
 - HTTPS headers configured in Next.js
+- Bcrypt password hashing for assessment access
+- Session token authentication (Web Crypto API, Edge Runtime)
+- Rate limiting on API endpoints
+- Auth middleware protecting assessment routes
+- AWS RDS SSL connections (CA bundle in Docker image)
 
 ## 💰 Cost Optimization
 
 - Use `FARGATE_SPOT` for non-production workloads
 - Auto-scaling based on CPU/Memory utilization
 - ECR lifecycle policies to clean old images
-- Consider reducing NAT Gateway count for non-production
+- No NAT Gateway — ECS tasks use ephemeral public IPs
 
 ## 📝 Customization
 
@@ -446,4 +619,3 @@ desired_count    = 3
 ## 📄 License
 
 MIT
-# gri-rd
