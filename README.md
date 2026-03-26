@@ -269,6 +269,16 @@ npm install
 
 The application uses a shared AWS RDS PostgreSQL instance (`xxx`) across all environments. Each environment (dev, qa, production) has its own database within the same RDS instance.  Access to the DB instance is controlled by an AWS security group (`xxx-sg`), and each environment has access to it.  Folks trying to connect to the DB directly need to add their external IP address to the [AWS security group](https://us-east-1.console.aws.amazon.com/ec2/home?region=us-east-1#SecurityGroup:groupId=SG_ID_PLACEHOLDER).
 
+#### Security Group Configuration
+
+The RDS instance is publicly accessible to support local development. You must add your external IP to the [AWS security group](https://us-east-1.console.aws.amazon.com/ec2/home?region=us-east-1#SecurityGroup:groupId=SG_ID_PLACEHOLDER).
+
+1. Add inbound rule:
+   - **Type:** PostgreSQL
+   - **Port:** 5432
+   - **Source:** `<your-ip-address>/32`
+   - **Description:** "[Your Name]"
+
 #### Configure Environment Variables
 
 ```bash
@@ -300,18 +310,6 @@ DATABASE_SSL_REJECT_UNAUTHORIZED=false
 **Getting Database Credentials:**
 - Master password is stored in [AWS Systems Manager Parameter Store](https://console.aws.amazon.com/systems-manager/parameters)
 - Navigate to Parameter Store and search for `xxx`
-
-#### Security Group Configuration
-
-The RDS instance is publicly accessible to support local development. You must add your IP to the security group:
-
-1. Go to [EC2 Security Groups](https://console.aws.amazon.com/ec2/v2/home?region=us-east-1#SecurityGroups:)
-2. Find security group `xxx-sg`
-3. Add inbound rule:
-   - **Type:** PostgreSQL
-   - **Port:** 5432
-   - **Source:** `<your-ip-address>/32`
-   - **Description:** "Local dev - [Your Name]"
 
 **Get your external IP:**
 ```bash
