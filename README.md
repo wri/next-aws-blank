@@ -267,7 +267,7 @@ npm install
 
 ### 2. Database Setup (AWS RDS)
 
-The application uses a shared AWS RDS PostgreSQL instance (`xxx`) across all environments. Each environment (dev, qa, production) has its own database within the same RDS instance.
+The application uses a shared AWS RDS PostgreSQL instance (`xxx`) across all environments. Each environment (dev, qa, production) has its own database within the same RDS instance.  Access to the DB instance is controlled by an AWS security group (`xxx-sg`), and each environment has access to it.  Folks trying to connect to the DB directly need to add their external IP address to the [AWS security group](https://us-east-1.console.aws.amazon.com/ec2/home?region=us-east-1#SecurityGroup:groupId=SG_ID_PLACEHOLDER).
 
 #### Configure Environment Variables
 
