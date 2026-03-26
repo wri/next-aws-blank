@@ -138,7 +138,7 @@ export default async function AssessmentPage({
 
   return (
     <div className='pb-20 pt-12'>
-      <OverviewBar assessmentId={id} />
+      <OverviewBar />
 
       <div className='w-full max-w-screen-1100 p-4 mx-auto flex flex-col gap-10'>
         <Scope data={scopeData} assessmentId={id} />

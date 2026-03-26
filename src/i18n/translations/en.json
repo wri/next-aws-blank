@@ -824,6 +824,46 @@
         "empty": ""
       }
     },
+    "exportStrategies": {
+      "button": "Export strategies",
+      "headers": {
+        "id": "ID",
+        "strategyTitle": "Strategy Title",
+        "keyFactor": "Key Success Factor",
+        "priority": "Priority",
+        "scale": "Scale",
+        "deadline": "Estimated start date",
+        "responsibility": "Responsibility",
+        "status": "Status",
+        "description": "Description"
+      },
+      "priority": {
+        "low": "Low",
+        "medium": "Medium",
+        "high": "High",
+        "empty": ""
+      },
+      "scale": {
+        "national": "National",
+        "subnational": "Subnational (municipality, province, district)",
+        "landscape": "Landscape (or seascape if applicable)",
+        "site": "Restoration site",
+        "transboundary": "Transboundary (two or more countries)"
+      },
+      "status": {
+        "notStarted": "Not started",
+        "inProgress": "In progress",
+        "complete": "Complete",
+        "empty": ""
+      },
+      "response": {
+        "yes": "Yes",
+        "partly": "Partly",
+        "no": "No",
+        "na": "Not applicable",
+        "empty": ""
+      }
+    },
     "sectionTitle": {
       "tabs": {
         "progress": "Progress",

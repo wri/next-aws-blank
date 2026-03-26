@@ -824,6 +824,46 @@
         "empty": ""
       }
     },
+    "exportStrategies": {
+      "button": "Exportar estrategias",
+      "headers": {
+        "id": "ID",
+        "strategyTitle": "Título de la estrategia",
+        "keyFactor": "Factor clave de éxito",
+        "priority": "Prioridad",
+        "scale": "Escala",
+        "deadline": "Fecha estimada de inicio",
+        "responsibility": "Responsable",
+        "status": "Estado",
+        "description": "Descripción de la estrategia"
+      },
+      "priority": {
+        "low": "Baja",
+        "medium": "Media",
+        "high": "Alta",
+        "empty": ""
+      },
+      "scale": {
+        "national": "Nacional",
+        "subnational": "Subnacional (municipio, provincia, distrito)",
+        "landscape": "Paisaje (o paisaje marino si aplica)",
+        "site": "Sitio de restauración",
+        "transboundary": "Transfronterizo (dos o más países)"
+      },
+      "status": {
+        "notStarted": "No iniciado",
+        "inProgress": "En progreso",
+        "complete": "Completo",
+        "empty": ""
+      },
+      "response": {
+        "yes": "Sí",
+        "partly": "Parcialmente",
+        "no": "No",
+        "na": "No aplica",
+        "empty": ""
+      }
+    },
     "sectionTitle": {
       "tabs": {
         "progress": "Progreso",

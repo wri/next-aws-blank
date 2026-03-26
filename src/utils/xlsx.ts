@@ -170,6 +170,7 @@ const createZip = (entries: ZipEntry[]) => {
 export const createWorkbookBuffer = (
   headers: readonly string[],
   rows: XlsxRow[],
+  sheetName = 'Sheet1',
 ) => {
   const worksheetXml = buildSheetXml(headers, rows)
 
@@ -204,7 +205,7 @@ export const createWorkbookBuffer = (
         `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships">
   <sheets>
-    <sheet name="Responses" sheetId="1" r:id="rId1"/>
+    <sheet name="${sheetName}" sheetId="1" r:id="rId1"/>
   </sheets>
 </workbook>`,
         'utf8',

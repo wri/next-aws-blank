@@ -824,6 +824,46 @@
         "empty": ""
       }
     },
+    "exportStrategies": {
+      "button": "Exporter les stratégies",
+      "headers": {
+        "id": "ID",
+        "strategyTitle": "Titre de la stratégie",
+        "keyFactor": "Facteur clé de succès",
+        "priority": "Priorité",
+        "scale": "Échelle",
+        "deadline": "Date de début estimée",
+        "responsibility": "Responsabilité",
+        "status": "Statut",
+        "description": "Description"
+      },
+      "priority": {
+        "low": "Faible",
+        "medium": "Moyenne",
+        "high": "Haute",
+        "empty": ""
+      },
+      "scale": {
+        "national": "Nationale",
+        "subnational": "Infranationale (municipalité, province, district)",
+        "landscape": "Paysage (ou paysage marin le cas échéant)",
+        "site": "Site de restauration",
+        "transboundary": "Transfrontalier (deux pays ou plus)"
+      },
+      "status": {
+        "notStarted": "Pas démarré",
+        "inProgress": "En cours",
+        "complete": "Terminé",
+        "empty": ""
+      },
+      "response": {
+        "yes": "Oui",
+        "partly": "Partiellement",
+        "no": "Non",
+        "na": "Non applicable",
+        "empty": ""
+      }
+    },
     "sectionTitle": {
       "tabs": {
         "progress": "Progression",

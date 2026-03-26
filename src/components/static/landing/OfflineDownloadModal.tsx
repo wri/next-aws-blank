@@ -131,13 +131,13 @@ export const OfflineDownloadModal = ({
           />
 
           <TextInput
-            label={`${t('home.cta.offlineModal.labels.organization')} (${t('common.optional')})`}
+            label={`${t('home.cta.offlineModal.labels.organization')}`}
             placeholder={t('home.cta.offlineModal.placeholders.organization')}
             {...register('organization')}
           />
 
           <TextInput
-            label={`${t('home.cta.offlineModal.labels.jobRole')} (${t('common.optional')})`}
+            label={`${t('home.cta.offlineModal.labels.jobRole')}`}
             placeholder={t('home.cta.offlineModal.placeholders.jobRole')}
             {...register('jobRole')}
           />
