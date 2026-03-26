@@ -8,5 +8,5 @@ export const externalLinks = {
   privacy: 'https://www.wri.org/about/privacy-policy',
   contactLink: 'https://form.asana.com/?k=46nxnl999UkORXju_vqQ1Q&d=25496124013636',
   roamMethodology: 'https://www.wri.org/research/restoration-opportunities-assessment-methodology-roam',
-  offlineDiagnosticExcel: 'https://onewri.sharepoint.com/:x:/t/Projects/Restoration/IQDdSL0spZ2vQa16-QCLt2qFAbypsVuOpl8P7UH3VLBzuzk?e=2DVq6Y',
+  offlineDiagnosticExcel: '/offline-version/Restoration_Diagnostic_v2-ENG.xlsx',
 }

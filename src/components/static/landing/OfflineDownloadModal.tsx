@@ -15,8 +15,8 @@ import {
   useOfflineDownloadForm,
   getOfflineDownloadFormRules,
 } from '@/hooks/useOfflineDownloadForm'
-import { externalLinks } from '@/constants/external-links'
 import type { OfflineDownloadFormData } from '@/types/offline-download.types'
+import { externalLinks } from '@/constants/external-links'
 
 interface OfflineDownloadModalProps {
   open: boolean
@@ -49,46 +49,51 @@ export const OfflineDownloadModal = ({
   }
 
   const onSubmit = async (data: OfflineDownloadFormData) => {
-  setIsSubmitting(true)
-  setSubmitError(null)
+    setIsSubmitting(true)
+    setSubmitError(null)
 
-  try {
-    const response = await fetch('/api/assessments/offline', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ ...data, language }),
-    })
+    try {
+      const response = await fetch('/api/assessments/offline', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...data, language }),
+      })
 
-    if (response.ok) {
-      window.open(externalLinks.offlineDiagnosticExcel, '_blank', 'noopener,noreferrer')
-      reset()
-      onClose()
-    } else {
-      let message = t('home.cta.offlineModal.errors.defaultError')
-      try {
-        const contentType = response.headers.get('content-type') || ''
-        if (contentType.includes('application/json')) {
-          const result = await response.json()
-          if (result && typeof result.message === 'string' && result.message.trim()) {
-            message = result.message
+      if (response.ok) {
+        const link = document.createElement('a')
+        link.href = externalLinks.offlineDiagnosticExcel
+        link.download = 'Restoration_Diagnostic_v2-ENG.xlsx'
+        document.body.appendChild(link)
+        link.click()
+        document.body.removeChild(link)
+        reset()
+        onClose()
+      } else {
+        let message = t('home.cta.offlineModal.errors.defaultError')
+        try {
+          const contentType = response.headers.get('content-type') || ''
+          if (contentType.includes('application/json')) {
+            const result = await response.json()
+            if (result && typeof result.message === 'string' && result.message.trim()) {
+              message = result.message
+            }
+          } else {
+            const text = await response.text()
+            if (text && text.trim()) {
+              message = text
+            }
           }
-        } else {
-          const text = await response.text()
-          if (text && text.trim()) {
-            message = text
-          }
+        } catch {
+          // Ignore parsing errors and fall back to the default message
         }
-      } catch {
-        // Ignore parsing errors and fall back to the default message
+        setSubmitError(message)
       }
-      setSubmitError(message)
+    } catch {
+      setSubmitError(t('home.cta.offlineModal.errors.unableToConnect'))
+    } finally {
+      setIsSubmitting(false)
     }
-  } catch {
-    setSubmitError(t('home.cta.offlineModal.errors.unableToConnect'))
-  } finally {
-    setIsSubmitting(false)
   }
-}  
 
   const hasErrors = Object.keys(errors).length > 0
 
