@@ -159,6 +159,10 @@ const Strategies = ({
                     'assessment.strategies.fields.title.placeholder',
                   )}
                   maxLength={200}
+                  labels={{
+                    optionalSuffix: t('common.optional'),
+                    requiredSymbolLabel: t('common.required'),
+                  }}
                 />
                 <p className='text-sm text-neutral-500 -mt-1'>
                   {t('assessment.strategies.fields.title.remaining', {

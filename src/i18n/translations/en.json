@@ -566,6 +566,14 @@
           "mangroves": "Mangroves and shoreline systems",
           "deepSeaFloors": "Deep-sea floors"
         }
+      },
+      "checkboxListI18nLabels": {
+        "errorPrefix": "Error:",
+        "expandLabel": "Show",
+        "hideLabel": "Hide",
+        "optionalLabel": "Optional",
+        "requiredLabel": "Required.",
+        "requiredSymbolLabel": "required"
       }
     },
     "guidance": {
@@ -1107,21 +1115,6 @@
       }
     }
   },
-  "auth": {
-    "passwordPrompt": {
-      "title": "Enter password to access the diagnostic",
-      "label": "Password",
-      "caption": "Too many attempts",
-      "button": "Resume diagnostic"
-    },
-    "errors": {
-      "passwordRequired": "Password is required",
-      "incorrectPassword": "The password is incorrect or does not match this diagnostic. If the issue persists, please contact our team.",
-      "tooManyAttempts": "Too many failed attempts. Please try again in {time}.",
-      "authError": "An error occurred while authenticating. Please try again later.",
-      "networkError": "Unable to connect to the server. Please check your connection and try again."
-    }
-  },
   "errors": {
     "api": {
       "invalidEmail": "Invalid email format",
@@ -1175,6 +1168,26 @@
       "minutePlural": "{count} minutes",
       "secondSingular": "{count} second",
       "secondPlural": "{count} seconds"
+    },
+    "passwordI18nLabels": {
+      "hideLabel": "Hide",
+      "hidePasswordLabel": "Hide",
+      "lowercaseRule": "Use a lowercase letter",
+      "numberRule": "Use a number",
+      "requirementMet": "Requirement met.",
+      "requirementNotMet": "Requirement not met.",
+      "showLabel": "Show",
+      "showPasswordLabel": "Show",
+      "specialCharRule": "Use a special character",
+      "strengthMedium": "Medium",
+      "strengthPrefix": "Strength:",
+      "strengthStrong": "Strong",
+      "strengthVeryStrong": "Very strong",
+      "strengthVeryWeak": "Very weak",
+      "strengthWeak": "Weak",
+      "uppercaseRule": "Use an uppercase letter",
+      "submitButton": "Resume diagnostic",
+      "submitting": "Authenticating..."
     }
   },
   "richTextEditor": {

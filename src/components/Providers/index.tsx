@@ -12,7 +12,9 @@ const Providers = ({
   initialLanguage?: string
 }) => (
   <ChakraProvider value={designSystemStyles}>
-    <LanguageProvider initialLanguage={initialLanguage}>{children}</LanguageProvider>
+    <LanguageProvider initialLanguage={initialLanguage}>
+      {children}
+    </LanguageProvider>
   </ChakraProvider>
 )
 

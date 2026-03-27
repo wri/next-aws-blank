@@ -192,6 +192,10 @@ const GatherMaterials = () => {
             caption={t('scoping.step5.fields.sharedFolder.caption')}
             value={materials}
             onChange={(e) => setMaterials(e.target.value)}
+            labels={{
+              optionalSuffix: t('common.optional'),
+              requiredSymbolLabel: t('common.required'),
+            }}
           />
         </div>
 

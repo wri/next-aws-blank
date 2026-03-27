@@ -8,6 +8,7 @@ import { TargetGeographyType } from '@/types/assessment-setup.types'
 import {
   Button,
   CheckboxList,
+  DesignSystemLocaleProvider,
   InlineMessage,
   Select,
   Tag,
@@ -244,238 +245,253 @@ const TargetGeography = () => {
   }
 
   return (
-    <form
-      onSubmit={handleSubmit((data) => onSubmit(data, 'advance'))}
-      noValidate
-      className='pb-28'
-    >
-      <h1 className='text-3xl font-bold text-neutral-900 mb-2'>
-        {t('scoping.step1.heading')}
-      </h1>
-      <p className='text-neutral-800 mb-8'>
-        {t('scoping.step1.description')}
-      </p>
-      <p className='text-neutral-900 text-xl mb-3 font-bold'>
-        {t('scoping.step1.defineGeographicArea')}
-      </p>
-      <div className='w-96 mb-10'>
-        {/* replaces Geography type */}
-        <Controller
-          name='geographyType'
-          control={control}
-          rules={assessmentFormRules.geographyType}
-          render={({ field }) => (
-            <Select
-              label={t('scoping.step1.fields.targetScale.label')}
-              placeholder={t('scoping.step1.fields.targetScale.placeholder')}
-              defaultValue={[assessmentData.geographyType]}
-              items={geographyTypeOptions}
-              onChange={(values) => field.onChange(values[0] || '')}
-              errorMessage={errors.geographyType?.message}
-              required
-            />
-          )}
-        />
-        <Controller
-          name='country'
-          control={control}
-          render={({ field }) => (
-            <Select
-              label={t('scoping.step1.fields.country.label')}
-              placeholder={t('scoping.step1.fields.country.placeholder')}
-              defaultValue={[assessmentData.countries ?? '']}
-              items={COUNTRIES.map((country) => ({
-                value: country,
-                label: country,
-              }))}
-              onChange={(values) => field.onChange(values[0] || '')}
-            />
-          )}
-        />
-        <TextInput
-          label={t('scoping.step1.fields.subRegion.label')}
-          {...register('subRegion')}
-          defaultValue={assessmentData.subRegion}
-        />
-        <TextInput
-          label={t('scoping.step1.fields.restorationBoundary.label')}
-          caption={t('scoping.step1.fields.restorationBoundary.caption')}
-          {...register('gisUrl')}
-          defaultValue={assessmentData.gisUrl}
-        />
-      </div>
-      <p className='text-neutral-900 text-xl mb-1.5 font-bold'>
-        {t('scoping.step1.fields.ecosystems.label')}
-      </p>
-      <p className='text-neutral-900 mb-0.5'>
-        <span className='text-error-500'>*</span>{' '}
-        {t('scoping.step1.fields.ecosystems.requiredLabel')}
-      </p>
-      <p className='text-neutral-700 text-sm mb-3'>
-        <span>
-          {t('scoping.step1.fields.ecosystems.sourcePrefix')}{' '}
-          <Link
-            href='https://portals.iucn.org/library/sites/library/files/documents/2020-037-En.pdf'
-            target='_blank'
-            rel='noopener noreferrer'
-            className='underline decoration-dotted'
-          >
-            {t('scoping.step1.fields.ecosystems.sourceLink1Label')}
-          </Link>
-          ,{' '}
-          <Link
-            href='https://global-ecosystems.org/'
-            target='_blank'
-            rel='noopener noreferrer'
-            className='underline decoration-dotted'
-          >
-            {t('scoping.step1.fields.ecosystems.sourceLink2Label')}
-          </Link>
-          {t('scoping.step1.fields.ecosystems.sourceSuffix')}
-        </span>
-      </p>
-
-      <div className='mb-4 flex gap-2 items-center flex-wrap'>
-        {selectedEcosystems.map((item) => (
-          <Tag
-            key={item}
-            label={
-              allEcosystemOptions.find((option) => option.value === item)
-                ?.children ?? item
-            }
-            variant='info-grey'
-            onClose={() => {
-              setValue(
-                'ecosystems',
-                selectedEcosystems.filter((value) => value !== item),
-                {
-                  shouldDirty: true,
-                  shouldValidate: true,
-                },
-              )
-            }}
-            closable
+    <DesignSystemLocaleProvider labels={{
+      CheckboxList: {
+        errorPrefix: t('scoping.ecosystems.checkboxListI18nLabels.errorPrefix'),
+        expandLabel: t('scoping.ecosystems.checkboxListI18nLabels.expandLabel'),
+        hideLabel: t('scoping.ecosystems.checkboxListI18nLabels.hideLabel'),
+        optionalLabel: t('scoping.ecosystems.checkboxListI18nLabels.optionalLabel'),
+        requiredLabel: t('scoping.ecosystems.checkboxListI18nLabels.requiredLabel'),
+        requiredSymbolLabel: t('scoping.ecosystems.checkboxListI18nLabels.requiredSymbolLabel')
+      },
+      TextInput: {
+        optionalSuffix: t('common.optional'),
+        requiredSymbolLabel: t('common.required'), 
+      }
+    }}>
+      <form
+        onSubmit={handleSubmit((data) => onSubmit(data, 'advance'))}
+        noValidate
+        className='pb-28'
+      >
+        <h1 className='text-3xl font-bold text-neutral-900 mb-2'>
+          {t('scoping.step1.heading')}
+        </h1>
+        <p className='text-neutral-800 mb-8'>
+          {t('scoping.step1.description')}
+        </p>
+        <p className='text-neutral-900 text-xl mb-3 font-bold'>
+          {t('scoping.step1.defineGeographicArea')}
+        </p>
+        <div className='w-96 mb-10'>
+          {/* replaces Geography type */}
+          <Controller
+            name='geographyType'
+            control={control}
+            rules={assessmentFormRules.geographyType}
+            render={({ field }) => (
+              <Select
+                label={t('scoping.step1.fields.targetScale.label')}
+                placeholder={t('scoping.step1.fields.targetScale.placeholder')}
+                defaultValue={[assessmentData.geographyType]}
+                items={geographyTypeOptions}
+                onChange={(values) => field.onChange(values[0] || '')}
+                errorMessage={errors.geographyType?.message}
+                required
+              />
+            )}
           />
-        ))}
-      </div>
-
-      <Controller
-        name='ecosystems'
-        control={control}
-        rules={assessmentFormRules.ecosystems}
-        render={({ field }) => (
-          <div className='flex flex-col gap-4 w-80'>
-            <CheckboxList
-              checkboxes={terrestrialEcosystems.map((option) => ({
-                ...option,
-                checked: selectedEcosystems.includes(option.value),
-              }))}
-              label={{
-                label: t('scoping.ecosystems.terrestrial.label'),
-                name: 'all',
-                type: 'checkbox',
-              }}
-              defaultValues={
-                assessmentData.ecosystems
-                  ? JSON.parse(assessmentData.ecosystems)
-                  : []
-              }
-              onCheckedChange={(checkedByGroup) => {
-                field.onChange(
-                  mergeEcosystemSelection(
-                    field.value || [],
-                    checkedByGroup,
-                    terrestrialEcosystems?.map((option) => option.value),
-                  ),
-                )
-              }}
-              errorMessage={errors.ecosystems?.message}
-              required
-            />
-            <CheckboxList
-              checkboxes={freshwaterEcosystems.map((option) => ({
-                ...option,
-                checked: selectedEcosystems.includes(option.value),
-              }))}
-              label={{
-                label: t('scoping.ecosystems.freshwater.label'),
-                name: 'all',
-                type: 'checkbox',
-              }}
-              defaultValues={
-                assessmentData.ecosystems
-                  ? JSON.parse(assessmentData.ecosystems)
-                  : []
-              }
-              onCheckedChange={(checkedByGroup) => {
-                field.onChange(
-                  mergeEcosystemSelection(
-                    field.value || [],
-                    checkedByGroup,
-                    freshwaterEcosystems?.map((option) => option.value),
-                  ),
-                )
-              }}
-              errorMessage={errors.ecosystems?.message}
-              required
-            />
-            <CheckboxList
-              checkboxes={marineEcosystems.map((option) => ({
-                ...option,
-                checked: selectedEcosystems.includes(option.value),
-              }))}
-              label={{
-                label: t('scoping.ecosystems.marine.label'),
-                name: 'all',
-                type: 'checkbox',
-              }}
-              defaultValues={
-                assessmentData.ecosystems
-                  ? JSON.parse(assessmentData.ecosystems)
-                  : []
-              }
-              onCheckedChange={(checkedByGroup) => {
-                field.onChange(
-                  mergeEcosystemSelection(
-                    field.value || [],
-                    checkedByGroup,
-                    marineEcosystems?.map((option) => option.value),
-                  ),
-                )
-              }}
-              errorMessage={errors.ecosystems?.message}
-              required
-            />
-          </div>
-        )}
-      />
-      {errorsLength > 0 ? (
-        <div className='mt-10'>
-          <InlineMessage
-            variant='error'
-            label={t('scoping.validation.formErrors', {
-              count: errorsLength,
-              verb: errorsLength > 1 ? 'are' : 'is',
-              plural: errorsLength > 1 ? 's' : '',
-            })}
-            caption={ 
-              <div className='flex flex-col'>
-                {getErrorList().map((error: string) => (<p key={error}>{error}</p>))}
-              </div>
-            }
-            size='full-width'
+          <Controller
+            name='country'
+            control={control}
+            render={({ field }) => (
+              <Select
+                label={t('scoping.step1.fields.country.label')}
+                placeholder={t('scoping.step1.fields.country.placeholder')}
+                defaultValue={[assessmentData.countries ?? '']}
+                items={COUNTRIES.map((country) => ({
+                  value: country,
+                  label: country,
+                }))}
+                onChange={(values) => field.onChange(values[0] || '')}
+              />
+            )}
+          />
+          <TextInput
+            label={t('scoping.step1.fields.subRegion.label')}
+            {...register('subRegion')}
+            defaultValue={assessmentData.subRegion}
+          />
+          <TextInput
+            label={t('scoping.step1.fields.restorationBoundary.label')}
+            caption={t('scoping.step1.fields.restorationBoundary.caption')}
+            {...register('gisUrl')}
+            defaultValue={assessmentData.gisUrl}
           />
         </div>
-      ) : null}
-      <Button
-        className='mt-10'
-        type='submit'
-        disabled={isSubmitting}
-        loading={isSubmitting}
-      >
-        {t('scoping.common.buttons.saveAndContinue')}
-      </Button>
-    </form>
+        <p className='text-neutral-900 text-xl mb-1.5 font-bold'>
+          {t('scoping.step1.fields.ecosystems.label')}
+        </p>
+        <p className='text-neutral-900 mb-0.5'>
+          <span className='text-error-500'>*</span>{' '}
+          {t('scoping.step1.fields.ecosystems.requiredLabel')}
+        </p>
+        <p className='text-neutral-700 text-sm mb-3'>
+          <span>
+            {t('scoping.step1.fields.ecosystems.sourcePrefix')}{' '}
+            <Link
+              href='https://portals.iucn.org/library/sites/library/files/documents/2020-037-En.pdf'
+              target='_blank'
+              rel='noopener noreferrer'
+              className='underline decoration-dotted'
+            >
+              {t('scoping.step1.fields.ecosystems.sourceLink1Label')}
+            </Link>
+            ,{' '}
+            <Link
+              href='https://global-ecosystems.org/'
+              target='_blank'
+              rel='noopener noreferrer'
+              className='underline decoration-dotted'
+            >
+              {t('scoping.step1.fields.ecosystems.sourceLink2Label')}
+            </Link>
+            {t('scoping.step1.fields.ecosystems.sourceSuffix')}
+          </span>
+        </p>
+
+        <div className='mb-4 flex gap-2 items-center flex-wrap'>
+          {selectedEcosystems.map((item) => (
+            <Tag
+              key={item}
+              label={
+                allEcosystemOptions.find((option) => option.value === item)
+                  ?.children ?? item
+              }
+              variant='info-grey'
+              onClose={() => {
+                setValue(
+                  'ecosystems',
+                  selectedEcosystems.filter((value) => value !== item),
+                  {
+                    shouldDirty: true,
+                    shouldValidate: true,
+                  },
+                )
+              }}
+              closable
+            />
+          ))}
+        </div>
+
+        <Controller
+          name='ecosystems'
+          control={control}
+          rules={assessmentFormRules.ecosystems}
+          render={({ field }) => (
+            <div className='flex flex-col gap-4 w-80'>
+              <CheckboxList
+                checkboxes={terrestrialEcosystems.map((option) => ({
+                  ...option,
+                  checked: selectedEcosystems.includes(option.value),
+                }))}
+                label={{
+                  label: t('scoping.ecosystems.terrestrial.label'),
+                  name: 'all',
+                  type: 'checkbox',
+                }}
+                defaultValues={
+                  assessmentData.ecosystems
+                    ? JSON.parse(assessmentData.ecosystems)
+                    : []
+                }
+                onCheckedChange={(checkedByGroup) => {
+                  field.onChange(
+                    mergeEcosystemSelection(
+                      field.value || [],
+                      checkedByGroup,
+                      terrestrialEcosystems?.map((option) => option.value),
+                    ),
+                  )
+                }}
+                errorMessage={errors.ecosystems?.message}
+                required
+              />
+              <CheckboxList
+                checkboxes={freshwaterEcosystems.map((option) => ({
+                  ...option,
+                  checked: selectedEcosystems.includes(option.value),
+                }))}
+                label={{
+                  label: t('scoping.ecosystems.freshwater.label'),
+                  name: 'all',
+                  type: 'checkbox',
+                }}
+                defaultValues={
+                  assessmentData.ecosystems
+                    ? JSON.parse(assessmentData.ecosystems)
+                    : []
+                }
+                onCheckedChange={(checkedByGroup) => {
+                  field.onChange(
+                    mergeEcosystemSelection(
+                      field.value || [],
+                      checkedByGroup,
+                      freshwaterEcosystems?.map((option) => option.value),
+                    ),
+                  )
+                }}
+                errorMessage={errors.ecosystems?.message}
+                required
+              />
+              <CheckboxList
+                checkboxes={marineEcosystems.map((option) => ({
+                  ...option,
+                  checked: selectedEcosystems.includes(option.value),
+                }))}
+                label={{
+                  label: t('scoping.ecosystems.marine.label'),
+                  name: 'all',
+                  type: 'checkbox',
+                }}
+                defaultValues={
+                  assessmentData.ecosystems
+                    ? JSON.parse(assessmentData.ecosystems)
+                    : []
+                }
+                onCheckedChange={(checkedByGroup) => {
+                  field.onChange(
+                    mergeEcosystemSelection(
+                      field.value || [],
+                      checkedByGroup,
+                      marineEcosystems?.map((option) => option.value),
+                    ),
+                  )
+                }}
+                errorMessage={errors.ecosystems?.message}
+                required
+              />
+            </div>
+          )}
+        />
+        {errorsLength > 0 ? (
+          <div className='mt-10'>
+            <InlineMessage
+              variant='error'
+              label={t('scoping.validation.formErrors', {
+                count: errorsLength,
+                verb: errorsLength > 1 ? 'are' : 'is',
+                plural: errorsLength > 1 ? 's' : '',
+              })}
+              caption={ 
+                <div className='flex flex-col'>
+                  {getErrorList().map((error: string) => (<p key={error}>{error}</p>))}
+                </div>
+              }
+              size='full-width'
+            />
+          </div>
+        ) : null}
+        <Button
+          className='mt-10'
+          type='submit'
+          disabled={isSubmitting}
+          loading={isSubmitting}
+        >
+          {t('scoping.common.buttons.saveAndContinue')}
+        </Button>
+      </form>
+    </DesignSystemLocaleProvider>
   )
 }
 

@@ -13,6 +13,7 @@ import {
   getThemedColor,
   Select,
   RadioList,
+  DesignSystemLocaleProvider,
 } from '@worldresources/wri-design-systems'
 import { InfoIcon } from '@/components/icons'
 import { AccessDetailsModal } from '@/components/assessment/AccessDetailsModal'
@@ -160,7 +161,12 @@ export default function SetupAssessmentPage() {
   const hasErrors = Object.keys(errors).length > 0
 
   return (
-    <>
+    <DesignSystemLocaleProvider labels={{
+      TextInput: {
+        optionalSuffix: t('common.optional'),
+        requiredSymbolLabel: t('common.required'),
+      }
+    }}>
       {error && (
         <Modal
           open={true}
@@ -536,6 +542,6 @@ export default function SetupAssessmentPage() {
           }
         />
       )}
-    </>
+    </DesignSystemLocaleProvider>
   )
 }

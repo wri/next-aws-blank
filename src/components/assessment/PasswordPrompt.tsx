@@ -22,9 +22,15 @@ export function PasswordPrompt({ assessmentId }: PasswordPromptProps) {
   const t = useTranslations()
   const [password, setPassword] = useState('')
   const [isLoading, setIsLoading] = useState(false)
-  const [error, setError] = useState<string | null>(null)
   const [isRateLimited, setIsRateLimited] = useState(false)
   const [retryAfter, setRetryAfter] = useState<number>(0)
+
+  // State to track the translation key and its configuration
+  const [errorTranslation, setErrorTranslation] = useState<{
+    key: string | null
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    config?: Record<string, any>
+  }>({ key: null })
 
   // Countdown timer for rate limiting
   useEffect(() => {
@@ -38,7 +44,7 @@ export function PasswordPrompt({ assessmentId }: PasswordPromptProps) {
         const newValue = prev - 1
         if (newValue <= 0) {
           setIsRateLimited(false)
-          setError(null)
+          setErrorTranslation({ key: null })
         }
         return newValue
       })
@@ -67,7 +73,7 @@ export function PasswordPrompt({ assessmentId }: PasswordPromptProps) {
     e.preventDefault()
 
     if (!password) {
-      setError(t('passwordPrompt.errors.required'))
+      setErrorTranslation({ key: 'passwordPrompt.errors.required' })
       return
     }
 
@@ -76,7 +82,7 @@ export function PasswordPrompt({ assessmentId }: PasswordPromptProps) {
     }
 
     // Clear any existing errors
-    setError(null)
+    setErrorTranslation({ key: null })
     setIsLoading(true)
 
     try {
@@ -94,23 +100,19 @@ export function PasswordPrompt({ assessmentId }: PasswordPromptProps) {
         const retryAfterSeconds = data.retryAfter || 900 // Default to 15 minutes
         setRetryAfter(retryAfterSeconds)
         setIsRateLimited(true)
-        setError(t('passwordPrompt.errors.rateLimited', { time: formatRetryTime(retryAfterSeconds) }))
+        setErrorTranslation({ key: 'passwordPrompt.errors.rateLimited', config: { time: formatRetryTime(retryAfterSeconds) } })
         setIsLoading(false)
         return
       }
 
       if (response.status === 401) {
-        setError(
-          t('passwordPrompt.errors.incorrect'),
-        )
+        setErrorTranslation({ key: 'passwordPrompt.errors.incorrect' })
         setIsLoading(false)
         return
       }
 
       if (!response.ok) {
-        setError(
-          t('passwordPrompt.errors.generic'),
-        )
+        setErrorTranslation({ key: 'passwordPrompt.errors.generic' })
         setIsLoading(false)
         return
       }
@@ -147,9 +149,7 @@ export function PasswordPrompt({ assessmentId }: PasswordPromptProps) {
       }
     } catch (error) {
       console.warn(error);
-      setError(
-        t('passwordPrompt.errors.network'),
-      )
+      setErrorTranslation({ key: 'passwordPrompt.errors.network' })
       setIsLoading(false)
     }
   }
@@ -167,8 +167,8 @@ export function PasswordPrompt({ assessmentId }: PasswordPromptProps) {
   }) => {
     setPassword(newPassword)
     // Clear error when user starts typing again (except rate limit errors)
-    if (error && !isRateLimited) {
-      setError(null)
+    if (errorTranslation.key && !isRateLimited) {
+      setErrorTranslation({ key: null })
     }
   }
 
@@ -189,7 +189,7 @@ export function PasswordPrompt({ assessmentId }: PasswordPromptProps) {
                   {t('passwordPrompt.title')}
                 </Text>
 
-                <Box marginBottom={error ? 3 : 5}>
+                <Box marginBottom={errorTranslation.key ? 3 : 5}>
                   {isRateLimited ? (
                     <TextInput
                         caption={t('passwordPrompt.tooManyAttempts')}
@@ -201,16 +201,34 @@ export function PasswordPrompt({ assessmentId }: PasswordPromptProps) {
                       onChange={handlePasswordChange}
                       hideValidations
                       required
+                      labels={{
+                        "hideLabel": t('passwordPrompt.passwordI18nLabels.hidePasswordLabel'),
+                        "hidePasswordLabel": t('passwordPrompt.passwordI18nLabels.hidePasswordLabel'),
+                        "lowercaseRule": t('passwordPrompt.passwordI18nLabels.lowercaseRule'),
+                        "numberRule": t('passwordPrompt.passwordI18nLabels.numberRule'),
+                        "requirementMet": t('passwordPrompt.passwordI18nLabels.requirementMet'),
+                        "requirementNotMet": t('passwordPrompt.passwordI18nLabels.requirementNotMet'),
+                        "showLabel": t('passwordPrompt.passwordI18nLabels.showPasswordLabel'),
+                        "showPasswordLabel": t('passwordPrompt.passwordI18nLabels.showPasswordLabel'),
+                        "specialCharRule": t('passwordPrompt.passwordI18nLabels.specialCharRule'),
+                        "strengthMedium": t('passwordPrompt.passwordI18nLabels.strengthMedium'),
+                        "strengthPrefix": t('passwordPrompt.passwordI18nLabels.strengthPrefix'),
+                        "strengthStrong": t('passwordPrompt.passwordI18nLabels.strengthStrong'),
+                        "strengthVeryStrong": t('passwordPrompt.passwordI18nLabels.strengthVeryStrong'),
+                        "strengthVeryWeak": t('passwordPrompt.passwordI18nLabels.strengthVeryWeak'),
+                        "strengthWeak": t('passwordPrompt.passwordI18nLabels.strengthWeak'),
+                        "uppercaseRule": t('passwordPrompt.passwordI18nLabels.uppercaseRule'),
+                      }}
                     />
                   )}
                 </Box>
 
-                {error && (
+                {errorTranslation.key && (
                   <Box marginBottom={3}>
                     <InlineMessage 
                       size='full-width'
                       variant='error' 
-                      label={error}
+                      label={t(errorTranslation.key, errorTranslation.config)}
                     />
                   </Box>
                 )}

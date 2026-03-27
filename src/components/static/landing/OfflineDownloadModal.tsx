@@ -8,6 +8,7 @@ import {
   TextInput,
   Checkbox,
   InlineMessage,
+  DesignSystemLocaleProvider,
 } from '@worldresources/wri-design-systems'
 import { useTranslations } from '@/i18n/useTranslations'
 import { useLanguage } from '@/contexts/LanguageContext'
@@ -98,6 +99,12 @@ export const OfflineDownloadModal = ({
   const hasErrors = Object.keys(errors).length > 0
 
   return (
+     <DesignSystemLocaleProvider labels={{
+      TextInput: {
+        optionalSuffix: t('common.optional'),
+        requiredSymbolLabel: t('common.required'),
+      }
+    }}>
     <Modal
       open={open}
       onClose={handleClose}
@@ -201,5 +208,6 @@ export const OfflineDownloadModal = ({
         </Button>
       }
     />
+    </DesignSystemLocaleProvider>
   )
 }

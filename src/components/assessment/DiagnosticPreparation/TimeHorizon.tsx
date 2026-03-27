@@ -128,6 +128,10 @@ const TimeHorizon = () => {
           min={1}
           value={timeHorizon}
           onChange={(e) => setTimeHorizon(e.target.value)}
+          labels={{
+            optionalSuffix: t('common.optional'),
+            requiredSymbolLabel: t('common.required'),
+          }}
         />
       </div>
 

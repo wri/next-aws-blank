@@ -566,6 +566,14 @@
           "mangroves": "Manguezais e sistemas de linha de costa",
           "deepSeaFloors": "Fundos marinhos profundos"
         }
+      },
+      "checkboxListI18nLabels": {
+        "errorPrefix": "Error",
+        "expandLabel": "Mostrar",
+        "hideLabel": "Ocultar",
+        "optionalLabel": "Opcional",
+        "requiredLabel": "Obrigatório.",
+        "requiredSymbolLabel": "obrigatório"
       }
     },
     "guidance": {
@@ -1107,21 +1115,6 @@
       }
     }
   },
-  "auth": {
-    "passwordPrompt": {
-      "title": "Insira a senha para acessar o diagnóstico",
-      "label": "Senha",
-      "caption": "Muitas tentativas",
-      "button": "Retomar diagnóstico"
-    },
-    "errors": {
-      "passwordRequired": "A senha é obrigatória",
-      "incorrectPassword": "A senha está incorreta ou não coincide com este diagnóstico. Se o problema persistir, entre em contato com nossa equipe.",
-      "tooManyAttempts": "Muitas tentativas falharam. Tente novamente em {time}.",
-      "authError": "Ocorreu um erro ao autenticar. Tente novamente mais tarde.",
-      "networkError": "Não foi possível conectar ao servidor. Verifique sua conexão e tente novamente."
-    }
-  },
   "errors": {
     "api": {
       "invalidEmail": "Formato de e-mail inválido",
@@ -1175,6 +1168,26 @@
       "minutePlural": "{count} minutos",
       "secondSingular": "{count} segundo",
       "secondPlural": "{count} segundos"
+    },
+    "passwordI18nLabels": {
+      "hideLabel": "Ocultar",
+      "hidePasswordLabel": "Ocultar senha",
+      "lowercaseRule": "Usar uma letra minúscula",
+      "numberRule": "Usar um número",
+      "requirementMet": "Requisito atendido.",
+      "requirementNotMet": "Requisito não atendido.",
+      "showLabel": "Mostrar",
+      "showPasswordLabel": "Mostrar senha",
+      "specialCharRule": "Usar um caractere especial",
+      "strengthMedium": "Médio",
+      "strengthPrefix": "Força:",
+      "strengthStrong": "Forte",
+      "strengthVeryStrong": "Muito forte",
+      "strengthVeryWeak": "Muito fraco",
+      "strengthWeak": "Fraco",
+      "uppercaseRule": "Usar uma letra maiúscula",
+      "submitButton": "Retomar diagnóstico",
+      "submitting": "Autenticando..."
     }
   },
   "richTextEditor": {
