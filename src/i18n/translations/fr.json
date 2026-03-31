@@ -17,7 +17,7 @@
     },
     "loading": "Chargement...",
     "required": "Requis",
-    "optional": "Optionnel"
+    "optional": "(Optionnel)"
   },
   "navigation": {
     "brand": "Restoration Diagnostic",

@@ -17,7 +17,7 @@
     },
     "loading": "Cargando...",
     "required": "Obligatorio",
-    "optional": "Opcional"
+    "optional": "(Opcional)"
   },
   "navigation": {
     "brand": "Restoration Diagnostic",

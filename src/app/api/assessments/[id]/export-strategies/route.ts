@@ -16,11 +16,12 @@ const exportLabels: Record<
     theme: Record<string, string>
     status: Record<AnswerStatus | 'empty', string>
     response: Record<AnswerValue | 'empty', string>
+    priority: Record<string, string>
+    scale: Record<string, string>
   }
 > = {
   en: {
     headers: [
-      enTranslations.overview.exportStrategies.headers.id,
       enTranslations.overview.exportStrategies.headers.strategyTitle,
       enTranslations.overview.exportStrategies.headers.keyFactor,
       enTranslations.overview.exportStrategies.headers.priority,
@@ -52,10 +53,11 @@ const exportLabels: Record<
       [AnswerValue.NA]: enTranslations.overview.exportStrategies.response.na,
       empty: enTranslations.overview.exportStrategies.response.empty,
     },
+    priority: enTranslations.overview.exportStrategies.priority,
+    scale: enTranslations.overview.exportStrategies.scale,
   },
   es: {
     headers: [
-      esTranslations.overview.exportStrategies.headers.id,
       esTranslations.overview.exportStrategies.headers.strategyTitle,
       esTranslations.overview.exportStrategies.headers.keyFactor,
       esTranslations.overview.exportStrategies.headers.priority,
@@ -87,10 +89,11 @@ const exportLabels: Record<
       [AnswerValue.NA]: esTranslations.overview.exportStrategies.response.na,
       empty: esTranslations.overview.exportStrategies.response.empty,
     },
+    priority: esTranslations.overview.exportStrategies.priority,
+    scale: esTranslations.overview.exportStrategies.scale,
   },
   fr: {
     headers: [
-      frTranslations.overview.exportStrategies.headers.id,
       frTranslations.overview.exportStrategies.headers.strategyTitle,
       frTranslations.overview.exportStrategies.headers.keyFactor,
       frTranslations.overview.exportStrategies.headers.priority,
@@ -122,10 +125,11 @@ const exportLabels: Record<
       [AnswerValue.NA]: frTranslations.overview.exportStrategies.response.na,
       empty: frTranslations.overview.exportStrategies.response.empty,
     },
+    priority: frTranslations.overview.exportStrategies.priority,
+    scale: frTranslations.overview.exportStrategies.scale,
   },
   pt: {
     headers: [
-      ptTranslations.overview.exportStrategies.headers.id,
       ptTranslations.overview.exportStrategies.headers.strategyTitle,
       ptTranslations.overview.exportStrategies.headers.keyFactor,
       ptTranslations.overview.exportStrategies.headers.priority,
@@ -157,6 +161,8 @@ const exportLabels: Record<
       [AnswerValue.NA]: ptTranslations.overview.exportStrategies.response.na,
       empty: ptTranslations.overview.exportStrategies.response.empty,
     },
+    priority: ptTranslations.overview.exportStrategies.priority,
+    scale: ptTranslations.overview.exportStrategies.scale,
   },
 } as const
 
@@ -204,6 +210,35 @@ export async function GET(
     const questions = await getLocalizedQuestionsWithAnswers(id, language)
     const labels = exportLabels[language] || exportLabels['en']
 
+    const contributorIds = new Set<string>();
+
+    questions.forEach((question) => {
+      const strategies = question.answer?.strategies
+        ? JSON.parse(question.answer.strategies)
+        : [];
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      strategies.forEach((strategy: any) => {
+        const responsibility = strategy.responsibility
+          ? JSON.parse(strategy.responsibility)
+          : [];
+        responsibility.forEach((id: string) => contributorIds.add(id));
+      });
+    });
+
+    // get contributors names
+    let contributorMap: Record<string, string> = {};
+    if (contributorIds.size > 0) {
+      const { getContributorsByIds } = await import('@/db/queries/assessment-queries')
+      const contributors = await getContributorsByIds(Array.from(contributorIds));
+      contributorMap = contributors.reduce(
+        (map: Record<string, string>, contributor: { id: string; name: string }) => {
+          map[contributor.id] = contributor.name;
+          return map;
+        },
+        {},
+      );
+    }
+
     // Extract strategies and map to rows for file
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const rows: any[] = []
@@ -214,14 +249,25 @@ export async function GET(
 
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       strategies.forEach((strategy: any) => {
+        const responsibilityIds: string[] = strategy.responsibility
+          ? JSON.parse(strategy.responsibility)
+          : [];
+        const responsibilityNames = responsibilityIds
+          .map((id: string) => contributorMap[id] || id)
+          .join(', ');
+
+        const priorityKey = strategy.priority || 'empty'
+        const scaleKey = strategy.scale || ''
+        const statusKey = strategy.status || 'not_started'
+
         rows.push([
           strategy.title,
           question.keySuccessFactor,
-          strategy.priority,
-          strategy.scale,
+          labels.priority[priorityKey] ?? strategy.priority,
+          labels.scale[scaleKey] ?? strategy.scale,
           strategy.deadline,
-          strategy.responsibility, // Map contributor IDs to names if needed
-          strategy.status || 'not_started', // Default to 'not_started' if missing
+          responsibilityNames,
+          labels.status[statusKey as AnswerStatus | 'empty'] ?? statusKey,
           richTextToPlainText(strategy.description),
         ])
       })

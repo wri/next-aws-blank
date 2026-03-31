@@ -138,7 +138,7 @@ export function Responsibility({
     <div>
       <p className='text-neutral-900 mb-1.5'>
         {t('assessment.strategies.fields.responsibility.label')}{' '}
-        <span className='text-neutral-700'>({t('common.optional')})</span>
+        <span className='text-neutral-700'>{t('common.optional')}</span>
       </p>
 
       <Combobox.Root

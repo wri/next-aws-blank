@@ -76,6 +76,7 @@ const Strategies = ({
         scale: '',
         deadline: '',
         responsibility: '',
+        status: '', 
         priority: '',
       },
     ]
@@ -175,7 +176,7 @@ const Strategies = ({
                 <p className='text-neutral-900'>
                   {t('assessment.strategies.fields.description.label')}{' '}
                   <span className='text-neutral-700'>
-                    ({t('common.optional')})
+                    {t('common.optional')}
                   </span>
                 </p>
                 <div className='mt-1'>
@@ -191,7 +192,7 @@ const Strategies = ({
               <div className='grid grid-cols-2 gap-5'>
                 <div className='flex flex-col'>
                   <Select
-                    label={`${t('assessment.strategies.fields.scale.label')} (${t('common.optional')})`}
+                    label={`${t('assessment.strategies.fields.scale.label')} ${t('common.optional')}`}
                     placeholder={t(
                       'assessment.strategies.fields.scale.placeholder',
                     )}
@@ -206,7 +207,7 @@ const Strategies = ({
                   <p className='text-neutral-900'>
                     {t('assessment.strategies.fields.deadline.label')}{' '}
                     <span className='text-neutral-700'>
-                      ({t('common.optional')})
+                      {t('common.optional')}
                     </span>
                   </p>
                   <DatePicker
@@ -236,7 +237,7 @@ const Strategies = ({
                 </div>
                 <div className='flex flex-col'>
                   <Select
-                    label={`${t('assessment.strategies.fields.priority.label')} (${t('common.optional')})`}
+                    label={`${t('assessment.strategies.fields.priority.label')} ${t('common.optional')}`}
                     placeholder={t(
                       'assessment.strategies.fields.priority.placeholder',
                     )}

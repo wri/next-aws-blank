@@ -548,6 +548,20 @@ export async function getContributorsForAllAnswers(assessmentId: string) {
 }
 
 /**
+ * Get contributors by their IDs
+ */
+export async function getContributorsByIds(contributorIds: string[]) {
+  await initializeDatabase()
+  const contributorRepo = AppDataSource.getRepository(Contributor)
+  
+  const contributors = await contributorRepo
+    .createQueryBuilder('cr')
+    .where('cr.id IN (:...contributorIds)', { contributorIds })
+    .getMany()
+  return contributors
+}
+
+/**
  * Create a new contributor for an assessment
  * Returns existing if name already exists (case-sensitive)
  */
