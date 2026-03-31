@@ -10,41 +10,39 @@ interface ContributorsComboboxProps {
   selectedContributorIds: string[]
   allContributors: PlainContributor[]
   onContributorsChange: (contributorIds: string[]) => void
+  onContributorCreate: (name: string) => Promise<PlainContributor>
   disabled?: boolean
-  assessmentId: string
 }
 
 export function Responsibility({
   selectedContributorIds,
   allContributors,
   onContributorsChange,
+  onContributorCreate,
   disabled = false,
-  assessmentId,
 }: ContributorsComboboxProps) {
   const t = useTranslations()
   const [inputValue, setInputValue] = useState('')
-  const [localAllContributors, setLocalAllContributors] =
-    useState(allContributors)
 
-  const selectedContributors = localAllContributors.filter((c) =>
+  const selectedContributors = allContributors.filter((c) =>
     selectedContributorIds.includes(c.id),
   )
 
   // Filter available contributors by input (exclude already selected)
   const filteredContributors = useMemo(() => {
-    return localAllContributors.filter(
+    return allContributors.filter(
       (c) =>
         c.name.toLowerCase().includes(inputValue.toLowerCase()) &&
         !selectedContributorIds.includes(c.id),
     )
-  }, [localAllContributors, inputValue, selectedContributorIds])
+  }, [allContributors, inputValue, selectedContributorIds])
 
   // Check if input matches any existing contributor exactly
   const exactMatch = useMemo(() => {
-    return localAllContributors.find(
+    return allContributors.find(
       (c) => c.name.toLowerCase() === inputValue.trim().toLowerCase(),
     )
-  }, [localAllContributors, inputValue])
+  }, [allContributors, inputValue])
 
   const showCreateOption = inputValue.trim() !== '' && !exactMatch
 
@@ -81,41 +79,13 @@ export function Responsibility({
     if (!inputValue.trim()) return
 
     const name = inputValue.trim()
-    const tempId = crypto.randomUUID()
-    const tempContributor: PlainContributor = {
-      id: tempId,
-      name,
-      assessmentId,
-      createdAt: new Date().toISOString(),
-    }
-
-    setLocalAllContributors((prev) => [...prev, tempContributor])
 
     try {
-      const response = await fetch(
-        `/api/assessments/${assessmentId}/contributors`,
-        {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ name }),
-        },
-      )
-
-      if (!response.ok) {
-        throw new Error('Failed to create contributor')
-      }
-
-      const { contributor } = await response.json()
-
+      const contributor = await onContributorCreate(name)
       onContributorsChange([...selectedContributorIds, contributor.id])
       setInputValue('')
-
-      setLocalAllContributors((prev) =>
-        prev.map((c) => (c.id === tempId ? contributor : c)),
-      )
     } catch (error) {
       console.error('Failed to create contributor:', error)
-      // Error already tracked in parent component
     }
 
     return name

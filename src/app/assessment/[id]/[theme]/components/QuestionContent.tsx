@@ -43,7 +43,6 @@ export function QuestionContent({
   allContributors,
   onContributorsChange,
   onContributorCreate,
-  assessmentId,
 }: QuestionContentProps) {
   const t = useTranslations()
   const hideRationale = selectedAnswer === 'na'
@@ -120,7 +119,7 @@ export function QuestionContent({
           strategies={strategies}
           onStrategysChange={onStrategysChange}
           allContributors={allContributors}
-          assessmentId={assessmentId}
+          onContributorCreate={onContributorCreate}
         />
       )}
 

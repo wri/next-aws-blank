@@ -18,13 +18,13 @@ const Strategies = ({
   strategies,
   onStrategysChange,
   allContributors,
-  assessmentId,
+  onContributorCreate,
 }: {
   question: PlainQuestion
   strategies: string
   onStrategysChange: (value: string) => void
   allContributors: PlainContributor[]
-  assessmentId: string
+  onContributorCreate: (name: string) => Promise<PlainContributor>
 }) => {
   const t = useTranslations()
   const [showAboutModal, setShowAboutModal] = useState(false)
@@ -232,7 +232,7 @@ const Strategies = ({
                         JSON.stringify(ids),
                       )
                     }
-                    assessmentId={assessmentId}
+                    onContributorCreate={onContributorCreate}
                   />
                 </div>
                 <div className='flex flex-col'>
