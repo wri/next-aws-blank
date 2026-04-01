@@ -114,9 +114,14 @@ const Strategies = ({
           {t('assessment.strategies.exampleIntro')}
         </p>
         {question.strategyExamples ? (
-          <Text className='prose prose-sm max-w-none whitespace-pre-wrap text-neutral-800'>
-            {question.strategyExamples}
-          </Text>
+          <ul className='prose prose-sm max-w-none list-disc pl-5 space-y-2 text-neutral-800'>
+            {question.strategyExamples
+              .split(/\r?\n/)
+              .filter((line) => line.trim() !== '')
+              .map((line, index) => (
+                <li key={index}>{line.replace(/^•\s*/, '').trim()}</li>
+              ))}
+          </ul>
         ) : (
           <Text className='text-neutral-700 italic'>
             {t('assessment.guidance.empty.exampleStrategies')}

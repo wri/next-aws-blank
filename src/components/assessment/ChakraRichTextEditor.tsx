@@ -103,6 +103,10 @@ export function ChakraRichTextEditor({
     <Box
       css={{
         backgroundColor: 'white',
+        display: 'flex',
+        flexDirection: 'column',
+        flex: 1,
+        overflow: 'auto',
       }}
     >
       <RichTextEditor.Root editor={editor} labels={labels}>

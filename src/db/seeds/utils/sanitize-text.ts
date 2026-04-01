@@ -156,7 +156,9 @@ export function sanitizeText(text: string | null | undefined): string | null {
 
 /**
  * Sanitize text that contains bullet-separated list items.
- * Preserves bullet characters (•) for proper formatting in UI.
+ * Preserves and normalizes bullet characters (•) for consistent formatting.
+ * Items without a • prefix receive one, ensuring visual parity across all
+ * languages (English seed data uses plain text while translated CSVs use •).
  * Use for fields like strategyExamples that are displayed as lists.
  */
 export function sanitizeListText(text: string | null | undefined): string | null {
@@ -169,6 +171,10 @@ export function sanitizeListText(text: string | null | undefined): string | null
     .split('\n')
     .map(line => line.trim())
     .filter(line => line.length > 0)
+    // Ensure bullet prefix, then strip any stray hyphen/dash marker after it
+    // e.g. "• - Grants" or "• – item" → "• Grants" / "• item"
+    .map(line => line.startsWith('•') ? line : `• ${line}`)
+    .map(line => line.replace(/^•\s*[-–—]\s+/, '• '))
     .join('\n')
     .trim() || null
 }
@@ -200,11 +206,40 @@ export function parseFollowUpQuestions(text: string | null | undefined): string 
     'if yes': [],
     'if no': []
   }
+
+  // Patterns that indicate a "yes" follow-up question (multilingual)
+  const YES_PATTERNS = [
+    /\bif\b.*\byes\b/i,                          // English: "if yes"
+    /\bsi\b.*respuesta.*\bs[ií]\b/i,             // Spanish: "Si la respuesta es 'sí'"
+    /\bsi\b.*r[eé]ponse.*\boui\b/i,             // French: "Si la réponse est 'oui'"
+    /\bse\b.*respostar?\b.*\bsim\b/i,            // Portuguese: "Se a resposta for 'sim'"
+  ]
+
+  // Patterns that indicate a "no" follow-up question (multilingual)
+  const NO_PATTERNS = [
+    /\bif\b.*\bno\b/i,                           // English: "if no"
+    /\bsi\b.*respuesta.*\bno\b/i,                // Spanish: "Si la respuesta es 'no'"
+    /\bsi\b.*r[eé]ponse.*\bnon\b/i,             // French: "Si la réponse est 'non'"
+    /\bse\b.*respostar?\b.*\bn[ãa]o\b/i,         // Portuguese: "Se a resposta for 'não'"
+  ]
+
+  // Prefixes to strip from each question line (multilingual)
+  const PREFIX_PATTERNS = [
+    /^if\s*[""«»\u201C\u201D]?\s*(yes|no)\s*[""«»\u201C\u201D,]*\s*(then\s*)?/i,
+    /^si\s+la\s+respuesta\s+es\s*[""«»\u201C\u201D']*\s*(s[ií]|no)\s*[""«»\u201C\u201D',]*\s*/i,
+    /^si\s+la\s+r[eé]ponse\s+est\s*[""«»\u201C\u201D'«»]*\s*(oui|non)\s*[""«»\u201C\u201D',«»]*\s*/i,
+    /^se\s+a\s+respostar?\s+for\s*[""«»\u201C\u201D']*\s*(sim|n[ãa]o)\s*[""«»\u201C\u201D',]*\s*/i,
+  ]
   
   for (const line of lines) {
     const lowerLine = line.toLowerCase()
+
+    // Strip language-specific prefix to get the actual question text
     let cleanedQuestion = line
-      .replace(/^if\s*['""\u201C\u201D]?\s*(yes|no)\s*['""\u201C\u201D,]*\s*(then\s*)?/i, '')
+    for (const prefix of PREFIX_PATTERNS) {
+      cleanedQuestion = cleanedQuestion.replace(prefix, '').trim()
+    }
+    cleanedQuestion = cleanedQuestion
       .replace(/[""]/g, '"')
       .replace(/['']/g, "'")
       .trim()
@@ -212,11 +247,14 @@ export function parseFollowUpQuestions(text: string | null | undefined): string 
     if (cleanedQuestion.length > 0) {
       cleanedQuestion = cleanedQuestion.charAt(0).toUpperCase() + cleanedQuestion.slice(1)
     }
+
+    const isYes = YES_PATTERNS.some(p => p.test(lowerLine))
+    const isNo = NO_PATTERNS.some(p => p.test(lowerLine))
     
-    if (lowerLine.includes('if') && lowerLine.includes('yes')) {
-      result['if yes'].push(cleanedQuestion)
-    } else if (lowerLine.includes('if') && lowerLine.includes('no')) {
+    if (isNo) {
       result['if no'].push(cleanedQuestion)
+    } else if (isYes) {
+      result['if yes'].push(cleanedQuestion)
     } else {
       result['if yes'].push(cleanedQuestion)
     }

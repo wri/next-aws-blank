@@ -35,7 +35,7 @@ const TabsControls = () => {
   }
 
   return (
-    <div className='h-full w-screen sm:max-w-[400px] relative'>
+    <div className='h-full w-full sm:max-w-[400px] relative'>
       <div className='w-full absolute bottom-10'>
         {isOpenSheet ? (
           <Sheet

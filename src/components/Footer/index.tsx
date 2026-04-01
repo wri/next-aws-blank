@@ -37,12 +37,13 @@ export const Footer = () => {
 
   return (
     <Box css={{
-      '& > Footer': {
-        backgroundColor: getThemedColor('neutral', 100),
-        zIndex: 99,
+      '& > footer': {
+        backgroundColor: getThemedColor('neutral', 200),
+        overflow: 'hidden',
+        width: '100%',
       }
     }}>
-      <WriFooter filled additionalLogos={partnerLogos}>
+      <WriFooter fixed filled additionalLogos={partnerLogos}>
         <Link rel='noopener noreferrer' href={externalLinks.privacy} target="_blank">
           {privacyPolicy}
         </Link>

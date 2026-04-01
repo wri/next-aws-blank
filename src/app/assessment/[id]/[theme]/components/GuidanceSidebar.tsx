@@ -26,7 +26,7 @@ export function GuidanceSidebar({
   const t = useTranslations()
 
   return (
-    <aside className='bg-white w-[320px] flex-shrink-0 border-l border-slate-200'>
+    <aside className='bg-white w-[320px] flex-shrink-0 border-l border-slate-200 flex flex-col'>
       {/* Tab Navigation */}
       <TabBar
         defaultValue='guidance'
@@ -82,10 +82,7 @@ export function GuidanceSidebar({
           </Collapsible>
         </div>
       ) : (
-        <div className='p-4'>
-          <p className='text-sm text-slate-600 mb-3'>
-            {t('assessment.guidance.notesCaption')}
-          </p>
+        <div className='flex flex-col flex-1 p-4 overflow-hidden'>
           <ChakraRichTextEditor
             value={notes}
             onChange={onNotesChange}
