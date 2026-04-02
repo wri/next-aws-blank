@@ -77,6 +77,8 @@ jobs:
 
       - name: Terraform Destroy
         working-directory: terraform/infrastructure
+        env:
+          TF_VAR_image_tag: "sha-destroy-placeholder"
         run: |
           terraform destroy \
             -var-file="../environments/${{ github.event.inputs.environment }}.tfvars" \

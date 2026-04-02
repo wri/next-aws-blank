@@ -4,6 +4,7 @@ import { validateSessionCookie } from '@/utils/session'
 import { createWorkbookBuffer } from '@/utils/xlsx'
 import { AnswerStatus, AnswerValue } from '@/db/entities/Answer.entity'
 import { richTextToPlainText } from '@/utils/validation'
+import { normalizeLocale } from '@/i18n/config'
 import enTranslations from '@/i18n/translations/en.json'
 import esTranslations from '@/i18n/translations/es.json'
 import frTranslations from '@/i18n/translations/fr.json'
@@ -193,7 +194,7 @@ export async function GET(
     }
 
     const languageParam = request.nextUrl.searchParams.get('language')
-    const language = languageParam || 'en'
+    const language = normalizeLocale(languageParam)
 
     const { getAssessmentById, getLocalizedQuestionsWithAnswers } =
       await import('@/db/queries/assessment-queries')
@@ -208,7 +209,7 @@ export async function GET(
     }
 
     const questions = await getLocalizedQuestionsWithAnswers(id, language)
-    const labels = exportLabels[language] || exportLabels['en']
+    const labels = exportLabels[language]
 
     const contributorIds = new Set<string>();
 

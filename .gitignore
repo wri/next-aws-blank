@@ -62,3 +62,6 @@ next-env.d.ts
 
 # keep ai local
 .agents/
+
+# keep local tools
+.tools/

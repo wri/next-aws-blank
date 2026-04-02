@@ -99,6 +99,11 @@ variable "max_capacity" {
   default     = 4
 }
 
+variable "image_tag" {
+  description = "ECR image tag to deploy to ECS task definition"
+  type        = string
+}
+
 variable "health_check_path" {
   description = "Health check path for the ALB target group"
   type        = string

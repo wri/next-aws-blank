@@ -1,5 +1,3 @@
-import { promises as fs } from 'fs'
-import path from 'path'
 import { AppDataSource, initializeDatabase } from '../data-source'
 import { Question, Theme } from '../entities/Question.entity'
 import { Answer, AnswerValue } from '../entities/Answer.entity'
@@ -7,6 +5,15 @@ import { Assessment } from '../entities/Assessment.entity'
 import { Contributor } from '../entities/Contributor.entity'
 import { AnswerContributor } from '../entities/AnswerContributor.entity'
 import { AnswerStatus } from '@/types/answer.types'
+import {
+  defaultLocale,
+  normalizeLocale,
+  type Locale,
+} from '@/i18n/config'
+import questionTranslationsEn from '@/i18n/translations/questions-en.json'
+import questionTranslationsEs from '@/i18n/translations/questions-es.json'
+import questionTranslationsFr from '@/i18n/translations/questions-fr.json'
+import questionTranslationsPt from '@/i18n/translations/questions-pt.json'
 
 type QuestionTranslation = Partial<Pick<
   Question,
@@ -21,27 +28,14 @@ type QuestionTranslation = Partial<Pick<
   | 'theme'
 >>
 
-const QUESTION_TRANSLATION_FILES: Record<string, string> = {
-  en: 'questions-en.json',
-  es: 'questions-es.json',
-  fr: 'questions-fr.json',
-  pt: 'questions-pt.json',
-}
-
-async function loadQuestionTranslations(language: string) {
-  const filename = QUESTION_TRANSLATION_FILES[language] || QUESTION_TRANSLATION_FILES.en
-  const filePath = path.join(process.cwd(), 'src', 'i18n', 'translations', filename)
-
-  try {
-    const fileContents = await fs.readFile(filePath, 'utf8')
-    return JSON.parse(fileContents) as Record<string, QuestionTranslation>
-  } catch (error) {
-    console.error(`Failed to load question translations for ${language}:`, error)
-    if (language !== 'en') {
-      return loadQuestionTranslations('en')
-    }
-    return {}
-  }
+const QUESTION_TRANSLATIONS: Record<
+  Locale,
+  Record<string, QuestionTranslation>
+> = {
+  en: questionTranslationsEn as Record<string, QuestionTranslation>,
+  es: questionTranslationsEs as Record<string, QuestionTranslation>,
+  fr: questionTranslationsFr as Record<string, QuestionTranslation>,
+  pt: questionTranslationsPt as Record<string, QuestionTranslation>,
 }
 
 /**
@@ -157,37 +151,56 @@ export async function getLocalizedQuestionsWithAnswers(
     .addOrderBy('answer.updatedAt', 'DESC')
     .getMany()
 
-  const translations = await loadQuestionTranslations(language)
-  const fallbackTranslations =
-    language === 'en' ? translations : await loadQuestionTranslations('en')
+  const locale = normalizeLocale(language)
+  const translations = QUESTION_TRANSLATIONS[locale]
+  const fallbackTranslations = QUESTION_TRANSLATIONS[defaultLocale]
 
   return originalQuestions.map((question) => {
-    const localizedQuestion =
-      translations[question.questionCode] ||
-      fallbackTranslations[question.questionCode]
+    const localizedQuestion = translations[question.questionCode]
+    const fallbackQuestion = fallbackTranslations[question.questionCode]
 
-    if (!localizedQuestion) {
+    if (!localizedQuestion && !fallbackQuestion) {
       return question
     }
 
     return {
       ...question,
-      theme: (localizedQuestion.theme as Theme) || question.theme,
+      theme:
+        (localizedQuestion?.theme as Theme) ||
+        (fallbackQuestion?.theme as Theme) ||
+        question.theme,
       enablingCondition:
-        localizedQuestion.enablingCondition || question.enablingCondition,
+        localizedQuestion?.enablingCondition ??
+        fallbackQuestion?.enablingCondition ??
+        question.enablingCondition,
       keySuccessFactor:
-        localizedQuestion.keySuccessFactor || question.keySuccessFactor,
+        localizedQuestion?.keySuccessFactor ??
+        fallbackQuestion?.keySuccessFactor ??
+        question.keySuccessFactor,
       minimalKeySuccessFactor:
-        localizedQuestion.minimalKeySuccessFactor ||
+        localizedQuestion?.minimalKeySuccessFactor ??
+        fallbackQuestion?.minimalKeySuccessFactor ??
         question.minimalKeySuccessFactor,
-      definition: localizedQuestion.definition ?? question.definition,
-      questionText: localizedQuestion.questionText || question.questionText,
+      definition:
+        localizedQuestion?.definition ??
+        fallbackQuestion?.definition ??
+        question.definition,
+      questionText:
+        localizedQuestion?.questionText ??
+        fallbackQuestion?.questionText ??
+        question.questionText,
       considerations:
-        localizedQuestion.considerations ?? question.considerations,
+        localizedQuestion?.considerations ??
+        fallbackQuestion?.considerations ??
+        question.considerations,
       followUpQuestions:
-        localizedQuestion.followUpQuestions ?? question.followUpQuestions,
+        localizedQuestion?.followUpQuestions ??
+        fallbackQuestion?.followUpQuestions ??
+        question.followUpQuestions,
       strategyExamples:
-        localizedQuestion.strategyExamples ?? question.strategyExamples,
+        localizedQuestion?.strategyExamples ??
+        fallbackQuestion?.strategyExamples ??
+        question.strategyExamples,
     }
   })
 }
