@@ -210,7 +210,7 @@ const Strategies = ({
                 </div>
                 <div className='flex flex-col mt-1.5'>
                   <p className='text-neutral-900'>
-                    {t('assessment.strategies.fields.deadline.label')}{' '}
+                    {t('assessment.strategies.fields.estimatedStartDate.label')}{' '}
                     <span className='text-neutral-700'>
                       {t('common.optional')}
                     </span>
@@ -251,6 +251,20 @@ const Strategies = ({
                       updateStrategy(strategy.id, 'priority', vals[0] || '')
                     }
                     defaultValue={strategy.priority ? [strategy.priority] : []}
+                  />
+                </div>
+                <div>
+                  <TextInput
+                    label={`${t('assessment.strategies.fields.status.label')}`}
+                    placeholder={t('assessment.strategies.fields.status.placeholder')}
+                    value={strategy.status ?? ''}
+                    onChange={(e) =>
+                      updateStrategy(strategy.id, 'status', e.target.value)
+                    }
+                    labels={{
+                      optionalSuffix: t('common.optional'),
+                      requiredSymbolLabel: t('common.required'),
+                    }}
                   />
                 </div>
               </div>

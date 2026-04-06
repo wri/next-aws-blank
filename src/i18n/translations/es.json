@@ -787,7 +787,7 @@
           "scale": "Escala"
         },
         "noTitle": "Sin título",
-        "deadline": "Plazo {value}",
+        "estimatedStartDate": "Inicio estimado {value}",
         "ownedBy": "Responsable",
         "priorities": {
           "low": "Baja",
@@ -840,7 +840,7 @@
         "keyFactor": "Factor clave de éxito",
         "priority": "Prioridad",
         "scale": "Escala",
-        "deadline": "Fecha estimada de inicio",
+        "estimatedStartDate": "Fecha estimada de inicio",
         "responsibility": "Responsable",
         "status": "Estado",
         "description": "Descripción de la estrategia"
@@ -1014,8 +1014,8 @@
             "transboundary": "Transfronterizo (dos o más países)"
           }
         },
-        "deadline": {
-          "label": "Plazo",
+        "estimatedStartDate": {
+          "label": "Fecha estimada de inicio",
           "placeholder": "Seleccionar fecha"
         },
         "responsibility": {
@@ -1030,6 +1030,10 @@
             "medium": "Media",
             "low": "Baja"
           }
+        },
+        "status": {
+          "label": "Estado",
+          "placeholder": "Ingrese el estado actual"
         }
       },
       "actions": {
@@ -1041,10 +1045,11 @@
         "headers": {
           "strategy": "Estrategia",
           "priority": "Prioridad",
-          "scale": "Escala"
+          "scale": "Escala",
+          "status": "Estado"
         },
         "noTitle": "Sin título",
-        "due": "Vence {value}",
+        "estimatedStartDate": "Inicio estimado {value}",
         "ownedBy": "Responsable"
       },
       "modal": {

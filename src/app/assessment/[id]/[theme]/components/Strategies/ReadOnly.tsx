@@ -75,7 +75,7 @@ const StrategiesReadOnly = ({
                     <div className='flex gap-2 items-center'>
                       {row.deadline ? (
                         <p className='text-neutral-700 text-xs'>
-                          {t('assessment.strategies.readOnly.due', {
+                          {t('assessment.strategies.readOnly.estimatedStartDate', {
                             value: formatDeadline(row.deadline),
                           })}
                         </p>

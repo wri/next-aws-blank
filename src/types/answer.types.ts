@@ -10,7 +10,7 @@ export type Strategy = {
   description: string
   scale: string
   deadline: string
-  status?: AnswerStatus
+  status?: string
   responsibility: string
   priority: string
 }

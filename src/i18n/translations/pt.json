@@ -787,7 +787,7 @@
           "scale": "Escala"
         },
         "noTitle": "Sem título",
-        "deadline": "Prazo {value}",
+        "estimatedStartDate": "Início estimado {value}",
         "ownedBy": "Responsável",
         "priorities": {
           "low": "Baixa",
@@ -840,7 +840,7 @@
         "keyFactor": "Fator-Chave de Sucesso",
         "priority": "Prioridade",
         "scale": "Escala",
-        "deadline": "Data de início estimada",
+        "estimatedStartDate": "Data de início estimada",
         "responsibility": "Responsabilidade",
         "status": "Status",
         "description": "Descrição"
@@ -1014,8 +1014,8 @@
             "transboundary": "Transfronteiriço (dois ou mais países)"
           }
         },
-        "deadline": {
-          "label": "Prazo",
+        "estimatedStartDate": {
+          "label": "Data estimada de início",
           "placeholder": "Selecionar data"
         },
         "responsibility": {
@@ -1030,6 +1030,10 @@
             "medium": "Média",
             "low": "Baixa"
           }
+        },
+        "status": {
+          "label": "Estado",
+          "placeholder": "Insira o estado atual"
         }
       },
       "actions": {
@@ -1041,10 +1045,11 @@
         "headers": {
           "strategy": "Estratégia",
           "priority": "Prioridade",
-          "scale": "Escala"
+          "scale": "Escala",
+          "status": "Estado"
         },
         "noTitle": "Sem título",
-        "due": "Prazo {value}",
+        "estimatedStartDate": "Início estimado {value}",
         "ownedBy": "Responsável"
       },
       "modal": {

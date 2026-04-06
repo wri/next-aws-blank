@@ -132,7 +132,7 @@ const StrategicPlan = ({
                         <div className='flex gap-2 items-center'>
                           {row.deadline ? (
                             <p className='text-neutral-700 text-xs'>
-                              {t('overview.strategicPlan.table.deadline', {
+                              {t('overview.strategicPlan.table.estimatedStartDate', {
                                 value: formatDeadline(row.deadline),
                               })}
                             </p>

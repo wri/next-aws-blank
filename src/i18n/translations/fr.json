@@ -787,7 +787,7 @@
           "scale": "Échelle"
         },
         "noTitle": "Sans titre",
-        "deadline": "Échéance {value}",
+        "estimatedStartDate": "Début estimé {value}",
         "ownedBy": "Responsable",
         "priorities": {
           "low": "Faible",
@@ -840,7 +840,7 @@
         "keyFactor": "Facteur clé de succès",
         "priority": "Priorité",
         "scale": "Échelle",
-        "deadline": "Date de début estimée",
+        "estimatedStartDate": "Date de début estimée",
         "responsibility": "Responsabilité",
         "status": "Statut",
         "description": "Description"
@@ -1014,8 +1014,8 @@
             "transboundary": "Transfrontalier (deux pays ou plus)"
           }
         },
-        "deadline": {
-          "label": "Échéance",
+        "estimatedStartDate": {
+          "label": "Date de début estimée",
           "placeholder": "Sélectionner la date"
         },
         "responsibility": {
@@ -1030,6 +1030,10 @@
             "medium": "Moyenne",
             "low": "Faible"
           }
+        },
+        "status": {
+          "label": "Statut",
+          "placeholder": "Entrez le statut actuel"
         }
       },
       "actions": {
@@ -1041,10 +1045,11 @@
         "headers": {
           "strategy": "Stratégie",
           "priority": "Priorité",
-          "scale": "Échelle"
+          "scale": "Échelle",
+          "status": "Statut"
         },
         "noTitle": "Sans titre",
-        "due": "Échéance {value}",
+        "estimatedStartDate": "Début estimé {value}",
         "ownedBy": "Responsable"
       },
       "modal": {

@@ -787,7 +787,7 @@
           "scale": "Scale"
         },
         "noTitle": "No title",
-        "deadline": "Deadline {value}",
+        "estimatedStartDate": "Estimated start {value}",
         "ownedBy": "Owned by",
         "priorities": {
           "low": "Low",
@@ -840,7 +840,7 @@
         "keyFactor": "Key Success Factor",
         "priority": "Priority",
         "scale": "Scale",
-        "deadline": "Estimated start date",
+        "estimatedStartDate": "Estimated start date",
         "responsibility": "Responsibility",
         "status": "Status",
         "description": "Description"
@@ -1014,8 +1014,8 @@
             "transboundary": "Transboundary (two or more countries)"
           }
         },
-        "deadline": {
-          "label": "Deadline",
+        "estimatedStartDate": {
+          "label": "Estimated start date",
           "placeholder": "Select date"
         },
         "responsibility": {
@@ -1030,6 +1030,10 @@
             "medium": "Medium",
             "low": "Low"
           }
+        },
+        "status": {
+          "label": "Status",
+          "placeholder": "Enter current status"
         }
       },
       "actions": {
@@ -1041,10 +1045,11 @@
         "headers": {
           "strategy": "Strategy",
           "priority": "Priority",
-          "scale": "Scale"
+          "scale": "Scale",
+          "status": "Status"
         },
         "noTitle": "No title",
-        "due": "Due {value}",
+        "estimatedStartDate": "Estimated start {value}",
         "ownedBy": "Owned by"
       },
       "modal": {
