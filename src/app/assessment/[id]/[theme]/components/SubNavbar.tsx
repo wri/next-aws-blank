@@ -7,30 +7,34 @@ import type { AutoSaveStatus } from '@/hooks/useAutoSave'
 import type { PlainQuestion } from './ThemePageLayout'
 import Link from 'next/link'
 import { useTranslations } from '@/i18n/useTranslations'
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
+import type { ComponentProps } from 'react'
 
 interface SubNavbarProps {
   saveStatus?: AutoSaveStatus
   assessmentId: string
   questions: PlainQuestion[]
   focusQuestionCode: string
+  onOverviewClick?: () => void
 }
 
 export function SubNavbar({ 
   saveStatus = 'idle', 
   assessmentId, 
   questions, 
-  focusQuestionCode 
+  focusQuestionCode,
+  onOverviewClick,
 }: SubNavbarProps) {
   const t = useTranslations()
   const [isClient, setIsClient] = useState(false)
+  const overviewHref = `/assessment/${assessmentId}`
 
   // Find current question
   const currentQuestion = questions.find(q => q.questionCode === focusQuestionCode)
   
   // Build breadcrumb links
   const breadcrumbLinks = [
-    { label: t('navigation.overview'), link: `/assessment/${assessmentId}` },
+    { label: t('navigation.overview'), link: overviewHref },
   ]
   
   // Add current question if it exists
@@ -46,6 +50,33 @@ export function SubNavbar({
     setIsClient(true)
   }, [])
 
+  const GuardedLink = useMemo(() => {
+    return function GuardedLinkComponent({
+      href,
+      onClick,
+      ...props
+    }: ComponentProps<typeof Link>) {
+      const hrefValue =
+        typeof href === 'string' ? href : href?.toString?.() ?? ''
+
+      return (
+        <Link
+          {...props}
+          href={href}
+          onClick={(event) => {
+            if (hrefValue === overviewHref && onOverviewClick) {
+              event.preventDefault()
+              onOverviewClick()
+              return
+            }
+
+            onClick?.(event)
+          }}
+        />
+      )
+    }
+  }, [onOverviewClick, overviewHref])
+
   if (!isClient) return <div className='h-11' />
   
   return (
@@ -55,7 +86,7 @@ export function SubNavbar({
       <div className="flex items-center gap-3">
         <Breadcrumb 
           links={breadcrumbLinks}
-          linkRouter={Link}
+          linkRouter={GuardedLink}
           size="default"
         />
       </div>

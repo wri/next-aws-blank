@@ -45,6 +45,8 @@ interface QuestionViewProps {
   initialContributorsByAnswer: Array<[string, string[]]>
   onSaveStatusChange?: (status: AutoSaveStatus) => void
   onFocusChange?: (code: string) => void
+
+  onOverviewNavigateRequestChange?: (handler: (() => void) | null) => void
 }
 
 export function QuestionView({
@@ -62,6 +64,7 @@ export function QuestionView({
   initialContributorsByAnswer,
   onSaveStatusChange,
   onFocusChange,
+  onOverviewNavigateRequestChange,
 }: QuestionViewProps) {
   const router = useRouter()
   const t = useTranslations()
@@ -448,8 +451,13 @@ export function QuestionView({
   // Browser-level navigation guard (tab close, refresh, external links)
   useEffect(() => {
     const handleBeforeUnload = (e: BeforeUnloadEvent) => {
-      if (saveStatusRef.current === 'saving') {
+      if (
+        saveStatusRef.current === 'saving' ||
+        saveStatusRef.current === 'error' ||
+        contributorErrorRef.current
+      ) {
         e.preventDefault()
+        e.returnValue = ''
       }
     }
     window.addEventListener('beforeunload', handleBeforeUnload)
@@ -490,6 +498,18 @@ export function QuestionView({
     },
     [guardedNavigate, shouldTriggerCompleteGuard],
   )
+
+  const handleOverviewNavigation = useCallback(() => {
+    navigateWithCompleteGuard(() => router.push(`/assessment/${assessmentId}`))
+  }, [navigateWithCompleteGuard, router, assessmentId])
+
+  useEffect(() => {
+    onOverviewNavigateRequestChange?.(handleOverviewNavigation)
+
+    return () => {
+      onOverviewNavigateRequestChange?.(null)
+    }
+  }, [onOverviewNavigateRequestChange, handleOverviewNavigation])
 
   // Handle answer selection (immediate save)
   const handleAnswerChange = useCallback(
@@ -739,11 +759,7 @@ export function QuestionView({
               variant='borderless'
               className='text-neutral-700'
               leftIcon={<ChevronLeft className='w-3 h-3' />}
-              onClick={() =>
-                navigateWithCompleteGuard(() =>
-                  router.push(`/assessment/${assessmentId}`),
-                )
-              }
+              onClick={handleOverviewNavigation}
               style={{ paddingLeft: '0' }}
             >
               <span className='underline underline-offset-1'>
@@ -939,6 +955,22 @@ export function QuestionView({
           setShowProgressNotSavedModal(false)
           contributorErrorRef.current = false
           pendingNavigationRef.current = null
+          // Retry save immediately when user decides to stay on page.
+          save(
+            {
+              questionId: currentQuestion.id,
+              value: selectedAnswer,
+              rationale,
+              notes,
+              strategies,
+              status: isVisuallyMarkedAsComplete
+                ? AnswerStatus.COMPLETE
+                : AnswerStatus.IN_PROGRESS,
+            },
+            true,
+          ).catch(() => {
+            /* best-effort */
+          })
         }}
         onLeavePageAnyway={() => {
           setShowProgressNotSavedModal(false)

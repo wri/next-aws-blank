@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useCallback, useEffect, useMemo } from 'react'
+import { useRouter } from 'next/navigation'
 import { SubNavbar } from './SubNavbar'
 import { QuestionView } from './QuestionView'
 import type { AnswerValue } from '@/db/entities/Answer.entity'
@@ -72,8 +73,12 @@ export function ThemePageLayout({
   allContributors,
   initialContributorsByAnswer,
 }: ThemePageLayoutProps) {
+  const router = useRouter()
   const { language } = useLanguage()
   const [saveStatus, setSaveStatus] = useState<AutoSaveStatus>('idle')
+  const [overviewNavigateHandler, setOverviewNavigateHandler] = useState<
+    (() => void) | null
+  >(null)
   const localizedQuestions = useMemo(
     () => applyQuestionTranslations(questions, language),
     [questions, language],
@@ -130,6 +135,14 @@ export function ThemePageLayout({
         assessmentId={assessmentId}
         questions={localizedQuestions}
         focusQuestionCode={currentFocusCode}
+        onOverviewClick={() => {
+          if (overviewNavigateHandler) {
+            overviewNavigateHandler()
+            return
+          }
+
+          router.push(`/assessment/${assessmentId}`)
+        }}
       />
       {/* Main content with gradient background */}
       <div className='flex mx-auto w-full relative flex-1'>
@@ -148,6 +161,14 @@ export function ThemePageLayout({
           initialContributorsByAnswer={initialContributorsByAnswer}
           onSaveStatusChange={handleSaveStatusChange}
           onFocusChange={setCurrentFocusCode}
+          onOverviewNavigateRequestChange={(handler) => {
+            if (handler) {
+              setOverviewNavigateHandler(() => handler)
+              return
+            }
+
+            setOverviewNavigateHandler(null)
+          }}
         />
       </div>
     </div>

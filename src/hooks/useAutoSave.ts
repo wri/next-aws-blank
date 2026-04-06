@@ -7,6 +7,7 @@ export type AutoSaveStatus = 'idle' | 'saving' | 'saved' | 'error'
 interface UseAutoSaveOptions<T> {
   onSave: (data: T) => Promise<void>
   debounceMs?: number
+  retryDelayMs?: number
   onStatusChange?: (status: AutoSaveStatus, error: string | null) => void
 }
 
@@ -16,7 +17,12 @@ interface AutoSaveState {
   error: string | null
 }
 
-export function useAutoSave<T = unknown>({ onSave, debounceMs = 1000, onStatusChange }: UseAutoSaveOptions<T>) {
+export function useAutoSave<T = unknown>({
+  onSave,
+  debounceMs = 1000,
+  retryDelayMs = 5000,
+  onStatusChange,
+}: UseAutoSaveOptions<T>) {
   const [state, setState] = useState<AutoSaveState>({
     status: 'idle',
     lastSaved: null,
@@ -35,7 +41,7 @@ export function useAutoSave<T = unknown>({ onSave, debounceMs = 1000, onStatusCh
   }, [state.status, state.error])
   
   const timeoutRef = useRef<NodeJS.Timeout | null>(null)
-  const idleResetTimeoutRef = useRef<NodeJS.Timeout | null>(null)
+  const retryTimeoutRef = useRef<NodeJS.Timeout | null>(null)
   const pendingDataRef = useRef<T | null>(null)
   
   const save = useCallback(async (data: T, immediate = false) => {
@@ -44,14 +50,19 @@ export function useAutoSave<T = unknown>({ onSave, debounceMs = 1000, onStatusCh
       clearTimeout(timeoutRef.current)
       timeoutRef.current = null
     }
-    if (idleResetTimeoutRef.current) {
-      clearTimeout(idleResetTimeoutRef.current)
-      idleResetTimeoutRef.current = null
+    if (retryTimeoutRef.current) {
+      clearTimeout(retryTimeoutRef.current)
+      retryTimeoutRef.current = null
     }
     
     pendingDataRef.current = data
     
     const executeSave = async () => {
+      if (retryTimeoutRef.current) {
+        clearTimeout(retryTimeoutRef.current)
+        retryTimeoutRef.current = null
+      }
+
       setState(prev => ({ ...prev, status: 'saving', error: null }))
       
       try {
@@ -63,17 +74,6 @@ export function useAutoSave<T = unknown>({ onSave, debounceMs = 1000, onStatusCh
           lastSaved: new Date(),
           error: null
         })
-        
-        // Reset to idle after 2 seconds
-        idleResetTimeoutRef.current = setTimeout(() => {
-          setState(prev => {
-            if (prev.status === 'saved') {
-              return { ...prev, status: 'idle' }
-            }
-            return prev
-          })
-          idleResetTimeoutRef.current = null
-        }, 2000)
       } catch (error) {
         const errorMessage = error instanceof Error ? error.message : 'Failed to save'
         setState({
@@ -81,6 +81,14 @@ export function useAutoSave<T = unknown>({ onSave, debounceMs = 1000, onStatusCh
           lastSaved: null,
           error: errorMessage
         })
+
+        // Keep retrying in the background until save succeeds.
+        retryTimeoutRef.current = setTimeout(() => {
+          retryTimeoutRef.current = null
+          if (pendingDataRef.current !== null) {
+            void executeSave()
+          }
+        }, retryDelayMs)
       }
     }
     
@@ -89,7 +97,18 @@ export function useAutoSave<T = unknown>({ onSave, debounceMs = 1000, onStatusCh
     } else {
       timeoutRef.current = setTimeout(executeSave, debounceMs)
     }
-  }, [onSave, debounceMs])
+  }, [onSave, debounceMs, retryDelayMs])
+
+  useEffect(() => {
+    const handleOnline = () => {
+      if (state.status === 'error' && pendingDataRef.current !== null) {
+        void save(pendingDataRef.current, true)
+      }
+    }
+
+    window.addEventListener('online', handleOnline)
+    return () => window.removeEventListener('online', handleOnline)
+  }, [state.status, save])
   
   // Clear error state (used when user acknowledges error via "Continue anyway")
   const clearError = useCallback(() => {
@@ -107,8 +126,8 @@ export function useAutoSave<T = unknown>({ onSave, debounceMs = 1000, onStatusCh
       if (timeoutRef.current) {
         clearTimeout(timeoutRef.current)
       }
-      if (idleResetTimeoutRef.current) {
-        clearTimeout(idleResetTimeoutRef.current)
+      if (retryTimeoutRef.current) {
+        clearTimeout(retryTimeoutRef.current)
       }
     }
   }, [])
