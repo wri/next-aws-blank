@@ -982,7 +982,8 @@
       "field": {
         "placeholder": "Digite para buscar ou adicionar colaborador"
       },
-      "empty": "Nenhum colaborador encontrado"
+      "empty": "Nenhum colaborador encontrado",
+      "noMatches": "Nenhuma correspondência encontrada"
     },
     "strategies": {
       "heading": "Estratégias",

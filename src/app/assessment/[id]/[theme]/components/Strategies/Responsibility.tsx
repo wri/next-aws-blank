@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useMemo } from 'react'
-import { Combobox, Portal, createListCollection } from '@chakra-ui/react'
+import { Combobox, Portal, createListCollection, Box } from '@chakra-ui/react'
 import { Tag, getThemedColor } from '@worldresources/wri-design-systems'
 import { PlainContributor } from '@/types/answer.types'
 import { useTranslations } from '@/i18n/useTranslations'
@@ -162,6 +162,16 @@ export function Responsibility({
                 zIndex: 50,
               }}
             >
+              {inputValue.trim() !== '' && filteredContributors.length === 0 && (
+                <Box
+                  role='option'
+                  aria-disabled='true'
+                  aria-selected='false'
+                  css={{ padding: '8px 12px', fontSize: '14px', color: 'neutral.500' }}
+                >
+                  {t('assessment.contributors.noMatches')}
+                </Box>
+              )}
               <Combobox.ItemGroup>
                 {collectionItems.map((item) => {
                   const isCreateItem = item.value === 'CREATE_NEW'
@@ -193,17 +203,6 @@ export function Responsibility({
                   )
                 })}
               </Combobox.ItemGroup>
-              {inputValue.trim() !== '' && (
-                <Combobox.Empty
-                  css={{
-                    padding: '8px 12px',
-                    fontSize: '14px',
-                    color: 'slate.500',
-                  }}
-                >
-                  {t('assessment.contributors.empty')}
-                </Combobox.Empty>
-              )}
             </Combobox.Content>
           </Combobox.Positioner>
         </Portal>

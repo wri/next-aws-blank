@@ -982,7 +982,8 @@
       "field": {
         "placeholder": "Tapez pour rechercher ou ajouter un contributeur"
       },
-      "empty": "Aucun contributeur trouvé"
+      "empty": "Aucun contributeur trouvé",
+      "noMatches": "Aucun résultat trouvé"
     },
     "strategies": {
       "heading": "Stratégies",

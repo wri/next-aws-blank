@@ -982,7 +982,8 @@
       "field": {
         "placeholder": "Type to search or add contributor"
       },
-      "empty": "No contributors found"
+      "empty": "No contributors found",
+      "noMatches": "No matches found"
     },
     "strategies": {
       "heading": "Strategies",

@@ -237,6 +237,8 @@ export function QuestionView({
         return updated
       })
 
+      let realContributor: PlainContributor | null = null
+
       // Fire API request in background
       try {
         const response = await fetch(
@@ -253,6 +255,7 @@ export function QuestionView({
         }
 
         const { contributor } = await response.json()
+        realContributor = contributor
 
         // Replace temp ID with real ID in allContributors
         setAllContributors((prev) =>
@@ -311,8 +314,9 @@ export function QuestionView({
         })
       }
 
-      // Return temp contributor immediately for UI feedback
-      return tempContributor
+      // Return real contributor so callers (e.g. Responsibility) use the stable ID
+      // that matches allContributors. Fall back to tempContributor only if API failed.
+      return realContributor ?? tempContributor
     },
     [assessmentId, currentAnswer, ensureAnswerExists],
   )
@@ -583,7 +587,7 @@ export function QuestionView({
         // Contributors are loaded from state, no need to update here
       }
     },
-    [questions, answersCache, assessmentId, theme, router],
+    [questions, answersCache, assessmentId, theme, router, onFocusChange],
   )
 
   const handleQuestionSelect = useCallback(

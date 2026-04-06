@@ -982,7 +982,8 @@
       "field": {
         "placeholder": "Escriba para buscar o añadir colaborador"
       },
-      "empty": "No se encontraron colaboradores"
+      "empty": "No se encontraron colaboradores",
+      "noMatches": "No se encontraron coincidencias"
     },
     "strategies": {
       "heading": "Estrategias",
