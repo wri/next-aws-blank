@@ -23,6 +23,7 @@ export function ContributorsCombobox({
 }: ContributorsComboboxProps) {
   const t = useTranslations()
   const [inputValue, setInputValue] = useState('')
+  const [highlightedValue, setHighlightedValue] = useState<string | null>(null)
   
   const selectedContributors = allContributors.filter(c => 
     selectedContributorIds.includes(c.id)
@@ -54,7 +55,7 @@ export function ContributorsCombobox({
     
     // Add create option as synthetic item at the beginning
     if (showCreateOption) {
-      items.unshift({
+      items.push({
         label: `+ Create "${inputValue.trim()}"`,
         value: 'CREATE_NEW',
       })
@@ -102,6 +103,25 @@ export function ContributorsCombobox({
   const handleInputValueChange = (details: { inputValue: string }) => {
     setInputValue(details.inputValue)
   }
+
+  // Keep the first collection item highlighted whenever the list changes
+  const firstItemValue = collectionItems[0]?.value ?? null
+  if (highlightedValue !== firstItemValue) {
+    setHighlightedValue(firstItemValue)
+  }
+
+  const handleInputKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key !== 'Enter') return
+    if (filteredContributors.length > 0) {
+      const first = filteredContributors[0]
+      onContributorsChange([...selectedContributorIds, first.id])
+      setInputValue('')
+      e.preventDefault()
+    } else if (showCreateOption) {
+      handleCreate()
+      e.preventDefault()
+    }
+  }
   
   return (
     <div>
@@ -124,10 +144,13 @@ export function ContributorsCombobox({
         onValueChange={handleValueChange}
         onInputValueChange={handleInputValueChange}
         disabled={disabled}
+        highlightedValue={highlightedValue}
+        onHighlightChange={(d) => setHighlightedValue(d.highlightedValue)}
       >
         <Combobox.Control>
           <Combobox.Input
             placeholder={t('assessment.contributors.field.placeholder')}
+            onKeyDown={handleInputKeyDown}
             css={{
               backgroundColor: 'white',
               borderColor: 'neutral.300',
@@ -160,7 +183,7 @@ export function ContributorsCombobox({
                 zIndex: 50,
               }}
             >
-              {inputValue.trim() !== '' && filteredContributors.length === 0 && (
+              {filteredContributors.length === 0 && !showCreateOption && (
                 <Box
                   role='option'
                   aria-disabled='true'
