@@ -12,6 +12,7 @@ import {
 import { PlainContributor, Strategy } from '@/types/answer.types'
 import {
   formatDeadline,
+  isKnownStatus,
   sortStrategies,
 } from '@/app/assessment/[id]/[theme]/components/Strategies/utils'
 import { useState } from 'react'
@@ -37,6 +38,7 @@ interface Data {
   deadline: string
   responsibility: string
   priority: string
+  status?: string
 }
 
 const StrategicPlan = ({
@@ -106,6 +108,11 @@ const StrategicPlan = ({
                 {
                   key: 'scale',
                   label: t('overview.strategicPlan.table.headers.scale'),
+                  sortable: true,
+                },
+                {
+                  key: 'status',
+                  label: t('overview.strategicPlan.table.headers.status'),
                   sortable: true,
                 },
               ]}
@@ -184,6 +191,13 @@ const StrategicPlan = ({
                     <TableCell className='w-56'>
                       {row.scale
                         ? t(`overview.strategicPlan.table.scales.${row.scale}`)
+                        : '--'}
+                    </TableCell>
+                    <TableCell className='w-40'>
+                      {row.status
+                        ? isKnownStatus(row.status)
+                          ? t(`assessment.strategies.fields.status.options.${row.status}`)
+                          : row.status
                         : '--'}
                     </TableCell>
                   </TableRow>

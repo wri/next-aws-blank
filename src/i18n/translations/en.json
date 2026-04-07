@@ -784,7 +784,8 @@
           "strategy": "Strategy",
           "keySuccessFactor": "Key Success Factor",
           "priority": "Priority",
-          "scale": "Scale"
+          "scale": "Scale",
+          "status": "Status"
         },
         "noTitle": "No title",
         "estimatedStartDate": "Estimated start {value}",
@@ -1033,7 +1034,13 @@
         },
         "status": {
           "label": "Status",
-          "placeholder": "Enter current status"
+          "placeholder": "Select status",
+          "options": {
+            "idea": "Idea",
+            "underConstruction": "Under construction",
+            "agreed": "Agreed",
+            "notMovingForward": "Not moving forward"
+          }
         }
       },
       "actions": {

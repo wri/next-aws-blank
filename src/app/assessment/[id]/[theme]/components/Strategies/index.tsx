@@ -11,6 +11,7 @@ import clsx from 'clsx'
 import StrategiesAboutModal from './AboutModal'
 import { PlainContributor, Strategy } from '@/types/answer.types'
 import { Responsibility } from './Responsibility'
+import { isKnownStatus } from './utils'
 import { useTranslations } from '@/i18n/useTranslations'
 
 const Strategies = ({
@@ -63,6 +64,24 @@ const Strategies = ({
     {
       value: 'low',
       label: t('assessment.strategies.fields.priority.options.low'),
+    },
+  ]
+  const statusOptions = [
+    {
+      value: 'idea',
+      label: t('assessment.strategies.fields.status.options.idea'),
+    },
+    {
+      value: 'underConstruction',
+      label: t('assessment.strategies.fields.status.options.underConstruction'),
+    },
+    {
+      value: 'agreed',
+      label: t('assessment.strategies.fields.status.options.agreed'),
+    },
+    {
+      value: 'notMovingForward',
+      label: t('assessment.strategies.fields.status.options.notMovingForward'),
     },
   ]
 
@@ -254,17 +273,18 @@ const Strategies = ({
                   />
                 </div>
                 <div>
-                  <TextInput
-                    label={`${t('assessment.strategies.fields.status.label')}`}
+                  <Select
+                    label={`${t('assessment.strategies.fields.status.label')} ${t('common.optional')}`}
                     placeholder={t('assessment.strategies.fields.status.placeholder')}
-                    value={strategy.status ?? ''}
-                    onChange={(e) =>
-                      updateStrategy(strategy.id, 'status', e.target.value)
+                    items={
+                      strategy.status && !isKnownStatus(strategy.status)
+                        ? [...statusOptions, { value: strategy.status, label: strategy.status }]
+                        : statusOptions
                     }
-                    labels={{
-                      optionalSuffix: t('common.optional'),
-                      requiredSymbolLabel: t('common.required'),
-                    }}
+                    onChange={(vals) =>
+                      updateStrategy(strategy.id, 'status', vals[0] || '')
+                    }
+                    defaultValue={strategy.status ? [strategy.status] : []}
                   />
                 </div>
               </div>

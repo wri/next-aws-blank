@@ -8,6 +8,18 @@ export const formatDeadline = (deadline = '') => {
   return deadlineFormatted
 }
 
+export const KNOWN_STATUS_VALUES = [
+  'idea',
+  'underConstruction',
+  'agreed',
+  'notMovingForward',
+] as const
+
+export type KnownStatusValue = (typeof KNOWN_STATUS_VALUES)[number]
+
+export const isKnownStatus = (value: string | undefined): value is KnownStatusValue =>
+  KNOWN_STATUS_VALUES.includes(value as KnownStatusValue)
+
 export const sortStrategies = <T extends object>(
   a: T,
   b: T,

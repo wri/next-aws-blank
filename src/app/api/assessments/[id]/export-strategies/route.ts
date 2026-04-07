@@ -19,6 +19,7 @@ const exportLabels: Record<
     response: Record<AnswerValue | 'empty', string>
     priority: Record<string, string>
     scale: Record<string, string>
+    strategyStatus: Record<string, string>
   }
 > = {
   en: {
@@ -56,6 +57,7 @@ const exportLabels: Record<
     },
     priority: enTranslations.overview.exportStrategies.priority,
     scale: enTranslations.overview.exportStrategies.scale,
+    strategyStatus: enTranslations.assessment.strategies.fields.status.options,
   },
   es: {
     headers: [
@@ -92,6 +94,7 @@ const exportLabels: Record<
     },
     priority: esTranslations.overview.exportStrategies.priority,
     scale: esTranslations.overview.exportStrategies.scale,
+    strategyStatus: esTranslations.assessment.strategies.fields.status.options,
   },
   fr: {
     headers: [
@@ -128,6 +131,7 @@ const exportLabels: Record<
     },
     priority: frTranslations.overview.exportStrategies.priority,
     scale: frTranslations.overview.exportStrategies.scale,
+    strategyStatus: frTranslations.assessment.strategies.fields.status.options,
   },
   pt: {
     headers: [
@@ -164,6 +168,7 @@ const exportLabels: Record<
     },
     priority: ptTranslations.overview.exportStrategies.priority,
     scale: ptTranslations.overview.exportStrategies.scale,
+    strategyStatus: ptTranslations.assessment.strategies.fields.status.options,
   },
 } as const
 
@@ -259,7 +264,7 @@ export async function GET(
 
         const priorityKey = strategy.priority || 'empty'
         const scaleKey = strategy.scale || ''
-        const statusKey = strategy.status || 'not_started'
+        const strategyStatusKey = strategy.status || ''
 
         rows.push([
           strategy.title,
@@ -268,7 +273,9 @@ export async function GET(
           labels.scale[scaleKey] ?? strategy.scale,
           strategy.deadline,
           responsibilityNames,
-          labels.status[statusKey as AnswerStatus | 'empty'] ?? statusKey,
+          strategyStatusKey
+            ? (labels.strategyStatus as Record<string, string>)[strategyStatusKey] ?? strategyStatusKey
+            : '',
           richTextToPlainText(strategy.description),
         ])
       })

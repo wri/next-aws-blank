@@ -784,7 +784,8 @@
           "strategy": "Stratégie",
           "keySuccessFactor": "Facteur clé de succès",
           "priority": "Priorité",
-          "scale": "Échelle"
+          "scale": "Échelle",
+          "status": "Statut"
         },
         "noTitle": "Sans titre",
         "estimatedStartDate": "Début estimé {value}",
@@ -1033,7 +1034,13 @@
         },
         "status": {
           "label": "Statut",
-          "placeholder": "Entrez le statut actuel"
+          "placeholder": "Sélectionner le statut",
+          "options": {
+            "idea": "Idée",
+            "underConstruction": "En construction",
+            "agreed": "Convenu",
+            "notMovingForward": "Sans avancement"
+          }
         }
       },
       "actions": {
