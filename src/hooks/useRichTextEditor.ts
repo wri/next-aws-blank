@@ -14,6 +14,22 @@ import { Color } from '@tiptap/extension-color'
 import FontFamily from '@tiptap/extension-font-family'
 import { useEffect } from 'react'
 
+const TextStyleWithFontSize = TextStyle.extend({
+  addAttributes() {
+    return {
+      ...this.parent?.(),
+      fontSize: {
+        default: null,
+        parseHTML: (element) => element.style.fontSize || null,
+        renderHTML: (attributes) => {
+          if (!attributes.fontSize) return {}
+          return { style: `font-size: ${attributes.fontSize}` }
+        },
+      },
+    }
+  },
+})
+
 export interface UseRichTextEditorOptions {
   /**
    * Initial HTML content for the editor
@@ -83,7 +99,7 @@ export function useRichTextEditor({
       Highlight.configure({
         multicolor: true,
       }),
-      TextStyle,
+      TextStyleWithFontSize,
       Color,
       FontFamily,
     ],

@@ -69,7 +69,7 @@ const StrategiesReadOnly = ({
 
             return (
               <TableRow key={row.id}>
-                <TableCell>
+                <TableCell className='w-56'>
                   <div>
                     <p
                       className='text-neutral-800 font-bold underline decoration-dotted cursor-pointer'
@@ -119,14 +119,14 @@ const StrategiesReadOnly = ({
                     )}
                   </div>
                 </TableCell>
-                <TableCell className='w-56'>
+                <TableCell className='w-28'>
                   {row.scale
                     ? t(
                         `assessment.strategies.fields.scale.options.${row.scale}`,
                       )
                     : '--'}
                 </TableCell>
-                <TableCell className='w-40'>
+                <TableCell className='w-28'>
                   {row.status
                     ? isKnownStatus(row.status)
                       ? t(`assessment.strategies.fields.status.options.${row.status}`)
