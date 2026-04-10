@@ -2,13 +2,14 @@ import { cookies } from 'next/headers'
 import { NextRequest, NextResponse } from 'next/server'
 import { validateSessionCookie } from '@/utils/session'
 import { createWorkbookBuffer } from '@/utils/xlsx'
-import { AnswerStatus, AnswerValue } from '@/db/entities/Answer.entity'
+import { AnswerStatus } from '@/db/entities/Answer.entity'
 import { richTextToPlainText } from '@/utils/validation'
 import { normalizeLocale } from '@/i18n/config'
 import enTranslations from '@/i18n/translations/en.json'
 import esTranslations from '@/i18n/translations/es.json'
 import frTranslations from '@/i18n/translations/fr.json'
 import ptTranslations from '@/i18n/translations/pt.json'
+import { AnswerValue } from '@/types/answer.types'
 
 const exportLabels: Record<
   string,

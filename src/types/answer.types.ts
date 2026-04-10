@@ -4,6 +4,13 @@ export enum AnswerStatus {
   COMPLETE = 'complete',
 }
 
+export enum AnswerValue {
+  YES = 'yes',
+  PARTLY = 'partly',
+  NO = 'no',
+  NA = 'na',
+}
+
 export type Strategy = {
   id: string
   title: string

@@ -1,6 +1,6 @@
 'use client'
 
-import type { AnswerValue } from '@/db/entities/Answer.entity'
+import { AnswerValue } from '@/types/answer.types'
 import { useTranslations } from '@/i18n/useTranslations'
 
 interface FollowUpQuestionsProps {
@@ -8,36 +8,47 @@ interface FollowUpQuestionsProps {
   selectedAnswer: AnswerValue | null
 }
 
-export function FollowUpQuestions({ followUpQuestions, selectedAnswer }: FollowUpQuestionsProps) {
+export function FollowUpQuestions({
+  followUpQuestions = { 'if yes': [], 'if no': [] },
+  selectedAnswer,
+}: FollowUpQuestionsProps) {
   const t = useTranslations()
-  // Don't show for N/A or no answer
-  if (!selectedAnswer || selectedAnswer === 'na' || !followUpQuestions) {
+  if (!selectedAnswer) {
     return null
   }
-  
+
   // Parse follow-up questions
   let questions: string[] = []
-  
+
   // Show based on answer value
-  if (selectedAnswer === 'yes') {
-    questions = followUpQuestions['if yes'] || []
-  } else if (selectedAnswer === 'no') {
-    questions = followUpQuestions['if no'] || []
-  } else if (selectedAnswer === 'partly') {
+  if (selectedAnswer === AnswerValue.YES) {
+    questions = followUpQuestions?.['if yes'] || []
+  } else if (selectedAnswer === AnswerValue.NO) {
+    questions = followUpQuestions?.['if no'] || []
+  } else if (selectedAnswer === AnswerValue.PARTLY) {
     // Show ALL questions for partly
-    questions = [...(followUpQuestions['if yes'] || []), ...(followUpQuestions['if no'] || [])]
+    questions = [
+      ...(followUpQuestions?.['if yes'] || []),
+      ...(followUpQuestions?.['if no'] || []),
+    ]
+  } else if (selectedAnswer === AnswerValue.NA) {
+    questions = [
+      t('assessment.content.naFollowUp.whyNotApplicable'),
+      t('assessment.content.naFollowUp.notes'),
+      t('assessment.content.naFollowUp.links'),
+    ]
   }
-  
+
   if (questions.length === 0) {
     return null
   }
-  
+
   return (
-    <div className="space-y-2">
-      <p className="text-sm text-slate-600">
+    <div className='space-y-2'>
+      <p className='text-sm text-slate-600'>
         {t('assessment.content.subheadings.topicsToInclude')}
       </p>
-      <ul className="list-disc pl-5 space-y-1 text-sm text-slate-600">
+      <ul className='list-disc pl-5 space-y-1 text-sm text-slate-600'>
         {questions.map((question, index) => (
           <li key={index}>{question}</li>
         ))}

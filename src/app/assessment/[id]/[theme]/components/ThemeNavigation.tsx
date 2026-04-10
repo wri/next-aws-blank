@@ -15,10 +15,9 @@ import {
   NoAnswerIcon,
   LeadThemeIcon,
 } from '@/components/icons'
-import type { AnswerValue } from '@/db/entities/Answer.entity'
 import type { PlainQuestion, PlainAnswer } from './ThemePageLayout'
 import { Box } from '@chakra-ui/react'
-import { AnswerStatus } from '@/types/answer.types'
+import { AnswerStatus, AnswerValue } from '@/types/answer.types'
 import { useTranslations } from '@/i18n/useTranslations'
 
 interface ThemeNavigationProps {
@@ -32,12 +31,18 @@ interface ThemeNavigationProps {
   canGoNext: boolean
 }
 
-function sentenceCase(enableContidion: string) { 
-  return enableContidion.charAt(0).toUpperCase() + enableContidion.slice(1).toLowerCase();
+function sentenceCase(enableCondition: string) {
+  return (
+    enableCondition.charAt(0).toUpperCase() +
+    enableCondition.slice(1).toLowerCase()
+  )
 }
 
 // Helper to group questions by enabling condition
-function groupByEnablingCondition(questions: PlainQuestion[], fallbackLabel: string) {
+function groupByEnablingCondition(
+  questions: PlainQuestion[],
+  fallbackLabel: string,
+) {
   const grouped: Record<string, PlainQuestion[]> = {}
   questions.forEach((q) => {
     const condition = q.enablingCondition || fallbackLabel
@@ -87,7 +92,7 @@ function AnswerStatusBadge({
 
   const config: Record<AnswerValue, { label: string; icon: React.ReactNode }> =
     {
-      yes: {
+      [AnswerValue.YES]: {
         label: t('assessment.navigation.status.yes'),
         icon: (
           <YesAnswerIcon
@@ -96,7 +101,7 @@ function AnswerStatusBadge({
           />
         ),
       },
-      partly: {
+      [AnswerValue.PARTLY]: {
         label: t('assessment.navigation.status.partly'),
         icon: (
           <PartlyAnswerIcon
@@ -105,7 +110,7 @@ function AnswerStatusBadge({
           />
         ),
       },
-      no: {
+      [AnswerValue.NO]: {
         label: t('assessment.navigation.status.no'),
         icon: (
           <NoAnswerIcon
@@ -114,7 +119,7 @@ function AnswerStatusBadge({
           />
         ),
       },
-      na: {
+      [AnswerValue.NA]: {
         label: t('assessment.navigation.status.na'),
         icon: (
           <Box

@@ -16,7 +16,6 @@ import {
   EditIcon,
 } from '@/components/icons'
 import { ProgressNotSavedModal } from '@/components/assessment/ProgressNotSavedModal'
-import { type AnswerValue } from '@/db/entities/Answer.entity'
 import type { PlainQuestion, PlainAnswer } from './ThemePageLayout'
 import {
   Button,
@@ -26,7 +25,11 @@ import {
 } from '@worldresources/wri-design-systems'
 import { Box, Flex, Text } from '@chakra-ui/react'
 import { FactorPaginationContainer } from '@/components/assessment/FactorPaginationContainer'
-import { AnswerStatus, PlainContributor } from '@/types/answer.types'
+import {
+  AnswerStatus,
+  AnswerValue,
+  PlainContributor,
+} from '@/types/answer.types'
 import { hasRichTextContent } from '@/utils/validation'
 import { useTranslations } from '@/i18n/useTranslations'
 
@@ -123,9 +126,7 @@ export function QuestionView({
     setRationale(answer?.rationale || '')
     setNotes(answer?.notes || '')
     setStrategies(answer?.strategies || '[]')
-    setIsVisuallyMarkedAsComplete(
-      answer?.status === AnswerStatus.COMPLETE,
-    )
+    setIsVisuallyMarkedAsComplete(answer?.status === AnswerStatus.COMPLETE)
   }, [focusQuestionCode, questions, answersCache])
 
   const currentContributorIds =
@@ -479,10 +480,11 @@ export function QuestionView({
   }, [])
 
   const shouldTriggerCompleteGuard =
-    !isVisuallyMarkedAsComplete &&
-    selectedAnswer !== null &&
-    hasRichTextContent(rationale) &&
-    (strategies ? JSON.parse(strategies).length > 0 : false)
+    selectedAnswer !== null && selectedAnswer === AnswerValue.NA
+      ? true
+      : !isVisuallyMarkedAsComplete &&
+        selectedAnswer !== null &&
+        hasRichTextContent(rationale)
 
   const navigateWithCompleteGuard = useCallback(
     (navigateFn: () => void) => {
@@ -704,9 +706,9 @@ export function QuestionView({
   }
 
   const allowMarkAsComplete =
-    selectedAnswer !== null &&
-    hasRichTextContent(rationale) &&
-    (strategies ? JSON.parse(strategies).length > 0 : false)
+    selectedAnswer !== null && selectedAnswer === AnswerValue.NA
+      ? true
+      : selectedAnswer !== null && hasRichTextContent(rationale)
 
   const markCompleteAndContinue = async () => {
     await save(

@@ -2,12 +2,12 @@
 'use client'
 
 import { forwardRef } from 'react'
-import type { AnswerValue } from '@/db/entities/Answer.entity'
 import { YesAnswerIcon, PartlyAnswerIcon, NoAnswerIcon } from '@/components/icons'
 import { Box } from '@chakra-ui/react'
 import { Button, getThemedColor } from '@worldresources/wri-design-systems'
 import { css } from '@emotion/react'
 import { useTranslations } from '@/i18n/useTranslations'
+import { AnswerValue } from '@/types/answer.types'
 
 interface AnswerButtonProps extends React.ComponentPropsWithoutRef<typeof Button> {
   isSelected: boolean

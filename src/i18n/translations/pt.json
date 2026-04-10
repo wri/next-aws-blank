@@ -922,6 +922,11 @@
       "subheadings": {
         "topicsToInclude": "Tópicos a incluir"
       },
+      "naFollowUp": {
+        "whyNotApplicable": "Por que este fator não é aplicável ao seu contexto?",
+        "notes": "Notas sobre como você adaptou sua resposta ao seu contexto local.",
+        "links": "Links para quaisquer documentos relevantes ou referenciados."
+      },
       "placeholders": {
         "startWriting": "Comece a escrever...",
         "rationale": "Adicione sua justificativa...",
