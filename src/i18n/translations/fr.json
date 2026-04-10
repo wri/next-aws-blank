@@ -43,14 +43,15 @@
   "home": {
     "hero": {
       "title": "Outil de diagnostic de restauration",
-      "description": "Un outil d'évaluation rapide développé dans le cadre de ROAM pour évaluer la préparation de votre paysage ou géographie à la restauration et concevoir des actions stratégiques pour assurer un succès à long terme.",
+      "description": "Un outil d'évaluation rapide développé dans le cadre de ROAM pour évaluer l'état de préparation de votre paysage ou zone géographique à la restauration et concevoir des actions stratégiques afin de garantir un succès à long terme.",
       "ctaButton": "Démarrer le diagnostic",
       "roamButton": "Méthodologie ROAM"
     },
     "keyFactors": {
       "title": "Évaluez les facteurs clés du succès de la restauration",
-      "description1": "Le Diagnostic de restauration vous aide à évaluer votre géographie ou projet selon 31 facteurs clés de succès, regroupés en trois thèmes : motiver, favoriser et mettre en œuvre.",
-      "description2": "En évaluant ces domaines, vous pouvez identifier les lacunes et prioriser les actions pour renforcer les conditions d'une restauration réussie.",
+      "description1": "Le Diagnostic de Restauration vous aide à déterminer si les conditions clés pour la restauration des écosystèmes sont réunies, et ce qui pourrait manquer.",
+      "description2": "Il met en évidence les opportunités, les lacunes et les défis à travers 31 facteurs culturels, financiers, institutionnels, politiques et écologiques.",
+      "description3": "Cela vous permet de passer d'une planification globale à des stratégies ciblées et efficaces qui peuvent réussir à long terme.",
       "categories": {
         "cultural": "Culturel",
         "political": "Politique",
@@ -62,18 +63,23 @@
     },
     "targetAudience": {
       "title": "Cet outil est-il fait pour vous ?",
-      "description": "Cet outil est conçu pour les leaders et les organisations qui planifient ou coordonnent la restauration à grande échelle, notamment :",
-      "government": {
-        "label": "Gouvernement :",
-        "description": "Les décideurs politiques nationaux ou infranationaux responsables de la planification de la restauration."
+      "description1": "Cet outil est conçu pour les personnes et les organisations impliquées dans la planification, la gestion ou le développement à grande échelle de la restauration des écosystèmes. Il est principalement utilisé par les équipes techniques et les décideurs pour évaluer les conditions actuelles et identifier ce qui doit être renforcé pour permettre une mise en œuvre efficace de la restauration.",
+      "description2": "Il peut être particulièrement utile pour :",
+      "audience1": {
+        "label": "Agences gouvernementales :",
+        "description": "Décideurs nationaux et infranationaux élaborant des stratégies et des programmes de restauration."
       },
-      "coordination": {
-        "label": "Plateformes de coordination :",
-        "description": "Les gestionnaires de programmes coordonnant la restauration entre les secteurs et les parties prenantes."
+      "audience2": {
+        "label": "ONG et partenaires de développement :",
+        "description": "Organisations fournissant une assistance technique, un renforcement des capacités et un financement pour des initiatives sur le terrain."
       },
-      "support": {
-        "label": "Organisations de soutien :",
-        "description": "ONG, institutions de recherche et partenaires de la société civile soutenant les initiatives de restauration."
+      "audience3": {
+        "label": "Secteur privé et bailleurs de fonds :",
+        "description": "Entreprises investissant ou contribuant aux efforts de restauration."
+      },
+      "audience4": {
+        "label": "Partenariats à l'échelle du paysage :",
+        "description": "Plateformes multi-acteurs coordonnant la restauration dans différents secteurs."
       }
     },
     "process": {

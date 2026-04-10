@@ -23,11 +23,14 @@ export const KeyFactorsSection = () => {
           <h2 className="text-3xl lg:text-4xl font-extrabold text-gray-900 mb-6">
             {t('home.keyFactors.title')}
           </h2>
-          <p className="text-gray-600 text-base leading-relaxed mb-4">
+          <p className="text-gray-600 text-base leading-relaxed">
             {t('home.keyFactors.description1')}
           </p>
-          <p className="text-gray-600 text-base leading-relaxed">
+          <p className="text-gray-600 text-base leading-relaxed mb-4">
             {t('home.keyFactors.description2')}
+          </p>
+          <p className="text-gray-600 text-base leading-relaxed">
+            {t('home.keyFactors.description3')}
           </p>
         </div>
 

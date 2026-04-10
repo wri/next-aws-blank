@@ -43,14 +43,15 @@
   "home": {
     "hero": {
       "title": "Restoration Diagnostic Tool",
-      "description": "A rapid assessment tool developed as part of ROAM to evaluate the readiness of your landscape or geography for restoration and to design strategic actions to ensure long-term success.",
+      "description": "A rapid assessment tool developed as part of ROAM to help you evaluate whether your geography is ready for ecosystem restoration and define strategies for long-term success.",
       "ctaButton": "Start diagnostic",
       "roamButton": "ROAM methodology"
     },
     "keyFactors": {
       "title": "Assess the key factors for restoration success",
-      "description1": "The Restoration Diagnostic helps you evaluate your geography or project across 31 key factors, grouped under three themes: motivate, enable, and implement.",
-      "description2": "By assessing these areas, you can identify gaps and prioritize actions to strengthen conditions for successful restoration.",
+      "description1": "The Restoration Diagnostic helps you determine whether the key conditions for ecosystem restoration are in place—and what may be missing.",
+      "description2": "It highlights opportunities, gaps, and challenges across 31 cultural, financial, institutional, political, and ecological factors.",
+      "description3": "This enables you to move from high-level planning to focused, effective strategies that can succeed in the long-term.",
       "categories": {
         "cultural": "Cultural",
         "political": "Political",
@@ -62,27 +63,32 @@
     },
     "targetAudience": {
       "title": "Is this tool for you?",
-      "description": "This tool is designed for leaders and organizations planning or coordinating restoration at scale, including:",
-      "government": {
-        "label": "Government:",
-        "description": "National or sub-national policymakers responsible for restoration planning."
+      "description1": "This tool is designed for people and organizations involved in planning, managing, or scaling ecosystem restoration. It is primarily used by technical teams and decisionmakers to assess current conditions and identify what needs to be strengthened to enable effective restoration implementation.",
+      "description2": "It may be especially useful for:",
+      "audience1": {
+        "label": "Government agencies:",
+        "description": "National and sub-national policymakers shaping restoration strategies and programs."
       },
-      "coordination": {
-        "label": "Coordination platforms:",
-        "description": "Program managers coordinating restoration across sectors and stakeholders."
+      "audience2": {
+        "label": "NGOs and development partners:",
+        "description": "Organizations providing technical assistance, capacity building, and funding for on-the-ground initiatives."
       },
-      "support": {
-        "label": "Support organizations:",
-        "description": "NGOs, research institutions, and civil society partners supporting restoration initiatives."
+      "audience3": {
+        "label": "Private sector and funders:",
+        "description": "Companies investing in or contributing to restoration efforts."
+      },
+      "audience4": {
+        "label": "Landscape-level partnerships:",
+        "description": "Multi-stakeholder platforms coordinating restoration across sectors."
       }
     },
     "process": {
-      "title": "How does the diagnostic work?",
+      "title": "How does the diagnostic process work?",
       "description": "The Restoration Diagnostic follows a simple process and is best completed collaboratively, bringing together perspectives from stakeholders and experts.",
       "before": {
         "label": "Before you start",
         "title": "Plan your approach",
-        "description": "Plan stakeholder engagement and gather supporting materials.",
+        "description": "Plan stakeholder consultations and gather supporting materials.",
         "downloadGuide": "Download guide"
       },
       "step1": {
@@ -104,8 +110,8 @@
     "cta": {
       "title": "Get started with the diagnostic",
       "description": "Create your diagnostic to assess restoration readiness and identify priorities for action. By completing the diagnostic, you will gain:",
-      "benefit1": "A snapshot of the enabling environment for restoration in your landscape",
-      "benefit2": "A list of strategic actions to address gaps in key success factors",
+      "benefit1": "A snapshot of the enabling environment for ecosystem restoration in your geography or landscape.",
+      "benefit2": "A list of strategies to address gaps or weaknesses in key success factors",
       "benefit3": "A shared basis for discussion among stakeholders and decision-makers",
       "ctaButton": "Start diagnostic",
       "offlineTitle": "Complete offline",
