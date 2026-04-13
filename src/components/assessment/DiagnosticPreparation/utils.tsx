@@ -109,7 +109,9 @@ export const getTerrestrialEcosystems = (
   t: TranslationFunction,
 ): EcosystemOption[] => [
   {
-    children: t('scoping.ecosystems.terrestrial.types.tropicalSubtropicalForests'),
+    children: t(
+      'scoping.ecosystems.terrestrial.types.tropicalSubtropicalForests',
+    ),
     name: 'tropical-subtropical-forests',
     value: 'tropical-subtropical-forests',
   },
@@ -180,7 +182,9 @@ export const getFreshwaterEcosystems = (
   },
 ]
 
-export const getMarineEcosystems = (t: TranslationFunction): EcosystemOption[] => [
+export const getMarineEcosystems = (
+  t: TranslationFunction,
+): EcosystemOption[] => [
   {
     children: t('scoping.ecosystems.marine.types.marineShelfs'),
     name: 'marine-shelfs',
@@ -195,5 +199,15 @@ export const getMarineEcosystems = (t: TranslationFunction): EcosystemOption[] =
     children: t('scoping.ecosystems.marine.types.deepSeaFloors'),
     name: 'deep-sea-floors',
     value: 'deep-sea-floors',
+  },
+]
+
+export const getOtherEcosystems = (
+  t: TranslationFunction,
+): EcosystemOption[] => [
+  {
+    children: t('scoping.ecosystems.other.types.other'),
+    name: 'other',
+    value: 'other',
   },
 ]

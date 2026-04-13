@@ -255,7 +255,6 @@
         "woman": "Femme",
         "man": "Homme",
         "nonBinary": "Non-binaire",
-        "transgender": "Transgenre",
         "intersex": "Intersexué",
         "preferNotToSay": "Je préfère ne pas le dire",
         "identityNotListed": "Mon identité n'est pas répertoriée"
@@ -270,9 +269,10 @@
         "preferNotToSay": "Je préfère ne pas le dire"
       },
       "identityOptions": {
-        "indigenousPeoples": "Peuples autochtones",
-        "localCommunities": "Communautés locales",
-        "both": "À la fois peuples autochtones et communautés locales",
+        "indigenousPeoples": "Indigenous Peoples",
+        "localCommunities": "Communautés locales ou traditionnelles",
+        "ethnicMinority": "Groupe minoritaire ethnique, racial ou culturel",
+        "other": "Autre groupe sous-représenté",
         "preferNotToSay": "Je préfère ne pas le dire",
         "none": "Aucun de ces groupes"
       },
@@ -336,9 +336,10 @@
   "scoping": {
     "intro": {
       "heading": "Se préparer au diagnostic",
-      "description1": "Au cours de cette phase, vous aurez l'occasion de définir la portée, de choisir les méthodes d'engagement des parties prenantes, de rassembler la documentation nécessaire, de définir la géographie ou l'échelle cible, et d'esquisser vos objectifs et votre calendrier de restauration.",
+      "description1": "Au cours de cette phase, vous aurez l'occasion de définir la portée, de désigner un responsable du processus, de définir votre plan de consultation, de rassembler la documentation nécessaire, de définir la géographie ou l'échelle cible et d'esquisser vos objectifs de restauration et le calendrier des efforts.",
       "description2": "Prendre le temps de se préparer garantit que le diagnostic est ciblé, bien étayé et aligné sur votre contexte de restauration.",
-      "description3": "Cette étape comporte 2 parties :",
+      "inlineMessage": "L'outil peut être adapté au contexte, aux besoins et aux demandes de l'utilisateur.",
+      "subtitle": "Cette étape comporte 2 parties :",
       "parts": {
         "scope": {
           "title": "Définir la portée",
@@ -347,7 +348,7 @@
         "approach": {
           "title": "Planifier votre approche diagnostique",
           "badge": "Facultatif",
-          "description": "Décidez de la manière dont vous engagerez les parties prenantes et rassemblerez les documents justificatifs."
+          "description": "Décidez comment vous créerez votre plan de consultation et rassemblerez les documents justificatifs."
         }
       },
       "button": "Démarrer la préparation"
@@ -405,20 +406,15 @@
           "label": "Sous-région / Province",
           "placeholder": "Saisissez la sous-région ou la province"
         },
-        "restorationBoundary": {
-          "label": "Lien vers la limite de restauration",
-          "placeholder": "Saisissez l'URL ou le lien du fichier",
-          "optional": true,
-          "caption": "Ajoutez un lien vers un ensemble de données SIG ou un fichier de limites"
-        },
         "ecosystems": {
           "label": "Saisir les types d'écosystèmes",
           "description": "Sélectionnez tous les types d'écosystèmes présents dans votre zone cible",
-          "requiredLabel": "Sélectionnez tous les écosystèmes en cours de restauration",
+          "requiredLabel": "Sélectionnez un ou plusieurs écosystèmes en cours de restauration",
           "sourcePrefix": "Types d'écosystèmes basés sur la",
           "sourceLink1Label": "Typologie mondiale des écosystèmes de l'UICN 2.0",
           "sourceLink2Label": "Global Ecosystem",
-          "sourceSuffix": "."
+          "sourceSuffix": ".",
+          "inlineMessage": "La liste des écosystèmes ci-dessous est indicative."
         }
       }
     },
@@ -448,12 +444,15 @@
     },
     "step4": {
       "heading": "Définir la stratégie d'engagement",
-      "description": "Vous engagerez les parties prenantes à différentes étapes du diagnostic. Examinez les approches suggérées ci-dessous et planifiez la manière dont vous les impliquerez. Vous pouvez esquisser votre stratégie ci-dessous.",
-      "suggestedApproachesHeading": "Approches d'engagement suggérées",
+      "description1": "Vous engagerez les parties prenantes à différentes étapes du diagnostic pour recueillir et vérifier des informations. Cette étape vous aide à planifier comment recueillir les contributions et les perspectives pour éclairer votre analyse.",
+      "description2": "Concentrez-vous sur la définition de votre approche de consultation pour l'avenir, plutôt que sur la documentation des consultations passées. À ce stade, votre plan peut être simple et flexible, et être affiné au fur et à mesure que le processus évolue.",
+      "description3": "Examinez les approches suggérées ci-dessous et déterminez ce qui fonctionne le mieux dans votre contexte. Ce sont des exemples que vous pouvez utiliser, adapter, combiner ou développer. Vous pouvez choisir une ou plusieurs méthodes.",
+      "suggestedApproachesHeading": "Comment allez-vous organiser la participation ?",
+      "suggestedApproachesDescription": "Les approches suggérées ci-dessous sont fournies à titre indicatif. Vous pouvez sélectionner et adapter les méthodes qui correspondent le mieux à votre contexte et à vos parties prenantes.",
       "accordions": {
         "participatory": {
           "title": "Ateliers participatifs",
-          "content": "<ul><li>Organiser un atelier d'une demi-journée ou d'une journée entière (virtuel ou en personne)</li><li>Utiliser une facilitation structurée pour guider les réponses</li><li>Idéal lorsque le temps est limité et que la participation est souhaitée</li></ul>",
+          "content": "<ul><li>Organisez un atelier d'une demi-journée ou d'une journée complète (virtuel ou en personne)</li><li>Impliquez diverses parties prenantes, en veillant à ce que tous les groupes, y compris les organisations communautaires, soient pris en compte.</li><li>Utilisez une facilitation structurée pour guider les discussions et les réponses</li><li>Envisagez différents formats :<ul><li>Par groupe de parties prenantes (ex. : communautés, gouvernement, groupes de genre, peuples autochtones)</li><li>Tous les participants ensemble (plus rapide, mais peut limiter la diversité des contributions)</li><li>Rotation par thème (les participants tournent sur différents sujets)</li></ul></li></ul>",
           "items": [
             "Réunir diverses parties prenantes pour discuter et répondre aux questions de manière collaborative",
             "Facilite le dialogue et garantit la prise en compte de perspectives multiples",
@@ -462,7 +461,7 @@
         },
         "interviews": {
           "title": "Entretiens / groupes de discussion",
-          "content": "<ul><li>Entretiens semi-structurés avec des acteurs clés</li><li>Utile pour les sujets sensibles (ex: insécurité foncière, défis de gouvernance)</li></ul>",
+          "content": "<ul><li>Menez des entretiens semi-structurés avec des acteurs clés</li><li>Utilisez des groupes de discussion pour recueillir les points de vue de groupes de parties prenantes spécifiques</li><li>Utile pour les sujets sensibles (ex. : régime foncier, défis de gouvernance)</li><li>Aide à garantir l'inclusion de voix qui pourraient ne pas s'exprimer ouvertement dans des cadres plus larges</li></ul>",
           "items": [
             "Mener des discussions individuelles ou en petits groupes avec des informateurs clés",
             "Permet une exploration approfondie de sujets spécifiques",
@@ -471,7 +470,7 @@
         },
         "distributed": {
           "title": "Réalisation distribuée",
-          "content": "<ul><li>Partager la feuille de travail de l'étape 2 avec les parties prenantes</li><li>Leur demander de remplir les sections correspondant à leur expertise</li><li>Coordonner la synthèse et la discussion par la suite</li></ul>",
+          "content": "<ul><li>Partagez les facteurs clés avec les parties prenantes concernées</li><li>Invitez à la discussion et aux contributions en fonction de leur expertise</li><li>Encouragez la synthèse des perspectives pour éclairer l'analyse</li></ul>",
           "items": [
             "Partager le diagnostic avec les parties prenantes pour qu'elles le remplissent de manière indépendante",
             "Permet à chacun de répondre à son propre rythme",
@@ -481,7 +480,7 @@
       },
       "fields": {
         "notes": {
-          "label": "Notes sur la stratégie d'engagement",
+          "label": "Notes sur le plan de consultation",
           "placeholder": "Ajoutez des notes sur votre approche d'engagement...",
           "optional": true
         }
@@ -489,8 +488,9 @@
     },
     "step5": {
       "heading": "Rassembler les documents justificatifs",
-      "description": "Avant de commencer le diagnostic, il est utile de rassembler les documents clés et les sources de données afin de s'y référer comme preuves. Nous recommandons de les organiser dans un dossier partagé afin que tous les contributeurs puissent accéder aux mêmes preuves pendant le diagnostic.",
-      "suggestedDocumentationHeading": "Documentation suggérée",
+      "description1": "Avant de commencer le diagnostic, rassemblez les documents clés, les sources de données et les analyses existantes qui appuieront vos réponses. Ces documents serviront de preuves lors de l'évaluation et contribueront à assurer la cohérence entre les contributeurs.",
+      "description2": "Vous pouvez télécharger ou lier des documents, ou simplement décrire les sources sur lesquelles vous vous appuierez, telles qu'une recherche documentaire, les contributions des parties prenantes ou d'autres sources. Cette section est facultative mais fortement recommandée pour améliorer la qualité et la crédibilité des réponses.",
+      "suggestedDocumentationHeading": "Exemples de documents auxquels vous pouvez vous référer :",
       "accordions": {
         "policy": {
           "title": "Contexte politique et juridique",
@@ -534,7 +534,7 @@
           "label": "Lien du dossier partagé",
           "placeholder": "Saisissez l'URL du dossier partagé (ex: Google Drive, Dropbox)",
           "optional": true,
-          "caption": "Ce lien sera visible par toute personne à qui vous donnez accès au diagnostic. Assurez-vous que tous les intervenants ont l'autorisation de consulter le dossier."
+          "caption": "Ajoutez un lien vers un dossier partagé ou des documents (ex. : Google Drive, SharePoint). Cela permet de s'assurer que tous les contributeurs peuvent accéder aux mêmes preuves pendant le diagnostic. Si aucun dossier partagé n'est disponible, vous pouvez toujours continuer en utilisant d'autres sources (ex. : recherche documentaire, avis d'experts)."
         }
       }
     },
@@ -573,6 +573,12 @@
           "deepSeaFloors": "Fonds marins profonds"
         }
       },
+      "other": {
+        "label": "Autre",
+        "types": {
+          "other": "Autre"
+        }
+      },
       "checkboxListI18nLabels": {
         "errorPrefix": "Erreur",
         "expandLabel": "Afficher",
@@ -586,11 +592,11 @@
       "step1": {
         "whySetTargetGeography": {
           "title": "Pourquoi définir la géographie cible",
-          "content": "La définition de la portée géographique permet de s'assurer que vos réponses au diagnostic sont pertinentes par rapport au contexte et que les recommandations peuvent être adaptées à votre paysage ou juridiction spécifique. Cela aide également à identifier les parties prenantes à engager et les sources de données les plus applicables."
+          "content": "La zone géographique détermine quels écosystèmes/paysages et échelles sont évalués, quelles parties prenantes sont impliquées et quelles options de restauration sont considérées."
         },
         "howToDoIt": {
           "title": "Comment faire",
-          "content": "Commencez par identifier la limite administrative ou écologique de votre zone de restauration. Déterminez si votre objectif est la politique nationale, une juridiction infranationale, un paysage spécifique ou un site individuel. Sélectionnez tous les types d'écosystèmes présents dans votre zone cible pour guider vos réponses aux questions spécifiques aux écosystèmes."
+          "content": "Regroupez les zones ayant des conditions écologiques et socio-économiques similaires. Évitez de diviser les zones écologiquement similaires en diagnostics distincts, en séparant plutôt les zones qui diffèrent clairement par leur écologie, leur utilisation des terres ou leur gouvernance."
         }
       },
       "step2": {
@@ -615,8 +621,8 @@
       },
       "step4": {
         "designingEngagement": {
-          "title": "Concevoir l'engagement des parties prenantes",
-          "content": "Un engagement efficace des parties prenantes garantit que diverses perspectives sont incluses dans le diagnostic. Réfléchissez aux personnes à impliquer, notamment les agences gouvernementales, les communautés locales, les peuples autochtones, les organisations de la société civile et les acteurs du secteur privé."
+          "title": "Création de votre plan de consultation",
+          "content": "Commencez par cartographier le paysage social autour de la restauration : qui sont les utilisateurs, qui est concerné et qui a de l'influence. Identifiez les besoins, les motivations et les relations des parties prenantes pour comprendre où des frictions ou des alignements peuvent se produire. Utilisez ces informations pour concevoir des points de contact d'engagement (ateliers, entretiens, boucles de rétroaction) qui sont inclusifs, itératifs et adaptés au contexte. Traitez les parties prenantes comme des co-concepteurs, et pas seulement comme des sources de données, afin d'améliorer la convivialité, la pertinence et l'adoption de l'outil."
         },
         "ensuringInclusion": {
           "title": "Garantir l'inclusion et l'équité",
@@ -632,11 +638,11 @@
       "step5": {
         "preparingEvidence": {
           "title": "Préparer vos preuves",
-          "content": "<p>Le diagnostic vous demande d'évaluer si les conditions favorables clés sont réunies. Pour répondre avec assurance et cohérence, vous devrez vous référer aux documents, sources de données et documents de politique existants.</p><p>Veuillez noter que les preuves peuvent être collectées tout au long du processus, si nécessaire.</p>"
+          "content": "<p>Le diagnostic vous aide à évaluer si les facteurs clés sont en place. Pour répondre avec confiance et cohérence, vous pouvez vous référer aux preuves disponibles telles que les documents de politique, les sources de données ou les analyses antérieures (ex. : recherches documentaires).</p><p>Il n'est pas nécessaire de télécharger les preuves dans l'outil. Les preuves peuvent également être recueillies tout au long du processus, si nécessaire.</p>"
         },
         "organizingAccess": {
           "title": "Organiser l'accès aux documents",
-          "content": "Ajoutez des liens vers un dossier partagé ou des documents individuels stockés en ligne (par exemple, sur un disque partagé ou une plateforme de documents). Cela permet à toutes les personnes impliquées d'accéder rapidement aux mêmes informations pendant les ateliers ou la réalisation distribuée."
+          "content": "Ajoutez des liens vers un dossier partagé ou des documents individuels stockés en ligne (par exemple, sur un lecteur partagé ou une plateforme de documents). Cela garantit que toutes les personnes impliquées peuvent accéder rapidement aux mêmes informations lors des ateliers ou de la participation collaborative."
         }
       }
     },
@@ -681,7 +687,7 @@
         "description": "L'écran d'aperçu montre vos progrès pour chaque thème.",
         "cards": {
           "motivate": "Motiver ({count} questions)",
-          "enable": "Favoriser ({count} questions)",
+          "enable": "Habiliter ({count} questions)",
           "implement": "Mettre en œuvre ({count} questions)"
         }
       },

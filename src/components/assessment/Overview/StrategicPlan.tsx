@@ -20,6 +20,7 @@ import StrategiesReadOnlyModal from '@/app/assessment/[id]/[theme]/components/St
 import Link from 'next/link'
 import { useTranslations } from '@/i18n/useTranslations'
 import ExportStrategies from './ExportStrategies'
+import StrategiesAboutModal from '@/app/assessment/[id]/[theme]/components/Strategies/AboutModal'
 
 interface StrategicPlanProps {
   assessmentId: string
@@ -47,6 +48,7 @@ const StrategicPlan = ({
   allContributors,
 }: StrategicPlanProps) => {
   const [strategyDetails, setStrategyDetails] = useState<Data | undefined>()
+  const [showAboutModal, setShowAboutModal] = useState(false)
   const t = useTranslations()
 
   const orderedQuestions = questions
@@ -76,12 +78,17 @@ const StrategicPlan = ({
         <SectionTitle
           index={3}
           title={t('overview.strategicPlan.sectionTitle')}
-          actionButton={data.length > 0 ? <ExportStrategies assessmentId={assessmentId} /> : null}
+          actionButton={
+            data.length > 0 ? (
+              <ExportStrategies assessmentId={assessmentId} />
+            ) : null
+          }
         />
         <CardContainer
           title={t('overview.strategicPlan.title')}
           caption={t('overview.strategicPlan.caption')}
           hideLabel={t('overview.scope.labels.table')}
+          onAboutClick={() => setShowAboutModal(true)}
           noHorizontalPadding
           noPaddingBottom
         >
@@ -139,9 +146,12 @@ const StrategicPlan = ({
                         <div className='flex gap-2 items-center'>
                           {row.deadline ? (
                             <p className='text-neutral-700 text-xs'>
-                              {t('overview.strategicPlan.table.estimatedStartDate', {
-                                value: formatDeadline(row.deadline),
-                              })}
+                              {t(
+                                'overview.strategicPlan.table.estimatedStartDate',
+                                {
+                                  value: formatDeadline(row.deadline),
+                                },
+                              )}
                             </p>
                           ) : (
                             ''
@@ -196,7 +206,9 @@ const StrategicPlan = ({
                     <TableCell className='w-40'>
                       {row.status
                         ? isKnownStatus(row.status)
-                          ? t(`assessment.strategies.fields.status.options.${row.status}`)
+                          ? t(
+                              `assessment.strategies.fields.status.options.${row.status}`,
+                            )
                           : row.status
                         : '--'}
                     </TableCell>
@@ -206,6 +218,7 @@ const StrategicPlan = ({
               onSortColumn={({ key, order }) => {
                 data.sort((a, b) => sortStrategies(a, b, key as string, order))
               }}
+              variant='full-width'
             />
           ) : (
             <div className='flex flex-col items-center gap-2 py-10 bg-neutral-200'>
@@ -219,6 +232,11 @@ const StrategicPlan = ({
           )}
         </CardContainer>
       </div>
+
+      <StrategiesAboutModal
+        open={showAboutModal}
+        onClose={() => setShowAboutModal(false)}
+      />
 
       <StrategiesReadOnlyModal
         strategy={strategyDetails as Strategy | undefined}

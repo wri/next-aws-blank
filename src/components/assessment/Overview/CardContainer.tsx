@@ -1,7 +1,7 @@
 'use client'
 
 import { Button, Tag } from '@worldresources/wri-design-systems'
-import { ChevronDownIcon, EditIcon } from '../../icons'
+import { ChevronDownIcon, EditIcon, InfoIcon } from '../../icons'
 import { Collapsible } from '@chakra-ui/react'
 import { useState } from 'react'
 import { TrailingIcon } from '../../icons/Trailing'
@@ -20,6 +20,7 @@ const CardContainer = ({
   tag,
   openByDefault,
   noPaddingBottom,
+  onAboutClick,
 }: {
   title: string
   caption?: string
@@ -32,6 +33,7 @@ const CardContainer = ({
   tag?: string
   openByDefault?: boolean
   noPaddingBottom?: boolean
+  onAboutClick?: () => void
 }) => {
   const [open, setOpen] = useState(openByDefault || false)
   const t = useTranslations()
@@ -64,6 +66,15 @@ const CardContainer = ({
           <div className='flex flex-col'>
             <div className='flex items-center gap-2'>
               <p className='text-2xl font-bold text-neutral-900'>{title}</p>
+              {onAboutClick ? (
+                <Button
+                  variant='borderless'
+                  size='small'
+                  rightIcon={<InfoIcon />}
+                  label={t('assessment.strategies.actions.about')}
+                  onClick={onAboutClick}
+                />
+              ) : null}
               {tag ? (
                 <Tag label={tag} variant={tagVariant} size='small' />
               ) : null}

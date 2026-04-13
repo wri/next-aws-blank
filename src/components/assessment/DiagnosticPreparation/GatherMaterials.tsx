@@ -148,8 +148,11 @@ const GatherMaterials = () => {
         <h1 className='text-3xl font-bold text-neutral-900 mb-2'>
           {t('scoping.step5.heading')}
         </h1>
+        <p className='text-neutral-800 mb-2'>
+          {t('scoping.step5.description1')}
+        </p>
         <p className='text-neutral-800 mb-8'>
-          {t('scoping.step5.description')}
+          {t('scoping.step5.description2')}
         </p>
 
         <div className='mb-10'>

@@ -55,7 +55,6 @@ export default function SetupAssessmentPage() {
     { label: t('forms.setup.genderOptions.woman'), value: 'woman' },
     { label: t('forms.setup.genderOptions.man'), value: 'man' },
     { label: t('forms.setup.genderOptions.nonBinary'), value: 'non_binary' },
-    { label: t('forms.setup.genderOptions.transgender'), value: 'transgender' },
     { label: t('forms.setup.genderOptions.intersex'), value: 'intersex' },
     {
       label: t('forms.setup.genderOptions.preferNotToSay'),
@@ -87,7 +86,14 @@ export default function SetupAssessmentPage() {
       value: 'local_communities',
       children: t('forms.setup.identityOptions.localCommunities'),
     },
-    { value: 'both', children: t('forms.setup.identityOptions.both') },
+    {
+      value: 'ethnic_minority',
+      children: t('forms.setup.identityOptions.ethnicMinority'),
+    },
+    {
+      value: 'other',
+      children: t('forms.setup.identityOptions.other'),
+    },
     {
       value: 'prefer_not_to_say',
       children: t('forms.setup.identityOptions.preferNotToSay'),

@@ -7,6 +7,7 @@ import type { AssessmentSetupFormData } from '@/types/assessment-setup.types'
 import { TargetGeographyType } from '@/types/assessment-setup.types'
 import {
   Button,
+  Checkbox,
   CheckboxList,
   DesignSystemLocaleProvider,
   InlineMessage,
@@ -20,6 +21,7 @@ import { Controller, useForm } from 'react-hook-form'
 import {
   getFreshwaterEcosystems,
   getMarineEcosystems,
+  getOtherEcosystems,
   getTerrestrialEcosystems,
 } from './utils'
 import { PREPARATION_STEPS } from '@/constants'
@@ -145,10 +147,12 @@ const TargetGeography = () => {
   const terrestrialEcosystems = getTerrestrialEcosystems(t)
   const freshwaterEcosystems = getFreshwaterEcosystems(t)
   const marineEcosystems = getMarineEcosystems(t)
+  const otherEcosystems = getOtherEcosystems(t)
   const allEcosystemOptions = [
     ...terrestrialEcosystems,
     ...freshwaterEcosystems,
     ...marineEcosystems,
+    ...otherEcosystems,
   ]
   const geographyTypeOptions = [
     {
@@ -229,9 +233,7 @@ const TargetGeography = () => {
         errorMessages.push(`• ${t('scoping.validation.ecosystems.summary')}`)
       }
       if (key === 'geographyType' && error?.message) {
-        errorMessages.push(
-          `• ${t('scoping.validation.targetScale.summary')}`,
-        )
+        errorMessages.push(`• ${t('scoping.validation.targetScale.summary')}`)
       }
     })
 
@@ -245,20 +247,32 @@ const TargetGeography = () => {
   }
 
   return (
-    <DesignSystemLocaleProvider labels={{
-      CheckboxList: {
-        errorPrefix: t('scoping.ecosystems.checkboxListI18nLabels.errorPrefix'),
-        expandLabel: t('scoping.ecosystems.checkboxListI18nLabels.expandLabel'),
-        hideLabel: t('scoping.ecosystems.checkboxListI18nLabels.hideLabel'),
-        optionalLabel: t('scoping.ecosystems.checkboxListI18nLabels.optionalLabel'),
-        requiredLabel: t('scoping.ecosystems.checkboxListI18nLabels.requiredLabel'),
-        requiredSymbolLabel: t('scoping.ecosystems.checkboxListI18nLabels.requiredSymbolLabel')
-      },
-      TextInput: {
-        optionalSuffix: t('common.optional'),
-        requiredSymbolLabel: t('common.required'), 
-      }
-    }}>
+    <DesignSystemLocaleProvider
+      labels={{
+        CheckboxList: {
+          errorPrefix: t(
+            'scoping.ecosystems.checkboxListI18nLabels.errorPrefix',
+          ),
+          expandLabel: t(
+            'scoping.ecosystems.checkboxListI18nLabels.expandLabel',
+          ),
+          hideLabel: t('scoping.ecosystems.checkboxListI18nLabels.hideLabel'),
+          optionalLabel: t(
+            'scoping.ecosystems.checkboxListI18nLabels.optionalLabel',
+          ),
+          requiredLabel: t(
+            'scoping.ecosystems.checkboxListI18nLabels.requiredLabel',
+          ),
+          requiredSymbolLabel: t(
+            'scoping.ecosystems.checkboxListI18nLabels.requiredSymbolLabel',
+          ),
+        },
+        TextInput: {
+          optionalSuffix: t('common.optional'),
+          requiredSymbolLabel: t('common.required'),
+        },
+      }}
+    >
       <form
         onSubmit={handleSubmit((data) => onSubmit(data, 'advance'))}
         noValidate
@@ -312,12 +326,6 @@ const TargetGeography = () => {
             {...register('subRegion')}
             defaultValue={assessmentData.subRegion}
           />
-          <TextInput
-            label={t('scoping.step1.fields.restorationBoundary.label')}
-            caption={t('scoping.step1.fields.restorationBoundary.caption')}
-            {...register('gisUrl')}
-            defaultValue={assessmentData.gisUrl}
-          />
         </div>
         <p className='text-neutral-900 text-xl mb-1.5 font-bold'>
           {t('scoping.step1.fields.ecosystems.label')}
@@ -349,6 +357,14 @@ const TargetGeography = () => {
             {t('scoping.step1.fields.ecosystems.sourceSuffix')}
           </span>
         </p>
+
+        <div className='my-2'>
+          <InlineMessage
+            label={t('scoping.step1.fields.ecosystems.inlineMessage')}
+            variant='info-grey'
+            size='full-width'
+          />
+        </div>
 
         <div className='mb-4 flex gap-2 items-center flex-wrap'>
           {selectedEcosystems.map((item) => (
@@ -461,6 +477,21 @@ const TargetGeography = () => {
                 errorMessage={errors.ecosystems?.message}
                 required
               />
+              <Checkbox
+                name='other'
+                checked={selectedEcosystems.includes('other')}
+                onCheckedChange={({ checked }) => {
+                  field.onChange(
+                    mergeEcosystemSelection(
+                      field.value || [],
+                      { other: !!checked },
+                      ['other'],
+                    ),
+                  )
+                }}
+              >
+                {t('scoping.ecosystems.other.label')}
+              </Checkbox>
             </div>
           )}
         />
@@ -473,9 +504,11 @@ const TargetGeography = () => {
                 verb: errorsLength > 1 ? 'are' : 'is',
                 plural: errorsLength > 1 ? 's' : '',
               })}
-              caption={ 
+              caption={
                 <div className='flex flex-col'>
-                  {getErrorList().map((error: string) => (<p key={error}>{error}</p>))}
+                  {getErrorList().map((error: string) => (
+                    <p key={error}>{error}</p>
+                  ))}
                 </div>
               }
               size='full-width'

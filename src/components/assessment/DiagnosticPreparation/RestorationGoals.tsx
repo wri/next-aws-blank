@@ -108,7 +108,7 @@ const RestorationGoals = () => {
             `/assessment/${assessmentId}/preparation/${PREPARATION_STEPS.TIME_HORIZON}${isEditing ? '?isEditMode=true' : ''}`,
           )
         }
-        >
+      >
         <span className='underline underline-offset-1'>
           {t('scoping.common.buttons.previous')}
         </span>
@@ -117,18 +117,15 @@ const RestorationGoals = () => {
       <h1 className='text-3xl font-bold text-neutral-900 mb-2'>
         {t('scoping.step3.heading')}
       </h1>
-      <p className='text-neutral-800 mb-2'>
-        {t('scoping.step3.description1')}
-      </p>
-      <p className='text-neutral-800 mb-2'>
-        {t('scoping.step3.description2')}
-      </p>
-      <p className='text-neutral-800 mb-8'>
-        {t('scoping.step3.description3')}
-      </p>
+      <p className='text-neutral-800 mb-2'>{t('scoping.step3.description1')}</p>
+      <p className='text-neutral-800 mb-2'>{t('scoping.step3.description2')}</p>
+      <p className='text-neutral-800 mb-8'>{t('scoping.step3.description3')}</p>
       <div className='mb-10'>
         <p className='text-neutral-900 text-xl mb-4 font-bold'>
           {t('scoping.step3.fields.goals.label')}
+          <span className='text-neutral-700 text-sm font-normal ml-1'>
+            {t('common.optional')}
+          </span>
         </p>
         <ChakraRichTextEditor
           value={restorationGoals}

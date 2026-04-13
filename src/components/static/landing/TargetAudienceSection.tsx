@@ -27,6 +27,9 @@ export const TargetAudienceSection = () => {
               sizes="(max-width: 1024px) 100vw, 50vw"
             />
           </div>
+          <p className="text-neutral-500 text-xs italic mt-1 text-right">
+            Serrah Galos/WRI
+          </p>
         </div>
 
         {/* Right: content */}

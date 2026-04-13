@@ -255,7 +255,6 @@
         "woman": "Mujer",
         "man": "Hombre",
         "nonBinary": "No binario",
-        "transgender": "Transgénero",
         "intersex": "Intersexual",
         "preferNotToSay": "Prefiero no decirlo",
         "identityNotListed": "Mi identidad no aparece en la lista"
@@ -270,9 +269,10 @@
         "preferNotToSay": "Prefiero no decirlo"
       },
       "identityOptions": {
-        "indigenousPeoples": "Pueblos Indígenas",
-        "localCommunities": "Comunidades locales",
-        "both": "Tanto Pueblos Indígenas como comunidades locales",
+        "indigenousPeoples": "Indigenous Peoples",
+        "localCommunities": "Comunidades locales o tradicionales",
+        "ethnicMinority": "Grupo minoritario étnico, racial o cultural",
+        "other": "Otro grupo subrepresentado",
         "preferNotToSay": "Prefiero no decirlo",
         "none": "Ninguno de los anteriores"
       },
@@ -336,9 +336,10 @@
   "scoping": {
     "intro": {
       "heading": "Prepárese para el diagnóstico",
-      "description1": "En esta fase, tendrá la oportunidad de establecer el alcance, elegir métodos de participación de las partes interesadas, reunir la documentación necesaria, definir la geografía o escala objetivo y esbozar sus objetivos y cronograma de restauración.",
+      "description1": "En esta fase, tendrá la oportunidad de establecer el alcance, designar un líder para el proceso, definir su plan de consulta, reunir la documentación necesaria, definir la geografía o escala objetivo y esbozar sus objetivos de restauración y el cronograma de los esfuerzos.",
       "description2": "Tomarse el tiempo para prepararse garantiza que el diagnóstico esté enfocado, bien respaldado y alineado con su contexto de restauración.",
-      "description3": "Hay 2 partes en este paso:",
+      "inlineMessage": "La herramienta puede adaptarse al contexto, las necesidades y las demandas del usuario.",
+      "subtitle": "Hay 2 partes en este paso:",
       "parts": {
         "scope": {
           "title": "Establecer el alcance",
@@ -347,7 +348,7 @@
         "approach": {
           "title": "Planificar su enfoque de diagnóstico",
           "badge": "Opcional",
-          "description": "Decida cómo involucrará a las partes interesadas y reunirá materiales de apoyo."
+          "description": "Decida cómo creará su plan de consulta y reunirá los materiales de apoyo."
         }
       },
       "button": "Iniciar preparación"
@@ -405,20 +406,15 @@
           "label": "Subregión / Provincia",
           "placeholder": "Ingrese subregión o provincia"
         },
-        "restorationBoundary": {
-          "label": "Enlace al límite de restauración",
-          "placeholder": "Ingrese URL o enlace de archivo",
-          "optional": true,
-          "caption": "Agregue un enlace a un conjunto de datos SIG o archivo de límites"
-        },
         "ecosystems": {
           "label": "Capturar tipos de ecosistemas",
           "description": "Seleccione todos los tipos de ecosistemas presentes en su área objetivo",
-          "requiredLabel": "Seleccione todos los ecosistemas que están siendo restaurados",
+          "requiredLabel": "Seleccione uno o más ecosistemas que están siendo restaurados",
           "sourcePrefix": "Tipos de ecosistemas basados en la",
           "sourceLink1Label": "Tipología Global de Ecosistemas de la UICN 2.0",
           "sourceLink2Label": "Ecosistema Global",
-          "sourceSuffix": "."
+          "sourceSuffix": ".",
+          "inlineMessage": "La lista de ecosistemas a continuación es indicativa."
         }
       }
     },
@@ -448,12 +444,15 @@
     },
     "step4": {
       "heading": "Definir estrategia de participación",
-      "description": "Involucrará a las partes interesadas en diferentes etapas del diagnóstico. Revise los enfoques sugeridos a continuación y planifique cómo los involucrará. Es posible que desee esbozar su estrategia a continuación.",
-      "suggestedApproachesHeading": "Enfoques de participación sugeridos",
+      "description1": "Involucrará a las partes interesadas en diferentes etapas del diagnóstico para recopilar y verificar información. Este paso le ayuda a planificar cómo recopilar aportes y perspectivas para informar su análisis.",
+      "description2": "Concéntrese en definir su enfoque de consulta en el futuro, no en documentar las consultas pasadas. En esta etapa, su plan puede ser simple y flexible, y refinarse a medida que evoluciona el proceso.",
+      "description3": "Revise los enfoques sugeridos a continuación y considere qué funciona mejor en su contexto. Estos son ejemplos que puede usar, adaptar, combinar o ampliar. Puede elegir uno o varios métodos.",
+      "suggestedApproachesHeading": "¿Cómo organizará la participación?",
+      "suggestedApproachesDescription": "Los enfoques sugeridos a continuación se proporcionan como guía. Puede seleccionar y adaptar los métodos que mejor se adapten a su contexto y partes interesadas.",
       "accordions": {
         "participatory": {
           "title": "Talleres participativos",
-          "content": "<ul><li>Convocar un taller de medio día o un día completo (virtual o presencial)</li><li>Usar facilitación estructurada para guiar las respuestas</li><li>Ideal cuando el tiempo es limitado y se desea participación</li></ul>",
+          "content": "<ul><li>Organice un taller de medio día o de día completo (virtual o presencial)</li><li>Involucre a una variedad de partes interesadas, asegurando que se consideren todos los grupos, incluidas las organizaciones comunitarias.</li><li>Utilice una facilitación estructurada para guiar la discusión y las respuestas</li><li>Considere diferentes formatos:<ul><li>Por grupo de partes interesadas (ej., comunidades, gobierno, grupos de género, pueblos indígenas)</li><li>Todos los participantes juntos (más rápido, pero puede limitar los aportes diversos)</li><li>Rotación por temas (los participantes rotan por los temas)</li></ul></li></ul>",
           "items": [
             "Reunir a diversas partes interesadas para discutir y responder preguntas de manera colaborativa",
             "Facilita el diálogo y garantiza que se consideren múltiples perspectivas",
@@ -462,7 +461,7 @@
         },
         "interviews": {
           "title": "Entrevistas / grupos focales",
-          "content": "<ul><li>Entrevistas semiestructuradas con actores clave</li><li>Útil para temas sensibles (ej. inseguridad en la tenencia, desafíos de gobernanza)</li></ul>",
+          "content": "<ul><li>Realice entrevistas semiestructuradas con actores clave</li><li>Utilice grupos focales para capturar las perspectivas de grupos de partes interesadas específicos</li><li>Útil para temas sensibles (ej., tenencia de la tierra, desafíos de gobernanza)</li><li>Ayuda a asegurar que se incluyan voces que podrían no hablar abiertamente en entornos más grandes</li></ul>",
           "items": [
             "Realizar discusiones individuales o en pequeños grupos con informantes clave",
             "Permite una exploración profunda de temas específicos",
@@ -471,7 +470,7 @@
         },
         "distributed": {
           "title": "Finalización distribuida",
-          "content": "<ul><li>Compartir la hoja de trabajo que se encuentra en el Paso 2 con las partes interesadas</li><li>Pedirles que completen las secciones relevantes para su experiencia</li><li>Coordinar la síntesis y la discusión posterior</li></ul>",
+          "content": "<ul><li>Comparta los factores clave con las partes interesadas relevantes</li><li>Invite a la discusión y a los aportes basados en su experiencia</li><li>Fomente la síntesis de perspectivas para informar el análisis</li></ul>",
           "items": [
             "Compartir el diagnóstico con las partes interesadas para que lo completen de forma independiente",
             "Permite que los individuos respondan a su propio ritmo",
@@ -481,7 +480,7 @@
       },
       "fields": {
         "notes": {
-          "label": "Notas de la estrategia de participación",
+          "label": "Notas del plan de consulta",
           "placeholder": "Agregue cualquier nota sobre su enfoque de participación...",
           "optional": true
         }
@@ -489,8 +488,9 @@
     },
     "step5": {
       "heading": "Reunir materiales de apoyo",
-      "description": "Antes de comenzar el diagnóstico, es útil reunir documentos clave y fuentes de datos para referirse a ellos como evidencia. Recomendamos organizarlos en una carpeta compartida para que todos los colaboradores puedan acceder a la misma evidencia durante el diagnóstico.",
-      "suggestedDocumentationHeading": "Documentación sugerida",
+      "description1": "Antes de comenzar el diagnóstico, reúna documentos clave, fuentes de datos y análisis existentes que respaldarán sus respuestas. Estos materiales servirán como evidencia durante la evaluación y ayudarán a garantizar la coherencia entre los colaboradores.",
+      "description2": "Puede subir o enlazar documentos, o simplemente describir las fuentes en las que se basará, como una revisión documental, aportes de las partes interesadas u otras fuentes. Esta sección es opcional pero muy recomendable para mejorar la calidad y credibilidad de las respuestas.",
+      "suggestedDocumentationHeading": "Ejemplos de documentos a los que puede referirse:",
       "accordions": {
         "policy": {
           "title": "Contexto político y legal",
@@ -534,7 +534,7 @@
           "label": "Enlace a carpeta compartida",
           "placeholder": "Ingrese URL a carpeta compartida (ej. Google Drive, Dropbox)",
           "optional": true,
-          "caption": "Este enlace se mostrará a cualquier persona a la que le proporcione acceso al Diagnóstico. Asegúrese de que todos los que apoyan el diagnóstico tengan permiso de visualización."
+          "caption": "Agregue un enlace a una carpeta compartida o documentos (ej., Google Drive, SharePoint). Esto ayuda a garantizar que todos los colaboradores puedan acceder a la misma evidencia durante el diagnóstico. Si no hay una carpeta compartida disponible, aún puede continuar usando otras fuentes (ej., revisión documental, aportes de expertos)."
         }
       }
     },
@@ -573,6 +573,12 @@
           "deepSeaFloors": "Fondos marinos profundos"
         }
       },
+      "other": {
+        "label": "Otro",
+        "types": {
+          "other": "Otro"
+        }
+      },
       "checkboxListI18nLabels": {
         "errorPrefix": "Error",
         "expandLabel": "Mostrar",
@@ -586,11 +592,11 @@
       "step1": {
         "whySetTargetGeography": {
           "title": "Por qué establecer la geografía objetivo",
-          "content": "Definir el alcance geográfico ayuda a garantizar que las respuestas de su diagnóstico sean contextualmente relevantes y que las recomendaciones puedan adaptarse a su paisaje o jurisdicción específica. También ayuda a identificar qué partes interesadas deben participar y qué fuentes de datos son más aplicables."
+          "content": "El área geográfica determina qué ecosistemas/paisajes y escalas se evalúan, qué partes interesadas participan y qué opciones de restauración se consideran."
         },
         "howToDoIt": {
           "title": "Cómo hacerlo",
-          "content": "Comience identificando el límite administrativo o ecológico de su área de restauración. Considere si su enfoque es la política nacional, una jurisdicción subnacional, un paisaje específico o un sitio individual. Seleccione todos los tipos de ecosistemas presentes en su área objetivo para ayudar a guiar sus respuestas a las preguntas específicas del ecosistema."
+          "content": "Agrupe áreas con condiciones ecológicas y socioeconómicas similares. Evite dividir áreas ecológicamente similares en diagnósticos separados, separando en cambio áreas que difieren claramente en ecología, uso del suelo o gobernanza."
         }
       },
       "step2": {
@@ -615,8 +621,8 @@
       },
       "step4": {
         "designingEngagement": {
-          "title": "Diseñar la participación de las partes interesadas",
-          "content": "La participación efectiva de las partes interesadas garantiza que se incluyan diversas perspectivas en el diagnóstico. Considere quién debe participar, incluyendo agencias gubernamentales, comunidades locales, pueblos indígenas, organizaciones de la sociedad civil y actores del sector privado."
+          "title": "Creación de su plan de consulta",
+          "content": "Comience por mapear el panorama social en torno a la restauración: quiénes son los usuarios, quiénes se ven afectados y quiénes tienen influencia. Identifique las necesidades, motivaciones y relaciones de las partes interesadas para comprender dónde puede haber fricción o alineación. Utilice esta información para diseñar puntos de contacto de participación (talleres, entrevistas, ciclos de retroalimentación) que sean inclusivos, iterativos y sensibles al contexto. Trate a las partes interesadas como codiseñadores, no solo como fuentes de datos, para mejorar la usabilidad, relevancia y adopción de la herramienta."
         },
         "ensuringInclusion": {
           "title": "Garantizar la inclusión y la equidad",
@@ -632,11 +638,11 @@
       "step5": {
         "preparingEvidence": {
           "title": "Preparar su evidencia",
-          "content": "<p>El diagnóstico le pide que evalúe si las condiciones habilitadoras clave están establecidas. Para responder con confianza y coherencia, deberá consultar documentos existentes, fuentes de datos y materiales de políticas.</p><p>Tenga en cuenta que la evidencia se puede recopilar durante todo el proceso, si es necesario.</p>"
+          "content": "<p>El diagnóstico le ayuda a evaluar si los factores clave están en su lugar. Para responder con confianza y coherencia, puede consultar la evidencia disponible, como documentos de políticas, fuentes de datos o análisis previos (ej., revisiones documentales).</p><p>No es necesario subir la evidencia a la herramienta. La evidencia también se puede recopilar durante todo el proceso, si es necesario.</p>"
         },
         "organizingAccess": {
           "title": "Organizar el acceso a los documentos",
-          "content": "Agregue enlaces a una carpeta compartida o documentos individuales almacenados en línea (por ejemplo, en una unidad compartida o plataforma de documentos). Esto garantiza que todos los involucrados puedan acceder rápidamente a la misma información durante los talleres o la finalización distribuida."
+          "content": "Agregue enlaces a una carpeta compartida o a documentos individuales almacenados en línea (por ejemplo, en una unidad compartida o plataforma de documentos). Esto garantiza que todos los involucrados puedan acceder rápidamente a la misma información durante los talleres o la participación colaborativa."
         }
       }
     },
@@ -681,7 +687,7 @@
         "description": "La pantalla de resumen muestra cuánto progreso ha realizado en cada tema.",
         "cards": {
           "motivate": "Motivar ({count} preguntas)",
-          "enable": "Planificar ({count} preguntas)",
+          "enable": "Habilitar ({count} preguntas)",
           "implement": "Implementar ({count} preguntas)"
         }
       },

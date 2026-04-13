@@ -70,7 +70,6 @@ export const genderOptions = [
   { label: 'Woman', value: 'woman' },
   { label: 'Man', value: 'man' },
   { label: 'Non-binary', value: 'non_binary' },
-  { label: 'Transgender', value: 'transgender' },
   { label: 'Intersex', value: 'intersex' },
   { label: 'I prefer not to say', value: 'prefer_not_to_say' },
   { label: "My identity isn't listed", value: 'identity_not_listed' },

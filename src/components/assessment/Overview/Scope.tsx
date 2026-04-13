@@ -69,7 +69,6 @@ const Scope = ({ data, assessmentId }: ScopeProps) => {
     woman: t('forms.setup.genderOptions.woman'),
     man: t('forms.setup.genderOptions.man'),
     non_binary: t('forms.setup.genderOptions.nonBinary'),
-    transgender: t('forms.setup.genderOptions.transgender'),
     intersex: t('forms.setup.genderOptions.intersex'),
     prefer_not_to_say: t('forms.setup.genderOptions.preferNotToSay'),
     identity_not_listed: t('forms.setup.genderOptions.identityNotListed'),
@@ -86,7 +85,8 @@ const Scope = ({ data, assessmentId }: ScopeProps) => {
   const identityLabelMap: Record<string, string> = {
     indigenous_peoples: t('forms.setup.identityOptions.indigenousPeoples'),
     local_communities: t('forms.setup.identityOptions.localCommunities'),
-    both: t('forms.setup.identityOptions.both'),
+    ethnic_minority: t('forms.setup.identityOptions.ethnicMinority'),
+    other: t('forms.setup.identityOptions.other'),
     prefer_not_to_say: t('forms.setup.identityOptions.preferNotToSay'),
     none: t('forms.setup.identityOptions.none'),
   }

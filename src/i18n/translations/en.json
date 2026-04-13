@@ -207,7 +207,7 @@
         "role": "Job role",
         "gender": "Gender (optional)",
         "ageRange": "Age range (optional)",
-        "identity": "Does the diagnostic lead identify as part of any of the following groups? (optional)",
+        "identity": "Does the diagnostic lead identify as a member of any of the following groups? (optional)",
         "country": "Country",
         "subRegion": "Sub-region / Province",
         "geographyType": "Geography Type",
@@ -255,7 +255,6 @@
         "woman": "Woman",
         "man": "Man",
         "nonBinary": "Non-binary",
-        "transgender": "Transgender",
         "intersex": "Intersex",
         "preferNotToSay": "I prefer not to say",
         "identityNotListed": "My identity isn't listed"
@@ -271,8 +270,9 @@
       },
       "identityOptions": {
         "indigenousPeoples": "Indigenous Peoples",
-        "localCommunities": "Local communities",
-        "both": "Both Indigenous Peoples and Local communities",
+        "localCommunities": "Local or traditional communities",
+        "ethnicMinority": "Ethnic, racial, or cultural minority group",
+        "other": "Other underrepresented group",
         "preferNotToSay": "Prefer not to say",
         "none": "None of the above"
       },
@@ -336,9 +336,10 @@
   "scoping": {
     "intro": {
       "heading": "Prepare for the diagnostic",
-      "description1": "In this phase, you will have the opportunity to set the scope, choose stakeholder engagement methods, gather the necessary documentation, define the target geography or scale, and outline your restoration goals and timeline.",
+      "description1": "In this phase, you will have the opportunity to set the scope, designate a lead for the process, define your consultation plan, gather the necessary documentation, define the target geography or scale, and outline your restoration goals and the timeline for the efforts.",
       "description2": "Taking time to prepare ensures the diagnostic is focused, well-supported, and aligned with your restoration context.",
-      "description3": "There are 2 parts to this step:",
+      "inlineMessage": "The tool can be adapted for the user’s context, needs, and demands.",
+      "subtitle": "There are 2 parts to this step:",
       "parts": {
         "scope": {
           "title": "Set the scope",
@@ -347,7 +348,7 @@
         "approach": {
           "title": "Plan your diagnostic approach",
           "badge": "Optional",
-          "description": "Decide how you will engage stakeholders and gather supporting materials."
+          "description": "Decide how you will create your consultation plan and gather supporting materials."
         }
       },
       "button": "Start preparation"
@@ -363,7 +364,7 @@
         "targetGeography": "Target geography",
         "timeHorizon": "Time horizon",
         "restorationGoals": "Restoration goals",
-        "engagement": "Define engagement strategy",
+        "engagement": "Define consultation plan",
         "materials": "Gather materials"
       },
       "guidance": {
@@ -405,20 +406,15 @@
           "label": "Sub-region / Province",
           "placeholder": "Enter sub-region or province"
         },
-        "restorationBoundary": {
-          "label": "Restoration boundary link",
-          "placeholder": "Enter URL or file link",
-          "optional": true,
-          "caption": "Add a link to a GIS dataset or boundary file"
-        },
         "ecosystems": {
           "label": "Capture ecosystem types",
           "description": "Select all ecosystem types present in your target area",
-          "requiredLabel": "Select all ecosystems being restored",
+          "requiredLabel": "Select one or more ecosystems being restored",
           "sourcePrefix": "Ecosystem types based on the",
           "sourceLink1Label": "IUCN Global Ecosystem Typology 2.0",
           "sourceLink2Label": "Global Ecosystem",
-          "sourceSuffix": "."
+          "sourceSuffix": ".",
+          "inlineMessage": "The list of ecosystems below is indicative."
         }
       }
     },
@@ -447,13 +443,16 @@
       }
     },
     "step4": {
-      "heading": "Define engagement strategy",
-      "description": "You will engage stakeholders at different stages of the diagnostic. Review the suggested approaches below and plan how you will involve them. You may wish to outline your strategy below.",
-      "suggestedApproachesHeading": "Suggested engagement approaches",
+      "heading": "Define consultation plan",
+      "description1": "You will engage stakeholders at different stages of the diagnostic to collect and verify information. This step helps you plan how to gather input and perspectives to inform your analysis.",
+      "description2": "Focus on defining your consultation approach moving forward, not documenting past engagements. At this stage, your plan can be simple and flexible, and refined as the process evolves.",
+      "description3": "Review the suggested approaches below and consider what works best in your context. These are examples you can use, adapt, combine, or expand. You may choose one method or several.",
+      "suggestedApproachesHeading": "How will you organize participation?",
+      "suggestedApproachesDescription": "The approaches below are provided as guidance. You can select and adapt the methods that best suit your context and stakeholders.",
       "accordions": {
         "participatory": {
           "title": "Participatory workshops",
-          "content": "<ul><li>Convene a half-day or full-day workshop (virtual or in-person)</li><li>Use structured facilitation to guide responses</li><li>Best when time is limited and participation is desired</li></ul>",
+          "content": "<ul><li>Convenea half-day or full-day workshop (virtual or in-person)</li><li>Engage a variety of stakeholders, ensuring that all groups, including community organizations, are considered.</li><li>Use structured facilitation to guide discussion and responses</li><li>Consider different formats:<ul><li>By stakeholder group (e.g., communities, government, gender groups, Indigenous People)</li><li>All participants together (faster, but may limit diverse input)</li><li>Theme-based rotation (participants rotate across topics)</li></ul></li></ul>",
           "items": [
             "Bring together diverse stakeholders to discuss and answer questions collaboratively",
             "Facilitates dialogue and ensures multiple perspectives are considered",
@@ -462,7 +461,7 @@
         },
         "interviews": {
           "title": "Interviews / focus groups",
-          "content": "<ul><li>Semi-structured interviews with key actors</li><li>Useful for sensitive topics (e.g., tenure insecurity, governance challenges)</li></ul>",
+          "content": "<ul><li>Conduct semi-structured interviews with key actors</li><li>Use focus groups to capture perspectives from specific stakeholder groups</li><li>Useful for sensitive topics (e.g., land tenure, governance challenges)</li><li>Helps ensure voices are included that may not speak openly in larger settings</li></ul>",
           "items": [
             "Conduct one-on-one or small group discussions with key informants",
             "Allows for in-depth exploration of specific topics",
@@ -471,7 +470,7 @@
         },
         "distributed": {
           "title": "Distributed completion",
-          "content": "<ul><li>Share the worksheet found under Step 2 with stakeholders</li><li>Ask them to complete sections relevant to their expertise</li><li>Coordinate synthesis and discussion afterward</li></ul>",
+          "content": "<ul><li>Share the key factors with relevant stakeholders</li><li>Invite discussion and input based on their expertise</li><li>Encourage synthesis of perspectives to inform the analysis</li></ul>",
           "items": [
             "Share the diagnostic with stakeholders to complete independently",
             "Allows individuals to respond at their own pace",
@@ -481,7 +480,7 @@
       },
       "fields": {
         "notes": {
-          "label": "Engagement strategy notes",
+          "label": "Consultation plan notes",
           "placeholder": "Add any notes about your engagement approach...",
           "optional": true
         }
@@ -489,8 +488,9 @@
     },
     "step5": {
       "heading": "Gather supporting materials",
-      "description": "Before starting the diagnostic, it is useful to gather key documents and data sources in order to refer to them as evidence. We recommend organising them in a shared folder so all contributors can access the same evidence during the diagnostic.",
-      "suggestedDocumentationHeading": "Suggested documentation",
+      "description1": "Before starting the diagnostic, gather key documents, data sources, and existing analyses that will support your answers. These materials will serve as evidence during the assessment and help ensure consistency across contributors.",
+      "description2": "You can upload or link to documents, or simply describe the sources you will rely on, such as a desk review, stakeholder input, or other sources. This section is optional but strongly recommended to improve the quality and credibility of responses.",
+      "suggestedDocumentationHeading": "Examples of documents you may refer to:",
       "accordions": {
         "policy": {
           "title": "Policy & legal context",
@@ -534,7 +534,7 @@
           "label": "Shared folder link",
           "placeholder": "Enter URL to shared folder (e.g., Google Drive, Dropbox)",
           "optional": true,
-          "caption": "This link will be shown to anyone you provide access to the Diagnostic. Ensure everyone supporting the diagnostic has permission to view."
+          "caption": "Add a link to a shared folder or documents (e.g., Google Drive, SharePoint). This helps ensure that all contributors can access the same evidence during the diagnostic. If no shared folder is available, you can still proceed using other sources (e.g., desk review, expert input)."
         }
       }
     },
@@ -573,6 +573,12 @@
           "deepSeaFloors": "Deep-sea floors"
         }
       },
+      "other": {
+        "label": "Other",
+        "types": {
+          "other": "Other"
+        }
+      },
       "checkboxListI18nLabels": {
         "errorPrefix": "Error:",
         "expandLabel": "Show",
@@ -586,11 +592,11 @@
       "step1": {
         "whySetTargetGeography": {
           "title": "Why set the target geography",
-          "content": "Defining the geographic scope helps ensure that your diagnostic responses are contextually relevant and that recommendations can be tailored to your specific landscape or jurisdiction. It also helps identify which stakeholders should be engaged and what data sources are most applicable."
+          "content": "The geographic area determines which ecosystems/landscapes and scales are assessed, which stakeholders are involved and which restoration options are considered."
         },
         "howToDoIt": {
           "title": "How to do it",
-          "content": "Start by identifying the administrative or ecological boundary of your restoration area. Consider whether your focus is national policy, a subnational jurisdiction, a specific landscape, or an individual site. Select all ecosystem types present in your target area to help guide your responses to ecosystem-specific questions."
+          "content": "Group areas with similar ecological and socio-economic conditions. Avoid splitting ecologically similar areas into separate diagnostics, instead separating areas that differ clearly in ecology, land use, or governance."
         }
       },
       "step2": {
@@ -615,8 +621,8 @@
       },
       "step4": {
         "designingEngagement": {
-          "title": "Designing stakeholder engagement",
-          "content": "Effective stakeholder engagement ensures that diverse perspectives are included in the diagnostic. Consider who should be involved, including government agencies, local communities, Indigenous Peoples, civil society organizations, and private sector actors."
+          "title": "Creating your consultation plan",
+          "content": "Start by mapping the social landscape around restoration: who the users are, who is affected, and who has influence. Identify stakeholder needs, motivations, and relationships to understand where friction or alignment may occur. Use this insight to design engagement touchpoints—workshops, interviews, feedback loops—that are inclusive, iterative, and responsive to context. Treat stakeholders as co-designers, not just data sources, to improve usability, relevance, and adoption of the tool."
         },
         "ensuringInclusion": {
           "title": "Ensuring inclusion and equity",
@@ -632,11 +638,11 @@
       "step5": {
         "preparingEvidence": {
           "title": "Preparing your evidence",
-          "content": "<p>The diagnostic asks you to assess whether key enabling conditions are in place. To answer confidently and consistently, you will need to refer to existing documents, data sources, and policy materials.</p><p>Please note that evidence can be collected throughout the entire process, if necessary.</p>"
+          "content": "<p>The diagnostic helps you assess whether key factors are in place. To answer confidently and consistently, you may refer to available evidence such as policy documents, data sources, or prior analyses (e.g., desk reviews).</p><p>Evidence does not need to be uploaded to the tool. Evidence can also be collected throughout the process, if needed.</p>"
         },
         "organizingAccess": {
           "title": "Organizing access to documents",
-          "content": "Add links to a shared folder or individual documents stored online (for example, in a shared drive or document platform). This ensures that everyone involved can quickly access the same information during workshops or distributed completion."
+          "content": "Add links to a shared folder or individual documents stored online (for example, in a shared drive or document platform). This ensures that everyone involved can quickly access the same information during workshops or collaborative participation."
         }
       }
     },
@@ -681,7 +687,7 @@
         "description": "The overview screen shows how much progress you have made through each theme.",
         "cards": {
           "motivate": "Motivate ({count} questions)",
-          "enable": "Plan ({count} questions)",
+          "enable": "Enable ({count} questions)",
           "implement": "Implement ({count} questions)"
         }
       },

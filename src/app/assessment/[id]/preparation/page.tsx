@@ -2,7 +2,7 @@
 
 import { PREPARATION_STEPS } from '@/constants'
 import { ChecklistIcon, ScopeIcon } from '@/components/icons'
-import { Button, Tag } from '@worldresources/wri-design-systems'
+import { Button, InlineMessage, Tag } from '@worldresources/wri-design-systems'
 import { useParams, useRouter } from 'next/navigation'
 import { useTranslations } from '@/i18n/useTranslations'
 
@@ -22,12 +22,18 @@ const PreparationPage = () => {
         <p className='text-neutral-800 mt-2'>
           {t('scoping.intro.description1')}
         </p>
-        <p className='text-neutral-800 mt-2'>
+        <p className='text-neutral-800 mt-2 mb-6'>
           {t('scoping.intro.description2')}
         </p>
 
+        <InlineMessage
+          label={t('scoping.intro.inlineMessage')}
+          variant='info-grey'
+          size='full-width'
+        />
+
         <h2 className='text-neutral-800 mt-6 text-lg font-bold'>
-          {t('scoping.intro.description3')}
+          {t('scoping.intro.subtitle')}
         </h2>
 
         <div className='flex gap-4 mt-2 border border-neutral-300 rounded-lg p-4'>
