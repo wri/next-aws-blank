@@ -983,7 +983,7 @@
         "factorMarkedComplete": "Ce facteur est marqué comme terminé."
       },
       "captions": {
-        "markComplete": "Marquez ce facteur comme terminé lorsque vous avez fini d'examiner la réponse, la justification et les stratégies."
+        "markComplete": "Marquez ce facteur comme terminé lorsque vous avez fini d'examiner la réponse, la justification et les stratégies. Vous pouvez toujours revenir pour modifier vos réponses après l'avoir marqué comme terminé."
       },
       "modal": {
         "markComplete": {
@@ -1005,7 +1005,8 @@
     },
     "strategies": {
       "heading": "Stratégies",
-      "exampleIntro": "Exemples de stratégies pour ce facteur :",
+      "exampleIntro1": "Vous pouvez commencer à définir des stratégies maintenant ou y revenir à tout moment.",
+      "exampleIntro2": "Exemples de stratégies pour ce facteur :",
       "warning": "Importance stratégique : Les stratégies répondant à ces facteurs clés peuvent avoir des complexités et des échelles de temps variables. La restauration peut être bénéfique pour les pays ou les communautés ayant un lien historique/culturel avec les terres. Cela peut être un moyen pour les gouvernements de respecter leurs engagements vis-à-vis des accords internationaux (ex: CCNUCC, CNULCD, CDB, Défis d'Aichi).",
       "labels": {
         "strategyNumber": "Stratégie {number}"
@@ -1090,9 +1091,9 @@
             "body": "L'ajout de stratégies vous permet de planifier la manière dont vous aborderez les facteurs clés manquants ou seulement partiellement mis en œuvre, tout en maintenant ceux qui sont déjà traités. L'objectif est d'identifier des actions pratiques qui augmentent la probabilité de réussite de la restauration dans la géographie cible."
           },
           "include": {
-            "title": "Que faut-il inclure ?",
-            "body1": "Les stratégies peuvent inclure des changements de politique, des incitations, des réformes institutionnelles, des activités de renforcement des capacités ou des interventions intersectorielles (telles que l'agriculture, la finance ou le régime foncier). Lors de la définition des stratégies, examinez comment elles s'alignent sur les processus politiques existants, les cycles de planification, les opportunités de réforme réglementaire et la capacité technique disponible.",
-            "body2": "Chaque stratégie doit décrire clairement qui agira, ce qui sera fait, pourquoi l'action est nécessaire, quand elle doit avoir lieu et comment elle sera mise en œuvre et financée."
+            "title": "Ce qu'il faut inclure",
+            "body1": "Les stratégies peuvent inclure des changements politiques, des incitations, des réformes institutionnelles, des activités de renforcement des capacités ou des interventions intersectorielles (telles que l'agriculture, les finances ou le régime foncier). Lors de la définition des stratégies, tenez compte de la manière dont elles s'alignent sur les processus politiques existants, les cycles de planification, les opportunités de réforme réglementaire et les capacités techniques disponibles.",
+            "body2": "Chaque stratégie pourrait décrire qui agira, ce qui sera fait, pourquoi l'action est nécessaire, quand elle devrait avoir lieu et comment elle sera mise en œuvre et financée. Elle devrait également décrire le résultat attendu (c'est-à-dire à quoi ressemble le succès), y compris comment l'action contribue au résultat souhaité au fil du temps (par exemple, « après deux ans, un plan de restauration est en place »)."
           },
           "considerations": {
             "title": "Considérations clés",

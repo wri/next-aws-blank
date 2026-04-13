@@ -95,7 +95,7 @@ const Strategies = ({
         scale: '',
         deadline: '',
         responsibility: '',
-        status: '', 
+        status: '',
         priority: '',
       },
     ]
@@ -129,8 +129,11 @@ const Strategies = ({
             onClick={() => setShowAboutModal(true)}
           />
         </div>
+        <p className='text-neutral-800 mb-1.5'>
+          {t('assessment.strategies.exampleIntro1')}
+        </p>
         <p className='text-neutral-800 mb-2'>
-          {t('assessment.strategies.exampleIntro')}
+          {t('assessment.strategies.exampleIntro2')}
         </p>
         {question.strategyExamples ? (
           <ul className='prose prose-sm max-w-none list-disc pl-5 space-y-2 text-neutral-800'>
@@ -275,10 +278,15 @@ const Strategies = ({
                 <div>
                   <Select
                     label={`${t('assessment.strategies.fields.status.label')} ${t('common.optional')}`}
-                    placeholder={t('assessment.strategies.fields.status.placeholder')}
+                    placeholder={t(
+                      'assessment.strategies.fields.status.placeholder',
+                    )}
                     items={
                       strategy.status && !isKnownStatus(strategy.status)
-                        ? [...statusOptions, { value: strategy.status, label: strategy.status }]
+                        ? [
+                            ...statusOptions,
+                            { value: strategy.status, label: strategy.status },
+                          ]
                         : statusOptions
                     }
                     onChange={(vals) =>

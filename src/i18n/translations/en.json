@@ -983,7 +983,7 @@
         "factorMarkedComplete": "This factor is marked as complete."
       },
       "captions": {
-        "markComplete": "Mark this factor as complete when you've finished reviewing the response, rationale, and strategies."
+        "markComplete": "Mark this factor as complete when you've finished reviewing the response, rationale, and strategies. You may always go back to editing your responses after marking as complete."
       },
       "modal": {
         "markComplete": {
@@ -1005,7 +1005,8 @@
     },
     "strategies": {
       "heading": "Strategies",
-      "exampleIntro": "Examples of strategies for this factor:",
+      "exampleIntro1": "You can start defining strategies now—or come back to them anytime.",
+      "exampleIntro2": "Examples of strategies for this factor:",
       "warning": "Strategic importance: Strategies addressing these key factors can have varying complexities and timescales. Restoration can be beneficial to countries or communities with historical/cultural connection to lands. It can be a way for governments to meet commitments to international agreements (e.g., UNFCCC, UNCCD, CBD, Aichi Challenges).",
       "labels": {
         "strategyNumber": "Strategy {number}"
@@ -1092,7 +1093,7 @@
           "include": {
             "title": "What to include",
             "body1": "Strategies may include policy changes, incentives, institutional reforms, capacity-building activities, or cross-sector interventions (such as agriculture, finance, or land tenure). When defining strategies, consider how they align with existing policy processes, planning cycles, regulatory reform opportunities, and available technical capacity.",
-            "body2": "Each strategy should clearly describe who will act, what will be done, why the action is needed, when it should happen, and how it will be implemented and funded."
+            "body2": "Each strategy could describe who will act, what will be done, why the action is needed, when it should happen, and how it will be implemented and funded. It should also describe the expected outcome (i.e., what success looks like), including how the action contributes to the desired result over time (for example, “after two years, a restoration plan is in place”)."
           },
           "considerations": {
             "title": "Key considerations",

@@ -983,7 +983,7 @@
         "factorMarkedComplete": "Este factor ha sido marcado como completo."
       },
       "captions": {
-        "markComplete": "Marque este factor como completo cuando haya terminado de revisar la respuesta, la justificación y las estrategias."
+        "markComplete": "Marque este factor como completo cuando haya terminado de revisar la respuesta, la justificación y las estrategias. Siempre puede volver a editar sus respuestas después de marcarlo como completo."
       },
       "modal": {
         "markComplete": {
@@ -1005,7 +1005,8 @@
     },
     "strategies": {
       "heading": "Estrategias",
-      "exampleIntro": "Ejemplos de estrategias para este factor:",
+      "exampleIntro1": "Puedes empezar a definir estrategias ahora o volver a ellas en cualquier momento.",
+      "exampleIntro2": "Ejemplos de estrategias para este factor:",
       "warning": "Importancia estratégica: Las estrategias que abordan estos factores clave pueden tener complejidades y escalas de tiempo variables. La restauración puede ser beneficiosa para países o comunidades con conexión histórica/cultural con las tierras. Puede ser una forma para que los gobiernos cumplan con los compromisos de los acuerdos internacionales (ej. CMNUCC, UNCCD, CDB, Desafíos de Aichi).",
       "labels": {
         "strategyNumber": "Estrategia {number}"
@@ -1091,8 +1092,8 @@
           },
           "include": {
             "title": "Qué incluir",
-            "body1": "Las estrategias pueden incluir cambios en las políticas, incentivos, reformas institucionales, actividades de creación de capacidad o intervenciones intersectoriales (como agricultura, finanzas o tenencia de la tierra). Al definir estrategias, considere cómo se alinean con los procesos de políticas existentes, los ciclos de planificación, las oportunidades de reforma regulatoria y la capacidad técnica disponible.",
-            "body2": "Cada estrategia debe describir claramente quién actuará, qué se hará, por qué es necesaria la acción, cuándo debería suceder y cómo se implementará y financiará."
+            "body1": "Las estrategias pueden incluir cambios de políticas, incentivos, reformas institucionales, actividades de desarrollo de capacidades o intervenciones intersectoriales (como agricultura, finanzas o tenencia de la tierra). Al definir las estrategias, considere cómo se alinean con los procesos de políticas existentes, los ciclos de planificación, las oportunidades de reforma regulatoria y la capacidad técnica disponible.",
+            "body2": "Cada estrategia podría describir quién actuará, qué se hará, por qué es necesaria la acción, cuándo debería ocurrir y cómo se implementará y financiará. También debe describir el resultado esperado (es decir, cómo se ve el éxito), incluyendo cómo la acción contribuye al resultado deseado a lo largo del tiempo (por ejemplo, “después de dos años, hay un plan de restauración en marcha”)."
           },
           "considerations": {
             "title": "Consideraciones clave",
