@@ -100,8 +100,12 @@ const Scope = ({ data, assessmentId }: ScopeProps) => {
     'shrublands-and-shrubby-woodlands': t(
       'scoping.ecosystems.terrestrial.types.shrublands',
     ),
-    'savannas-and-grasslands': t('scoping.ecosystems.terrestrial.types.savannas'),
-    'deserts-and-semi-deserts': t('scoping.ecosystems.terrestrial.types.deserts'),
+    'savannas-and-grasslands': t(
+      'scoping.ecosystems.terrestrial.types.savannas',
+    ),
+    'deserts-and-semi-deserts': t(
+      'scoping.ecosystems.terrestrial.types.deserts',
+    ),
     'polar-alpine': t('scoping.ecosystems.terrestrial.types.polarAlpine'),
     'productive-and-agricultural-systems': t(
       'scoping.ecosystems.terrestrial.types.agricultural',
@@ -158,7 +162,9 @@ const Scope = ({ data, assessmentId }: ScopeProps) => {
         <Title title={t('overview.scope.aboutDiagnostic.sections.title')} />
         <p className='text-neutral-700 mb-8'>{data.title}</p>
 
-        <Title title={t('overview.scope.aboutDiagnostic.sections.diagnosticLead')} />
+        <Title
+          title={t('overview.scope.aboutDiagnostic.sections.diagnosticLead')}
+        />
         <div className='grid grid-col-1 sm:grid-cols-2 gap-x-8 gap-y-4'>
           <div>
             <p className='text-neutral-700 text-sm'>
@@ -216,9 +222,7 @@ const Scope = ({ data, assessmentId }: ScopeProps) => {
             </p>
             {data.diagnosticLead.gender ? (
               <p className='text-neutral-800 font-bold mt-1'>
-                {
-                  genderLabelMap[data.diagnosticLead.gender]
-                }
+                {genderLabelMap[data.diagnosticLead.gender]}
               </p>
             ) : (
               <NoInformation />
@@ -230,9 +234,7 @@ const Scope = ({ data, assessmentId }: ScopeProps) => {
             </p>
             {data.diagnosticLead.ageRange ? (
               <p className='text-neutral-800 font-bold mt-1'>
-                {
-                  ageRangeLabelMap[data.diagnosticLead.ageRange]
-                }
+                {ageRangeLabelMap[data.diagnosticLead.ageRange]}
               </p>
             ) : (
               <NoInformation />
@@ -244,9 +246,7 @@ const Scope = ({ data, assessmentId }: ScopeProps) => {
             </p>
             {data.diagnosticLead.identity ? (
               <p className='text-neutral-800 font-bold mt-1'>
-                {
-                  identityLabelMap[data.diagnosticLead.identity]
-                }
+                {identityLabelMap[data.diagnosticLead.identity]}
               </p>
             ) : (
               <NoInformation />
@@ -304,7 +304,9 @@ const Scope = ({ data, assessmentId }: ScopeProps) => {
           </div>
           <div>
             <p className='text-neutral-700 text-sm'>
-              {t('overview.scope.diagnosticScope.fields.restorationBoundaryLink')}
+              {t(
+                'overview.scope.diagnosticScope.fields.restorationBoundaryLink',
+              )}
             </p>
             {data.diagnosticScope.geography.gisUrl ? (
               <div className='flex items-center gap-2 mt-1'>
@@ -345,7 +347,9 @@ const Scope = ({ data, assessmentId }: ScopeProps) => {
           </div>
         </div>
 
-        <Title title={t('overview.scope.diagnosticScope.sections.timeHorizon')} />
+        <Title
+          title={t('overview.scope.diagnosticScope.sections.timeHorizon')}
+        />
         <div className='grid grid-col-1 sm:grid-cols-2 gap-x-8 gap-y-4 mb-8'>
           <div>
             <p className='text-neutral-700 text-sm'>
@@ -361,7 +365,9 @@ const Scope = ({ data, assessmentId }: ScopeProps) => {
           </div>
         </div>
 
-        <Title title={t('overview.scope.diagnosticScope.sections.restorationGoals')} />
+        <Title
+          title={t('overview.scope.diagnosticScope.sections.restorationGoals')}
+        />
         <div className='grid grid-col-1 gap-x-8 gap-y-4 mb-8'>
           <div>
             <p className='text-neutral-700 text-sm'>
@@ -377,7 +383,11 @@ const Scope = ({ data, assessmentId }: ScopeProps) => {
           </div>
         </div>
 
-        <Title title={t('overview.scope.diagnosticScope.sections.diagnosticPlanning')} />
+        <Title
+          title={t(
+            'overview.scope.diagnosticScope.sections.diagnosticPlanning',
+          )}
+        />
         <div className='grid grid-col-1 sm:grid-cols-2 gap-x-8 gap-y-4 mb-8'>
           <div>
             <p className='text-neutral-700 text-sm'>
@@ -403,8 +413,17 @@ const Scope = ({ data, assessmentId }: ScopeProps) => {
             </p>
             {data.diagnosticScope.diagnosticPlanning.materials ? (
               <div className='flex items-center gap-2 mt-1'>
-                <p className='text-neutral-800 font-bold underline decoration-primary-700 decoration-dotted'>
-                  {data.diagnosticScope.diagnosticPlanning.materials}
+                <p
+                  className='text-neutral-800 font-bold underline decoration-primary-700 decoration-dotted'
+                  style={{ overflowWrap: 'anywhere' }}
+                >
+                  {data.diagnosticScope.diagnosticPlanning.materials.length >
+                  100
+                    ? data.diagnosticScope.diagnosticPlanning.materials.slice(
+                        0,
+                        100,
+                      ) + '...'
+                    : data.diagnosticScope.diagnosticPlanning.materials}
                 </p>
                 {isMaterialsLinkCopied ? (
                   <CheckCircleIcon className='text-success-500 h-5 w-5' />
