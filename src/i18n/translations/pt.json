@@ -965,6 +965,12 @@
         "partly": "Parcialmente",
         "no": "Não",
         "na": "N/A"
+      },
+      "tooltips": {
+        "yes": "O fator é funcional, totalmente operacional e foi adotado por todas as partes relevantes",
+        "partly": "O fator foi projetado ou avaliado, mas ainda não está operacional, não é aplicado ou não foi amplamente adotado",
+        "no": "O fator não foi projetado, avaliado ou implementado",
+        "na": "O fator não é aplicável para este diagnóstico de restauração"
       }
     },
     "guidance": {

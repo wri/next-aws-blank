@@ -965,6 +965,12 @@
         "partly": "Parcialmente",
         "no": "No",
         "na": "N/A"
+      },
+      "tooltips": {
+        "yes": "El factor es funcional, totalmente operativo y ha sido adoptado por todas las partes relevantes",
+        "partly": "El factor ha sido diseñado o evaluado, pero aún no está operativo, no se hace cumplir o no ha sido ampliamente adoptado",
+        "no": "El factor no ha sido diseñado, evaluado ni implementado",
+        "na": "El factor no es aplicable para este diagnóstico de restauración"
       }
     },
     "guidance": {

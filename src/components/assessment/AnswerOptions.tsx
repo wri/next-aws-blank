@@ -4,7 +4,7 @@
 import { forwardRef } from 'react'
 import { YesAnswerIcon, PartlyAnswerIcon, NoAnswerIcon } from '@/components/icons'
 import { Box } from '@chakra-ui/react'
-import { Button, getThemedColor } from '@worldresources/wri-design-systems'
+import { Button, getThemedColor, Tooltip } from '@worldresources/wri-design-systems'
 import { css } from '@emotion/react'
 import { useTranslations } from '@/i18n/useTranslations'
 import { AnswerValue } from '@/types/answer.types'
@@ -131,6 +131,7 @@ export function AnswerOptions({ value, onChange, disabled }: AnswerOptionsProps)
     selectedColor: string
     bgColor: string
     borderColor: string
+    tooltip: string
   }> = {
     yes: {
       label: t('assessment.answers.labels.yes'),
@@ -138,6 +139,7 @@ export function AnswerOptions({ value, onChange, disabled }: AnswerOptionsProps)
       selectedColor: getThemedColor('success', 500),
       bgColor: getThemedColor('success', 100),
       borderColor: getThemedColor('success', 500),
+      tooltip: t('assessment.answers.tooltips.yes'),
     },
     partly: {
       label: t('assessment.answers.labels.partly'),
@@ -145,6 +147,7 @@ export function AnswerOptions({ value, onChange, disabled }: AnswerOptionsProps)
       selectedColor: getThemedColor('warning', 500),
       bgColor: getThemedColor('warning', 100),
       borderColor: getThemedColor('warning', 500),
+      tooltip: t('assessment.answers.tooltips.partly'),
     },
     no: {
       label: t('assessment.answers.labels.no'),
@@ -152,6 +155,7 @@ export function AnswerOptions({ value, onChange, disabled }: AnswerOptionsProps)
       selectedColor: getThemedColor('error', 500),
       bgColor: getThemedColor('error', 100),
       borderColor: getThemedColor('error', 500),
+      tooltip: t('assessment.answers.tooltips.no'),
     },
     na: {
       label: t('assessment.answers.labels.na'),
@@ -164,7 +168,8 @@ export function AnswerOptions({ value, onChange, disabled }: AnswerOptionsProps)
       })} />,
       selectedColor: getThemedColor('neutral', 600),
       bgColor: getThemedColor('neutral', 200),
-      borderColor: getThemedColor('neutral', 400)
+      borderColor: getThemedColor('neutral', 400),
+      tooltip: t('assessment.answers.tooltips.na'),
     }
   }
 
@@ -179,22 +184,27 @@ export function AnswerOptions({ value, onChange, disabled }: AnswerOptionsProps)
         const iconColor = isSelected ? config.selectedColor : unselectedColor;
         
         return (
-          <AnswerButton
+          <Tooltip
             key={answerValue}
-            disabled={disabled}
-            onClick={() => onChange(answerValue)}
-            isSelected={isSelected}
-            selectedColor={config.selectedColor}
-            bgColor={config.bgColor}
-            borderColor={config.borderColor}
+            content={config.tooltip}
+            openDelay={500}
           >
-            <Box css={iconContainerStyles(isSelected, iconColor)}>
-              {config.icon}
-            </Box>
-            <Box as="span" css={labelStyles(isSelected)}>
-              {config.label}
-            </Box>
-          </AnswerButton>
+            <AnswerButton
+              disabled={disabled}
+              onClick={() => onChange(answerValue)}
+              isSelected={isSelected}
+              selectedColor={config.selectedColor}
+              bgColor={config.bgColor}
+              borderColor={config.borderColor}
+            >
+              <Box css={iconContainerStyles(isSelected, iconColor)}>
+                {config.icon}
+              </Box>
+              <Box as='span' css={labelStyles(isSelected)}>
+                {config.label}
+              </Box>
+            </AnswerButton>
+          </Tooltip>
         )
       })}
     </Box>
