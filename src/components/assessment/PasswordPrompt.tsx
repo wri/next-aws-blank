@@ -173,7 +173,7 @@ export function PasswordPrompt({ assessmentId }: PasswordPromptProps) {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="bg-gradient-to-b from-white to-primary-200 min-h-[100vh]">
+    <form onSubmit={handleSubmit} className="bg-gradient-to-b from-white to-primary-200 min-h-[100vh]" id='password-prompt-form'>
       <div className="max-w-[540px] py-16 w-full flex flex-col overflow-y-auto mx-auto">
         <div className="border border-neutral-300 m-auto rounded-none sm:rounded-[10px] overflow-hidden mb-6 w-full">
           <Panel 

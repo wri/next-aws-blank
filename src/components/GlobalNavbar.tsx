@@ -2,24 +2,22 @@
 
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
-import { Source_Serif_4 } from 'next/font/google'
 import { Navbar, Menu } from '@worldresources/wri-design-systems'
-import { WriLogoIcon } from '@/components/icons'
-import { usePathname } from 'next/navigation'
+import { useParams, usePathname, useRouter } from 'next/navigation'
 import { useLanguage } from '@/contexts/LanguageContext'
 import { externalLinks } from '@/constants/external-links'
 import { useTranslations } from '@/i18n/useTranslations'
-
-const sourceSerif4 = Source_Serif_4({
-  subsets: ['latin'],
-  weight: ['600'],
-})
+import { HostedByWri } from '@/components/HostedByWri'
 
 export default function GlobalNavbar() {
   const { language, setLanguage } = useLanguage()
   const pathname = usePathname()
   const [mounted, setMounted] = useState(false)
   const t = useTranslations()
+  const router = useRouter()
+  const [isPasswordPromptShown, setIsPasswordPromptShown] = useState(false)
+  const { id } = useParams()
+  const [assessmentTitle, setAssessmentTitle] = useState<string | null>(null)
 
   const languageOptions = [
     { label: t('navigation.languages.en'), value: 'en' },
@@ -33,24 +31,60 @@ export default function GlobalNavbar() {
     setMounted(true)
   }, [])
 
+  useEffect(() => {
+    const passwordPromptForm = document.getElementById('password-prompt-form')
+    setIsPasswordPromptShown(!!passwordPromptForm)
+  }, [pathname])
+
+  useEffect(() => {
+    const getAssessmentName = async () => {
+      if (!id) return
+
+      const dataJson = await fetch(`/api/assessments/${id}`)
+      const data = await dataJson.json()
+      setAssessmentTitle(data?.assessmentTitle || '')
+    }
+
+    getAssessmentName()
+  }, [id])
+
   if (!mounted) return <div className='h-12' />
+
+  // Validate paths like /assessment/23677c38-c425-47ac-ba1d-019d228ece99
+  const isAssessmentPage =
+    /^\/assessment\/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}\/?$/i.test(
+      pathname,
+    )
+
+  const showStartDiagnosticButton =
+    pathname === '/' || (isAssessmentPage && isPasswordPromptShown)
 
   return (
     <Navbar
       pathname={pathname}
       linkRouter={Link}
       logo={
-        <div className='flex items-center gap-7'>
-          <WriLogoIcon height='auto' width='120px' />
-          <span
-            className={`font-semibold text-xl text-neutral-800 ${sourceSerif4.className} hidden sm:block`}
-          >
+        <div className='flex flex-col items-start'>
+          <span className='font-bold text-lg text-neutral-800'>
             {t('navigation.brand')}
+          </span>
+          <span className='text-sm text-neutral-700 -mt-[6px]'>
+            {!showStartDiagnosticButton ? assessmentTitle : ''}
           </span>
         </div>
       }
       navigationSection={[]}
       utilitySection={[
+        <Link
+          key='contact-link'
+          href={externalLinks.contactLink}
+          target='_blank'
+        >
+          {t('navigation.contact')}
+        </Link>,
+        <Link key='about-link' href='/'>
+          {t('navigation.about')}
+        </Link>,
         <Menu
           key='language-menu'
           label={
@@ -60,15 +94,22 @@ export default function GlobalNavbar() {
           items={languageOptions}
           onSelect={setLanguage}
         />,
-        <Link
-          key='contact-link'
-          href={externalLinks.contactLink}
-          target='_blank'
-        >
-          {t('navigation.contact')}
-        </Link>,
+        <HostedByWri key='hosted-by-wri-menu' />,
       ]}
-      actionsSection={[]}
+      actionsSection={
+        showStartDiagnosticButton
+          ? [
+              {
+                ariaLabel: t('home.hero.ctaButton'),
+                children: t('home.hero.ctaButton'),
+                size: 'small',
+                onClick: () => {
+                  router.push('/assessment/setup')
+                },
+              },
+            ]
+          : []
+      }
     />
   )
 }

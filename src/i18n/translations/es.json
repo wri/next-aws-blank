@@ -13,7 +13,8 @@
     },
     "footer": {
       "privacyPolicy": "Política de privacidad",
-      "termsOfService": "Términos de servicio"
+      "termsOfService": "Términos de servicio",
+      "onlineToolSupportedBy": "Herramienta en línea respaldada por"
     },
     "loading": "Cargando...",
     "required": "Obligatorio",
@@ -38,6 +39,22 @@
     "tooltips": {
       "previousTheme": "Tema anterior",
       "nextTheme": "Siguiente tema"
+    },
+    "about": "Acerca de",
+    "hostedByWri": "Alojado por WRI",
+    "hostedByWriPopup": {
+      "title": "Esta herramienta está alojada por la iniciativa de restauración del World Resources Institute",
+      "description": "World Resources Institute (WRI) trabaja para mejorar la vida de las personas, proteger y restaurar la naturaleza, y estabilizar el clima. Como organización de investigación independiente, WRI aprovecha datos, experiencia y alcance global para influir en la política y catalizar cambios en sistemas que incluyen:",
+      "list": {
+        "item1": "Alimentos, tierra y agua",
+        "item2": "Energía",
+        "item3": "Ciudades"
+      },
+      "links": {
+        "aboutWri": "Acerca de WRI",
+        "aboutInitiative": "Acerca de la iniciativa de restauración",
+        "allDataApps": "Todas las aplicaciones de datos de WRI"
+      }
     }
   },
   "home": {

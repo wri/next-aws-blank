@@ -13,7 +13,8 @@
     },
     "footer": {
       "privacyPolicy": "Privacy policy",
-      "termsOfService": "Terms of service"
+      "termsOfService": "Terms of service",
+      "onlineToolSupportedBy": "Online tool supported by"
     },
     "loading": "Loading...",
     "required": "Required",
@@ -38,6 +39,22 @@
     "tooltips": {
       "previousTheme": "Previous theme",
       "nextTheme": "Next theme"
+    },
+    "about": "About",
+    "hostedByWri": "Hosted by WRI",
+    "hostedByWriPopup": {
+      "title": "This tool is hosted by World Resources Institute's restoration initiative",
+      "description": "World Resources Institute (WRI) works to improve people's lives, protect and restore nature, and stabilize the climate. As an independent research organization, WRI leverages data, expertise and global reach to influence policy and catalyze change across systems including:",
+      "list": {
+        "item1": "Food, land and water",
+        "item2": "Energy",
+        "item3": "Cities"
+      },
+      "links": {
+        "aboutWri": "About WRI",
+        "aboutInitiative": "About the restoration initiative",
+        "allDataApps": "All WRI data applications"
+      }
     }
   },
   "home": {

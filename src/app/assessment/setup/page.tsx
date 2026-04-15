@@ -291,6 +291,7 @@ export default function SetupAssessmentPage() {
                       required
                       {...register('title', assessmentFormRules.title)}
                       errorMessage={errors.title?.message}
+                      maxLength={100}
                     />
                   </Box>
 
