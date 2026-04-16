@@ -147,7 +147,8 @@ const validFormData: AssessmentSetupFormData & { language: string } = {
   email: 'john.doe@example.com',
   organization: 'Test Organization',
   role: 'Project Lead',
-  country: 'USA',
+  country: 'United States',
+  countries: ['United States'],
   subRegion: 'California',
   geographyType: TargetGeographyType.NATIONAL,
   scope: 'Regional',
@@ -452,9 +453,9 @@ describe('POST /api/assessments', () => {
       await POST(request);
       
       expect(mockRegionRepository.create).toHaveBeenCalledWith({
-        regionName: 'USA - California',
+        regionName: 'United States - California',
         geographyType: TargetGeographyType.NATIONAL,
-        countries: 'USA',
+        countries: JSON.stringify(['United States']),
         subRegion: 'California',
         scope: 'Regional',
         ecosystems: JSON.stringify(['forest', 'grassland']),

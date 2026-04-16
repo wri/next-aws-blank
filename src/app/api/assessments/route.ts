@@ -87,9 +87,9 @@ export async function POST(request: NextRequest) {
 
         // 2. Create Region (geography information)
         const region = regionRepository.create({
-          regionName: `${body.country} - ${body.subRegion}`,
+          regionName: `${(body.countries || []).join(', ')} - ${body.subRegion}`,
           geographyType: body.geographyType,
-          countries: body.country,
+          countries: JSON.stringify(body.countries || []),
           subRegion: body.subRegion,
           scope: body.scope,
           ecosystems: JSON.stringify(body.ecosystems),
@@ -154,7 +154,7 @@ export async function POST(request: NextRequest) {
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'strict',
       maxAge: 86400, // 24 hours
-      path: '/'
+      path: '/',
     })
 
     return response

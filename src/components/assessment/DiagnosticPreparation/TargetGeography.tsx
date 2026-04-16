@@ -34,7 +34,6 @@ import { useTranslations } from '@/i18n/useTranslations'
 
 type AssessmentData = {
   geographyType: TargetGeographyType
-  country: string
   countries: string
   subRegion: string
   gisUrl: string
@@ -43,12 +42,7 @@ type AssessmentData = {
 
 type TargetGeographyFormData = Pick<
   AssessmentSetupFormData,
-  | 'geographyType'
-  | 'country'
-  | 'countries'
-  | 'subRegion'
-  | 'gisUrl'
-  | 'ecosystems'
+  'geographyType' | 'countries' | 'subRegion' | 'gisUrl' | 'ecosystems'
 >
 
 const mergeEcosystemSelection = (
@@ -72,7 +66,6 @@ const TargetGeography = () => {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [assessmentData, setAssessmentData] = useState<AssessmentData>({
     geographyType: '' as TargetGeographyType,
-    country: '',
     countries: '',
     subRegion: '',
     gisUrl: '',
@@ -112,6 +105,20 @@ const TargetGeography = () => {
     getAssessmentData()
   }, [])
 
+  let countries = []
+  try {
+    if (assessmentData.countries) {
+      countries = JSON.parse(assessmentData.countries)
+    }
+  } catch {
+    if (
+      assessmentData.countries &&
+      typeof assessmentData.countries === 'string'
+    ) {
+      countries = [assessmentData.countries]
+    }
+  }
+
   const {
     register,
     handleSubmit,
@@ -122,7 +129,7 @@ const TargetGeography = () => {
   } = useForm<TargetGeographyFormData>({
     defaultValues: {
       geographyType: assessmentData.geographyType,
-      country: assessmentData.countries,
+      countries,
       subRegion: assessmentData.subRegion,
       gisUrl: assessmentData.gisUrl,
       ecosystems: assessmentData.ecosystems
@@ -131,7 +138,7 @@ const TargetGeography = () => {
     },
     values: {
       geographyType: assessmentData.geographyType,
-      country: assessmentData.countries ?? '',
+      countries,
       subRegion: assessmentData.subRegion,
       gisUrl: assessmentData.gisUrl,
       ecosystems: assessmentData.ecosystems
@@ -306,18 +313,19 @@ const TargetGeography = () => {
             )}
           />
           <Controller
-            name='country'
+            name='countries'
             control={control}
             render={({ field }) => (
               <Select
                 label={t('scoping.step1.fields.country.label')}
                 placeholder={t('scoping.step1.fields.country.placeholder')}
-                defaultValue={[assessmentData.countries ?? '']}
+                defaultValue={countries}
                 items={COUNTRIES.map((country) => ({
                   value: country,
                   label: country,
                 }))}
-                onChange={(values) => field.onChange(values[0] || '')}
+                onChange={(values) => field.onChange(values)}
+                multiple
               />
             )}
           />

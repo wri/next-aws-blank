@@ -142,6 +142,20 @@ const Scope = ({ data, assessmentId }: ScopeProps) => {
     setTimeout(() => setIsMaterialsLinkCopied(false), 2000)
   }
 
+  let countries = []
+  try {
+    if (data.diagnosticScope.geography.country) {
+      countries = JSON.parse(data.diagnosticScope.geography.country)
+    }
+  } catch {
+    if (
+      data.diagnosticScope.geography.country &&
+      typeof data.diagnosticScope.geography.country === 'string'
+    ) {
+      countries = [data.diagnosticScope.geography.country]
+    }
+  }
+
   return (
     <div>
       <SectionTitle index={1} title={t('overview.scope.sectionTitle')} />
@@ -272,9 +286,9 @@ const Scope = ({ data, assessmentId }: ScopeProps) => {
             <p className='text-neutral-700 text-sm'>
               {t('overview.scope.diagnosticScope.fields.country')}
             </p>
-            {data.diagnosticScope.geography.country ? (
+            {countries && countries.length > 0 ? (
               <p className='text-neutral-800 font-bold mt-1'>
-                {data.diagnosticScope.geography.country}
+                {countries.join(', ')}
               </p>
             ) : (
               <NoInformation />

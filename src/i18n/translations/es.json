@@ -416,7 +416,7 @@
           }
         },
         "country": {
-          "label": "País",
+          "label": "País (opcional)",
           "placeholder": "Por favor seleccione"
         },
         "subRegion": {

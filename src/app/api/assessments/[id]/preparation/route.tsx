@@ -92,9 +92,9 @@ export async function POST(
 
         const region = regionRepository.create({
           ...oldRegion,
-          regionName: `${body.country} - ${body.subRegion}`,
+          regionName: `${(body.countries || []).join(', ')} - ${body.subRegion}`,
           geographyType: body.geographyType,
-          countries: body.country,
+          countries: JSON.stringify(body.countries || []),
           subRegion: body.subRegion,
           gisUrl: body.gisUrl || '',
           ecosystems: JSON.stringify(body.ecosystems),

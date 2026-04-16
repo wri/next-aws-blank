@@ -5,6 +5,7 @@ import { DocumentIcon } from '@/components/icons'
 import clsx from 'clsx'
 import Link from 'next/link'
 import { useTranslations } from '@/i18n/useTranslations'
+import { useSearchParams } from 'next/navigation'
 
 export type StepProps = {
   id: string
@@ -29,12 +30,14 @@ const DiagnosticPreparationStep = ({
   activeStep,
   activeStepIdx,
   assessmentId,
+  isEditing,
 }: {
   stepIdx: number
   step: StepProps
   activeStep: string
   activeStepIdx: number
   assessmentId: string
+  isEditing: boolean
 }) => {
   const isActive = activeStep === step.id
   const isPast = stepIdx < activeStepIdx
@@ -44,12 +47,12 @@ const DiagnosticPreparationStep = ({
       className={clsx(
         'py-3 px-[10px]',
         isActive && 'bg-secondary-100',
-        isPast && 'cursor-pointer hover:bg-secondary-100',
+        (isPast || isEditing) && 'cursor-pointer hover:bg-secondary-100',
       )}
     >
-      {isPast ? (
+      {isPast || isEditing ? (
         <Link
-          href={`/assessment/${assessmentId}/preparation/${step.id}`}
+          href={`/assessment/${assessmentId}/preparation/${step.id}${isEditing ? '?isEditMode=true' : ''}`}
           className={clsx(
             'text-neutral-800 flex items-center gap-2',
             isActive ? 'font-bold' : '',
@@ -78,10 +81,14 @@ const DiagnosticPreparationStep = ({
 }
 
 const Steps = ({ steps, activeStep, assessmentId }: StepsProps) => {
+  const searchParams = useSearchParams()
   const t = useTranslations()
   const totalSteps = steps.length
   const activeStepIdx = steps.findIndex((s) => s.id === activeStep)
   const activeStepNumber = activeStepIdx >= 0 ? activeStepIdx + 1 : 1
+
+  const isEditMode = searchParams.get('isEditMode')
+  const isEditing = isEditMode === 'true'
 
   return (
     <div className=''>
@@ -122,6 +129,7 @@ const Steps = ({ steps, activeStep, assessmentId }: StepsProps) => {
                   activeStep={activeStep}
                   activeStepIdx={activeStepIdx}
                   assessmentId={assessmentId}
+                  isEditing={isEditing}
                 />
               ))}
           </div>
@@ -142,6 +150,7 @@ const Steps = ({ steps, activeStep, assessmentId }: StepsProps) => {
                   activeStep={activeStep}
                   activeStepIdx={activeStepIdx}
                   assessmentId={assessmentId}
+                  isEditing={isEditing}
                 />
               ))}
           </div>

@@ -17,7 +17,7 @@ export interface AssessmentSetupFormData {
   gender?: string;
   ageRange?: string;
   identity?: string;
-  countries?: string;
+  countries?: string[];
   subRegion: string;
   geographyType: TargetGeographyType;
   scope: string;
@@ -38,7 +38,7 @@ export interface AssessmentSetupFormErrors {
   email?: string;
   organization?: string;
   role?: string;
-  country?: string;
+  countries?: string[];
   subRegion?: string;
   geographyType?: TargetGeographyType;
   scope?: string;
