@@ -56,8 +56,36 @@ export default function GlobalNavbar() {
       pathname,
     )
 
+  const isHomePage = pathname === '/'
   const showStartDiagnosticButton =
-    pathname === '/' || (isAssessmentPage && isPasswordPromptShown)
+    isHomePage || (isAssessmentPage && isPasswordPromptShown)
+
+  const utilitySection = [
+    <Link key='contact-link' href={externalLinks.contactLink} target='_blank'>
+      {t('navigation.contact')}
+    </Link>,
+  ]
+
+  if (!isHomePage) {
+    utilitySection.push(
+      <Link key='about-link' href='/'>
+        {t('navigation.about')}
+      </Link>,
+    )
+  }
+
+  utilitySection.push(
+    <Menu
+      key='language-menu'
+      label={
+        languageOptions?.find((l) => l.value === language)?.label ||
+        t('navigation.languageMenu')
+      }
+      items={languageOptions}
+      onSelect={setLanguage}
+    />,
+    <HostedByWri key='hosted-by-wri-menu' />,
+  )
 
   return (
     <Navbar
@@ -74,28 +102,7 @@ export default function GlobalNavbar() {
         </div>
       }
       navigationSection={[]}
-      utilitySection={[
-        <Link
-          key='contact-link'
-          href={externalLinks.contactLink}
-          target='_blank'
-        >
-          {t('navigation.contact')}
-        </Link>,
-        <Link key='about-link' href='/'>
-          {t('navigation.about')}
-        </Link>,
-        <Menu
-          key='language-menu'
-          label={
-            languageOptions?.find((l) => l.value === language)?.label ||
-            t('navigation.languageMenu')
-          }
-          items={languageOptions}
-          onSelect={setLanguage}
-        />,
-        <HostedByWri key='hosted-by-wri-menu' />,
-      ]}
+      utilitySection={utilitySection}
       actionsSection={
         showStartDiagnosticButton
           ? [

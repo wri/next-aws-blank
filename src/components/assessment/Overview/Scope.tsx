@@ -61,7 +61,6 @@ interface ScopeProps {
 
 const Scope = ({ data, assessmentId }: ScopeProps) => {
   const [isEmailCopied, setIsEmailCopied] = useState(false)
-  const [isLinkCopied, setIsLinkCopied] = useState(false)
   const [isMaterialsLinkCopied, setIsMaterialsLinkCopied] = useState(false)
   const router = useRouter()
   const t = useTranslations()
@@ -132,15 +131,6 @@ const Scope = ({ data, assessmentId }: ScopeProps) => {
 
     setIsEmailCopied(true)
     setTimeout(() => setIsEmailCopied(false), 2000)
-  }
-
-  const handleCopyLink = async (text: string | null | undefined) => {
-    if (!text) return
-
-    await copyTextToClipboard(text)
-
-    setIsLinkCopied(true)
-    setTimeout(() => setIsLinkCopied(false), 2000)
   }
 
   const handleCopyMaterialsLink = async (text: string | null | undefined) => {
@@ -298,32 +288,6 @@ const Scope = ({ data, assessmentId }: ScopeProps) => {
               <p className='text-neutral-800 font-bold mt-1'>
                 {data.diagnosticScope.geography.subRegion}
               </p>
-            ) : (
-              <NoInformation />
-            )}
-          </div>
-          <div>
-            <p className='text-neutral-700 text-sm'>
-              {t(
-                'overview.scope.diagnosticScope.fields.restorationBoundaryLink',
-              )}
-            </p>
-            {data.diagnosticScope.geography.gisUrl ? (
-              <div className='flex items-center gap-2 mt-1'>
-                <p className='text-neutral-800 font-bold underline decoration-primary-700 decoration-dotted'>
-                  {data.diagnosticScope.geography.gisUrl}
-                </p>
-                {isLinkCopied ? (
-                  <CheckCircleIcon className='text-success-500 h-5 w-5' />
-                ) : (
-                  <IconButton
-                    icon={<CopyIcon />}
-                    onClick={() =>
-                      handleCopyLink(data.diagnosticScope.geography.gisUrl)
-                    }
-                  />
-                )}
-              </div>
             ) : (
               <NoInformation />
             )}
