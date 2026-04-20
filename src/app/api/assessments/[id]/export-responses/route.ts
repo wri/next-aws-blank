@@ -14,14 +14,18 @@ import { AnswerValue } from '@/types/answer.types'
 const exportLabels: Record<
   string,
   {
-    headers: string[]
+    responseHeaders: string[]
+    strategyHeaders: string[]
     theme: Record<string, string>
     status: Record<AnswerStatus | 'empty', string>
     response: Record<AnswerValue | 'empty', string>
+    priority: Record<string, string>
+    scale: Record<string, string>
+    strategyStatus: Record<string, string>
   }
 > = {
   en: {
-    headers: [
+    responseHeaders: [
       enTranslations.overview.exportResponses.headers.id,
       enTranslations.overview.exportResponses.headers.theme,
       enTranslations.overview.exportResponses.headers.enablingCondition,
@@ -29,6 +33,16 @@ const exportLabels: Record<
       enTranslations.overview.exportResponses.headers.status,
       enTranslations.overview.exportResponses.headers.response,
       enTranslations.overview.exportResponses.headers.rationale,
+    ],
+    strategyHeaders: [
+      enTranslations.overview.exportStrategies.headers.strategyTitle,
+      enTranslations.overview.exportStrategies.headers.keyFactor,
+      enTranslations.overview.exportStrategies.headers.priority,
+      enTranslations.overview.exportStrategies.headers.scale,
+      enTranslations.overview.exportStrategies.headers.estimatedStartDate,
+      enTranslations.overview.exportStrategies.headers.responsibility,
+      enTranslations.overview.exportStrategies.headers.status,
+      enTranslations.overview.exportStrategies.headers.description,
     ],
     theme: {
       Motivate: enTranslations.navigation.themes.motivate,
@@ -52,9 +66,12 @@ const exportLabels: Record<
       [AnswerValue.NA]: enTranslations.overview.exportResponses.response.na,
       empty: enTranslations.overview.exportResponses.response.empty,
     },
+    priority: enTranslations.overview.exportStrategies.priority,
+    scale: enTranslations.overview.exportStrategies.scale,
+    strategyStatus: enTranslations.assessment.strategies.fields.status.options,
   },
   es: {
-    headers: [
+    responseHeaders: [
       esTranslations.overview.exportResponses.headers.id,
       esTranslations.overview.exportResponses.headers.theme,
       esTranslations.overview.exportResponses.headers.enablingCondition,
@@ -62,6 +79,16 @@ const exportLabels: Record<
       esTranslations.overview.exportResponses.headers.status,
       esTranslations.overview.exportResponses.headers.response,
       esTranslations.overview.exportResponses.headers.rationale,
+    ],
+    strategyHeaders: [
+      esTranslations.overview.exportStrategies.headers.strategyTitle,
+      esTranslations.overview.exportStrategies.headers.keyFactor,
+      esTranslations.overview.exportStrategies.headers.priority,
+      esTranslations.overview.exportStrategies.headers.scale,
+      esTranslations.overview.exportStrategies.headers.estimatedStartDate,
+      esTranslations.overview.exportStrategies.headers.responsibility,
+      esTranslations.overview.exportStrategies.headers.status,
+      esTranslations.overview.exportStrategies.headers.description,
     ],
     theme: {
       Motivate: esTranslations.navigation.themes.motivate,
@@ -85,9 +112,12 @@ const exportLabels: Record<
       [AnswerValue.NA]: esTranslations.overview.exportResponses.response.na,
       empty: esTranslations.overview.exportResponses.response.empty,
     },
+    priority: esTranslations.overview.exportStrategies.priority,
+    scale: esTranslations.overview.exportStrategies.scale,
+    strategyStatus: esTranslations.assessment.strategies.fields.status.options,
   },
   fr: {
-    headers: [
+    responseHeaders: [
       frTranslations.overview.exportResponses.headers.id,
       frTranslations.overview.exportResponses.headers.theme,
       frTranslations.overview.exportResponses.headers.enablingCondition,
@@ -95,6 +125,16 @@ const exportLabels: Record<
       frTranslations.overview.exportResponses.headers.status,
       frTranslations.overview.exportResponses.headers.response,
       frTranslations.overview.exportResponses.headers.rationale,
+    ],
+    strategyHeaders: [
+      frTranslations.overview.exportStrategies.headers.strategyTitle,
+      frTranslations.overview.exportStrategies.headers.keyFactor,
+      frTranslations.overview.exportStrategies.headers.priority,
+      frTranslations.overview.exportStrategies.headers.scale,
+      frTranslations.overview.exportStrategies.headers.estimatedStartDate,
+      frTranslations.overview.exportStrategies.headers.responsibility,
+      frTranslations.overview.exportStrategies.headers.status,
+      frTranslations.overview.exportStrategies.headers.description,
     ],
     theme: {
       Motivate: frTranslations.navigation.themes.motivate,
@@ -118,9 +158,12 @@ const exportLabels: Record<
       [AnswerValue.NA]: frTranslations.overview.exportResponses.response.na,
       empty: frTranslations.overview.exportResponses.response.empty,
     },
+    priority: frTranslations.overview.exportStrategies.priority,
+    scale: frTranslations.overview.exportStrategies.scale,
+    strategyStatus: frTranslations.assessment.strategies.fields.status.options,
   },
   pt: {
-    headers: [
+    responseHeaders: [
       ptTranslations.overview.exportResponses.headers.id,
       ptTranslations.overview.exportResponses.headers.theme,
       ptTranslations.overview.exportResponses.headers.enablingCondition,
@@ -128,6 +171,16 @@ const exportLabels: Record<
       ptTranslations.overview.exportResponses.headers.status,
       ptTranslations.overview.exportResponses.headers.response,
       ptTranslations.overview.exportResponses.headers.rationale,
+    ],
+    strategyHeaders: [
+      ptTranslations.overview.exportStrategies.headers.strategyTitle,
+      ptTranslations.overview.exportStrategies.headers.keyFactor,
+      ptTranslations.overview.exportStrategies.headers.priority,
+      ptTranslations.overview.exportStrategies.headers.scale,
+      ptTranslations.overview.exportStrategies.headers.estimatedStartDate,
+      ptTranslations.overview.exportStrategies.headers.responsibility,
+      ptTranslations.overview.exportStrategies.headers.status,
+      ptTranslations.overview.exportStrategies.headers.description,
     ],
     theme: {
       Motivate: ptTranslations.navigation.themes.motivate,
@@ -151,6 +204,9 @@ const exportLabels: Record<
       [AnswerValue.NA]: ptTranslations.overview.exportResponses.response.na,
       empty: ptTranslations.overview.exportResponses.response.empty,
     },
+    priority: ptTranslations.overview.exportStrategies.priority,
+    scale: ptTranslations.overview.exportStrategies.scale,
+    strategyStatus: ptTranslations.assessment.strategies.fields.status.options,
   },
 } as const
 
@@ -211,7 +267,9 @@ export async function GET(
 
     const questions = await getLocalizedQuestionsWithAnswers(id, language)
     const labels = exportLabels[language]
-    const rows = questions.map((question) => [
+
+    // Construct array for Responses sheet
+    const responsesRows = questions.map((question) => [
       question.questionCode,
       labels.theme[question.theme] ?? question.theme,
       question.enablingCondition,
@@ -225,7 +283,91 @@ export async function GET(
       richTextToPlainText(question.answer?.rationale),
     ])
 
-    const workbook = createWorkbookBuffer(labels.headers, rows)
+    // Construct array for Strategies sheet
+    const contributorIds = new Set<string>()
+    questions.forEach((question) => {
+      const strategies = question.answer?.strategies
+        ? JSON.parse(question.answer.strategies)
+        : []
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      strategies.forEach((strategy: any) => {
+        const responsibility = strategy.responsibility
+          ? JSON.parse(strategy.responsibility)
+          : []
+        responsibility.forEach((cid: string) => contributorIds.add(cid))
+      })
+    })
+
+    let contributorMap: Record<string, string> = {}
+    if (contributorIds.size > 0) {
+      const { getContributorsByIds } =
+        await import('@/db/queries/assessment-queries')
+      const contributors = await getContributorsByIds(
+        Array.from(contributorIds),
+      )
+      contributorMap = contributors.reduce(
+        (
+          map: Record<string, string>,
+          contributor: { id: string; name: string },
+        ) => {
+          map[contributor.id] = contributor.name
+          return map
+        },
+        {},
+      )
+    }
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const strategiesRows: any[] = []
+    questions.forEach((question) => {
+      const strategies = question.answer?.strategies
+        ? JSON.parse(question.answer.strategies)
+        : []
+
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      strategies.forEach((strategy: any) => {
+        const responsibilityIds: string[] = strategy.responsibility
+          ? JSON.parse(strategy.responsibility)
+          : []
+        const responsibilityNames = responsibilityIds
+          .map((rid: string) => contributorMap[rid] || rid)
+          .join(', ')
+
+        const priorityKey = strategy.priority || 'empty'
+        const scaleKey = strategy.scale || ''
+        const strategyStatusKey = strategy.status || ''
+
+        strategiesRows.push([
+          strategy.title,
+          question.keySuccessFactor,
+          labels.priority[priorityKey] ?? strategy.priority,
+          labels.scale[scaleKey] ?? strategy.scale,
+          strategy.deadline,
+          responsibilityNames,
+          strategyStatusKey
+            ? ((labels.strategyStatus as Record<string, string>)[
+                strategyStatusKey
+              ] ?? strategyStatusKey)
+            : '',
+          richTextToPlainText(strategy.description),
+        ])
+      })
+    })
+
+    const sheets = [
+      {
+        name: 'Responses',
+        headers: labels.responseHeaders,
+        rows: responsesRows,
+      },
+      {
+        name: 'Strategies',
+        headers: labels.strategyHeaders,
+        rows: strategiesRows,
+      },
+    ]
+
+    const workbook = createWorkbookBuffer(sheets)
     const filename = `${sanitizeFilenamePart(assessment.title)}-${buildTimestamp(new Date())}.xlsx`
 
     return new NextResponse(workbook, {

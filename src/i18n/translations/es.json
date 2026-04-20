@@ -1147,6 +1147,22 @@
       }
     },
     "modals": {
+      "allComplete": {
+        "title": "Todos los factores completos",
+        "description": "¡Has completado todos los factores del diagnóstico! Ahora puedes descargar tu informe final.",
+        "buttons": {
+          "download": "Descargar ahora",
+          "overview": "Volver al resumen"
+        }
+      },
+      "emptyStrategies": {
+        "title": "¿Estás seguro de que deseas marcar como completo?",
+        "description": "Hay información que aún no se ha completado para este factor clave de éxito. Asegúrate de estar de acuerdo en continuar antes de marcar como completo.",
+        "buttons": {
+          "confirm": "Marcar completo",
+          "cancel": "Cancelar"
+        }
+      },
       "markCompleteConfirm": {
         "heading": "¿Está seguro de que desea marcar como completo?",
         "description": "Hay información que aún no se ha completado para este factor clave de éxito. Asegúrese de estar satisfecho antes de proceder a marcar como completo.",

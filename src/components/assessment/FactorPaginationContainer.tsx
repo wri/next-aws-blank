@@ -38,6 +38,7 @@ export interface FactorPaginationContainerProps {
 
   isMarkedAsComplete: boolean
   setIsNextOrPrev: (direction: 'next' | 'prev') => void
+  onOverviewNavigation?: () => void
 }
 
 export function FactorPaginationContainer({
@@ -50,6 +51,7 @@ export function FactorPaginationContainer({
   onNavigate,
   isMarkedAsComplete,
   setIsNextOrPrev,
+  onOverviewNavigation,
 }: FactorPaginationContainerProps) {
   const t = useTranslations()
   // Find current question index
@@ -128,7 +130,23 @@ export function FactorPaginationContainer({
       />)}
       
       {/* Next Factor Card */}
-      {!hasNextInTheme && !canGoNextTheme ? <div aria-hidden>&nbsp;</div> : (
+      {!hasNextInTheme && currentTheme === 'Implement' ? (
+        <PaginationCard
+          direction='right'
+          label={t('common.buttons.backToOverview')}
+          factorName=''
+          href={`/assessment/${assessmentId}`}
+          isDisabled={false}
+          onClick={(e) => {
+            if (e) e.preventDefault()
+            if (onOverviewNavigation) {
+              onOverviewNavigation()
+            }
+          }}
+        />
+      ) : !hasNextInTheme && !canGoNextTheme ? (
+        <div aria-hidden>&nbsp;</div>
+      ) : (
         <PaginationCard
           direction="right"
           label={t('assessment.pagination.nextFactor')}

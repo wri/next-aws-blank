@@ -1147,6 +1147,22 @@
       }
     },
     "modals": {
+      "allComplete": {
+        "title": "All factors complete",
+        "description": "You've completed all factors of the diagnostic! You can now download your final report.",
+        "buttons": {
+          "download": "Download now",
+          "overview": "Back to overview"
+        }
+      },
+      "emptyStrategies": {
+        "title": "Are you sure you want to mark complete?",
+        "description": "There is information that hasn't been filled in yet for this key success factor. Make sure you are happy to proceed before marking complete.",
+        "buttons": {
+          "confirm": "Mark complete",
+          "cancel": "Cancel"
+        }
+      },
       "markCompleteConfirm": {
         "heading": "Are you sure you want to mark complete?",
         "description": "There is information that hasn't been filled in yet for this key success factor. Make sure you are happy to proceed before marking complete.",

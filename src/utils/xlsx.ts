@@ -1,4 +1,10 @@
-type XlsxRow = Array<string | number | null | undefined>
+export type XlsxRow = Array<string | number | null | undefined>
+
+export type XlsxSheet = {
+  name: string
+  headers: readonly string[]
+  rows: XlsxRow[]
+}
 
 type ZipEntry = {
   name: string
@@ -167,13 +173,7 @@ const createZip = (entries: ZipEntry[]) => {
   ])
 }
 
-export const createWorkbookBuffer = (
-  headers: readonly string[],
-  rows: XlsxRow[],
-  sheetName = 'Sheet1',
-) => {
-  const worksheetXml = buildSheetXml(headers, rows)
-
+export const createWorkbookBuffer = (sheets: XlsxSheet[]) => {
   const files: ZipEntry[] = [
     {
       name: '[Content_Types].xml',
@@ -183,7 +183,7 @@ export const createWorkbookBuffer = (
   <Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/>
   <Default Extension="xml" ContentType="application/xml"/>
   <Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/>
-  <Override PartName="/xl/worksheets/sheet1.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/>
+  ${sheets.map((_, i) => `<Override PartName="/xl/worksheets/sheet${i + 1}.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/>`).join('\n  ')}
   <Override PartName="/xl/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml"/>
 </Types>`,
         'utf8',
@@ -205,7 +205,7 @@ export const createWorkbookBuffer = (
         `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships">
   <sheets>
-    <sheet name="${sheetName}" sheetId="1" r:id="rId1"/>
+    ${sheets.map((sheet, i) => `<sheet name="${escapeXml(sheet.name)}" sheetId="${i + 1}" r:id="rId${i + 1}"/>`).join('\n    ')}
   </sheets>
 </workbook>`,
         'utf8',
@@ -216,16 +216,16 @@ export const createWorkbookBuffer = (
       data: Buffer.from(
         `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">
-  <Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet1.xml"/>
-  <Relationship Id="rId2" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/>
+  ${sheets.map((_, i) => `<Relationship Id="rId${i + 1}" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet${i + 1}.xml"/>`).join('\n  ')}
+  <Relationship Id="rId${sheets.length + 1}" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/>
 </Relationships>`,
         'utf8',
       ),
     },
-    {
-      name: 'xl/worksheets/sheet1.xml',
-      data: Buffer.from(worksheetXml, 'utf8'),
-    },
+    ...sheets.map((sheet, i) => ({
+      name: `xl/worksheets/sheet${i + 1}.xml`,
+      data: Buffer.from(buildSheetXml(sheet.headers, sheet.rows), 'utf8'),
+    })),
     {
       name: 'xl/styles.xml',
       data: Buffer.from(

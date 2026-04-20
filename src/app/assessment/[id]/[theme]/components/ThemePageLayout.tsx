@@ -48,6 +48,7 @@ interface ThemePageLayoutProps {
   pathname: string
   language: string
   questions: PlainQuestion[]
+  totalAssessmentQuestions: number
   initialAnswers: Array<[string, PlainAnswer]>
   focusQuestionCode: string
   canGoPrev: boolean
@@ -63,6 +64,7 @@ export function ThemePageLayout({
   assessmentId,
   theme,
   questions,
+  totalAssessmentQuestions,
   initialAnswers,
   focusQuestionCode,
   canGoPrev,
@@ -150,6 +152,7 @@ export function ThemePageLayout({
           assessmentId={assessmentId}
           theme={theme}
           questions={localizedQuestions}
+          totalAssessmentQuestions={totalAssessmentQuestions}
           initialAnswers={answers}
           focusQuestionCode={currentFocusCode}
           canGoPrev={canGoPrev}

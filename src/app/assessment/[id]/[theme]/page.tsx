@@ -153,6 +153,7 @@ export default async function ThemeQuestionPage({ params, searchParams }: PagePr
       pathname={pathname}
       language={language}
       questions={plainQuestions}
+      totalAssessmentQuestions={localizedQuestions.length}
       initialAnswers={initialAnswers}
       focusQuestionCode={focusQuestionCode}
       canGoPrev={canGoPrev}

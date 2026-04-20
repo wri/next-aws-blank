@@ -14,8 +14,11 @@ import {
   InProgressIcon,
   NotStartedIcon,
   EditIcon,
+  DownloadIcon,
+  CheckCircleFilledIcon,
 } from '@/components/icons'
 import { ProgressNotSavedModal } from '@/components/assessment/ProgressNotSavedModal'
+import { useLanguage } from '@/contexts/LanguageContext'
 import type { PlainQuestion, PlainAnswer } from './ThemePageLayout'
 import {
   Button,
@@ -37,6 +40,7 @@ interface QuestionViewProps {
   assessmentId: string
   theme: 'Motivate' | 'Enable' | 'Implement'
   questions: PlainQuestion[]
+  totalAssessmentQuestions: number
   initialAnswers: Array<[string, PlainAnswer]>
   focusQuestionCode: string
   canGoPrev: boolean
@@ -56,6 +60,7 @@ export function QuestionView({
   assessmentId,
   theme,
   questions,
+  totalAssessmentQuestions,
   initialAnswers,
   focusQuestionCode,
   canGoPrev,
@@ -71,6 +76,7 @@ export function QuestionView({
 }: QuestionViewProps) {
   const router = useRouter()
   const t = useTranslations()
+  const { language } = useLanguage()
 
   // Reconstruct Map from serialized array (Maps cannot be passed from Server to Client Components)
   const [answersCache, setAnswersCache] = useState(
@@ -112,6 +118,41 @@ export function QuestionView({
   const [showCompleteWarning, setShowCompleteWarning] = useState(false)
   const [showProgressNotSavedModal, setShowProgressNotSavedModal] =
     useState(false)
+
+  const [showEmptyStrategiesWarning, setShowEmptyStrategiesWarning] =
+    useState(false)
+  const [showAllFactorsCompleteModal, setShowAllFactorsCompleteModal] =
+    useState(false)
+  const [isDownloading, setIsDownloading] = useState(false)
+
+  const downloadResponses = async () => {
+    setIsDownloading(true)
+    try {
+      const response = await fetch(
+        `/api/assessments/${assessmentId}/export-responses?language=${language}`,
+      )
+      if (!response.ok) throw new Error('Failed to export responses')
+
+      const blob = await response.blob()
+      const contentDisposition = response.headers.get('Content-Disposition')
+      const filename =
+        contentDisposition?.match(/filename="(.+)"/)?.[1] ??
+        'assessment_responses.xlsx'
+
+      const objectUrl = window.URL.createObjectURL(blob)
+      const anchor = document.createElement('a')
+      anchor.href = objectUrl
+      anchor.download = filename
+      document.body.appendChild(anchor)
+      anchor.click()
+      anchor.remove()
+      window.URL.revokeObjectURL(objectUrl)
+    } catch (error) {
+      console.error(error)
+    } finally {
+      setIsDownloading(false)
+    }
+  }
 
   useEffect(() => {
     const targetQuestion =
@@ -687,8 +728,19 @@ export function QuestionView({
     )
   }
 
-  const markAsCompleteHandler = async () => {
+  const handleMarkCompleteClick = () => {
+    // If not N/A AND empty strategies -> trigger empty strategies modal warning
+    if (selectedAnswer !== AnswerValue.NA && strategies === '[]') {
+      setShowEmptyStrategiesWarning(true)
+      return
+    }
+
+    performMarkAsComplete()
+  }
+
+  const performMarkAsComplete = async () => {
     setIsVisuallyMarkedAsComplete(true)
+    setShowEmptyStrategiesWarning(false)
 
     await save(
       {
@@ -701,6 +753,18 @@ export function QuestionView({
       },
       true,
     )
+
+    // Check if everything is complete
+    let alreadyCompletedCount = 0
+    Array.from(answersCache.entries()).forEach(([qId, ans]) => {
+      if (qId !== currentQuestion.id && ans.status === AnswerStatus.COMPLETE) {
+        alreadyCompletedCount++
+      }
+    })
+
+    if (alreadyCompletedCount + 1 >= totalAssessmentQuestions) {
+      setShowAllFactorsCompleteModal(true)
+    }
   }
 
   const allowMarkAsComplete =
@@ -709,19 +773,7 @@ export function QuestionView({
       : selectedAnswer !== null && hasRichTextContent(rationale)
 
   const markCompleteAndContinue = async () => {
-    await save(
-      {
-        questionId: currentQuestion.id,
-        value: selectedAnswer,
-        rationale,
-        notes,
-        strategies,
-        status: AnswerStatus.COMPLETE,
-      },
-      true,
-    )
-
-    setIsVisuallyMarkedAsComplete(true)
+    await performMarkAsComplete()
 
     setShowCompleteWarning(false)
     const pendingNavigation = pendingCompleteGuardNavigationRef.current
@@ -828,7 +880,7 @@ export function QuestionView({
                   leftIcon={<CheckIcon />}
                   variant='primary'
                   size='small'
-                  onClick={markAsCompleteHandler}
+                  onClick={handleMarkCompleteClick}
                   disabled={!allowMarkAsComplete}
                 >
                   {t('overview.keySuccessFactors.status.complete')}
@@ -869,7 +921,7 @@ export function QuestionView({
                 icon={null}
                 label={t('assessment.actions.messages.readyToFinish')}
                 size='full-width'
-                onActionClick={markAsCompleteHandler}
+                onActionClick={handleMarkCompleteClick}
                 buttonLeftIcon={<CheckIcon />}
                 variant='info-grey'
               />
@@ -903,6 +955,7 @@ export function QuestionView({
             nextTheme={nextTheme}
             onNavigate={handleQuestionSelect}
             isMarkedAsComplete={!shouldTriggerCompleteGuard}
+            onOverviewNavigation={handleOverviewNavigation}
             setIsNextOrPrev={(direction) => {
               const navigateFn = buildPaginationNavigation(direction)
 
@@ -944,6 +997,68 @@ export function QuestionView({
               rightIcon={<ChevronRightIcon />}
               variant='borderless'
               size='small'
+            />
+          </>
+        }
+      />
+
+      <Modal
+        open={showEmptyStrategiesWarning}
+        onClose={() => setShowEmptyStrategiesWarning(false)}
+        header={
+          <p className='text-neutral-800 font-bold text-base'>
+            {t('assessment.modals.emptyStrategies.title')}
+          </p>
+        }
+        content={
+          <p className='text-neutral-700 text-base'>
+            {t('assessment.modals.emptyStrategies.description')}
+          </p>
+        }
+        footer={
+          <>
+            <Button
+              label={t('assessment.modals.emptyStrategies.buttons.confirm')}
+              onClick={performMarkAsComplete}
+            />
+            <Button
+              label={t('assessment.modals.emptyStrategies.buttons.cancel')}
+              onClick={() => setShowEmptyStrategiesWarning(false)}
+              variant='secondary'
+            />
+          </>
+        }
+      />
+
+      <Modal
+        open={showAllFactorsCompleteModal}
+        onClose={() => setShowAllFactorsCompleteModal(false)}
+        header={
+          <p className='text-neutral-800 font-bold text-base'>
+            {t('assessment.modals.allComplete.title')}
+          </p>
+        }
+        content={
+          <div className='flex flex-col items-center gap-4'>
+            <CheckCircleFilledIcon className='w-11 h-11 text-success-500' />
+            <p className='text-neutral-700 text-base'>
+              {t('assessment.modals.allComplete.description')}
+            </p>
+          </div>
+        }
+        footer={
+          <>
+            <Button
+              label={t('assessment.modals.allComplete.buttons.download')}
+              onClick={downloadResponses}
+              leftIcon={<DownloadIcon />}
+              loading={isDownloading}
+              disabled={isDownloading}
+            />
+            <Button
+              label={t('assessment.modals.allComplete.buttons.overview')}
+              onClick={handleOverviewNavigation}
+              variant='secondary'
             />
           </>
         }

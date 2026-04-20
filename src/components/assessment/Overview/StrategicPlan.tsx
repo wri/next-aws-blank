@@ -19,7 +19,6 @@ import { useState } from 'react'
 import StrategiesReadOnlyModal from '@/app/assessment/[id]/[theme]/components/Strategies/ReadOnlyModal'
 import Link from 'next/link'
 import { useTranslations } from '@/i18n/useTranslations'
-import ExportStrategies from './ExportStrategies'
 import StrategiesAboutModal from '@/app/assessment/[id]/[theme]/components/Strategies/AboutModal'
 
 interface StrategicPlanProps {
@@ -78,11 +77,6 @@ const StrategicPlan = ({
         <SectionTitle
           index={3}
           title={t('overview.strategicPlan.sectionTitle')}
-          actionButton={
-            data.length > 0 ? (
-              <ExportStrategies assessmentId={assessmentId} />
-            ) : null
-          }
         />
         <CardContainer
           title={t('overview.strategicPlan.title')}

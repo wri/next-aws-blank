@@ -28,7 +28,7 @@ export interface PaginationCardProps {
   href: string
   
   /** Optional click handler - executes AFTER navigation (additive) */
-  onClick?: () => void
+  onClick?: (e?: React.MouseEvent) => void
   
   /** Disables card interaction and applies disabled styling */
   isDisabled?: boolean
@@ -160,7 +160,7 @@ export function PaginationCard({
       passHref
       legacyBehavior={false}
       style={{ textDecoration: 'none' }}
-      onClick={() => onClick?.()}
+      onClick={(e) => onClick?.(e)}
     >
       {cardContent}
     </Link>

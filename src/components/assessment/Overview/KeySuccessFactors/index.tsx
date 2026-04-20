@@ -5,7 +5,6 @@ import { QuestionWithAnswer } from '@/types/questions.types'
 import { Theme } from '@/db/entities'
 import KeySuccessFactorsSection from './KeySuccessFactorsSection'
 import { useTranslations } from '@/i18n/useTranslations'
-import ExportResponses from '../ExportResponses'
 
 interface KeySuccessFactorsProps {
   assessmentId: string
@@ -44,7 +43,6 @@ const KeySuccessFactors = ({
       <SectionTitle
         index={2}
         title={t('overview.keySuccessFactors.sectionTitle')}
-        actionButton={<ExportResponses assessmentId={assessmentId} />}
       />
 
       {keyFactorsData.map((item) => (

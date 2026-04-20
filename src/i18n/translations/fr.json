@@ -1147,6 +1147,22 @@
       }
     },
     "modals": {
+      "allComplete": {
+        "title": "Tous les facteurs sont complets",
+        "description": "Vous avez complété tous les facteurs du diagnostic ! Vous pouvez maintenant télécharger votre rapport final.",
+        "buttons": {
+          "download": "Télécharger maintenant",
+          "overview": "Retour à la vue d'ensemble"
+        }
+      },
+      "emptyStrategies": {
+        "title": "Êtes-vous sûr de vouloir marquer comme complet ?",
+        "description": "Certaines informations n'ont pas encore été remplies pour ce facteur clé de succès. Assurez-vous d'être prêt à continuer avant de marquer comme complet.",
+        "buttons": {
+          "confirm": "Marcar complet",
+          "cancel": "Annuler"
+        }
+      },
       "markCompleteConfirm": {
         "heading": "Voulez-vous vraiment marquer comme terminé ?",
         "description": "Certaines informations n'ont pas encore été saisies pour ce facteur clé de succès. Assurez-vous d'être satisfait avant de continuer.",
