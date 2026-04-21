@@ -523,7 +523,8 @@ export function QuestionView({
   const shouldTriggerCompleteGuard =
     !isVisuallyMarkedAsComplete &&
     selectedAnswer !== null &&
-    (selectedAnswer === AnswerValue.NA || hasRichTextContent(rationale))
+    (selectedAnswer === AnswerValue.NA ||
+      (hasRichTextContent(rationale) && strategies && strategies !== '[]'))
 
   const navigateWithCompleteGuard = useCallback(
     (navigateFn: () => void) => {
@@ -729,8 +730,13 @@ export function QuestionView({
   }
 
   const handleMarkCompleteClick = () => {
-    // If not N/A AND empty strategies -> trigger empty strategies modal warning
-    if (selectedAnswer !== AnswerValue.NA && strategies === '[]') {
+    const isAnswerBlank = selectedAnswer === null
+    const isRationaleBlank = !hasRichTextContent(rationale)
+    const lackStrategies =
+      selectedAnswer !== AnswerValue.NA && (!strategies || strategies === '[]')
+
+    // If answer is not N/A AND empty strategies -> trigger empty strategies modal warning
+    if (isAnswerBlank || isRationaleBlank || lackStrategies) {
       setShowEmptyStrategiesWarning(true)
       return
     }
