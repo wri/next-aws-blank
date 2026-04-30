@@ -167,7 +167,10 @@ resource "aws_ecs_task_definition" "app" {
 
       # Security hardening:
       # - readonlyRootFilesystem prevents attackers from dropping payloads onto disk.
-      # - linuxParameters drops all Linux capabilities; the Node process needs none.
+      # - linuxParameters drops all Linux capabilities except the small set the
+      #   entrypoint needs to chown the runtime-mounted volumes and drop
+      #   privileges (su-exec) to the unprivileged nextjs user before exec'ing
+      #   the Node process.
       # - ulimits cap process count to slow fork-bomb / miner-spawn behaviour.
       # - mountPoints expose only the specific writable paths the app needs
       #   (/tmp and /app/.next/cache). Without these the app fails to boot or
@@ -178,6 +181,10 @@ resource "aws_ecs_task_definition" "app" {
       linuxParameters = {
         capabilities = {
           drop = ["ALL"]
+          # CHOWN + FOWNER: entrypoint chowns ECS-mounted volumes that come up
+          #                 owned by root regardless of the image USER.
+          # SETUID + SETGID: su-exec uses these to drop to the nextjs user.
+          add = ["CHOWN", "FOWNER", "SETUID", "SETGID"]
         }
         initProcessEnabled = true
       }
