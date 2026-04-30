@@ -157,8 +157,6 @@ export function PaginationCard({
   return (
     <Link
       href={href}
-      passHref
-      legacyBehavior={false}
       style={{ textDecoration: 'none' }}
       onClick={(e) => onClick?.(e)}
     >
