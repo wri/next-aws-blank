@@ -7,10 +7,10 @@ export async function GET() {
   requestCount++;
 
   const now = Date.now();
-  const LOG_INTERVAL_MS = 60_000;
+  const LOG_INTERVAL_MS = 3600_000;
 
   if (now - lastLoggedAt >= LOG_INTERVAL_MS) {
-    console.log(`[Health API] Requests in last minute: ${requestCount}`);
+    console.log(`[Health API] Requests in last hour: ${requestCount}`);
     lastLoggedAt = now;
     requestCount = 0;
   }
@@ -20,6 +20,6 @@ export async function GET() {
     timestamp: new Date().toISOString(),
     environment: process.env.NEXT_PUBLIC_ENVIRONMENT || 'development',
     version: process.env.npm_package_version || '1.0.0',
-    requestsPerMinute: requestCount,
+    requestsPerHour: requestCount,
   });
 }
