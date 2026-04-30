@@ -29,16 +29,18 @@ WORKDIR /app
 ENV NODE_ENV=production
 ENV PORT=3000
 
-# Create non-root user for security
+# A non-root nextjs user is created here for possible future use, but this
+# image does not switch to that user by default. Unless an orchestrator
+# overrides the runtime user, the container runs as root — see the
+# explanatory comment further down for the rationale.
 RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
 
 # Download AWS RDS root CA bundle for SSL database connections.
 # HTTP repos + --no-check-certificate: allows builds behind TLS-inspecting proxies (e.g. Zscaler).
-# wget:    used by the HEALTHCHECK and the ECS task health check at runtime.
-# su-exec: tiny tool used by the entrypoint to drop privileges to the nextjs user.
+# wget: used by the HEALTHCHECK and the ECS task health check at runtime.
 RUN sed -i 's/https/http/' /etc/apk/repositories && \
-    apk add --no-cache wget ca-certificates su-exec && \
+    apk add --no-cache wget ca-certificates && \
     wget --no-check-certificate -q \
       https://truststore.pki.rds.amazonaws.com/global/global-bundle.pem \
       -O /app/global-bundle.pem
@@ -53,16 +55,17 @@ COPY --from=builder /app/.next/static ./.next/static
 # Copy package.json for potential runtime dependencies
 COPY --from=builder /app/package.json ./package.json
 
-# Entrypoint script fixes ownership of runtime-mounted volumes (ECS ephemeral
-# volumes are root-owned regardless of USER), then drops privileges to nextjs.
-COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
-RUN chmod +x /usr/local/bin/docker-entrypoint.sh
+# Pre-create the mount target for the ECS ephemeral volume. With
+# readonlyRootFilesystem=true the kernel cannot create the mount point at
+# runtime, so the directory must exist in the image.
+RUN mkdir -p /app/.next/cache
 
-# Set correct ownership
-RUN chown -R nextjs:nodejs /app
-
-# NOTE: We intentionally do NOT switch USER here. The entrypoint starts as
-# root, fixes mount ownership, then exec's the app as nextjs via su-exec.
+# We intentionally run as root inside the container. On Fargate, capability
+# additions are not allowed (only drops), so the chown-then-drop-privileges
+# pattern doesn't work. The ECS task definition drops ALL Linux capabilities,
+# leaving root with no real privileges, while readonlyRootFilesystem and
+# Fargate's VM-level isolation provide the security boundary.
+# (The nextjs user is left in /etc/passwd in case we ever move off Fargate.)
 
 # Expose the port
 EXPOSE 3000
@@ -72,5 +75,4 @@ HEALTHCHECK --interval=30s --timeout=10s --start-period=120s --retries=5 \
   CMD wget --no-verbose --tries=1 --spider http://localhost:3000/api/health || exit 1
 
 # Start the application
-ENTRYPOINT ["docker-entrypoint.sh"]
 CMD ["node", "server.js"]

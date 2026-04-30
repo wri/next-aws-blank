@@ -165,12 +165,24 @@ resource "aws_ecs_task_definition" "app" {
       name  = "${var.project_name}-${var.environment}"
       image = "${aws_ecr_repository.app.repository_url}:${var.image_tag}"
 
+      # Pin the runtime user to root explicitly. The Dockerfile currently
+      # doesn't set USER, so this is the effective default — but pinning it
+      # here means a future `USER nextjs` in the Dockerfile won't silently
+      # break Fargate writes to the root-owned ephemeral mounts (/tmp and
+      # /app/.next/cache). See the security hardening comment below for why
+      # running as root is acceptable on Fargate.
+      user = "0"
+
       # Security hardening:
-      # - readonlyRootFilesystem prevents attackers from dropping payloads onto disk.
-      # - linuxParameters drops all Linux capabilities except the small set the
-      #   entrypoint needs to chown the runtime-mounted volumes and drop
-      #   privileges (su-exec) to the unprivileged nextjs user before exec'ing
-      #   the Node process.
+      # - readonlyRootFilesystem prevents attackers from dropping payloads
+      #   onto disk; the only writable paths are the explicit mountPoints.
+      # - linuxParameters drops ALL Linux capabilities. The container runs as
+      #   uid 0 (root) inside the namespace, but with no capabilities root has
+      #   no real privileges (cannot bind <1024 ports, mount filesystems,
+      #   change ownership, etc). Fargate's VM-level isolation provides the
+      #   actual security boundary between tasks.
+      #   NOTE: Fargate does not allow `capabilities.add`, only `drop`, which
+      #   is why we cannot use a chown-then-su-exec entrypoint here.
       # - ulimits cap process count to slow fork-bomb / miner-spawn behaviour.
       # - mountPoints expose only the specific writable paths the app needs
       #   (/tmp and /app/.next/cache). Without these the app fails to boot or
@@ -181,10 +193,6 @@ resource "aws_ecs_task_definition" "app" {
       linuxParameters = {
         capabilities = {
           drop = ["ALL"]
-          # CHOWN + FOWNER: entrypoint chowns ECS-mounted volumes that come up
-          #                 owned by root regardless of the image USER.
-          # SETUID + SETGID: su-exec uses these to drop to the nextjs user.
-          add = ["CHOWN", "FOWNER", "SETUID", "SETGID"]
         }
         initProcessEnabled = true
       }
