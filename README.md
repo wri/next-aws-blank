@@ -246,7 +246,7 @@ npm run i18n:cleanup             # Remove duplicate questions
 
 ### Prerequisites
 
-- [Node.js](https://nodejs.org/) 20.x (see `.nvmrc`)
+- [Node.js](https://nodejs.org/) 24.15.0 (see `.nvmrc`)
 - [Docker](https://www.docker.com/)
 - [Terraform](https://www.terraform.io/) 1.0+ (for AWS deployment)
 - [AWS CLI](https://aws.amazon.com/cli/) configured with appropriate credentials

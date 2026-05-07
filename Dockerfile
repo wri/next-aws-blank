@@ -1,5 +1,6 @@
 # Build stage
-FROM node:20.20.2-alpine AS builder
+ARG NODE_VERSION=24.15.0
+FROM node:${NODE_VERSION}-alpine AS builder
 
 WORKDIR /app
 
@@ -21,7 +22,7 @@ ENV NEXT_PUBLIC_ENVIRONMENT=$NEXT_PUBLIC_ENVIRONMENT
 RUN NODE_TLS_REJECT_UNAUTHORIZED=0 npm run build
 
 # Production stage
-FROM node:20.20.2-alpine AS runner
+FROM node:${NODE_VERSION}-alpine AS runner
 
 WORKDIR /app
 
