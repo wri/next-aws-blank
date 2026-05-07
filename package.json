@@ -61,7 +61,7 @@
     "@chakra-ui/cli": "^3.33.0",
     "@eslint/eslintrc": "^3",
     "@testing-library/jest-dom": "^6.2.0",
-    "@testing-library/react": "14.1.0",
+    "@testing-library/react": "14.3.1",
     "@types/bcrypt": "^6.0.0",
     "@types/jest": "^30.0.0",
     "@types/node": "^20.19.30",
