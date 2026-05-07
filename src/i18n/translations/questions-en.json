@@ -2,38 +2,38 @@
   "M01": {
     "questionText": "Is restoring the target area expected to generate economic benefits that result in a net positive financial or economy-wide economic impact relative to the status quo land use?",
     "definition": "Restoring the candidate area is expected to yield economic benefits (e.g., economic diversification, avoided damages, new marketable products) that create a net positive financial impact (private benefits) and/or net positive economy-wide impact (public benefits) relative to the status quo land use. Side note: “economic impacts referring to environmental benefits that function as public goods, or to economy-wide economic impacts that capture restoration-related spillovers across value chains and the broader economy, including GDP growth and employment. Such impacts typically arise from economic benefits like diversification, avoided damages, and new market products enabled by restoration.",
-    "considerations": "Economic benefits from restoration are the overall positive outcomes for income or finance that result from implementing restoration activities versus a business-as-usual scenario.\nExamples of economic benefits include increased income, improved entrepreneurship opportunities, increased production of key commodities, or new employment opportunities that result from restoration efforts. A more complete list of possible benefits is included in this tool in the “Restoration Benefits” table.\nThe timeframe of this answer should consider the timeframe of the anticipated restoration activities, recognizing that restoration processes and their benefits occur over the long-term.\nMake note of which individuals or groups would likely receive these benefits.\nSome landowners may be concerned that “restoration” means they will lose their land, user rights, or income relative to the status quo. Therefore, the answer to this question can be supported with documents that show how the net benefits outweigh the costs.Side note: formalized land rights might emerge as a positive co-benefit of the restoration project. In some cases, implementing the project and disbursing finance to support restoration activities may require clear land rights to be clearly defined. Consequently, this could accelerate demarcation processes and enable local communities to obtain legal title to their land.",
+    "considerations": "Economic benefits from restoration are the overall positive outcomes for income or finance that result from implementing restoration activities versus a business-as-usual scenario.\nExamples of economic benefits include increased income, improved entrepreneurship opportunities, increased production of key commodities, or new employment opportunities that result from restoration efforts. A more complete list of possible benefits is included in this tool in the “Restoration Benefits” table.\nThe timeframe of this answer should consider the timeframe of the anticipated restoration activities, recognizing that restoration processes and their benefits occur over the long-term.\nWhere possible, distinguish between short-, medium-, and long-term benefits, including expected outcomes once restoration is fully implemented.\nMake note of which individuals or groups would likely receive these benefits.\nSome landowners may be concerned that “restoration” means they will lose their land, user rights, or income relative to the status quo. Therefore, the answer to this question can be supported with documents that show how the net benefits outweigh the costs.\nSide note: formalized land rights might emerge as a positive co-benefit of the restoration project. In some cases, implementing the project and disbursing finance to support restoration activities may require clear land rights to be clearly defined. Consequently, this could accelerate demarcation processes and enable local communities to obtain legal title to their land.",
     "followUpQuestions": "{\"if yes\":[\"What are the expected economic benefits?\",\"Who benefits?\"],\"if no\":[\"How big is the expected financial or economic gap?\"]}",
-    "strategyExamples": "• Conduct a benefit-cost analysis comparing (a) likely benefits generated from the restored landscape, (b) likely costs of restoring the target landscape, and (c) likely costs and benefits of the status quo use of the landscape.",
+    "strategyExamples": "• Conduct a benefit-cost analysis comparing (a) likely benefits generated from the restored landscape, (b) likely costs of restoring the target landscape, and (c) likely costs and benefits of the status quo use of the landscape.\n• Explore ecosystem accounting methodologies to evaluate the economic benefits of ecosystem services (e.g., UNSEEA) and capacity in national statistics offices to undertake such evaluations.",
     "keySuccessFactor": "Restoration generates economic benefits",
     "minimalKeySuccessFactor": "Economic",
     "enablingCondition": "Benefits",
     "theme": "Motivate",
-    "lastUpdated": "2026-03-11T13:39:53.123Z"
+    "lastUpdated": "2026-05-06T15:29:14.486Z"
   },
   "M02": {
     "questionText": "Is restoring the target area expected to generate social, cultural, or political benefits for the people living in that area, including vulnerable groups such as women, youth and Indigenous people?",
     "definition": "Restoring the target area is expected to improve livelihoods, elevate the social or political standing of vulnerable populations, safeguard or restore natural cultural heritage sites or the use of culturally significant practices, or yield other social, cultural, and/or political benefits for the local population.",
-    "considerations": "Review the list of possible social benefits in the \"Restoration Benefits\" table found in the supporting materials for this tool. For example, restoration activities may result in benefits that are  social, cultural or political in nature, such as increased visibility of cultural values, recognition of traditional ecological knowledge, achievement of political gains, increased recreational opportunities, or improvements in gender equity. Restoration can also be a way for governments to be seen as leaders on the global stage and achieve commitments to international agreements (e.g., UNFCCC, UNCCD, UNCBD, REDD+, SDGs). Furthermore, restoration can be beneficial to countries or communities with a historical cultural connection to forests or other ecosystems (e.g., forest-based traditions and folklore, ecosystem-based livelihoods and employment).\nConsider whether the benefits list in the table are recognized or considered in restoration plans, programs, or activities in the target landscape.\nMake note of which individuals or groups would likely receive these benefits.",
+    "considerations": "Review the list of possible social benefits in the \"Restoration Benefits\" table found in the supporting materials for this tool. For example, restoration activities may result in benefits that are  social, cultural or political in nature, such as increased visibility of cultural values, recognition of traditional ecological knowledge, achievement of political gains, increased recreational opportunities, or improvements in gender equity. Restoration can also be a way for governments to be seen as leaders on the global stage and achieve commitments to international agreements (e.g., UNFCCC, UNCCD, UNCBD, REDD+, SDGs). Furthermore, restoration can be beneficial to countries or communities with a historical cultural connection to forests or other ecosystems (e.g., forest-based traditions and folklore, ecosystem-based livelihoods and employment).\nConsider whether the benefits list in the table are recognized or considered in restoration plans, programs, or activities in the target landscape.\nWhere possible, distinguish between short-, medium-, and long-term social benefits, including expected outcomes once restoration is fully implemented.\nMake note of which individuals or groups would likely receive these benefits.",
     "followUpQuestions": "{\"if yes\":[\"What are the expected social benefits?\"]}",
-    "strategyExamples": "• Engage communities living in and around the target area to identify their social, political, or cultural goals and priorities. This could be done through surveys or in-person workshops. Based on this exercise, co-create a map of restoration interventions that could help achieve these goals.\n• Validate existing restoration plans, financing instruments, monitoring systems, and indicators with local communities, including representatives from vulnerable populations, to ensure plans serve community needs.",
+    "strategyExamples": "• Engage communities living in and around the target area to identify their social, political, or cultural goals and priorities. This could be done through surverys or in-person workshops. Based on this exercise, co-create a map of restoration interventions that could help achieve these goals.\n• Validate existing restoration plans, financing instruments, monitoring systems, and indicators with local communities, including respresentatives from vulnerable populations, to ensure plans serve community needs.",
     "keySuccessFactor": "Restoration generates social benefits",
     "minimalKeySuccessFactor": "Social",
     "enablingCondition": "Benefits",
     "theme": "Motivate",
-    "lastUpdated": "2026-03-11T13:39:53.124Z"
+    "lastUpdated": "2026-05-06T15:29:14.486Z"
   },
   "M03": {
     "questionText": "Is restoring the target area expected to generate environmental benefits?",
     "definition": "Restoring the target area is expected to generate substantial and long-term environmental benefits, including the conservation and recovery of biodiversity, enhanced climate change mitigation and adaptation, reduced land degradation and desertification, and the restoration of vital ecosystem services such as water regulation, soil fertility, and carbon sequestration. These improvements will contribute to increased ecological resilience and sustainable livelihoods over time.",
-    "considerations": "Examples of environmental benefits include enhanced biodiversity, improved watershed security, strengthened climate change mitigation and adaptation, and increased soil fertility, among others. A more comprehensive overview of anticipated environmental benefits is provided in the supporting materials for this diagnostic, in the “Restoration Benefits” table.",
+    "considerations": "Examples of environmental benefits include enhanced biodiversity, improved watershed security, strengthened climate change mitigation and adaptation, and increased soil fertility, among others. A more comprehensive overview of anticipated environmental benefits is provided in the supporting materials for this diagnostic, in the “Restoration Benefits” table.\nWhere possible, distinguish between short-, medium-, and long-term environmental benefits, including expected outcomes once restoration is fully implemented.",
     "followUpQuestions": "{\"if yes\":[\"What are the expected environmental benefits?\"]}",
     "strategyExamples": "• Engage scientists (e.g., biologists, ecologists, hydrologists, soil scientists) to identify which environmental benefits could be generated from restoration efforts.",
     "keySuccessFactor": "Restoration generates environmental benefits",
     "minimalKeySuccessFactor": "Environmental",
     "enablingCondition": "Benefits",
     "theme": "Motivate",
-    "lastUpdated": "2026-03-11T13:39:53.124Z"
+    "lastUpdated": "2026-05-06T15:29:14.486Z"
   },
   "M04": {
     "questionText": "Are the benefits of restoring the target area communicated to all stakeholders, including groups such as women, youth and Indigenous People, and communication channels designed to reach these diverse stakeholders?",
@@ -45,31 +45,31 @@
     "minimalKeySuccessFactor": "Public communication",
     "enablingCondition": "Awareness",
     "theme": "Motivate",
-    "lastUpdated": "2026-03-11T13:39:53.124Z"
+    "lastUpdated": "2026-05-06T15:29:14.486Z"
   },
   "M05": {
     "questionText": "Have target or priority areas for restoration been identified and quantified?",
     "definition": "Candidate areas for restoration have been identified and quantified.",
-    "considerations": "Target areas for restoration are the places where restoration efforts should occur based on a combination of environmental, social, and economic considerations.\nInformation on these opportunities may be presented in national or subnational maps and/or restoration strategies, and should be consistent with the areas that government agencies use when allocating funding, programs, planning resources for restoration.\nConsider whether stakeholders recognize and reference the same priority levels.",
+    "considerations": "Target areas for restoration are the places where restoration efforts should occur based on a combination of environmental, social, and economic considerations, including their contribution to global climate, biodiversity, and other environmental goals\nInformation on these opportunities may be presented in national or subnational maps and/or restoration strategies, and should be consistent with the areas that government agencies use when allocating funding, programs, planning resources for restoration.\nConsider whether stakeholders recognize and reference the same priority levels.",
     "followUpQuestions": "{\"if yes\":[\"Where are the candidate areas?\",\"How big is the restoration opportunity?\"]}",
-    "strategyExamples": "• Conduct a \"Restoration Opportunities Assessment Methodology\" planning activity. This is a comprehensive restoration planning resource available online https://iucn.org/resources/grey-literature/guide-restoration-opportunities-assessment-methodology-roam",
+    "strategyExamples": "• Conduct a “Restoration Opportunities Assessment Methodology” planning activity. This is a comprehensive restoration planning resource available online https://iucn.org/resources/grey-literature/guide-restoration-opportunities-assessment-methodology-roam",
     "keySuccessFactor": "Opportunities for restoration are identified",
     "minimalKeySuccessFactor": "Restoration Opportunities",
     "enablingCondition": "Awareness",
     "theme": "Motivate",
-    "lastUpdated": "2026-03-11T13:39:53.124Z"
+    "lastUpdated": "2026-05-06T15:29:14.486Z"
   },
   "M06": {
-    "questionText": "Is the target area experiencing a crisis event, or the risk of one in the future, that would motivate restoration in the target landscape, and how could those events affect the different groups of population (rural and peasants, urban, indigenous, women, youth, etc) and be anticipated?",
+    "questionText": "Is the target area experiencing a crisis event, or at risk of one in the future, that could (i) motivate or accelerate restoration action and/or (ii) affect the feasibility, continuity, or outcomes of restoration efforts? How might these events impact different population groups (rural and peasants, urban, Indigenous, women, youth, etc.), and how can these risks and opportunities be anticipated?",
     "definition": "The government and/or civil society use the risk or occasion of crisis events, including considering future scenarios (including climate), to build political and public support for ecosystem restoration.",
-    "considerations": "Crisis events can include floods, landslides, droughts, fires, sandstorms, wood shortages, declining crop yields, and unemployment, among others.  Crises can include humanitarian catastrophes where damage could have been avoided if natural ecosystems were intact (e.g., a landslide), where the act of restoration could address the crisis (e.g., unemployment), or where restoration prevents future crises (e.g., floods).\niConsider including an earlier strategic check on whether restoration priorities are aligned with future climate scenarios, and whether restoration investments are screened for long-term climate viability (beyond technical design choices).\nOne does not desire these events to occur.  But when they do occur, restoration supporters should act quickly to mobilize political and community support for restoration.\nIn the context of climate change and resilience, be sure to consider both past climate impacts as well as future scenarios and to plan accordingly, where thresholds must now be calculated more broadly.",
+    "considerations": "Crisis events can include floods, landslides, droughts, fires, sandstorms, wood shortages, declining crop yields, unemployment, or other shocks affecting ecosystems and livelihoods.\nCrises can create opportunities to catalyze restoration (e.g., building political momentum after a disaster), but they can also disrupt, delay, or halt restoration efforts (e.g., infrastructure damage, funding diversion, social instability).\nConsider both dimensions: (i) the ability to leverage crises to advance restoration, and (ii) the resilience of restoration efforts to withstand and recover from shocks.\nAssess how different groups may be affected by crisis events and restoration responses, including potential disproportionate impacts on vulnerable populations.\nConsider whether restoration priorities are aligned with current and future climate risks, and whether investments are screened for long-term climate viability (beyond technical design choices).\nIn the context of climate change, consider both past events and future scenarios, including increasing frequency and intensity of shocks. Tools like SPARCLE can be utilized for quickly visualizing climate impacts.”\nWhen relevant, identify measures to mitigate risks to restoration implementation (e.g., adaptive planning, diversified funding, community preparedness).\nWhile crises are not desirable, when they occur, they may provide windows of opportunity to mobilize political and community support for restoration.",
     "followUpQuestions": "{\"if yes\":[\"What types of crises have occurred in the target landscape in the past?\",\"What types of crises could occur in the future?\"]}",
     "strategyExamples": "• Conduct and communicate research that quantifies and visualizes the extent to which restored ecosystems can prevent or mitigate natural humanitarian disasters and save money on mitigation efforts when proper planning and prevention are implemented.\n• When disasters occur, immediately publicly communicate the benefits of restoration.",
     "keySuccessFactor": "Crisis events are leveraged",
     "minimalKeySuccessFactor": "Crisis events",
     "enablingCondition": "Crisis events",
     "theme": "Motivate",
-    "lastUpdated": "2026-03-11T13:39:53.124Z"
+    "lastUpdated": "2026-05-06T15:29:14.486Z"
   },
   "M07": {
     "questionText": "Are law or policies in place requiring land owners or managers to replant or restore ecosystems in areas that have been cleared (e.g., forests, grasslands, wetlands)?",
@@ -81,19 +81,19 @@
     "minimalKeySuccessFactor": "Laws & policies exist",
     "enablingCondition": "Legal requirements",
     "theme": "Motivate",
-    "lastUpdated": "2026-03-11T13:39:53.124Z"
+    "lastUpdated": "2026-05-06T15:29:14.486Z"
   },
   "M08": {
-    "questionText": "Is the law or policy requiring ecosystem restoration enforced in a visible, credible, and fair manner and broadly understood by all relevant actors, including vulnerable groups?",
-    "definition": "The laws and policies requiring tree recovery or replanting in the target landscape are understood by relevant actors and are enforced in a visible, credible, and fair manner.",
-    "considerations": "It is not sufficient that a law requiring restoration merely exists; the law needs to be enforced fairly and understood by affected entities and enforced by authorities if it is to motivate restoration.\nConsider whether the legal requirements for landscape restoration are communicated to key stakeholders and complemented by actions like communication campaigns, enforcement efforts (e.g., fines) for violation of restoration requirements, and ensuring adequate human and financial resources for enforcement.\nGovernment mandates for restoration can trigger sensitivities about government involvement in land-use decisions that otherwise would be the purview of traditional communities or private landowners. Therefore, how legal requirements are communicated and complemented by other policies, incentives, and practices can be important for the success of the requirement.",
-    "followUpQuestions": "{\"if no\":[\"It is not sufficient that a law requiring restoration merely exists; the law needs to be understood by affected entities and enforced by authorities if it is to motivate restoration.\"]}",
+    "questionText": "Is the law or policy requiring ecosystem restoration or rehabilitation enforced in a visible, credible, and fair manner and broadly understood by all relevant actors, including all groups?",
+    "definition": "The laws and policies requiring ecosystem restoration or rehabilitation (including activities to recover ecosystem functions, reduce degradation, or support natural regeneration) in the target landscape are understood by relevant actors and are enforced in a visible, credible, and fair manner.",
+    "considerations": "It is not sufficient that a law or policy requiring restoration or rehabilitation merely exists; it needs to be enforced fairly and understood by affected entities and implemented by authorities if it is to motivate action.\nConsider whether the legal requirements for landscape restoration or rehabilitation are communicated to key stakeholders and complemented by actions like communication campaigns, enforcement efforts (e.g., fines) for violations, and ensuring adequate human and financial resources for enforcement.\nGovernment mandates for restoration or rehabilitation can trigger sensitivities about government involvement in land-use decisions that might otherwise fall under the purview of traditional communities or private landowners. Therefore, how legal requirements are communicated and complemented by other policies, incentives, and practices can be critical for their effectiveness.",
+    "followUpQuestions": "{\"if yes\":[\"It is not sufficient that a law requiring restoration merely exists; the law needs to be understood by affected entities and enforced by authorities if it is to motivate restoration.\"]}",
     "strategyExamples": "• Conduct communication campaign to make relevant actors aware of restoration requirements.\n• Take enforcement action (e.g., fines, denial of credit access, jail) against violations of restoration requirements.\n• Ensure human and financial resources for enforcement are adequate.",
     "keySuccessFactor": "Laws and policies requiring restoration are broadly understood and enforced",
     "minimalKeySuccessFactor": "Laws & policies understood",
     "enablingCondition": "Legal requirements",
     "theme": "Motivate",
-    "lastUpdated": "2026-03-11T13:39:53.124Z"
+    "lastUpdated": "2026-05-06T15:29:14.486Z"
   },
   "E01": {
     "questionText": "Are the target area soil, rainfall, temperature, and fire and management conditions suitable for enabling growth and survival or planted or naturally regenerating vegetation?",
@@ -105,7 +105,7 @@
     "minimalKeySuccessFactor": "Soil, water, climate & fire",
     "enablingCondition": "Ecological conditions",
     "theme": "Enable",
-    "lastUpdated": "2026-03-11T13:39:53.124Z"
+    "lastUpdated": "2026-05-06T15:29:14.486Z"
   },
   "E02": {
     "questionText": "Can unwanted invasive plants and animals that hinder ecosystem recovery be effectively removed or controlled In the target area and restoration sites?",
@@ -117,7 +117,7 @@
     "minimalKeySuccessFactor": "Invasive species",
     "enablingCondition": "Ecological conditions",
     "theme": "Enable",
-    "lastUpdated": "2026-03-11T13:39:53.124Z"
+    "lastUpdated": "2026-05-06T15:29:14.486Z"
   },
   "E03": {
     "questionText": "Does the target area have source populations, soil propagules bank (such as underground root systems and seed banks), or low-cost sources of native seeds and seedlings that can be the foundation for ecosystem recovery?",
@@ -129,31 +129,31 @@
     "minimalKeySuccessFactor": "Source populations",
     "enablingCondition": "Ecological conditions",
     "theme": "Enable",
-    "lastUpdated": "2026-03-11T13:39:53.124Z"
+    "lastUpdated": "2026-05-06T15:29:14.486Z"
   },
   "E04": {
-    "questionText": "Are the economic pressures from crop, livestock, fuelwood, and/or biofuel production on degraded lands and natural ecosystems declining in the target area?",
-    "definition": "Demand for crop, livestock, fuel wood, and/or biofuel production on degraded or natural ecosystems in the target area is declining (e.g., due to productivity improvements elsewhere), thereby reducing pressures that drive land degradation and “freeing up” opportunities for restoration.",
-    "considerations": "Competing land-use pressures may come from agricultural expansion, infrastructure development, livestock grazing, fuel wood and urbanization.\nThis key success factor is arguably one of the most important in light of increasing global demand for land to produce crops, livestock, and biofuel (Searchinger et al. 2013).\nThis key factor would not apply when land is restored into agroforestry or silvopastoral systems which continue to produce crops and livestock, respectively.",
+    "questionText": "Are economic pressures from crop, livestock, fuelwood, and/or biofuel production on degraded lands and natural ecosystems declining in the target area, and/or are there mechanisms in place to manage competing economic demands for land that drive land degradation?",
+    "definition": "Economic pressures from crop, livestock, fuelwood, and/or biofuel production on degraded lands and natural ecosystems in the target area are declining and/or are being actively managed through policies, incentives, land-use planning, or productivity improvements, thereby reducing pressures that drive land degradation and “freeing up” opportunities for restoration.",
+    "considerations": "Competing land-use pressures may come from agricultural expansion, infrastructure development, livestock grazing, fuelwood extraction, and urbanization.\nConsider whether mechanisms are in place to manage these competing demands, such as land-use planning, zoning, agricultural intensification on existing lands, supply chain interventions, incentives for sustainable production, or restrictions on expansion into natural ecosystems.\nThis key success factor is arguably one of the most important in light of increasing global demand for land to produce crops, livestock, and biofuel (Searchinger et al. 2013).\nThis key factor would not apply when land is restored into agroforestry or silvopastoral systems, which continue to produce crops and livestock, respectively.",
     "followUpQuestions": "{\"if yes\":[\"What are the main alternative competing land uses for the candidate areas to be restored?\"]}",
-    "strategyExamples": "• Pursue technical and financial measures to increase the productivity (yields per hectare) of crops and livestock on existing nonmarginal agricultural land.\n• Pursue technical and financial measures to increase the supply of timber and agricultural products and of nonbiomass renewable energy from restored landscapes.\n• Avoid establishing bioenergy targets that could lead to degraded or former forestlands being converted to biomass plantations.\n• Do financial measures include policy incentives? A key strategy to address this economic pressure is to redirect incentives away from harmful land-use activities and toward regenerative agricultural practices.",
-    "keySuccessFactor": "Competing economic demands for land (e.g., food, fuel) that driveland degradation are being managed ",
+    "strategyExamples": "• Pursue technical and financial measures to increase the productivity (yields per hectare) of crops and livestock on existing nonmarginal agricultural land.\n• Pursue technical and financial measures to increase the supply of timber and agricultural products and of nonbiomass renewable energy from restored landscapes.\n• Avoid establishing bioenergy targets that could lead to degraded or former forestlands being converted to biomass plantations.\n•  Do financial measures include policy incentives? A key strategy to address this economic pressure is to redirect incentives away from harmful land-use activities and toward regenerative agricultural practices.\n• Use assessments of public funding flows to key sectors, like agriculture or forestry, to identify where unintended, harmful impacts on the environment may be occurring. Funding flows may include subsidies or incentives, among others.",
+    "keySuccessFactor": "Competing economic demands for land (e.g., food, fuel) that drive land degradation are being managed ",
     "minimalKeySuccessFactor": "Competing demands",
     "enablingCondition": "Economic conditions",
     "theme": "Enable",
-    "lastUpdated": "2026-03-11T13:39:53.124Z"
+    "lastUpdated": "2026-05-06T15:29:14.486Z"
   },
   "E05": {
-    "questionText": "Are value chains in place allowing products from restored land to reach end consumers?",
+    "questionText": "Are value chains, land rights, and policies in place to allow products or services from restored land to reach end consumers?",
     "definition": "To the degree that forest restoration in the target area generates marketable products and services, value chains are in place allowing these products to get from the restored forest to the end consumer.",
-    "considerations": "This key success factor refers to both market access and market demand for products and services derived from restored ecosystems. A “value chain” describes the multiple steps involved in offering a product or service such as harvesting, collection, processing, transportation, and distribution. A value chain from restoration suggests that individuals or groups in the target landscape can derive livelihoods and local economic activities as a part of restoring ecosystems.\nConsider if there are initiatives, cooperatives or businesses in the target landscapes that sell products or services as a result of restoration activities. Are producers in these places able to differentiate their products and services through labels, certifications, or access to preferred markets? Is there infrastructure for processing and aggregating the products and services offered from the target landscapes?\nServices from restored ecosystems could include recreation, tourism, and water provisioning.",
+    "considerations": "This key success factor refers to both market access and market demand for products and services derived from restored ecosystems. A “value chain” describes the multiple steps involved in offering a product or service such as harvesting, collection, processing, transportation, and distribution. A value chain from restoration suggests that individuals or groups in the target landscape can derive livelihoods and local economic activities as a part of restoring ecosystems. Further, value chains for environmental products include the generation/supply of the service, issuance of carbon or nature credits, purchase of credits, etc.\nConsider if there are initiatives, cooperatives or businesses in the target landscapes that sell products or services as a result of restoration activities. Are producers in these places able to differentiate their products and services through labels, certifications, or access to preferred markets? Is there infrastructure for processing and aggregating the products and services offered from the target landscapes? Are there project proponents or developers that support the generation of carbon or nature credits. What enabling policies for carbon and nature markets are in place?\nServices from restored ecosystems could include recreation, tourism, and water provisioning.",
     "followUpQuestions": "{\"if yes\":[\"What is the value chain, including the producers, intermediaries, final consumers, etc.\"],\"if no\":[\"Where are the gaps in such a value chain?\"]}",
-    "strategyExamples": "• Encourage growth of markets (both supply and demand) for commodity products (timber, agricultural products) and environmental products (carbon, water, biodiversity) derived from restored landscapes.\n• Provide low-interest financing for businesses directly involved in the \"restoration value chain.\"",
+    "strategyExamples": "• Encourage growth of markets (both supply and demand) for commodity products (timber, agricultural products) and environmental products (carbon, water, biodiversity) derived from restored landscapes.\n• Provide low-interest financing for businesses directly involved in the “restoration value chain.”\n• Assess policies that enable market growth for products or services from restored land, including the generation, trade, and/or transfer of carbon or nature credits. These policies may include safeguards, benefit sharing mechanisms, grievance and legal redress, national registries, and national authorization processes, among others.",
     "keySuccessFactor": "Value chains and/or market exist for commodity products (timber, agricultural products) and environmental products (carbon, water, biodiversity) from restored areas",
     "minimalKeySuccessFactor": "Value chains",
     "enablingCondition": "Economic conditions",
     "theme": "Enable",
-    "lastUpdated": "2026-03-11T13:39:53.124Z"
+    "lastUpdated": "2026-05-06T15:29:14.486Z"
   },
   "E06": {
     "questionText": "Do those who manage the target area have clear and secure rights to use land, harvest products sustainably, and receive financial benefits that would accrue from restoration? Are these rights accessible to all stakeholders, including women and vulnerable groups?",
@@ -165,7 +165,7 @@
     "minimalKeySuccessFactor": "Land & natural resources",
     "enablingCondition": "Policy conditions",
     "theme": "Enable",
-    "lastUpdated": "2026-03-11T13:39:53.124Z"
+    "lastUpdated": "2026-05-06T15:29:14.486Z"
   },
   "E07": {
     "questionText": "Are policies that may could impact restoration in the target area aligned and streamlined at a global, national, subnational and local context?",
@@ -177,19 +177,19 @@
     "minimalKeySuccessFactor": "Policies",
     "enablingCondition": "Policy conditions",
     "theme": "Enable",
-    "lastUpdated": "2026-03-11T13:39:53.124Z"
+    "lastUpdated": "2026-05-06T15:29:14.486Z"
   },
   "E08": {
     "questionText": "Does the target area have laws restricting the clearing or cutting of remaining natural ecosystems?",
     "definition": "The target area has laws restricting clearing or cutting of remaining natural ecosystems.",
-    "considerations": "Restrictions on clearing remaining natural forests and ecosystems can prevent further expansion of degraded or cleared areas. These restrictions also create an incentive to restore the productivity of already cleared areas since opportunities to use the forest frontier are reduced.\nRestrictions can also take the form of an extensive network of national parks and national forests, an extensive network of forested indigenous territories, ecosystem protection rules on communal lands, “no net loss” rules, specific percentages of land required to remain as forest (e.g., Brazil’s Forest Code) and more.\nAn important component of this key success factor is that “natural forests and ecosystems” have been clearly defined by the jurisdiction sponsoring the restriction (e.g., national government).  This definition should include primary forests, secondary forests, and degraded forests and other ecosystems with potential for restoration.",
+    "considerations": "Restrictions on clearing remaining natural forests and ecosystems can prevent further expansion of degraded or cleared areas. These restrictions also create an incentive to restore the productivity of already cleared areas since opportunities to use the forest frontier are reduced.\nRestrictions can also take the form of an extensive network of national parks and national forests, an extensive network of forested indigenous territories, ecosystem protection rules on communal lands, “no net loss” rules, specific percentages of land required to remain as forest (e.g., Brazil’s Forest Code) and more.\nAn important component of this key success factor is that “natural forests and ecosystems” have been clearly defined by the jurisdiction sponsoring the restriction (e.g., national government).  This definition should include primary forests, secondary forests, and degraded forests and other ecosystems with potential for restoration.\nNote: Potential displacement or leakage effects (e.g., shifting clearing to other areas) are addressed in a separate section of this assessment and should be considered in conjunction with this question.",
     "followUpQuestions": "{\"if yes\":[\"What are those laws?\"]}",
     "strategyExamples": "• Establish laws that restrict cutting or clearing of remaining natural ecosystems\n• Establish, strengthen, and enforce legal and regulatory frameworks that restrict the cutting, clearing, or conversion of remaining natural ecosystems, ensuring long-term protection of critical habitats and ecological functions.",
     "keySuccessFactor": "Restrictions on clearing remaining natural ecosystems (e.g., forests, grasslands, wetlands) exist",
     "minimalKeySuccessFactor": "Clearing restrictions exist",
     "enablingCondition": "Policy conditions",
     "theme": "Enable",
-    "lastUpdated": "2026-03-11T13:39:53.124Z"
+    "lastUpdated": "2026-05-06T15:29:14.486Z"
   },
   "E09": {
     "questionText": "Are these clearing or cutting restrictions adequately enforced?",
@@ -201,19 +201,19 @@
     "minimalKeySuccessFactor": "Clearing restrictions enforced",
     "enablingCondition": "Policy conditions",
     "theme": "Enable",
-    "lastUpdated": "2026-03-11T13:39:53.124Z"
+    "lastUpdated": "2026-05-06T15:29:14.486Z"
   },
   "E10": {
     "questionText": "Are women, youth, and Indigenous Peoples living in and around the target area—along with the cultural systems, traditional governance structures, and knowledge systems they represent—meaningfully involved in restoration decision-making (e.g., program design, goal-setting, management, monitoring, and indicator selection)?",
     "definition": "Women, youth, and Indigenous Peoples are explicitly recognized and supported as key participants in restoration planning and implementation at all scales. Their cultural systems, traditional governance structures, and knowledge are respected and integrated into decision-making bodies, governance arrangements, and monitoring processes, ensuring inclusive, representative, and culturally appropriate restoration outcomes.",
     "considerations": "Decision-making related to areas—including planning, design, management, and monitoring—should be inclusive and culturally appropriate. Where participation is limited or extractive, restoration efforts risk fragmented uptake, weakened local ownership, and inequitable distribution of benefits, particularly for women, youth, and Indigenous Peoples.\nLeveraging and strengthening existing local institutions and culturally grounded processes (e.g., village-based forestry cooperatives, women’s groups, Indigenous Peoples’ organizations, youth associations, and traditional governance systems) can support co-management arrangements, enhance local participation, and increase long-term adoption of restoration efforts.\nRestoration planning and implementation should recognize and respect cultural systems more broadly—including the values, knowledge, and practices of diverse stakeholder groups—and integrate these perspectives into decision-making, management, and monitoring processes.\nEffective and inclusive participation requires transparency and accountability in decision-making, respect for Free, Prior, and Informed Consent (FPIC) where applicable, and accessible, trusted grievance and feedback mechanisms that allow stakeholders to raise concerns and enable course correction when processes or outcomes fall short.",
     "followUpQuestions": "{\"if no\":[\"Which groups are not well represented?\",\"Which aspects of restoration are vulnerable groups left out of or excluded from?\"]}",
-    "strategyExamples": "• Involve representatives from people living in and around the target area in the restoration process (e.g., goal-setting, design, implementation, monitoring, and indicator selection) and governance mechanisms (e.g., multi-stakeholder groups).\n• Cultivate restoration champion from local communities by conducting capacity building efforts or developing financial structures that prioritize community led restoration projects.\n• Take inclusive measures (e.g., intercultural or accommodating facilitation methods, open calls, workshops in local languages) to convene and reflect the diverse perspectives of all the  people in the landscape\n• Use sex disaggregated data when measuring restoration participation, benefits, and other outcomes.",
+    "strategyExamples": "• Involve representatives from people living in and around the target area in the restoration process (e.g., goal-setting, design, implementation, monitoring, and indicator selection) and governance mechanisms (e.g., multi-stakeholder groups).\n• Cultivate restoration champion from local communities by conducting capacity building efforts or developing financial structures that prioritize community led restoration projects.\n• Take inclusive measures (e.g., intercultural or accommodating facilitation methods, open calls, workshops in local languages) to convene and reflect the diverse perspectives of all the  people in the landscape\n•  Use sex disaggregated data when measuring restoration participation, benefits, and other outcomes.",
     "keySuccessFactor": "Women, youth, and Indigenous Peoples participate in restoration decision making",
     "minimalKeySuccessFactor": "Social Inclusion",
     "enablingCondition": "Social and cultural conditions",
     "theme": "Enable",
-    "lastUpdated": "2026-03-11T13:39:53.124Z"
+    "lastUpdated": "2026-05-06T15:29:14.486Z"
   },
   "E11": {
     "questionText": "Are people living in and around the target area able to capture or enjoy the benefits generated by restoration, such as improved livelihoods or ecosystem services?",
@@ -225,7 +225,7 @@
     "minimalKeySuccessFactor": "Local people benefit",
     "enablingCondition": "Social and cultural conditions",
     "theme": "Enable",
-    "lastUpdated": "2026-03-11T13:39:53.124Z"
+    "lastUpdated": "2026-05-06T15:29:14.486Z"
   },
   "E12": {
     "questionText": "Are the roles and responsibilities for ecosystem restoration in the target area clearly defined, understood by relevant actors, and accompanied by authority, and, when necessary, conflict-resolution mechanisms exist?",
@@ -237,7 +237,7 @@
     "minimalKeySuccessFactor": "Roles & responsibilities",
     "enablingCondition": "Institutional conditions",
     "theme": "Enable",
-    "lastUpdated": "2026-03-11T13:39:53.124Z"
+    "lastUpdated": "2026-05-06T15:29:14.486Z"
   },
   "E13": {
     "questionText": "Are relevant stakeholders from government, civil society, and the private sector effectively coordinated—such as through a working group or multistakeholder process—to design, implement, and monitor ecosystem restoration in the candidate area, while also ensuring that these efforts are inclusive of vulnerable groups?",
@@ -249,7 +249,7 @@
     "minimalKeySuccessFactor": "Institutional coordination",
     "enablingCondition": "Institutional conditions",
     "theme": "Enable",
-    "lastUpdated": "2026-03-11T13:39:53.124Z"
+    "lastUpdated": "2026-05-06T15:29:14.486Z"
   },
   "I01": {
     "questionText": "Is there a charismatic, committed champion(s) of restoration for the target area? Do they represent all stakeholders in society, including women, youth, and Indigenous peoples?",
@@ -261,7 +261,7 @@
     "minimalKeySuccessFactor": "Restoration champions",
     "enablingCondition": "Leadership",
     "theme": "Implement",
-    "lastUpdated": "2026-03-11T13:39:53.124Z"
+    "lastUpdated": "2026-05-06T15:29:14.486Z"
   },
   "I02": {
     "questionText": "Is there clear and sustained long-term commitment from government and non-governmental institutions to support restoration efforts in the target area, including allocated budgets?",
@@ -273,7 +273,7 @@
     "minimalKeySuccessFactor": "Political commitments",
     "enablingCondition": "Leadership",
     "theme": "Implement",
-    "lastUpdated": "2026-03-11T13:39:53.124Z"
+    "lastUpdated": "2026-05-06T15:29:14.486Z"
   },
   "I03": {
     "questionText": "Does diverse local knowledge exist (including Indigenous, traditional ecological knowledge, and gender-informed knowledge) on how to implement restoration at scale in the target area?",
@@ -285,7 +285,7 @@
     "minimalKeySuccessFactor": "Restoration 'know how' exists",
     "enablingCondition": "Knowledge",
     "theme": "Implement",
-    "lastUpdated": "2026-03-11T13:39:53.124Z"
+    "lastUpdated": "2026-05-06T15:29:14.486Z"
   },
   "I04": {
     "questionText": "Are extension services, farmer-to-farmer visits, women’s groups, local networks and/or other means of awareness raising and capacity building for restoration in place, and adequately resourced in the target area or at national level?",
@@ -297,7 +297,7 @@
     "minimalKeySuccessFactor": "Knowledge transfer",
     "enablingCondition": "Knowledge",
     "theme": "Implement",
-    "lastUpdated": "2026-03-11T13:39:53.124Z"
+    "lastUpdated": "2026-05-06T15:29:14.486Z"
   },
   "I05": {
     "questionText": "Is the restoration plan for the target area based on best practices, incorporating the best available science, traditional ecological knowledge, and climate resilient approaches?",
@@ -309,7 +309,7 @@
     "minimalKeySuccessFactor": "Restoration design resilient",
     "enablingCondition": "Technical design",
     "theme": "Implement",
-    "lastUpdated": "2026-03-11T13:39:53.124Z"
+    "lastUpdated": "2026-05-06T15:29:14.486Z"
   },
   "I06": {
     "questionText": "Does the restoration process have provisions in place (e.g., policies, practices, incentives, yield improvements) that limit leakage or is unfolding in a manner that reduces leakage? Do restoration activities avoid displacement of landusers to other areas where they have no option but to transform/clear natural ecosystems for agricultural land uses?",
@@ -321,19 +321,19 @@
     "minimalKeySuccessFactor": "Limits 'leakage'",
     "enablingCondition": "Technical design",
     "theme": "Implement",
-    "lastUpdated": "2026-03-11T13:39:53.124Z"
+    "lastUpdated": "2026-05-06T15:29:14.486Z"
   },
   "I07": {
     "questionText": "From the perspective of relevant stakeholders, do available financial incentives and funding mechanisms sufficiently encourage restoration in the target area, relative to incentives that may discourage or impede ecosystem recovery?",
     "definition": "From the perspective of relevant stakeholders, financial incentives and funding mechanisms to support restoration in the candidate area are available, accessible, and sufficiently attractive to encourage investment in restoration activities. These incentives are designed to offset opportunity costs and financial risks associated with restoration, and to outweigh competing incentives that favor land uses or practices that hinder or delay ecosystem recovery. The overall incentive framework supports sustained engagement in restoration over the long term.",
     "considerations": "Restoration can occur when overall incentives outweigh both the costs of restoration and the ongoing benefits occurring on the degraded landscape.\n“Positive” incentives (e.g., grants, loans, tax breaks, subsidies, ecosystem service payments, private goods and services) encourage restoration, while “negative” incentives (e.g., subsidies for livestock, agriculture, or extractive industries) discourage restoration.\nIf the positive incentives are overshadowed by negative incentives, large-scale restoration is unlikely; and both the amount and timing of incentives matter.\nIncentives and finance are part of implementation because they directly affect land managers’ decisions to restore.\nCorporate commitments can also be analyzed for the proposed area, they refer to pledges by companies to restore ecosystems or meet climate and biodiversity targets. When reviewing, check whether these commitments are specific, measurable, and linked to concrete actions or financing for restoration.",
     "followUpQuestions": "{\"if yes\":[\"What are the key positive and negative incentives influencing restoration and land-use decisions in the target landscape?\",\"From the perspective of relevant stakeholders, what is the magnitude or scale of these incentives (e.g., financial value per hectare or comparable measures)?\"]}",
-    "strategyExamples": "• Introduce ecosystem restoration-dedicated financing mechanisms, such as:\n• Grants\n• Low-interest loans\n• Tax breaks (on the inputs, outputs, or financing of restoration)\n• Direct government expenditures\n• Government procurement policies\n• Payments for ecosystem services (e.g., water, carbon)\n• Remove or reduce incentives that discourage forest or tree regrowth",
+    "strategyExamples": "• Introduce ecosystem restoration-dedicated financing mechanisms, such as:\n• Grants\n• Low-interest loans\n• Tax breaks (on the inputs, outputs, or financing of restoration)\n• Direct government expenditures\n• Government procurement policies\n• Payments for ecosystem services (e.g., water, carbon)\n• Remove or reduce incentives that discourage forest or tree regrowth\n• Use assessments of public funding flows to key sectors, like agriculture or forestry, to identify where unintended, harmful impacts on the environment may be occurring. Funding flows may include subsidies or incentives, among others.",
     "keySuccessFactor": "Positive incentives and funds for restoration outweigh negative incentives",
     "minimalKeySuccessFactor": "Outweighs negative incentives",
     "enablingCondition": "Finance and incentives",
     "theme": "Implement",
-    "lastUpdated": "2026-03-11T13:39:53.124Z"
+    "lastUpdated": "2026-05-06T15:29:14.486Z"
   },
   "I08": {
     "questionText": "Are the financial incentives and funding mechanisms aimed at promoting restoration in the target area accessible, inclusive, and usable by a diverse range of stakeholders, including local communities, while also ensuring long-term sustainability?",
@@ -345,19 +345,19 @@
     "minimalKeySuccessFactor": "Finance available",
     "enablingCondition": "Finance and incentives",
     "theme": "Implement",
-    "lastUpdated": "2026-03-11T13:39:53.124Z"
+    "lastUpdated": "2026-05-06T15:29:14.486Z"
   },
   "I09": {
     "questionText": "Is there a monitoring system in place for tracking and evaluating restoration progress at the relevant area or national level, and does it align with the national and global monitoring systems?",
     "definition": "A system for monitoring progress and evaluating impact of restoration in the candidate area exists.",
     "considerations": "Information for monitoring and evaluation should be gathered in a planned, ongoing way to provide insight and feedback on the implementation of restoration activities. Aspects to monitor may include hectares under restoration, survival rates of planted species, quantified economic and social benefits, and ecosystem service flows.\nMonitoring and evaluation systems may employ approaches such as remote sensing, crowd-sourced ground-level monitoring (e.g., using community, volunteers, and communication technologies), and surveys of inhabitants of the target area .",
     "followUpQuestions": "{\"if yes\":[\"Is baseline data already being gathered?\"],\"if no\":[\"What aspects of a performance monitoring system are missing?\"]}",
-    "strategyExamples": "• Whenever possible, establish a baseline (e.g., photos, satellite imagery, data on hectares and other measurements from the landscape as it is) to enable comparisons over time.\n• Develop and implement a performance monitoring system (including remote sensing monitoring and ground-level participatory monitoring).",
+    "strategyExamples": "• Whenever possible, establish a baseline (e.g., photos, satellite imagery, data on hectares and other measurements from the landscape as it is) to enable comparisons over time.\n• Develop and implement a performance monitoring system (including remote sensing monitoring and ground-level participatory monitoring).\n• In addition to biophysical indicators (e.g., hectares restored), consider tracking social and economic co-benefits of restoration, such as improved livelihoods, jobs created, income generation, or enhanced well-being of local communities.",
     "keySuccessFactor": "Effective monitoring and evaluation system is in place",
     "minimalKeySuccessFactor": "Monitoring & evaluation",
     "enablingCondition": "Feedback",
     "theme": "Implement",
-    "lastUpdated": "2026-03-11T13:39:53.124Z"
+    "lastUpdated": "2026-05-06T15:29:14.486Z"
   },
   "I10": {
     "questionText": "Are restoration successes being communicated in the target area and the target audience being identified?",
@@ -369,6 +369,6 @@
     "minimalKeySuccessFactor": "Communicating wins",
     "enablingCondition": "Feedback",
     "theme": "Implement",
-    "lastUpdated": "2026-03-11T13:39:53.124Z"
+    "lastUpdated": "2026-05-06T15:29:14.486Z"
   }
 }
