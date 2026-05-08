@@ -150,14 +150,19 @@ resource "aws_ecs_task_definition" "app" {
 
   # Ephemeral writable volumes (Fargate ephemeral storage, not tmpfs).
   # Required because the rest of the container's root filesystem is read-only:
-  #   - /tmp                 general scratch space used by Node and Next.js standalone
-  #   - /app/.next/cache     next/image optimized-image cache (the app uses next/image)
+  #   - /tmp                    general scratch space used by Node and Next.js standalone
+  #   - /app/.next/cache        next/image optimized-image cache (the app uses next/image)
+  #   - /var/lib/amazon/ssm     SSM agent session state required for ECS Exec (execute-command)
   volume {
     name = "tmp"
   }
 
   volume {
     name = "next-cache"
+  }
+
+  volume {
+    name = "ssm"
   }
 
   container_definitions = jsonencode([
@@ -185,8 +190,10 @@ resource "aws_ecs_task_definition" "app" {
       #   is why we cannot use a chown-then-su-exec entrypoint here.
       # - ulimits cap process count to slow fork-bomb / miner-spawn behaviour.
       # - mountPoints expose only the specific writable paths the app needs
-      #   (/tmp and /app/.next/cache). Without these the app fails to boot or
-      #   serves 500s for next/image optimized requests.
+      #   (/tmp, /app/.next/cache, and /var/lib/amazon/ssm). Without these the
+      #   app fails to boot, serves 500s for next/image requests, or ECS Exec
+      #   (execute-command) silently fails because the SSM agent cannot write
+      #   its session state.
       readonlyRootFilesystem = true
       privileged             = false
 
@@ -214,6 +221,11 @@ resource "aws_ecs_task_definition" "app" {
         {
           sourceVolume  = "next-cache"
           containerPath = "/app/.next/cache"
+          readOnly      = false
+        },
+        {
+          sourceVolume  = "ssm"
+          containerPath = "/var/lib/amazon/ssm"
           readOnly      = false
         }
       ]
