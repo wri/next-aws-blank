@@ -22,8 +22,8 @@ export function PasswordPrompt({ assessmentId }: PasswordPromptProps) {
   const t = useTranslations()
   const [password, setPassword] = useState('')
   const [isLoading, setIsLoading] = useState(false)
-  const [isRateLimited, setIsRateLimited] = useState(false)
   const [retryAfter, setRetryAfter] = useState<number>(0)
+  const isRateLimited = retryAfter > 0
 
   // State to track the translation key and its configuration
   const [errorTranslation, setErrorTranslation] = useState<{
@@ -35,7 +35,6 @@ export function PasswordPrompt({ assessmentId }: PasswordPromptProps) {
   // Countdown timer for rate limiting
   useEffect(() => {
     if (retryAfter <= 0) {
-      setIsRateLimited(false)
       return
     }
 
@@ -43,7 +42,6 @@ export function PasswordPrompt({ assessmentId }: PasswordPromptProps) {
       setRetryAfter((prev) => {
         const newValue = prev - 1
         if (newValue <= 0) {
-          setIsRateLimited(false)
           setErrorTranslation({ key: null })
         }
         return newValue
@@ -99,7 +97,6 @@ export function PasswordPrompt({ assessmentId }: PasswordPromptProps) {
         const data = await response.json()
         const retryAfterSeconds = data.retryAfter || 900 // Default to 15 minutes
         setRetryAfter(retryAfterSeconds)
-        setIsRateLimited(true)
         setErrorTranslation({ key: 'passwordPrompt.errors.rateLimited', config: { time: formatRetryTime(retryAfterSeconds) } })
         setIsLoading(false)
         return

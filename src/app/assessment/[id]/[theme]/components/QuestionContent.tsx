@@ -20,7 +20,7 @@ interface QuestionContentProps {
   strategies: string
   onAnswerChange: (value: AnswerValue) => void
   onRationaleChange: (value: string) => void
-  onStrategysChange: (value: string) => void
+  onStrategiesChange: (value: string) => void
   isVisuallyMarkedAsComplete: boolean
   contributors: string[]
   allContributors: PlainContributor[]
@@ -36,7 +36,7 @@ export function QuestionContent({
   strategies,
   onAnswerChange,
   onRationaleChange,
-  onStrategysChange,
+  onStrategiesChange,
   isVisuallyMarkedAsComplete,
   contributors,
   allContributors,
@@ -116,7 +116,7 @@ export function QuestionContent({
         <Strategies
           question={question}
           strategies={strategies}
-          onStrategysChange={onStrategysChange}
+          onStrategiesChange={onStrategiesChange}
           allContributors={allContributors}
           onContributorCreate={onContributorCreate}
         />

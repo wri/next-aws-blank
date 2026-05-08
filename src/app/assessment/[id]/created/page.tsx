@@ -24,20 +24,11 @@ export default function AssessmentCreatedPage() {
     // Try to obtain the password from the URL query param on first load
     const tokenFromUrl = searchParams.get('token');
 
-    if (typeof window === 'undefined') {
-      // In non-browser environments we cannot access sessionStorage or manipulate the URL
-      if (!tokenFromUrl) {
-        setPasswordError(true);
-      } else {
-        setPassword(tokenFromUrl);
-      }
-      return;
-    }
-
     if (tokenFromUrl) {
       // Store the password in sessionStorage for subsequent visits during this session
       const storageKey = `assessment-password-${assessmentId}`;
       window.sessionStorage.setItem(storageKey, tokenFromUrl);
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setPassword(tokenFromUrl);
       setPasswordError(false);
 

@@ -84,6 +84,7 @@ export function QuestionView({
   )
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setAnswersCache(new Map(initialAnswers))
   }, [initialAnswers])
 
@@ -161,6 +162,7 @@ export function QuestionView({
 
     if (!targetQuestion) return
 
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setCurrentQuestionCode(targetQuestion.questionCode)
     const answer = answersCache.get(targetQuestion.id)
     setSelectedAnswer(answer?.value || null)
@@ -174,6 +176,7 @@ export function QuestionView({
     contributorsByAnswer.get(currentAnswer?.id || '') || []
 
   // Helper: Ensure an answer exists for the current question (creates if needed)
+  // eslint-disable-next-line react-hooks/immutability
   const ensureAnswerExists = useCallback(async () => {
     // If answer already exists, return it
     if (currentAnswer?.id) {
@@ -219,6 +222,7 @@ export function QuestionView({
     })()
 
     // Store the promise so concurrent calls can await it
+    // eslint-disable-next-line react-hooks/immutability
     pendingAnswerCreationRef.current = creationPromise
 
     try {
@@ -241,6 +245,7 @@ export function QuestionView({
 
   // Handler: Create contributor (optimistic)
   const handleContributorCreate = useCallback(
+    // eslint-disable-next-line react-hooks/immutability
     async (name: string) => {
       // Ensure an answer exists first
       let answerToUse = currentAnswer
@@ -468,6 +473,7 @@ export function QuestionView({
   // Keep a ref to the latest contributorsByAnswer for use in async callbacks (avoids stale closures)
   const contributorsByAnswerRef = useRef(contributorsByAnswer)
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/immutability
     contributorsByAnswerRef.current = contributorsByAnswer
   }, [contributorsByAnswer])
   // Stores a deferred navigation callback when user tries to leave while saving
@@ -518,7 +524,7 @@ export function QuestionView({
     } else {
       navigateFn()
     }
-  }, [])
+  }, [setShowProgressNotSavedModal])
 
   const shouldTriggerCompleteGuard =
     !isVisuallyMarkedAsComplete &&
@@ -538,7 +544,7 @@ export function QuestionView({
         navigateFn()
       })
     },
-    [guardedNavigate, shouldTriggerCompleteGuard],
+    [guardedNavigate, shouldTriggerCompleteGuard, setShowCompleteWarning],
   )
 
   const handleOverviewNavigation = useCallback(() => {
@@ -555,6 +561,7 @@ export function QuestionView({
 
   // Handle answer selection (immediate save)
   const handleAnswerChange = useCallback(
+    // eslint-disable-next-line react-hooks/preserve-manual-memoization
     (value: AnswerValue) => {
       setSelectedAnswer(value)
       save(
@@ -569,11 +576,12 @@ export function QuestionView({
         true,
       ) // Immediate save for answer selection
     },
-    [currentQuestion?.id, rationale, notes, strategies, save],
+    [currentQuestion?.id, rationale, notes, strategies, save, setSelectedAnswer],
   )
 
   // Handle rationale change (debounced save)
   const handleRationaleChange = useCallback(
+    // eslint-disable-next-line react-hooks/preserve-manual-memoization
     (value: string) => {
       setRationale(value)
       save(
@@ -588,11 +596,12 @@ export function QuestionView({
         false,
       ) // Debounced save for text input
     },
-    [currentQuestion?.id, selectedAnswer, notes, strategies, save],
+    [currentQuestion?.id, selectedAnswer, notes, strategies, save, setRationale],
   )
 
   // Handle notes change (debounced save)
   const handleNotesChange = useCallback(
+    // eslint-disable-next-line react-hooks/preserve-manual-memoization
     (value: string) => {
       setNotes(value)
       save(
@@ -607,10 +616,11 @@ export function QuestionView({
         false,
       ) // Debounced save for text input
     },
-    [currentQuestion?.id, selectedAnswer, rationale, strategies, save],
+    [currentQuestion?.id, selectedAnswer, rationale, strategies, save, setNotes],
   )
 
-  const handleStrategysChange = useCallback(
+  const handleStrategiesChange = useCallback(
+    // eslint-disable-next-line react-hooks/preserve-manual-memoization
     (value: string) => {
       setStrategies(value)
 
@@ -626,7 +636,7 @@ export function QuestionView({
         false,
       ) // Debounced save for text input
     },
-    [currentQuestion?.id, selectedAnswer, rationale, notes, save],
+    [currentQuestion?.id, selectedAnswer, rationale, notes, save, setStrategies],
   )
 
   // Handle question selection
@@ -649,7 +659,7 @@ export function QuestionView({
         // Contributors are loaded from state, no need to update here
       }
     },
-    [questions, answersCache, assessmentId, theme, router, onFocusChange],
+    [questions, answersCache, assessmentId, theme, router, onFocusChange, setCurrentQuestionCode, setSelectedAnswer, setRationale, setNotes, setStrategies, setIsVisuallyMarkedAsComplete],
   )
 
   const handleQuestionSelect = useCallback(
@@ -902,7 +912,7 @@ export function QuestionView({
             onAnswerChange={handleAnswerChange}
             onRationaleChange={handleRationaleChange}
             strategies={strategies}
-            onStrategysChange={handleStrategysChange}
+            onStrategiesChange={handleStrategiesChange}
             isVisuallyMarkedAsComplete={isVisuallyMarkedAsComplete}
             contributors={currentContributorIds}
             allContributors={allContributors}
@@ -1074,6 +1084,7 @@ export function QuestionView({
         open={showProgressNotSavedModal}
         onDismiss={() => {
           setShowProgressNotSavedModal(false)
+          // eslint-disable-next-line react-hooks/immutability
           contributorErrorRef.current = false
           pendingNavigationRef.current = null
           // Retry save immediately when user decides to stay on page.
@@ -1095,6 +1106,7 @@ export function QuestionView({
         }}
         onLeavePageAnyway={() => {
           setShowProgressNotSavedModal(false)
+          // eslint-disable-next-line react-hooks/immutability
           contributorErrorRef.current = false
           // Clear the error state so future navigations aren't blocked
           clearError()

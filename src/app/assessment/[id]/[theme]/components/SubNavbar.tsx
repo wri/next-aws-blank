@@ -7,7 +7,8 @@ import type { AutoSaveStatus } from '@/hooks/useAutoSave'
 import type { PlainQuestion } from './ThemePageLayout'
 import Link from 'next/link'
 import { useTranslations } from '@/i18n/useTranslations'
-import { useEffect, useMemo, useState } from 'react'
+import { useMemo } from 'react'
+import { useIsClient } from '@/hooks/useIsClient'
 import type { ComponentProps } from 'react'
 
 interface SubNavbarProps {
@@ -26,7 +27,7 @@ export function SubNavbar({
   onOverviewClick,
 }: SubNavbarProps) {
   const t = useTranslations()
-  const [isClient, setIsClient] = useState(false)
+  const isClient = useIsClient()
   const overviewHref = `/assessment/${assessmentId}`
 
   // Find current question
@@ -45,10 +46,6 @@ export function SubNavbar({
       link: '' 
     })
   }
-
-  useEffect(() => {
-    setIsClient(true)
-  }, [])
 
   const GuardedLink = useMemo(() => {
     return function GuardedLinkComponent({

@@ -1,16 +1,12 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useIsClient } from '@/hooks/useIsClient'
 import { useTranslations } from '@/i18n/useTranslations'
 import ExportResponses from './ExportResponses'
 
 const OverviewBar = ({ assessmentId }: { assessmentId: string }) => {
   const t = useTranslations()
-  const [isClient, setIsClient] = useState(false)
-
-  useEffect(() => {
-    setIsClient(true)
-  }, [])
+  const isClient = useIsClient()
 
   if (!isClient) {
     return <div className='h-12' />

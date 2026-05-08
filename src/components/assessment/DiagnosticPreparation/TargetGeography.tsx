@@ -83,9 +83,7 @@ const TargetGeography = () => {
   const activeStep =
     (params.step as string) || PREPARATION_STEPS.TARGET_GEOGRAPHY
 
-  const getAssessmentData = async () => {
-    setIsLoading(true)
-
+  const getAssessmentData = useCallback(async () => {
     const result = await fetch(`/api/assessments/${assessmentId}/preparation`, {
       method: 'GET',
       headers: {
@@ -99,11 +97,11 @@ const TargetGeography = () => {
     }
 
     setIsLoading(false)
-  }
+  }, [assessmentId])
 
   useEffect(() => {
     getAssessmentData()
-  }, [])
+  }, [getAssessmentData])
 
   let countries = []
   try {
@@ -149,6 +147,7 @@ const TargetGeography = () => {
     reValidateMode: 'onChange',
   })
 
+  // eslint-disable-next-line react-hooks/incompatible-library
   const formValues = watch()
   const selectedEcosystems = formValues.ecosystems || []
   const terrestrialEcosystems = getTerrestrialEcosystems(t)

@@ -17,13 +17,13 @@ import { useTranslations } from '@/i18n/useTranslations'
 const Strategies = ({
   question,
   strategies,
-  onStrategysChange,
+  onStrategiesChange,
   allContributors,
   onContributorCreate,
 }: {
   question: PlainQuestion
   strategies: string
-  onStrategysChange: (value: string) => void
+  onStrategiesChange: (value: string) => void
   allContributors: PlainContributor[]
   onContributorCreate: (name: string) => Promise<PlainContributor>
 }) => {
@@ -99,19 +99,19 @@ const Strategies = ({
         priority: '',
       },
     ]
-    onStrategysChange(JSON.stringify(next))
+    onStrategiesChange(JSON.stringify(next))
   }
 
   const handleDeleteStrategy = (id: string) => {
     const next = [...newStrategies].filter((s) => s.id !== id)
-    onStrategysChange(JSON.stringify(next))
+    onStrategiesChange(JSON.stringify(next))
   }
 
   const updateStrategy = (id: string, field: keyof Strategy, value: string) => {
     const next = [...newStrategies].map((s) =>
       s.id === id ? { ...s, [field]: value } : s,
     )
-    onStrategysChange(JSON.stringify(next))
+    onStrategiesChange(JSON.stringify(next))
   }
 
   return (

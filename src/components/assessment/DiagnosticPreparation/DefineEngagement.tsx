@@ -37,9 +37,7 @@ const DefineEngagement = () => {
   const activeStep =
     (params.step as string) || PREPARATION_STEPS.DEFINE_ENGAGEMENT
 
-  const getAssessmentData = async () => {
-    setIsLoading(true)
-
+  const getAssessmentData = useCallback(async () => {
     const result = await fetch(`/api/assessments/${assessmentId}/preparation`, {
       method: 'GET',
       headers: {
@@ -53,11 +51,12 @@ const DefineEngagement = () => {
     }
 
     setIsLoading(false)
-  }
+  }, [assessmentId])
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     getAssessmentData()
-  }, [])
+  }, [getAssessmentData])
 
   const onSubmit = useCallback(
     async (action: PreparationSubmitAction = 'advance') => {

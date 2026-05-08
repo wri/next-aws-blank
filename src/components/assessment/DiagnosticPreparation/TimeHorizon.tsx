@@ -27,9 +27,7 @@ const TimeHorizon = () => {
   const assessmentId = params.id as string
   const activeStep = (params.step as string) || PREPARATION_STEPS.TIME_HORIZON
 
-  const getAssessmentData = async () => {
-    setIsLoading(true)
-
+  const getAssessmentData = useCallback(async () => {
     const result = await fetch(`/api/assessments/${assessmentId}/preparation`, {
       method: 'GET',
       headers: {
@@ -43,11 +41,12 @@ const TimeHorizon = () => {
     }
 
     setIsLoading(false)
-  }
+  }, [assessmentId])
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     getAssessmentData()
-  }, [])
+  }, [getAssessmentData])
 
   const onSubmit = useCallback(
     async (action: PreparationSubmitAction = 'advance') => {

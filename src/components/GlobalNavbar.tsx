@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { useIsClient } from '@/hooks/useIsClient'
 import Link from 'next/link'
 import { Navbar, Menu } from '@worldresources/wri-design-systems'
 import { useParams, usePathname, useRouter } from 'next/navigation'
@@ -12,7 +13,7 @@ import { HostedByWri } from '@/components/HostedByWri'
 export default function GlobalNavbar() {
   const { language, setLanguage } = useLanguage()
   const pathname = usePathname()
-  const [mounted, setMounted] = useState(false)
+  const mounted = useIsClient()
   const t = useTranslations()
   const router = useRouter()
   const [isPasswordPromptShown, setIsPasswordPromptShown] = useState(false)
@@ -26,13 +27,9 @@ export default function GlobalNavbar() {
     { label: t('navigation.languages.pt'), value: 'pt' },
   ]
 
-  // Prevent hydration mismatch - Navbar has responsive logic that checks window dimensions
-  useEffect(() => {
-    setMounted(true)
-  }, [])
-
   useEffect(() => {
     const passwordPromptForm = document.getElementById('password-prompt-form')
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setIsPasswordPromptShown(!!passwordPromptForm)
   }, [pathname])
 
