@@ -6,23 +6,16 @@ const nextConfig: NextConfig = {
   output: 'standalone',
   serverExternalPackages: ['typeorm', 'reflect-metadata', 'pg'],
   experimental: {},
-  // Belt-and-suspenders: explicitly configure the server-side minimizer to keep
-  // class and function names. TypeORM resolves entity metadata by constructor.name
-  // at runtime, so mangling those names causes "Entity metadata for X was not found".
+  // Disable server-side minification so TypeORM entity class names are preserved.
+  // TypeORM resolves entity metadata by constructor.name at runtime — if class
+  // names are mangled (e.g. Assessment -> c, Contributor -> l) the lookup fails
+  // with "Entity metadata for X was not found". The tradeoff is slightly larger
+  // standalone output and marginally higher memory usage, but correctness requires
+  // stable class names and there is no straightforward way to make the SWC
+  // minimizer keep them without disabling the pass entirely.
   webpack: (config, { isServer }) => {
-    if (isServer && Array.isArray(config.optimization?.minimizer)) {
-      for (const minimizer of config.optimization.minimizer) {
-        // TerserPlugin (webpack default) exposes options.terserOptions
-        if (minimizer?.options?.terserOptions) {
-          minimizer.options.terserOptions.keep_classnames = true
-          minimizer.options.terserOptions.keep_fnames = true
-        }
-        // SwcJsMinimizerRspackPlugin / next-swc-minify path
-        if (minimizer?.options?.minimizerOptions) {
-          minimizer.options.minimizerOptions.keep_classnames = true
-          minimizer.options.minimizerOptions.keep_fnames = true
-        }
-      }
+    if (isServer) {
+      config.optimization.minimize = false
     }
     return config
   },
