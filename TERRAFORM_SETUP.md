@@ -2,6 +2,8 @@
 
 This guide explains how to configure and deploy the Terraform infrastructure for QA and Production environments.
 
+Some state is shared between QA and production. For these parts, first create QA environment followed by production.  Note that QA cannot be fully deleted, but it's ECS tasks could be reduced to have 0 instances.
+
 ## 📋 Prerequisites
 
 1. **AWS CLI** configured with credentials:
