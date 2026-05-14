@@ -4,9 +4,11 @@ A production-ready Next.js 16 blank application — backed by TypeORM + PostgreS
 
 Repo: Search for xxx, yyy, zzz, and site-dns in the whole repository and replace with appropriate values.
 
-Github: Add a ruleset to the github repository to enable automatic copilot reviews for all changes to target branch.  Create branches for qa and production.  Feel free to delete 'main' branch afterwards.
+AWS/RDS: Create RDS instance with security group, databases for qa and production, RDS user with permissions on the databases.  And record the secrets in Param store.
 
-Terraform: Create AWS S3 bucket for shared state for terraform.  See next-aws-blank-app-terraform-shared-state.  Also create RDS instance with security group.  Also see [TERRAFORM_SETUP](https://github.com/wri/next-aws-blank/blob/main/TERRAFORM_SETUP.md).
+Github: Add a ruleset to the github repository to enable automatic copilot reviews for all changes to target branch.  Create branches for qa and production to match .github deployment scripts.  Feel free to delete 'main' branch afterwards.  Create github workflow/action secrets to match param store.
+
+Terraform: Create AWS S3 bucket for shared state for terraform.  See next-aws-blank-app-terraform-shared-state.  Also see [TERRAFORM_SETUP](https://github.com/wri/next-aws-blank/blob/main/TERRAFORM_SETUP.md).
 
 ## 🏗️ Architecture
 
