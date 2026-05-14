@@ -4,18 +4,15 @@
 
 output "vpc_id" {
   description = "ID of the VPC"
-  value       = aws_vpc.main.id
+  value       = local.vpc_id
 }
 
 output "public_subnet_ids" {
   description = "IDs of the public subnets"
-  value       = aws_subnet.public[*].id
+  value       = local.public_subnet_ids
 }
 
-output "private_subnet_ids" {
-  description = "IDs of the private subnets"
-  value       = aws_subnet.private[*].id
-}
+
 
 # =============================================================================
 # ECR Outputs
@@ -61,22 +58,32 @@ output "task_definition_arn" {
 
 output "alb_dns_name" {
   description = "DNS name of the Application Load Balancer"
-  value       = aws_lb.main.dns_name
+  value       = local.alb_dns_name
 }
 
 output "alb_zone_id" {
   description = "Zone ID of the Application Load Balancer"
-  value       = aws_lb.main.zone_id
+  value       = local.alb_zone_id
 }
 
 output "alb_arn" {
   description = "ARN of the Application Load Balancer"
-  value       = aws_lb.main.arn
+  value       = local.alb_arn
+}
+
+output "https_listener_arn" {
+  description = "ARN of the HTTPS listener (used by environments sharing the ALB)"
+  value       = local.https_listener_arn
+}
+
+output "http_listener_arn" {
+  description = "ARN of the HTTP listener (used by environments sharing the ALB)"
+  value       = local.http_listener_arn
 }
 
 output "app_url" {
   description = "URL to access the application"
-  value       = "http://${aws_lb.main.dns_name}"
+  value       = "https://${var.domain_name}"
 }
 
 # =============================================================================
@@ -94,7 +101,7 @@ output "cloudwatch_log_group" {
 
 output "alb_security_group_id" {
   description = "ID of the ALB security group"
-  value       = aws_security_group.alb.id
+  value       = local.alb_sg_id
 }
 
 output "ecs_security_group_id" {

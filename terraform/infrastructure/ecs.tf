@@ -7,7 +7,7 @@ resource "aws_ecs_cluster" "main" {
 
   setting {
     name  = "containerInsights"
-    value = "enabled"
+    value = "disabled"
   }
 
   tags = {
@@ -148,10 +148,87 @@ resource "aws_ecs_task_definition" "app" {
   execution_role_arn       = aws_iam_role.ecs_task_execution.arn
   task_role_arn            = aws_iam_role.ecs_task.arn
 
+  # Ephemeral writable volumes (Fargate ephemeral storage, not tmpfs).
+  # Required because the rest of the container's root filesystem is read-only:
+  #   - /tmp                    general scratch space used by Node and Next.js standalone
+  #   - /app/.next/cache        next/image optimized-image cache (the app uses next/image)
+  #   - /var/lib/amazon/ssm     SSM agent session state required for ECS Exec (execute-command)
+  volume {
+    name = "tmp"
+  }
+
+  volume {
+    name = "next-cache"
+  }
+
+  volume {
+    name = "ssm"
+  }
+
   container_definitions = jsonencode([
     {
       name  = "${var.project_name}-${var.environment}"
-      image = "${aws_ecr_repository.app.repository_url}:latest"
+      image = "${aws_ecr_repository.app.repository_url}:${var.image_tag}"
+
+      # Pin the runtime user to root explicitly. The Dockerfile currently
+      # doesn't set USER, so this is the effective default — but pinning it
+      # here means a future `USER nextjs` in the Dockerfile won't silently
+      # break Fargate writes to the root-owned ephemeral mounts (/tmp and
+      # /app/.next/cache). See the security hardening comment below for why
+      # running as root is acceptable on Fargate.
+      user = "0"
+
+      # Security hardening:
+      # - readonlyRootFilesystem prevents attackers from dropping payloads
+      #   onto disk; the only writable paths are the explicit mountPoints.
+      # - linuxParameters drops ALL Linux capabilities. The container runs as
+      #   uid 0 (root) inside the namespace, but with no capabilities root has
+      #   no real privileges (cannot bind <1024 ports, mount filesystems,
+      #   change ownership, etc). Fargate's VM-level isolation provides the
+      #   actual security boundary between tasks.
+      #   NOTE: Fargate does not allow `capabilities.add`, only `drop`, which
+      #   is why we cannot use a chown-then-su-exec entrypoint here.
+      # - ulimits cap process count to slow fork-bomb / miner-spawn behaviour.
+      # - mountPoints expose only the specific writable paths the app needs
+      #   (/tmp, /app/.next/cache, and /var/lib/amazon/ssm). Without these the
+      #   app fails to boot, serves 500s for next/image requests, or ECS Exec
+      #   (execute-command) silently fails because the SSM agent cannot write
+      #   its session state.
+      readonlyRootFilesystem = true
+      privileged             = false
+
+      linuxParameters = {
+        capabilities = {
+          drop = ["ALL"]
+        }
+        initProcessEnabled = true
+      }
+
+      ulimits = [
+        {
+          name      = "nproc"
+          softLimit = 1024
+          hardLimit = 2048
+        }
+      ]
+
+      mountPoints = [
+        {
+          sourceVolume  = "tmp"
+          containerPath = "/tmp"
+          readOnly      = false
+        },
+        {
+          sourceVolume  = "next-cache"
+          containerPath = "/app/.next/cache"
+          readOnly      = false
+        },
+        {
+          sourceVolume  = "ssm"
+          containerPath = "/var/lib/amazon/ssm"
+          readOnly      = false
+        }
+      ]
 
       portMappings = [
         {
@@ -182,6 +259,12 @@ resource "aws_ecs_task_definition" "app" {
         ],
         [
           for key, value in var.app_environment_variables : {
+            name  = key
+            value = value
+          }
+        ],
+        [
+          for key, value in var.secret_environment_variables : {
             name  = key
             value = value
           }
@@ -225,11 +308,12 @@ resource "aws_ecs_service" "app" {
   desired_count          = var.desired_count
   launch_type            = "FARGATE"
   enable_execute_command = true
+  propagate_tags         = "SERVICE"
 
   network_configuration {
-    subnets          = aws_subnet.private[*].id
+    subnets          = local.public_subnet_ids
     security_groups  = [aws_security_group.ecs.id]
-    assign_public_ip = false
+    assign_public_ip = true
   }
 
   load_balancer {
@@ -251,7 +335,7 @@ resource "aws_ecs_service" "app" {
     ignore_changes = [desired_count]
   }
 
-  depends_on = [aws_lb_listener.http]
+  depends_on = [aws_lb_listener_rule.https_host]
 
   tags = {
     Name = "${var.project_name}-${var.environment}-service"

@@ -35,8 +35,20 @@ variable "wri_owner" {
 # VPC Variables
 # =============================================================================
 
+variable "vpc_id" {
+  description = "ID of an existing VPC to use. Leave empty to create a new VPC. Ignored if shared_vpc_state_key is set."
+  type        = string
+  default     = ""
+}
+
+variable "shared_vpc_state_key" {
+  description = "S3 state key of the environment that owns the shared VPC and ALB (e.g., 'qa/terraform.tfstate'). When set, the VPC ID, ALB, and listeners are read from that remote state."
+  type        = string
+  default     = ""
+}
+
 variable "vpc_cidr" {
-  description = "CIDR block for VPC"
+  description = "CIDR block for VPC (only used when creating a new VPC)"
   type        = string
   default     = "10.0.0.0/16"
 }
@@ -87,10 +99,39 @@ variable "max_capacity" {
   default     = 4
 }
 
+variable "image_tag" {
+  description = "ECR image tag to deploy to ECS task definition"
+  type        = string
+}
+
 variable "health_check_path" {
   description = "Health check path for the ALB target group"
   type        = string
   default     = "/api/health"
+}
+
+variable "certificate_arn" {
+  description = "ARN of the ACM certificate for HTTPS"
+  type        = string
+}
+
+variable "domain_name" {
+  description = "Custom domain name for the application (e.g., qa.site-dns.org). Required for host-based ALB routing."
+  type        = string
+}
+
+variable "listener_rule_priority" {
+  description = "Priority for the ALB listener rule. Must be unique across all rules on the shared HTTPS listener. Lower values are evaluated first."
+  type        = number
+}
+
+# =============================================================================
+# RDS Variables
+# =============================================================================
+
+variable "rds_security_group_id" {
+  description = "Security group ID of the RDS instance (created via AWS Console). ECS tasks will be granted ingress on port 5432."
+  type        = string
 }
 
 # =============================================================================
@@ -98,7 +139,14 @@ variable "health_check_path" {
 # =============================================================================
 
 variable "app_environment_variables" {
-  description = "Environment variables for the application"
+  description = "Non-sensitive environment variables for the application"
   type        = map(string)
   default     = {}
+}
+
+variable "secret_environment_variables" {
+  description = "Sensitive environment variables for the application (passed via CI/CD secrets, not stored in tfvars)"
+  type        = map(string)
+  default     = {}
+  sensitive   = true
 }
