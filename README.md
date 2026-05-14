@@ -2,11 +2,11 @@
 
 A production-ready Next.js 16 blank application — backed by TypeORM + PostgreSQL and deployed to AWS ECS Fargate via Terraform and GitHub Actions.
 
-Search for xxx, yyy, zzz, and site-dns in the whole repository and replace with appropriate values.
+Repo: Search for xxx, yyy, zzz, and site-dns in the whole repository and replace with appropriate values.
 
-Add a ruleset to the github repository to enable automatic copilot reviews for all changes to target branch.
+Github: Add a ruleset to the github repository to enable automatic copilot reviews for all changes to target branch.  Create branches for qa and production.  Feel free to delete 'main' branch afterwards.
 
-Create AWS S3 bucket for shared state for terraform.  See next-aws-blank-app-terraform-shared-state.  Also create RDS instance with security group.
+Terraform: Create AWS S3 bucket for shared state for terraform.  See next-aws-blank-app-terraform-shared-state.  Also create RDS instance with security group.  Also see [TERRAFORM_SETUP](https://github.com/wri/next-aws-blank/blob/main/TERRAFORM_SETUP.md).
 
 ## 🏗️ Architecture
 
