@@ -25,18 +25,18 @@ health_check_path = "/api/health"
 # Application Environment Variables
 app_environment_variables = {
   "LOG_LEVEL"                        = "info"
-  "DB_HOST"                          = "xxx.rds.amazonaws.com"
+  "DB_HOST"                          = "DB_HOST_PLACEHOLDER"
   "DB_PORT"                          = "5432"
   "DB_NAME"                          = "production"
 }
 
 # Sensitive variables (DB_USER, DB_PASSWORD, SESSION_SECRET)
-# are passed via the RD_APP_ENV GitHub secret as
-# secret_environment_variables.
+# are passed via the PLACEHOLDER_APP_ENV GitHub secret as
+# placeholder_app_env (ECS valueFrom ARNs).
 
 # RDS Security Group (managed via AWS Console)
 rds_security_group_id = "SG_ID_PLACEHOLDER"
 
-certificate_arn        = "arn:aws:acm:us-east-1:123456789012:certificate/CERTIFICATE_ID_PLACEHOLDER"
-domain_name            = "www.site-dns.org"
+certificate_arn        = "ACM_CERT_ARN_PLACEHOLDER"
+domain_name            = "app.example.org"
 listener_rule_priority = 200

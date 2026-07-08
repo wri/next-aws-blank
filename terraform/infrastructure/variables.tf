@@ -144,8 +144,8 @@ variable "app_environment_variables" {
   default     = {}
 }
 
-variable "secret_environment_variables" {
-  description = "Sensitive environment variables for the application (passed via CI/CD secrets, not stored in tfvars)"
+variable "placeholder_app_env" {
+  description = "Sensitive environment variable references for ECS using valueFrom (for example SSM Parameter or Secrets Manager ARNs)"
   type        = map(string)
   default     = {}
   sensitive   = true
