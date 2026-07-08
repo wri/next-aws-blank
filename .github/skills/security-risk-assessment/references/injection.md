@@ -13,8 +13,7 @@ Trace all user-controlled inputs through query construction, shell execution, an
 grep -rn "query\s*\`\|createQueryBuilder\|query(.*\${\|\.query(\`" apps/ libs/ --include="*.ts"
 
 # TypeORM raw queries
-grep -rn "\.query\(" apps/ libs/ --include="*.ts"
-```
+grep -RInE "\\.query\\(" apps/ libs/ --include="*.ts"
 
 **Safe patterns (parameterized):**
 ```typescript

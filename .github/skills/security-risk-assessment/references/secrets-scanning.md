@@ -33,11 +33,9 @@ Pass the content of all non-gitignored source files. Prioritize:
 grep -rn "Password=" --include="*.ts" --include="*.js" --include="*.json" .
 
 # AWS credentials
-grep -rn "AKIA[0-9A-Z]{16}" .
-
+grep -RInE "AKIA[0-9A-Z]{16}" .
 # Generic secrets
-grep -rni "secret\s*=\s*['\"][^'\"]\|password\s*=\s*['\"][^'\"]\|apikey\s*=\s*['\"][^'\"]" .
-```
+grep -RInE "(secret|password|apikey)[[:space:]]*=[[:space:]]*['\"][^'\"]+" .
 
 ### 3. Check git history
 

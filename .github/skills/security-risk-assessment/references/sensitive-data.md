@@ -17,7 +17,7 @@ First, identify what sensitive data the service handles:
 ### What to Check
 
 ```bash
-grep -rn "console\.log\|logger\.\(log\|info\|warn\|error\|debug\)" apps/ libs/ --include="*.ts" | grep -i "password\|token\|secret\|key\|email\|user"
+grep -RInE "console\.log|logger\.(log|info|warn|error|debug)" apps/ libs/ --include="*.ts" | grep -iE "(password|token|secret|key|email|user)"
 ```
 
 Also check structured logging configurations:
