@@ -161,7 +161,7 @@ jobs:
       - name: Terraform Plan
         working-directory: terraform/infrastructure
         env:
-          TF_VAR_secret_environment_variables: ${{ secrets.RD_APP_ENV }}
+          TF_VAR_placeholder_app_env: ${{ secrets.PLACEHOLDER_APP_ENV }}
           TF_VAR_image_tag: ${{ needs.build-and-push.outputs.image_tag }}
         run: |
           terraform plan \

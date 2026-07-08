@@ -262,14 +262,15 @@ resource "aws_ecs_task_definition" "app" {
             name  = key
             value = value
           }
-        ],
-        [
-          for key, value in var.secret_environment_variables : {
-            name  = key
-            value = value
-          }
         ]
       )
+
+      secrets = [
+        for key, value in var.placeholder_app_env : {
+          name      = key
+          valueFrom = value
+        }
+      ]
 
       logConfiguration = {
         logDriver = "awslogs"
