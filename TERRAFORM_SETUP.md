@@ -75,6 +75,8 @@ cat ../environments/qa.tfvars
 - Desired Tasks: 1
 - Auto-scaling: 1-2 tasks
 
+⚠️ **Important:** `qa.tfvars` is sanitized for open-source use. Replace all `*_PLACEHOLDER` values with real QA identifiers before running `terraform plan` or `terraform apply`.
+
 Sensitive application variables are provided separately through GitHub Actions secret `PLACEHOLDER_APP_ENV`, then passed to Terraform as `TF_VAR_placeholder_app_env`. This value must be a JSON map where each key is an environment variable name and each value is an AWS Parameter Store or Secrets Manager ARN. Terraform renders these into ECS container `secrets` using `valueFrom`.
 
 Example `PLACEHOLDER_APP_ENV` value:
@@ -142,6 +144,8 @@ cat ../environments/production.tfvars
 - Container Memory: 1024 MB
 - Desired Tasks: 2
 - Auto-scaling: 2-10 tasks
+
+⚠️ **Important:** `production.tfvars` is sanitized for open-source use. Replace all `*_PLACEHOLDER` values with real production identifiers before running `terraform plan` or `terraform apply`.
 
 **Plan and Apply:**
 ```bash

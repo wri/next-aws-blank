@@ -2,6 +2,10 @@
 # QA Environment Configuration
 # =============================================================================
 
+# WARNING: This file intentionally contains sanitized placeholder values.
+# Replace all *_PLACEHOLDER values with valid QA identifiers before running
+# terraform plan/apply or the deployment will fail or be misconfigured.
+
 project_name = "next-aws-blank-app"
 environment  = "qa"
 aws_region   = "us-east-1"
