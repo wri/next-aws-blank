@@ -215,6 +215,21 @@ AWS_REGION=us-east-1 PROJECT_NAME=next-aws-blank-app ./setup.sh
 4. Add GitHub variables for AWS permissions (Settings → Secrets and variables → Actions -> Variables):
    - `OIDC_ROLE` - ARN from AWS console for role GitHubActionsOIDC
 
+5. Add GitHub Actions secret for application secret references (Settings → Secrets and variables → Actions -> Secrets):
+   - `PLACEHOLDER_APP_ENV` - JSON object mapping environment variable names to AWS Parameter Store or Secrets Manager ARNs.
+
+Example value for `PLACEHOLDER_APP_ENV`:
+
+```json
+{
+  "DB_USER": "arn:aws:ssm:us-east-1:123456789012:parameter/next-aws-blank-app/production/db_user",
+  "DB_PASSWORD": "arn:aws:ssm:us-east-1:123456789012:parameter/next-aws-blank-app/production/db_password",
+  "SESSION_SECRET": "arn:aws:secretsmanager:us-east-1:123456789012:secret:next-aws-blank-app/production/session-secret-AbCdEf"
+}
+```
+
+These are injected into ECS task definitions as `secrets` with `valueFrom`, not plain-text environment values.
+
 ### 5. Required AWS IAM Permissions
 
 The AWS credentials need permissions for:
@@ -407,6 +422,14 @@ app_environment_variables = {
 ```
 
 2. Redeploy
+
+### Adding Sensitive Environment Variables
+
+Sensitive values must be passed by reference (ARN) via the GitHub secret `PLACEHOLDER_APP_ENV`.
+
+1. Store secret values in AWS Systems Manager Parameter Store or AWS Secrets Manager.
+2. Update the GitHub secret `PLACEHOLDER_APP_ENV` with a JSON map from env var name to ARN.
+3. Redeploy. Terraform passes this map through `TF_VAR_placeholder_app_env`, and ECS resolves each `valueFrom` reference at runtime.
 
 ### Changing Resources
 
