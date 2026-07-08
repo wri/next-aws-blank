@@ -7,7 +7,7 @@ Review cookie configuration, CORS policies, and HTTP security response headers.
 ### What to Check
 
 ```bash
-grep -rn "cookie\|session\|setCookie\|res\.cookie" apps/ --include="*.ts" -i
+grep -RInIE "(cookie|session|setCookie|res\.cookie)" apps/ --include="*.ts"
 ```
 
 For every cookie set, verify the following flags are present:
@@ -49,7 +49,7 @@ app.use(cors({ origin: req.headers.origin })); // HIGH
 **Safe pattern:**
 ```typescript
 app.use(cors({
-  origin: ['https://globalforestwatch.org', 'https://pro.globalforestwatch.org'],
+  origin: ['https://<your-allowed-origin-1>', 'https://<your-allowed-origin-2>'],
   credentials: true,
 }));
 ```

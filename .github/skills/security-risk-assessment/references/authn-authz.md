@@ -8,7 +8,7 @@ Map every route and handler to its authentication and authorization coverage. An
 
 For **Express.js** (webserver):
 ```bash
-grep -rn "router\.\(get\|post\|put\|patch\|delete\|use\)" apps/webserver/src --include="*.ts" | sort
+grep -RInE "router\.(get|post|put|patch|delete|use)" apps/webserver/src --include="*.ts" | sort
 ```
 
 For **NestJS** (microservices):

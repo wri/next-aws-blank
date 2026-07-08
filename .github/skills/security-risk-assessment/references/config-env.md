@@ -33,10 +33,10 @@ All secrets and environment-specific config must be injected via environment var
 
 ```bash
 # Find hardcoded connection strings
-grep -rn "Server=\|Data Source=\|jdbc:" apps/ libs/ --include="*.ts" --include="*.json" | grep -v "process\.env\|config\."
+grep -RInE "Server=|Data Source=|jdbc:" apps/ libs/ --include="*.ts" --include="*.json" | grep -v "process\.env\|config\."
 
 # Find hardcoded API keys
-grep -rn "apiKey\s*[:=]\s*['\"]" apps/ libs/ --include="*.ts" | grep -v "process\.env"
+grep -RInE "apiKey[[:space:]]*[:=][[:space:]]*['\"]" apps/ libs/ --include="*.ts" | grep -v "process\.env"
 ```
 
 ### 3. Example Config Files
