@@ -75,6 +75,18 @@ cat ../environments/qa.tfvars
 - Desired Tasks: 1
 - Auto-scaling: 1-2 tasks
 
+Sensitive application variables are provided separately through GitHub Actions secret `PLACEHOLDER_APP_ENV`, then passed to Terraform as `TF_VAR_placeholder_app_env`. This value must be a JSON map where each key is an environment variable name and each value is an AWS Parameter Store or Secrets Manager ARN. Terraform renders these into ECS container `secrets` using `valueFrom`.
+
+Example `PLACEHOLDER_APP_ENV` value:
+
+```json
+{
+  "DB_USER": "arn:aws:ssm:us-east-1:123456789012:parameter/next-aws-blank-app/qa/db_user",
+  "DB_PASSWORD": "arn:aws:ssm:us-east-1:123456789012:parameter/next-aws-blank-app/qa/db_password",
+  "SESSION_SECRET": "arn:aws:secretsmanager:us-east-1:123456789012:secret:next-aws-blank-app/qa/session-secret-AbCdEf"
+}
+```
+
 **Validate and Plan:**
 ```bash
 # Validate configuration
@@ -198,6 +210,15 @@ app_environment_variables = {
   "CUSTOM_VAR"       = "value"
 }
 ```
+
+### Add Sensitive Environment Variables (ARN References)
+
+Sensitive variables are not added to `*.tfvars` as plain text. Instead:
+
+1. Store each sensitive value in AWS Parameter Store or Secrets Manager.
+2. Put ARN references in GitHub secret `PLACEHOLDER_APP_ENV`.
+3. Deploy workflow passes this as `TF_VAR_placeholder_app_env`.
+4. ECS task definition receives these via `secrets[].valueFrom`.
 
 ### Change AWS Region
 

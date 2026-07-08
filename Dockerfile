@@ -18,8 +18,7 @@ ARG NEXT_PUBLIC_ENVIRONMENT
 ENV NEXT_PUBLIC_ENVIRONMENT=$NEXT_PUBLIC_ENVIRONMENT
 
 # Build the application
-# NODE_TLS_REJECT_UNAUTHORIZED=0: allows font downloads behind TLS-inspecting proxies (e.g. Zscaler)
-RUN NODE_TLS_REJECT_UNAUTHORIZED=0 npm run build
+RUN npm run build
 
 # Production stage
 FROM node:${NODE_VERSION}-alpine AS runner
