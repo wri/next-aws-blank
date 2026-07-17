@@ -126,6 +126,30 @@ variable "domain_name" {
   type        = string
 }
 
+variable "root_domain" {
+  description = "Apex/root domain for DNS records (e.g., site-dns.org). Leave empty to derive from domain_name by stripping a leading www. if present."
+  type        = string
+  default     = ""
+}
+
+variable "route53_zone_id" {
+  description = "Public Route53 hosted zone ID for DNS records. Leave empty to auto-discover by root_domain."
+  type        = string
+  default     = ""
+}
+
+variable "manage_dns_records" {
+  description = "Whether to create Route53 DNS records (apex and www) pointing to the ALB."
+  type        = bool
+  default     = true
+}
+
+variable "include_apex_host_header" {
+  description = "Whether to include the apex/root domain in the ALB host-header rule in addition to domain_name."
+  type        = bool
+  default     = true
+}
+
 variable "listener_rule_priority" {
   description = "Priority for the ALB listener rule. Must be unique across all rules on the shared HTTPS listener. Lower values are evaluated first."
   type        = number

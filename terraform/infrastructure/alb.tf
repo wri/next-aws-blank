@@ -126,7 +126,7 @@ resource "aws_lb_listener_rule" "https_host" {
 
   condition {
     host_header {
-      values = [var.domain_name]
+      values = local.listener_hostnames
     }
   }
 
