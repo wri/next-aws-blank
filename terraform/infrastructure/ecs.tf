@@ -40,6 +40,13 @@ resource "aws_cloudwatch_log_group" "app" {
   }
 }
 
+locals {
+  ecs_execution_ssm_parameter_arns = [
+    for arn in values(var.placeholder_app_env) : arn
+    if can(regex("^arn:[^:]+:ssm:[^:]+:[0-9]{12}:parameter/.+", arn))
+  ]
+}
+
 # =============================================================================
 # ECS Task Execution Role
 # =============================================================================
@@ -68,6 +75,28 @@ resource "aws_iam_role" "ecs_task_execution" {
 resource "aws_iam_role_policy_attachment" "ecs_task_execution" {
   role       = aws_iam_role.ecs_task_execution.name
   policy_arn = "arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"
+}
+
+# Grant ECS execution role access to SSM parameters used by ECS secret injection.
+resource "aws_iam_role_policy" "ecs_task_execution_ssm_parameters" {
+  count = length(local.ecs_execution_ssm_parameter_arns) > 0 ? 1 : 0
+
+  name = "${var.project_name}-${var.environment}-ecs-execution-ssm-policy"
+  role = aws_iam_role.ecs_task_execution.id
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect = "Allow"
+        Action = [
+          "ssm:GetParameter",
+          "ssm:GetParameters"
+        ]
+        Resource = local.ecs_execution_ssm_parameter_arns
+      }
+    ]
+  })
 }
 
 # =============================================================================
