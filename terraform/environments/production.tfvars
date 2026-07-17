@@ -43,4 +43,5 @@ rds_security_group_id = "SG_ID_PLACEHOLDER"
 
 certificate_arn        = "ACM_CERT_ARN_PLACEHOLDER"
 domain_name            = "app.example.org"
+root_domain            = "example.org"
 listener_rule_priority = 200
