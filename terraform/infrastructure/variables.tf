@@ -41,6 +41,12 @@ variable "vpc_id" {
   default     = ""
 }
 
+variable "public_subnet_ids" {
+  description = "Public subnet IDs for an existing VPC. Ignored if shared_vpc_state_key is set. Leave empty to auto-discover subnets whose route tables send 0.0.0.0/0 to an Internet Gateway."
+  type        = list(string)
+  default     = []
+}
+
 variable "shared_vpc_state_key" {
   description = "S3 state key of the environment that owns the shared VPC and ALB (e.g., 'qa/terraform.tfstate'). When set, the VPC ID, ALB, and listeners are read from that remote state."
   type        = string

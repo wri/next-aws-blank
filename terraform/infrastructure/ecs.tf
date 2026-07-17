@@ -334,6 +334,11 @@ resource "aws_ecs_service" "app" {
   # Ignore changes to desired_count when auto-scaling is enabled
   lifecycle {
     ignore_changes = [desired_count]
+
+    precondition {
+      condition     = local.has_discovered_public_subnets
+      error_message = "No public subnets were discovered for the existing VPC. Set public_subnet_ids explicitly in the environment tfvars or ensure target subnets have a route-table default route (0.0.0.0/0) to an Internet Gateway."
+    }
   }
 
   depends_on = [aws_lb_listener_rule.https_host]
