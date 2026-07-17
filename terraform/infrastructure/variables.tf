@@ -150,6 +150,12 @@ variable "include_apex_host_header" {
   default     = true
 }
 
+variable "include_alb_dns_host_header" {
+  description = "Whether to include the ALB DNS hostname in the host-header rule (useful for direct ALB endpoint access/testing)."
+  type        = bool
+  default     = false
+}
+
 variable "listener_rule_priority" {
   description = "Priority for the ALB listener rule. Must be unique across all rules on the shared HTTPS listener. Lower values are evaluated first."
   type        = number
