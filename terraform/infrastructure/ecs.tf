@@ -45,6 +45,10 @@ locals {
     for arn in values(var.placeholder_app_env) : arn
     if can(regex("^arn:[^:]+:ssm:[^:]+:[0-9]{12}:parameter/.+", arn))
   ]
+  ecs_execution_secretsmanager_arns = [
+    for arn in values(var.placeholder_app_env) : arn
+    if can(regex("^arn:[^:]+:secretsmanager:[^:]+:[0-9]{12}:secret:.+", arn))
+  ]
 }
 
 # =============================================================================
@@ -94,6 +98,27 @@ resource "aws_iam_role_policy" "ecs_task_execution_ssm_parameters" {
           "ssm:GetParameters"
         ]
         Resource = local.ecs_execution_ssm_parameter_arns
+      }
+    ]
+  })
+}
+
+# Grant ECS execution role access to Secrets Manager secrets used by ECS secret injection.
+resource "aws_iam_role_policy" "ecs_task_execution_secretsmanager" {
+  count = length(local.ecs_execution_secretsmanager_arns) > 0 ? 1 : 0
+
+  name = "${var.project_name}-${var.environment}-ecs-execution-secrets-policy"
+  role = aws_iam_role.ecs_task_execution.id
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect = "Allow"
+        Action = [
+          "secretsmanager:GetSecretValue"
+        ]
+        Resource = local.ecs_execution_secretsmanager_arns
       }
     ]
   })
