@@ -41,6 +41,12 @@ variable "vpc_id" {
   default     = ""
 }
 
+variable "public_subnet_ids" {
+  description = "Public subnet IDs for an existing VPC. Ignored if shared_vpc_state_key is set. Leave empty to auto-discover subnets whose route tables send 0.0.0.0/0 to an Internet Gateway."
+  type        = list(string)
+  default     = []
+}
+
 variable "shared_vpc_state_key" {
   description = "S3 state key of the environment that owns the shared VPC and ALB (e.g., 'qa/terraform.tfstate'). When set, the VPC ID, ALB, and listeners are read from that remote state."
   type        = string
@@ -118,6 +124,36 @@ variable "certificate_arn" {
 variable "domain_name" {
   description = "Custom domain name for the application (e.g., qa.site-dns.org). Required for host-based ALB routing."
   type        = string
+}
+
+variable "root_domain" {
+  description = "Apex/root domain for DNS records (e.g., site-dns.org). Leave empty to derive from domain_name by stripping a leading www. if present."
+  type        = string
+  default     = ""
+}
+
+variable "route53_zone_id" {
+  description = "Public Route53 hosted zone ID for DNS records. Leave empty to auto-discover by root_domain."
+  type        = string
+  default     = ""
+}
+
+variable "manage_dns_records" {
+  description = "Whether to create Route53 DNS records (apex and www) pointing to the ALB."
+  type        = bool
+  default     = true
+}
+
+variable "include_apex_host_header" {
+  description = "Whether to include the apex/root domain in the ALB host-header rule in addition to domain_name."
+  type        = bool
+  default     = true
+}
+
+variable "include_alb_dns_host_header" {
+  description = "Whether to include the ALB DNS hostname in the host-header rule (useful for direct ALB endpoint access/testing)."
+  type        = bool
+  default     = false
 }
 
 variable "listener_rule_priority" {
