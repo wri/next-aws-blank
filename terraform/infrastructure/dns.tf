@@ -7,7 +7,8 @@ locals {
   effective_root_domain = length(trimspace(var.root_domain)) > 0 ? var.root_domain : local.derived_root_domain
   listener_hostnames = distinct(concat(
     [var.domain_name],
-    var.include_apex_host_header ? [local.effective_root_domain] : []
+    var.include_apex_host_header ? [local.effective_root_domain] : [],
+    var.include_alb_dns_host_header ? [local.alb_dns_name] : []
   ))
 }
 
