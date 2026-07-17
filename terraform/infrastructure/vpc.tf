@@ -19,32 +19,50 @@ data "terraform_remote_state" "shared_vpc" {
 
 locals {
   # Resolve VPC ID: remote state > explicit var > create new
-  shared_vpc_id    = var.shared_vpc_state_key != "" ? data.terraform_remote_state.shared_vpc[0].outputs.vpc_id : null
-  effective_vpc_id = local.shared_vpc_id != null ? local.shared_vpc_id : (var.vpc_id != "" ? var.vpc_id : null)
-  create_vpc       = local.effective_vpc_id == null
-  vpc_id           = local.create_vpc ? aws_vpc.main[0].id : local.effective_vpc_id
+  shared_vpc_id                        = var.shared_vpc_state_key != "" ? data.terraform_remote_state.shared_vpc[0].outputs.vpc_id : null
+  effective_vpc_id                     = local.shared_vpc_id != null ? local.shared_vpc_id : (var.vpc_id != "" ? var.vpc_id : null)
+  create_vpc                           = local.effective_vpc_id == null
+  vpc_id                               = local.create_vpc ? aws_vpc.main[0].id : local.effective_vpc_id
+  discover_existing_vpc_public_subnets = !local.create_vpc && var.shared_vpc_state_key == "" && length(var.public_subnet_ids) == 0
 
-  # Resolve subnets: prefer remote state outputs (more reliable than re-querying by tag)
+  # Existing-VPC fallback: classify subnets as public when their effective route table
+  # has a default route (0.0.0.0/0) to an Internet Gateway.
+  discovered_public_subnet_ids = local.discover_existing_vpc_public_subnets ? sort([
+    for subnet_id, rt in data.aws_route_table.by_subnet : subnet_id
+    if anytrue([
+      for route in rt.routes : try(
+        route.cidr_block == "0.0.0.0/0" && route.gateway_id != null && startswith(route.gateway_id, "igw-"),
+        false
+      )
+    ])
+  ]) : []
+  has_discovered_public_subnets = !local.discover_existing_vpc_public_subnets || length(local.discovered_public_subnet_ids) > 0
+
+  # Resolve subnets: remote state > explicit input > IGW-route discovery fallback.
   public_subnet_ids = local.create_vpc ? aws_subnet.public[*].id : (
-    var.shared_vpc_state_key != "" ? data.terraform_remote_state.shared_vpc[0].outputs.public_subnet_ids : data.aws_subnets.public[0].ids
+    var.shared_vpc_state_key != "" ? data.terraform_remote_state.shared_vpc[0].outputs.public_subnet_ids : (
+      length(var.public_subnet_ids) > 0 ? var.public_subnet_ids : local.discovered_public_subnet_ids
+    )
   )
 }
 
 # =============================================================================
-# Data sources for existing VPC subnets (when using a shared VPC)
+# Data sources for existing VPC subnet discovery (existing VPC without shared remote state)
 # =============================================================================
 
-data "aws_subnets" "public" {
-  count = local.create_vpc ? 0 : 1
+data "aws_subnets" "all" {
+  count = local.discover_existing_vpc_public_subnets ? 1 : 0
 
   filter {
     name   = "vpc-id"
     values = [local.effective_vpc_id]
   }
+}
 
-  tags = {
-    Type = "public"
-  }
+data "aws_route_table" "by_subnet" {
+  for_each = local.discover_existing_vpc_public_subnets ? toset(data.aws_subnets.all[0].ids) : toset([])
+
+  subnet_id = each.value
 }
 
 

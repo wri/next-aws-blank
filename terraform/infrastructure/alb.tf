@@ -28,6 +28,13 @@ resource "aws_lb" "main" {
 
   enable_deletion_protection = false
 
+  lifecycle {
+    precondition {
+      condition     = length(local.public_subnet_ids) >= 2
+      error_message = "ALB requires at least two public subnets. Set public_subnet_ids explicitly in the environment tfvars if auto-discovery does not return enough subnets."
+    }
+  }
+
   tags = {
     Name = "${var.project_name}-alb"
   }
@@ -119,7 +126,7 @@ resource "aws_lb_listener_rule" "https_host" {
 
   condition {
     host_header {
-      values = [var.domain_name]
+      values = local.listener_hostnames
     }
   }
 

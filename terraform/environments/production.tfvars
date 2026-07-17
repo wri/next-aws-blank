@@ -42,5 +42,7 @@ app_environment_variables = {
 rds_security_group_id = "SG_ID_PLACEHOLDER"
 
 certificate_arn        = "ACM_CERT_ARN_PLACEHOLDER"
-domain_name            = "app.example.org"
+domain_name            = "www.example.org"
+root_domain            = "example.org"
+include_alb_dns_host_header = true
 listener_rule_priority = 200
