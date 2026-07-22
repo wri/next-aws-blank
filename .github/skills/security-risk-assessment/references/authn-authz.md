@@ -13,8 +13,8 @@ grep -RInE "router\.(get|post|put|patch|delete|use)" apps/webserver/src --includ
 
 For **NestJS** (microservices):
 ```bash
-grep -rn "@\(Get\|Post\|Put\|Patch\|Delete\|Controller\)" apps/microservices --include="*.ts" | sort
-grep -rn "@UseGuards\|@Public\|@Roles" apps/microservices --include="*.ts" | sort
+grep -RInE "@(Get|Post|Put|Patch|Delete|Controller)" apps/microservices --include="*.ts" | sort
+grep -RInE "@UseGuards|@Public|@Roles" apps/microservices --include="*.ts" | sort
 ```
 
 ### 2. Map Routes to Middleware/Guards
@@ -47,12 +47,6 @@ Beyond "is the user logged in", check:
 - Are token expiry (`exp`) claims checked?
 - Is the token issuer (`iss`) and audience (`aud`) validated?
 - Are revoked tokens rejected (blocklist or short TTL)?
-
-## GFW Pro Specifics
-
-- Check `featureFlagsService` usage — are feature-flagged endpoints still accessible when the flag is off?
-- Verify subscription type checks (Standard vs Premium) are enforced server-side, not just client-side
-- B2B API (`apps/microservices/b2b/`) — confirm API key scoping and rate limiting
 
 ## Findings Classification
 

@@ -10,7 +10,7 @@ Trace all user-controlled inputs through query construction, shell execution, an
 
 ```bash
 # Raw query construction with string interpolation
-grep -rn "query\s*\`\|createQueryBuilder\|query(.*\${\|\.query(\`" apps/ libs/ --include="*.ts"
+grep -RInE "query[[:space:]]*`|createQueryBuilder|query\(.*\$\{|\.query\(`" apps/ libs/ --include="*.ts"
 
 # TypeORM raw queries
 grep -RInE "\\.query\\(" apps/ libs/ --include="*.ts"
@@ -31,7 +31,7 @@ repository.query(`SELECT * FROM users WHERE id = '${userId}'`);
 ### Command Injection
 
 ```bash
-grep -rn "exec\|spawn\|execSync\|spawnSync\|child_process" apps/ libs/ --include="*.ts"
+grep -RInE "exec|spawn|execSync|spawnSync|child_process" apps/ libs/ --include="*.ts"
 ```
 
 Check if any user-controlled input reaches shell commands. All shell arguments must use array form (`spawn('cmd', [arg1, arg2])` not `exec('cmd ' + userInput)`).
@@ -39,7 +39,7 @@ Check if any user-controlled input reaches shell commands. All shell arguments m
 ### Template Injection
 
 ```bash
-grep -rn "render\|template\|handlebars\|mustache\|ejs\|nunjucks" apps/ libs/ --include="*.ts"
+grep -RInE "render|template|handlebars|mustache|ejs|nunjucks" apps/ libs/ --include="*.ts"
 ```
 
 Verify user input is HTML-escaped before template rendering. Check for `dangerouslySetInnerHTML` equivalents on the server side.
@@ -48,7 +48,7 @@ Verify user input is HTML-escaped before template rendering. Check for `dangerou
 
 If any MongoDB or Elasticsearch is used (check for it):
 ```bash
-grep -rn "mongoose\|elasticsearch\|opensearch" apps/ libs/ --include="*.ts"
+grep -RInE "mongoose|elasticsearch|opensearch" apps/ libs/ --include="*.ts"
 ```
 
 Ensure user input cannot inject query operators (`$where`, `$regex`, etc.).
@@ -56,16 +56,10 @@ Ensure user input cannot inject query operators (`$where`, `$regex`, etc.).
 ### Path Traversal
 
 ```bash
-grep -rn "readFile\|writeFile\|createReadStream\|path\.join\|path\.resolve" apps/ libs/ --include="*.ts"
+grep -RInE "readFile|writeFile|createReadStream|path\.join|path\.resolve" apps/ libs/ --include="*.ts"
 ```
 
 Check if user-controlled values are used in file paths without sanitization (e.g., blocking `../`).
-
-## GFW Pro Specifics
-
-- `libs/sql/src/lib/queries/` — review all SQL query templates for interpolation
-- Any list upload/download functionality (`list-processing`, `list-downloader`) — check filenames and content parsing
-- Geospatial input (GeoJSON, coordinates) — validate bounds and structure before DB insertion
 
 ## Findings Classification
 

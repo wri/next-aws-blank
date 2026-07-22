@@ -34,7 +34,7 @@ For every cookie set, verify the following flags are present:
 ### What to Check
 
 ```bash
-grep -rn "cors\|Access-Control\|origin" apps/ --include="*.ts" -i
+grep -RInE "cors|Access-Control|origin" apps/ --include="*.ts" -i
 ```
 
 **Unsafe patterns:**
@@ -68,7 +68,7 @@ app.use(cors({
 ### What to Check
 
 ```bash
-grep -rn "helmet\|Content-Security-Policy\|X-Frame-Options\|Strict-Transport" apps/ --include="*.ts" -i
+grep -RInE "helmet|Content-Security-Policy|X-Frame-Options|Strict-Transport" apps/ --include="*.ts" -i
 ```
 
 Verify [Helmet.js](https://helmetjs.github.io/) or equivalent is configured and not disabled. Minimum headers required:
@@ -94,7 +94,7 @@ Verify [Helmet.js](https://helmetjs.github.io/) or equivalent is configured and 
 ## Rate Limiting
 
 ```bash
-grep -rn "rateLimit\|throttle\|express-rate-limit\|ThrottlerGuard" apps/ --include="*.ts" -i
+grep -RInE "rateLimit|throttle|express-rate-limit|ThrottlerGuard" apps/ --include="*.ts" -i
 ```
 
 - Is rate limiting applied on auth endpoints (login, token refresh)?
