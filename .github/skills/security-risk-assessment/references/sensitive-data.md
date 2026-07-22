@@ -22,7 +22,7 @@ grep -RInE "console\.log|logger\.(log|info|warn|error|debug)" apps/ libs/ --incl
 
 Also check structured logging configurations:
 ```bash
-grep -rn "winston\|pino\|bunyan\|morgan" apps/ --include="*.ts"
+grep -RInE "winston|pino|bunyan|morgan" apps/ --include="*.ts"
 ```
 
 **Unsafe patterns:**
@@ -55,13 +55,13 @@ logger.info('Auth failed', { userId: user.id }); // log only non-sensitive ident
 - Are database backups encrypted?
 
 ```bash
-grep -rn "bcrypt\|argon2\|crypto\.createHash\|md5\|sha1" apps/ libs/ --include="*.ts" -i
+grep -RInE "bcrypt|argon2|crypto\.createHash|md5|sha1" apps/ libs/ --include="*.ts" -i
 ```
 
 ### Files / S3
 
 ```bash
-grep -rn "s3\|putObject\|upload\|ServerSideEncryption" libs/aws/ apps/ --include="*.ts" -i
+grep -RInE "s3|putObject|upload|ServerSideEncryption" libs/aws/ apps/ --include="*.ts" -i
 ```
 
 - Are S3 buckets configured with server-side encryption?
@@ -84,7 +84,7 @@ grep -rn "s3\|putObject\|upload\|ServerSideEncryption" libs/aws/ apps/ --include
 - Are third-party API calls (Mapbox, Stripe, etc.) using HTTPS?
 
 ```bash
-grep -rn "http://" apps/ libs/ --include="*.ts" | grep -v "localhost\|127.0.0.1\|comment\|//"
+grep -RIn "http://" apps/ libs/ --include="*.ts" | grep -Ev "localhost|127.0.0.1|comment|//"
 ```
 
 ### Findings
@@ -102,5 +102,5 @@ Before open sourcing, verify:
 - No real email addresses, names, or organization data in test files
 
 ```bash
-grep -rn "@globalforestwatch\|@wri\.org" test_files/ database/ --include="*.sql" --include="*.json" --include="*.ts"
+grep -RInE "@globalforestwatch|@wri\.org" test_files/ database/ --include="*.sql" --include="*.json" --include="*.ts"
 ```

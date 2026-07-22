@@ -33,7 +33,7 @@ All secrets and environment-specific config must be injected via environment var
 
 ```bash
 # Find hardcoded connection strings
-grep -RInE "Server=|Data Source=|jdbc:" apps/ libs/ --include="*.ts" --include="*.json" | grep -v "process\.env\|config\."
+grep -RInE "Server=|Data Source=|jdbc:" apps/ libs/ --include="*.ts" --include="*.json" | grep -Ev "process\.env|config\."
 
 # Find hardcoded API keys
 grep -RInE "apiKey[[:space:]]*[:=][[:space:]]*['\"]" apps/ libs/ --include="*.ts" | grep -v "process\.env"
@@ -54,10 +54,10 @@ find . -name "*.example" -o -name "*.sample" | head -20
 
 ```bash
 # Check docker-compose files for hardcoded credentials
-grep -rn "password\|secret\|key" docker-compose*.yml | grep -v "#"
+grep -RInE "password|secret|key" docker-compose*.yml | grep -v "#"
 
 # Check CI pipeline files
-find . -name "*.yml" -path "*/.github/workflows/*" | xargs grep -l "password\|secret" 2>/dev/null
+find . -name "*.yml" -path "*/.github/workflows/*" | xargs grep -El "password|secret" 2>/dev/null
 ```
 
 - Are GitHub Actions secrets used (`${{ secrets.MY_SECRET }}`) rather than hardcoded values?
@@ -84,7 +84,7 @@ Before open sourcing, scrub or document all references to:
 - Internal database hostnames
 
 ```bash
-grep -rn "\.internal\|\.local\|10\.\|192\.168\.\|172\.\(1[6-9]\|2[0-9]\|3[01]\)\." apps/ libs/ database/ --include="*.ts" --include="*.sql" --include="*.json"
+grep -RInE "\.internal|\.local|10\.|192\.168\.|172\.(1[6-9]|2[0-9]|3[01])\." apps/ libs/ database/ --include="*.ts" --include="*.sql" --include="*.json"
 ```
 
 ### 7. Database Schema & Seed Data
