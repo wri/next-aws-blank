@@ -5,7 +5,7 @@
 variable "project_name" {
   description = "Name of the project"
   type        = string
-  default     = "next-aws-blank-app"
+  default     = "placeholder-app"
 }
 
 variable "environment" {
@@ -22,13 +22,13 @@ variable "aws_region" {
 variable "wri_project" {
   description = "WRI project name for tagging"
   type        = string
-  default     = "project-blank (see https://gfw.atlassian.net/wiki/spaces/DOCS/pages/1341653014/Tagging+Schema)"
+  default     = "placeholder (see https://gfw.atlassian.net/wiki/spaces/DOCS/pages/1341653014/Tagging+Schema)"
 }
 
 variable "wri_owner" {
   description = "WRI owner email for tagging"
   type        = string
-  default     = "xxx@wri.org"
+  default     = "placeholder@wri.org"
 }
 
 # =============================================================================
@@ -122,12 +122,12 @@ variable "certificate_arn" {
 }
 
 variable "domain_name" {
-  description = "Custom domain name for the application (e.g., qa.site-dns.org). Required for host-based ALB routing."
+  description = "Custom domain name for the application (e.g., qa.placeholder.org). Required for host-based ALB routing."
   type        = string
 }
 
 variable "root_domain" {
-  description = "Apex/root domain for DNS records (e.g., site-dns.org). Leave empty to derive from domain_name by stripping a leading www. if present."
+  description = "Apex/root domain for DNS records (e.g., placeholder.org). Leave empty to derive from domain_name by stripping a leading www. if present."
   type        = string
   default     = ""
 }
