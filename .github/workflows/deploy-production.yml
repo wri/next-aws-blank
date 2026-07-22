@@ -205,4 +205,4 @@ jobs:
       - name: Get Application URL
         run: |
           echo "🚀 Application deployed successfully to PRODUCTION!"
-          echo "📍 URL: https://www.site-dns.org"
+          echo "📍 URL: https://www.placeholder.org"
