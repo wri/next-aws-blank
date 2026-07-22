@@ -203,4 +203,4 @@ jobs:
       - name: Get Application URL
         run: |
           echo "🚀 Application deployed successfully!"
-          echo "📍 URL: https://qa.site-dns.org"
+          echo "📍 URL: https://qa.placeholder.org"

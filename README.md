@@ -2,7 +2,7 @@
 
 A production-ready Next.js 16 blank application — backed by TypeORM + PostgreSQL and deployed to AWS ECS Fargate via Terraform and GitHub Actions.
 
-Repo: Search for xxx, yyy, zzz, and site-dns in the whole repository and replace with appropriate values.
+Repo: Search for xxx, yyy, zzz, next-aws-blank, and placeholder in the whole repository and replace with appropriate values.
 
 AWS/RDS: Create RDS instance with security group, databases for qa and production, RDS user with permissions on the databases.  And record the secrets in Param store.
 
