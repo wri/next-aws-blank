@@ -1,9 +1,9 @@
-'use client'
-import { Button, InlineMessage } from '@worldresources/wri-design-systems'
-import styles from './page.module.css'
+'use client';
+import { Button, InlineMessage } from '@worldresources/wri-design-systems';
+import styles from './page.module.css';
 
 export default function Home() {
-  const environment = process.env.NEXT_PUBLIC_ENVIRONMENT || 'development'
+  const environment = process.env.NEXT_PUBLIC_ENVIRONMENT || 'development';
 
   return (
     <main className={styles.main}>
@@ -45,5 +45,5 @@ export default function Home() {
         </div>
       </div>
     </main>
-  )
+  );
 }

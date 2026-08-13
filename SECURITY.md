@@ -33,4 +33,3 @@ For research to be considered in good faith, please:
 - Do not exfiltrate, modify, or delete data belonging to others
 - Stop testing and notify us immediately if you encounter sensitive data
 - Keep vulnerability details confidential until we have addressed the issue
-

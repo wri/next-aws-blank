@@ -21,11 +21,13 @@ grep -RInE "console\.log|logger\.(log|info|warn|error|debug)" apps/ libs/ --incl
 ```
 
 Also check structured logging configurations:
+
 ```bash
 grep -RInE "winston|pino|bunyan|morgan" apps/ --include="*.ts"
 ```
 
 **Unsafe patterns:**
+
 ```typescript
 // Never log request bodies that may contain credentials
 logger.info('Request body:', req.body);
@@ -33,18 +35,19 @@ logger.error('Auth failed', { user, password }); // logs password!
 ```
 
 **Safe pattern:**
+
 ```typescript
 logger.info('Auth failed', { userId: user.id }); // log only non-sensitive identifiers
 ```
 
 ### Findings
 
-| Finding | Severity |
-|---------|----------|
-| Passwords or tokens logged in plaintext | **Critical** |
-| PII (email, name) logged without necessity | **High** |
-| Full request bodies logged (may contain credentials) | **High** |
-| User IP logged without privacy consideration | **Low** |
+| Finding                                              | Severity     |
+| ---------------------------------------------------- | ------------ |
+| Passwords or tokens logged in plaintext              | **Critical** |
+| PII (email, name) logged without necessity           | **High**     |
+| Full request bodies logged (may contain credentials) | **High**     |
+| User IP logged without privacy consideration         | **Low**      |
 
 ## Storage
 
@@ -70,12 +73,12 @@ grep -RInE "s3|putObject|upload|ServerSideEncryption" libs/aws/ apps/ --include=
 
 ### Findings
 
-| Finding | Severity |
-|---------|----------|
-| Passwords stored without hashing or with weak hash | **Critical** |
+| Finding                                                | Severity     |
+| ------------------------------------------------------ | ------------ |
+| Passwords stored without hashing or with weak hash     | **Critical** |
 | PII stored in plaintext in publicly accessible storage | **Critical** |
-| S3 bucket with public-read ACL containing user data | **High** |
-| Encryption at rest not configured | **Medium** |
+| S3 bucket with public-read ACL containing user data    | **High**     |
+| Encryption at rest not configured                      | **Medium**   |
 
 ## Transport
 
@@ -89,14 +92,15 @@ grep -RIn "http://" apps/ libs/ --include="*.ts" | grep -Ev "localhost|127.0.0.1
 
 ### Findings
 
-| Finding | Severity |
-|---------|----------|
-| External API calls over HTTP (not HTTPS) | **High** |
+| Finding                                                          | Severity   |
+| ---------------------------------------------------------------- | ---------- |
+| External API calls over HTTP (not HTTPS)                         | **High**   |
 | Internal service calls over unencrypted HTTP with sensitive data | **Medium** |
 
 ## Data Minimization for Open Source
 
 Before open sourcing, verify:
+
 - No real customer data in test fixtures or seed files
 - No production database dumps in the repo
 - No real email addresses, names, or organization data in test files

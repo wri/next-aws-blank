@@ -22,6 +22,7 @@ github-run_secret_scanning
 ```
 
 Pass the content of all non-gitignored source files. Prioritize:
+
 - `*.env*`, `*.config.*`, `appsettings*.json`, `docker-compose*.yml`
 - Any file with "secret", "key", "token", "password", "credential" in its name
 - All TypeScript/JavaScript source files
@@ -36,6 +37,7 @@ grep -rn "Password=" --include="*.ts" --include="*.js" --include="*.json" .
 grep -RInE "AKIA[0-9A-Z]{16}" .
 # Generic secrets
 grep -RInE "(secret|password|apikey)[[:space:]]*=[[:space:]]*['\"][^'\"]+" .
+```
 
 ### 3. Check git history
 
@@ -51,13 +53,13 @@ Review all `.env.example`, `*.sample`, `*.template` files — ensure they contai
 
 ## Findings Classification
 
-| Finding | Severity |
-|---------|----------|
-| Real credential in source code or committed `.env` | **Critical** |
-| Real credential in git history (not in current HEAD) | **Critical** |
-| Hardcoded internal hostname/IP with auth bypass potential | **High** |
-| Placeholder that looks real (could cause confusion) | **Low** |
-| `.env` file not in `.gitignore` | **High** |
+| Finding                                                   | Severity     |
+| --------------------------------------------------------- | ------------ |
+| Real credential in source code or committed `.env`        | **Critical** |
+| Real credential in git history (not in current HEAD)      | **Critical** |
+| Hardcoded internal hostname/IP with auth bypass potential | **High**     |
+| Placeholder that looks real (could cause confusion)       | **Low**      |
+| `.env` file not in `.gitignore`                           | **High**     |
 
 ## Remediation
 
