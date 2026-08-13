@@ -1,22 +1,22 @@
-import type { Metadata } from 'next'
-import ChakraProvider from './providers/ChakraProvider'
-import './globals.css'
+import type { Metadata } from 'next';
+import { Providers } from './providers';
+import './globals.css';
 
 export const metadata: Metadata = {
   title: 'Next.js ECS App',
   description: 'A Next.js application deployed on AWS ECS Fargate',
-}
+};
 
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
   return (
     <html lang='en'>
       <body>
-        <ChakraProvider>{children}</ChakraProvider>
+        <Providers>{children}</Providers>
       </body>
     </html>
-  )
+  );
 }

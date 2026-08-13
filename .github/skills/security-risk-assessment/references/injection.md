@@ -26,7 +26,7 @@ queryBuilder.where('user.id = :id', { id: userId });
 
 ```typescript
 // Unsafe — never do this
-repository.query(`SELECT * FROM users WHERE id = '${userId}'`)
+repository.query(`SELECT * FROM users WHERE id = '${userId}'`);
 ```
 
 ### Command Injection

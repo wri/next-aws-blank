@@ -30,14 +30,14 @@ grep -RInE "winston|pino|bunyan|morgan" apps/ --include="*.ts"
 
 ```typescript
 // Never log request bodies that may contain credentials
-logger.info('Request body:', req.body)
-logger.error('Auth failed', { user, password }) // logs password!
+logger.info('Request body:', req.body);
+logger.error('Auth failed', { user, password }); // logs password!
 ```
 
 **Safe pattern:**
 
 ```typescript
-logger.info('Auth failed', { userId: user.id }) // log only non-sensitive identifiers
+logger.info('Auth failed', { userId: user.id }); // log only non-sensitive identifiers
 ```
 
 ### Findings
