@@ -4,11 +4,11 @@ A production-ready Next.js 16 blank application — backed by TypeORM + PostgreS
 
 Repo: Search for xxx, yyy, zzz, next-aws-blank, and placeholder in the whole repository and replace with appropriate values.
 
-AWS/RDS: Create RDS instance with security group, databases for qa and production, RDS user with permissions on the databases.  And record the secrets in Param store.
+AWS/RDS: Create RDS instance with security group, databases for qa and production, RDS user with permissions on the databases. And record the secrets in Param store.
 
-Github: Add a ruleset to the github repository to enable automatic copilot reviews for all changes to target branch.  Create branches for qa and production to match .github deployment scripts.  Feel free to delete 'main' branch afterwards.  Create github workflow/action secrets to match param store.
+Github: Add a ruleset to the github repository to enable automatic copilot reviews for all changes to target branch. Create branches for qa and production to match .github deployment scripts. Feel free to delete 'main' branch afterwards. Create github workflow/action secrets to match param store.
 
-Terraform: Create AWS S3 bucket for shared state for terraform.  See next-aws-blank-app-terraform-shared-state.  Also see [TERRAFORM_SETUP](https://github.com/wri/next-aws-blank/blob/main/TERRAFORM_SETUP.md).
+Terraform: Create AWS S3 bucket for shared state for terraform. See next-aws-blank-app-terraform-shared-state. Also see [TERRAFORM_SETUP](https://github.com/wri/next-aws-blank/blob/main/TERRAFORM_SETUP.md).
 
 ## 🏗️ Architecture
 
@@ -37,14 +37,14 @@ graph TB
 
 ## 🧰 Tech Stack
 
-| Layer | Technology |
-|-------|-----------|
-| Framework | Next.js 15 (App Router), React 19 |
-| UI | [WRI Design System](https://github.com/wri/wri-design-systems), Chakra UI v3, Tailwind CSS, TipTap Rich Text Editor |
-| Database | PostgreSQL 17, TypeORM 0.3 |
-| Deployment | AWS ECS Fargate, ALB, ECR, Terraform |
-| CI/CD | GitHub Actions (QA, Production, PR checks) |
-| Testing | Jest, React Testing Library |
+| Layer      | Technology                                                                                                          |
+| ---------- | ------------------------------------------------------------------------------------------------------------------- |
+| Framework  | Next.js 15 (App Router), React 19                                                                                   |
+| UI         | [WRI Design System](https://github.com/wri/wri-design-systems), Chakra UI v3, Tailwind CSS, TipTap Rich Text Editor |
+| Database   | PostgreSQL 17, TypeORM 0.3                                                                                          |
+| Deployment | AWS ECS Fargate, ALB, ECR, Terraform                                                                                |
+| CI/CD      | GitHub Actions (QA, Production, PR checks)                                                                          |
+| Testing    | Jest, React Testing Library                                                                                         |
 
 ## 📁 Project Structure
 
@@ -77,9 +77,9 @@ TBD
 
 ## 🔌 API Endpoints
 
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| `GET` | `/api/health` | Health check |
+| Method | Endpoint      | Description  |
+| ------ | ------------- | ------------ |
+| `GET`  | `/api/health` | Health check |
 
 ## 🚀 Getting Started
 
@@ -106,7 +106,7 @@ npm install
 
 ### 2. Database Setup (AWS RDS)
 
-The application uses a shared AWS RDS PostgreSQL instance (`xxx`) across all environments. Each environment (dev, qa, production) has its own database within the same RDS instance.  Access to the DB instance is controlled by an AWS security group (`xxx-sg`), and each environment has access to it.  Folks trying to connect to the DB directly need to add their external IP address to the AWS security group.
+The application uses a shared AWS RDS PostgreSQL instance (`xxx`) across all environments. Each environment (dev, qa, production) has its own database within the same RDS instance. Access to the DB instance is controlled by an AWS security group (`xxx-sg`), and each environment has access to it. Folks trying to connect to the DB directly need to add their external IP address to the AWS security group.
 
 #### Security Group Configuration
 
@@ -146,10 +146,12 @@ DATABASE_SSL_REJECT_UNAUTHORIZED=false
 ```
 
 **Getting Database Credentials:**
+
 - Master password is stored in [AWS Systems Manager Parameter Store](https://console.aws.amazon.com/systems-manager/parameters)
 - Navigate to Parameter Store and search for `xxx`
 
 **Get your external IP:**
+
 ```bash
 curl ifconfig.me
 ```
@@ -165,6 +167,7 @@ npm run seed:run
 ```
 
 **Generate migrations when schema changes:**
+
 ```bash
 npm run migration:generate
 ```
@@ -233,6 +236,7 @@ These are injected into ECS task definitions as `secrets` with `valueFrom`, not 
 ### 5. Required AWS IAM Permissions
 
 The AWS credentials need permissions for:
+
 - ECR (create/push images)
 - ECS (manage clusters, services, tasks)
 - EC2 (VPC, subnets, security groups)
@@ -281,6 +285,7 @@ npm start
 ### Database Management Commands
 
 **Migrations:**
+
 ```bash
 # Generate new migration (after entity changes)
 npm run migration:generate
@@ -293,12 +298,14 @@ npm run migration:revert
 ```
 
 **Seeding:**
+
 ```bash
 # Run seed data
 npm run seed:run
 ```
 
 **Direct Database Access:**
+
 ```bash
 # Connect to dev database
 psql -h xxx.rds.amazonaws.com -U yyy -d dev
@@ -311,6 +318,7 @@ psql -h xxx.rds.amazonaws.com -U yyy -d production
 ```
 
 **⚠️ Legacy Docker Commands (Deprecated):**
+
 ```bash
 # These commands are no longer used (RDS replaced local Docker)
 # npm run db:start
@@ -331,6 +339,7 @@ docker run -p 3000:3000 next-aws-blank-app
 ## 📋 Environment Configuration
 
 ### Database (Shared RDS Instance)
+
 - **RDS Endpoint:** `xxx.rds.amazonaws.com`
 - **Engine:** PostgreSQL 17
 - **Databases:**
@@ -341,6 +350,7 @@ docker run -p 3000:3000 next-aws-blank-app
 - **Credentials:** Stored in AWS Systems Manager Parameter Store
 
 ### QA Environment
+
 - VPC CIDR: `10.0.0.0/16`
 - Database: `qa`
 - Resources: 256 CPU / 512 MB Memory
@@ -348,6 +358,7 @@ docker run -p 3000:3000 next-aws-blank-app
 - Auto-scaling: 1-2 tasks
 
 ### Production Environment
+
 - VPC CIDR: `10.1.0.0/16`
 - Database: `production`
 - Resources: 512 CPU / 1024 MB Memory
@@ -356,12 +367,12 @@ docker run -p 3000:3000 next-aws-blank-app
 
 ## 🔄 CI/CD Workflows
 
-| Workflow | Trigger | Description |
-|----------|---------|-------------|
-| `deploy-qa.yml` | Push to `qa` branch | Deploy to QA environment |
-| `deploy-production.yml` | Push to `main`/`production` | Deploy to Production |
-| `pr-check.yml` | Pull requests | Run tests and validate |
-| `destroy.yml` | Manual | Tear down infrastructure |
+| Workflow                | Trigger                     | Description              |
+| ----------------------- | --------------------------- | ------------------------ |
+| `deploy-qa.yml`         | Push to `qa` branch         | Deploy to QA environment |
+| `deploy-production.yml` | Push to `main`/`production` | Deploy to Production     |
+| `pr-check.yml`          | Pull requests               | Run tests and validate   |
+| `destroy.yml`           | Manual                      | Tear down infrastructure |
 
 ## 🗑️ Teardown
 
@@ -415,6 +426,7 @@ chmod +x teardown.sh
 ### Adding Environment Variables
 
 1. Update `terraform/environments/{env}.tfvars`:
+
 ```hcl
 app_environment_variables = {
   "MY_VAR" = "my-value"
@@ -434,6 +446,7 @@ Sensitive values must be passed by reference (ARN) via the GitHub secret `PLACEH
 ### Changing Resources
 
 Edit `terraform/environments/{env}.tfvars`:
+
 ```hcl
 container_cpu    = 512   # 0.5 vCPU
 container_memory = 1024  # 1 GB

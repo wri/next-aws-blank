@@ -2,17 +2,19 @@
 
 This guide explains how to configure and deploy the Terraform infrastructure for QA and Production environments.
 
-Some state is shared between QA and production. For these parts, first create QA environment followed by production.  Note that QA cannot be fully deleted, but it's ECS tasks could be reduced to have 0 instances.
+Some state is shared between QA and production. For these parts, first create QA environment followed by production. Note that QA cannot be fully deleted, but it's ECS tasks could be reduced to have 0 instances.
 
 ## 📋 Prerequisites
 
 1. **AWS CLI** configured with credentials:
+
    ```bash
    aws configure
    # Enter your AWS Access Key ID, Secret Key, and region
    ```
 
 2. **Terraform** installed (version 1.0+):
+
    ```bash
    terraform --version
    ```
@@ -36,12 +38,14 @@ cd terraform/backend-setup
 ```
 
 **What this creates:**
+
 - S3 bucket: `next-aws-blank-app-terraform-state-shared`
 - DynamoDB table: `next-aws-blank-app-terraform-locks-shared`
 - Versioning enabled on S3 bucket
 - Encryption enabled
 
 **Output will show:**
+
 ```
 Backend configuration to use in main Terraform:
 terraform {
@@ -69,6 +73,7 @@ cat ../environments/qa.tfvars
 ```
 
 **QA Configuration** ([terraform/environments/qa.tfvars](../terraform/environments/qa.tfvars)):
+
 - VPC CIDR: `10.0.0.0/16`
 - Container CPU: 256 (0.25 vCPU)
 - Container Memory: 512 MB
@@ -90,6 +95,7 @@ Example `PLACEHOLDER_APP_ENV` value:
 ```
 
 **Validate and Plan:**
+
 ```bash
 # Validate configuration
 terraform validate
@@ -99,11 +105,13 @@ terraform plan -var-file=../environments/qa.tfvars
 ```
 
 **Apply (Deploy):**
+
 ```bash
 terraform apply -var-file=../environments/qa.tfvars
 ```
 
 **What this creates:**
+
 - VPC with public/private subnets across 2 AZs
 - Internet Gateway and NAT Gateways
 - Application Load Balancer
@@ -115,6 +123,7 @@ terraform apply -var-file=../environments/qa.tfvars
 - IAM Roles
 
 **Get the outputs:**
+
 ```bash
 terraform output
 
@@ -139,6 +148,7 @@ cat ../environments/production.tfvars
 ```
 
 **Production Configuration** ([terraform/environments/production.tfvars](../terraform/environments/production.tfvars)):
+
 - VPC CIDR: `10.1.0.0/16` (different from QA!)
 - Container CPU: 512 (0.5 vCPU)
 - Container Memory: 1024 MB
@@ -148,6 +158,7 @@ cat ../environments/production.tfvars
 ⚠️ **Important:** `production.tfvars` is sanitized for open-source use. Replace all `*_PLACEHOLDER` values with real production identifiers before running `terraform plan` or `terraform apply`.
 
 **Plan and Apply:**
+
 ```bash
 # Validate
 terraform validate
@@ -198,6 +209,7 @@ max_capacity  = 5
 ```
 
 Then re-apply:
+
 ```bash
 terraform apply -var-file=../environments/qa.tfvars
 ```
@@ -227,11 +239,13 @@ Sensitive variables are not added to `*.tfvars` as plain text. Instead:
 ### Change AWS Region
 
 1. Update backend config (`qa.backend.hcl`):
+
 ```hcl
 region = "us-west-2"
 ```
 
 2. Update environment config (`qa.tfvars`):
+
 ```hcl
 aws_region = "us-west-2"
 ```
@@ -239,6 +253,7 @@ aws_region = "us-west-2"
 3. Re-run backend setup in the new region (if needed)
 
 4. Re-initialize and apply:
+
 ```bash
 terraform init -backend-config=../environments/qa.backend.hcl -reconfigure
 terraform apply -var-file=../environments/qa.tfvars
@@ -286,10 +301,13 @@ terraform import aws_ecs_cluster.main next-aws-blank-app-qa-cluster
 ### Common Issues
 
 **1. State Lock Error:**
+
 ```
 Error: Error acquiring the state lock
 ```
+
 **Solution:** Wait for other operations to complete, or remove the lock file:
+
 ```bash
 # Modern Terraform uses .terraform.lock.hcl
 # If stuck, you can force unlock (use with caution):
@@ -297,27 +315,35 @@ terraform force-unlock <lock-id>
 ```
 
 **2. Backend Not Configured:**
+
 ```
 Error: Backend initialization required
 ```
+
 **Solution:** Initialize with backend config:
+
 ```bash
 terraform init -backend-config=../environments/qa.backend.hcl
 ```
 
 **3. Resource Already Exists:**
+
 ```
 Error: resource already exists
 ```
+
 **Solution:** Import the existing resource or destroy and recreate:
+
 ```bash
 terraform import <resource_type>.<resource_name> <resource_id>
 ```
 
 **4. Insufficient Permissions:**
+
 ```
 Error: AccessDenied
 ```
+
 **Solution:** Ensure your AWS credentials have the required permissions.
 
 ## 🗑️ Destroying Infrastructure
