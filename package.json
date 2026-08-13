@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --webpack",
+    "dev": "next dev --turbopack",
     "//build": "--webpack is required: Next.js 16 defaults to Turbopack, which ignores webpack minimizer config and mangles TypeORM entity class names (e.g. Assessment -> a), breaking entity metadata lookups at runtime",
     "build": "next build --webpack",
     "start": "next start",
