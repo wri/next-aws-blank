@@ -1,4 +1,4 @@
-import type { NextConfig } from 'next'
+import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
   /* config options here */
@@ -39,7 +39,7 @@ const nextConfig: NextConfig = {
           },
         ],
       },
-    ]
+    ];
   },
   // Disable server-side minification so TypeORM entity class names are preserved.
   // TypeORM resolves entity metadata by constructor.name at runtime — if class
@@ -50,10 +50,10 @@ const nextConfig: NextConfig = {
   // minimizer keep them without disabling the pass entirely.
   webpack: (config, { isServer }) => {
     if (isServer) {
-      config.optimization.minimize = false
+      config.optimization.minimize = false;
     }
-    return config
+    return config;
   },
-}
+};
 
-export default nextConfig
+export default nextConfig;

@@ -13,6 +13,7 @@ cat .gitignore | grep -E "\.env|\.pem|\.key|secrets|credentials"
 ```
 
 Required `.gitignore` entries:
+
 ```
 .env
 .env.*
@@ -42,6 +43,7 @@ grep -RInE "apiKey[[:space:]]*[:=][[:space:]]*['\"]" apps/ libs/ --include="*.ts
 ### 3. Example Config Files
 
 `.env.example`, `appsettings.example.json`, `docker-compose.override.yml.example` must:
+
 - Exist (so contributors know what variables are needed)
 - Contain **only** placeholder values (`YOUR_SECRET_HERE`, `changeme`, `<REPLACE>`)
 - Not contain real values, internal hostnames, or account IDs
@@ -78,6 +80,7 @@ Flag any `npm audit` findings at High or Critical severity.
 ### 6. Internal Infrastructure Exposure
 
 Before open sourcing, scrub or document all references to:
+
 - Internal AWS account IDs
 - Internal VPC hostnames or IP ranges
 - Internal S3 bucket names
@@ -94,27 +97,29 @@ ls database/
 ```
 
 Review all SQL files in `database/` for:
+
 - Hardcoded credentials in stored procedures
 - Real customer/user data in seed files
 - Internal business logic that reveals sensitive proprietary information
 
 ## Findings Classification
 
-| Finding | Severity |
-|---------|----------|
-| `.env` file with real credentials committed | **Critical** |
-| Secret hardcoded in source file | **Critical** |
-| Internal AWS account ID or infrastructure detail exposed | **High** |
-| `.env.example` missing (contributors can't configure the app) | **Medium** |
-| `npm audit` High/Critical CVEs in production dependencies | **High** |
-| Docker Compose with hardcoded credentials | **High** |
-| CI pipeline with inline secrets (not using GitHub secrets) | **High** |
-| Real customer data in test fixtures or seed files | **High** |
-| `.gitignore` missing `.env` entry | **High** |
+| Finding                                                       | Severity     |
+| ------------------------------------------------------------- | ------------ |
+| `.env` file with real credentials committed                   | **Critical** |
+| Secret hardcoded in source file                               | **Critical** |
+| Internal AWS account ID or infrastructure detail exposed      | **High**     |
+| `.env.example` missing (contributors can't configure the app) | **Medium**   |
+| `npm audit` High/Critical CVEs in production dependencies     | **High**     |
+| Docker Compose with hardcoded credentials                     | **High**     |
+| CI pipeline with inline secrets (not using GitHub secrets)    | **High**     |
+| Real customer data in test fixtures or seed files             | **High**     |
+| `.gitignore` missing `.env` entry                             | **High**     |
 
 ## Open Sourcing Readiness Gate
 
 The repository is **CLEAR** to open source when:
+
 - [ ] All Critical and High findings are resolved
 - [ ] `.env.example` exists with placeholder values only
 - [ ] `npm audit` shows no High/Critical in production deps

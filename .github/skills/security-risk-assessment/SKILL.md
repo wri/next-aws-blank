@@ -1,15 +1,15 @@
 ---
 name: security-risk-assessment
-description: "Security Risk Assessment Prior to Open Sourcing repositories. Use when auditing a repo for open source release, checking for secrets, OWASP vulnerabilities, auth gaps, injection risks, CORS/session hardening, sensitive data leaks, or config safety. Runs a code-first, exploitability-focused security review across 7 audit areas."
-argument-hint: "<repo-path or app name>"
-"how to use": |
+description: 'Security Risk Assessment Prior to Open Sourcing repositories. Use when auditing a repo for open source release, checking for secrets, OWASP vulnerabilities, auth gaps, injection risks, CORS/session hardening, sensitive data leaks, or config safety. Runs a code-first, exploitability-focused security review across 7 audit areas.'
+argument-hint: '<repo-path or app name>'
+'how to use': |
   Invoke it with /security-risk-assessment <repo or app name> — it'll run the full 7-area audit and produce a severity-graded report with a BLOCKED / CONDITIONAL / CLEAR open sourcing recommendation.
-
 ---
 
 # Security Risk Assessment Prior to Open Sourcing
 
 A code-first, exploitability-focused security review framework. Run this before making any repository public.
+
 ## When to Use
 
 - Before open sourcing a private repository

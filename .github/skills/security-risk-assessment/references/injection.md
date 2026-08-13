@@ -14,8 +14,10 @@ grep -RInE "query[[:space:]]*`|createQueryBuilder|query\(.*\$\{|\.query\(`" apps
 
 # TypeORM raw queries
 grep -RInE "\\.query\\(" apps/ libs/ --include="*.ts"
+```
 
 **Safe patterns (parameterized):**
+
 ```typescript
 // Safe
 repository.query('SELECT * FROM users WHERE id = @0', [userId]);
@@ -23,6 +25,7 @@ queryBuilder.where('user.id = :id', { id: userId });
 ```
 
 **Unsafe patterns (injection risk):**
+
 ```typescript
 // Unsafe — never do this
 repository.query(`SELECT * FROM users WHERE id = '${userId}'`);
@@ -47,6 +50,7 @@ Verify user input is HTML-escaped before template rendering. Check for `dangerou
 ### NoSQL / ORM Operator Injection
 
 If any MongoDB or Elasticsearch is used (check for it):
+
 ```bash
 grep -RInE "mongoose|elasticsearch|opensearch" apps/ libs/ --include="*.ts"
 ```
@@ -63,15 +67,15 @@ Check if user-controlled values are used in file paths without sanitization (e.g
 
 ## Findings Classification
 
-| Finding | Severity |
-|---------|----------|
+| Finding                                                       | Severity     |
+| ------------------------------------------------------------- | ------------ |
 | SQL injection with direct string interpolation into raw query | **Critical** |
-| Command injection via user-controlled shell argument | **Critical** |
-| Path traversal to read arbitrary files | **Critical** |
-| Unparameterized query with indirect user input | **High** |
-| Missing input validation on numeric/enum fields | **Medium** |
-| No size/length limits on user-supplied data | **Medium** |
-| Template rendering with unescaped user input | **High** |
+| Command injection via user-controlled shell argument          | **Critical** |
+| Path traversal to read arbitrary files                        | **Critical** |
+| Unparameterized query with indirect user input                | **High**     |
+| Missing input validation on numeric/enum fields               | **Medium**   |
+| No size/length limits on user-supplied data                   | **Medium**   |
+| Template rendering with unescaped user input                  | **High**     |
 
 ## Remediation
 
