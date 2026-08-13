@@ -1,11 +1,11 @@
-'use client'
+'use client';
 
 import {
   ChakraProvider as ChakraProviderComponent,
   createSystem,
-} from '@chakra-ui/react'
-import { designSystemStyles } from '@worldresources/wri-design-systems'
-import EmotionProvider from './EmotionProvider'
+} from '@chakra-ui/react';
+import { designSystemStyles } from '@worldresources/wri-design-systems';
+import EmotionProvider from './EmotionProvider';
 
 const customStylesSystem = createSystem(designSystemStyles._config, {
   theme: {
@@ -26,7 +26,7 @@ const customStylesSystem = createSystem(designSystemStyles._config, {
       },
     },
   },
-})
+});
 
 const ChakraProvider = ({ children }: { children: React.ReactNode }) => (
   <EmotionProvider>
@@ -34,6 +34,6 @@ const ChakraProvider = ({ children }: { children: React.ReactNode }) => (
       {children}
     </ChakraProviderComponent>
   </EmotionProvider>
-)
+);
 
-export default ChakraProvider
+export default ChakraProvider;

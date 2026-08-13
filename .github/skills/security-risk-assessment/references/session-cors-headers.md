@@ -41,10 +41,10 @@ grep -RInE "cors|Access-Control|origin" apps/ --include="*.ts" -i
 
 ```typescript
 // Wildcard — dangerous if credentials are also allowed
-app.use(cors({ origin: '*', credentials: true })) // CRITICAL
+app.use(cors({ origin: '*', credentials: true })); // CRITICAL
 
 // Dynamic origin reflection without allowlist
-app.use(cors({ origin: req.headers.origin })) // HIGH
+app.use(cors({ origin: req.headers.origin })); // HIGH
 ```
 
 **Safe pattern:**
@@ -58,7 +58,7 @@ app.use(
     ],
     credentials: true,
   }),
-)
+);
 ```
 
 ### Findings

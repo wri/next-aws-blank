@@ -1,5 +1,5 @@
-import { getThemedColor } from '@worldresources/wri-design-systems'
-import type { Config } from 'tailwindcss'
+import { getThemedColor } from '@worldresources/wri-design-systems';
+import type { Config } from 'tailwindcss';
 
 export default {
   corePlugins: {
@@ -97,4 +97,4 @@ export default {
     },
   },
   plugins: [],
-} satisfies Config
+} satisfies Config;
