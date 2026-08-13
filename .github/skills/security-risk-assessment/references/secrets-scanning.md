@@ -22,13 +22,14 @@ github-run_secret_scanning
 ```
 
 Pass the content of all non-gitignored source files. Prioritize:
+
 - `*.env*`, `*.config.*`, `appsettings*.json`, `docker-compose*.yml`
 - Any file with "secret", "key", "token", "password", "credential" in its name
 - All TypeScript/JavaScript source files
 
 ### 2. Grep for common patterns
 
-```bash
+````bash
 # Connection strings
 grep -rn "Password=" --include="*.ts" --include="*.js" --include="*.json" .
 
@@ -43,7 +44,7 @@ grep -RInE "(secret|password|apikey)[[:space:]]*=[[:space:]]*['\"][^'\"]+" .
 # Search commit history for sensitive patterns
 git log --all --full-history -p -- "**/*.env" | head -200
 git log --all -S "password" --oneline | head -20
-```
+````
 
 ### 4. Check example/template files
 
@@ -51,13 +52,13 @@ Review all `.env.example`, `*.sample`, `*.template` files — ensure they contai
 
 ## Findings Classification
 
-| Finding | Severity |
-|---------|----------|
-| Real credential in source code or committed `.env` | **Critical** |
-| Real credential in git history (not in current HEAD) | **Critical** |
-| Hardcoded internal hostname/IP with auth bypass potential | **High** |
-| Placeholder that looks real (could cause confusion) | **Low** |
-| `.env` file not in `.gitignore` | **High** |
+| Finding                                                   | Severity     |
+| --------------------------------------------------------- | ------------ |
+| Real credential in source code or committed `.env`        | **Critical** |
+| Real credential in git history (not in current HEAD)      | **Critical** |
+| Hardcoded internal hostname/IP with auth bypass potential | **High**     |
+| Placeholder that looks real (could cause confusion)       | **Low**      |
+| `.env` file not in `.gitignore`                           | **High**     |
 
 ## Remediation
 

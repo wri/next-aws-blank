@@ -7,11 +7,13 @@ Map every route and handler to its authentication and authorization coverage. An
 ### 1. Enumerate All Entry Points
 
 For **Express.js** (webserver):
+
 ```bash
 grep -RInE "router\.(get|post|put|patch|delete|use)" apps/webserver/src --include="*.ts" | sort
 ```
 
 For **NestJS** (microservices):
+
 ```bash
 grep -RInE "@(Get|Post|Put|Patch|Delete|Controller)" apps/microservices --include="*.ts" | sort
 grep -RInE "@UseGuards|@Public|@Roles" apps/microservices --include="*.ts" | sort
@@ -21,10 +23,10 @@ grep -RInE "@UseGuards|@Public|@Roles" apps/microservices --include="*.ts" | sor
 
 For each route record:
 
-| Route | Method | Auth Middleware/Guard | Roles/Scopes Required | Notes |
-|-------|--------|-----------------------|----------------------|-------|
-| `/api/v1/...` | GET | `authMiddleware` | `user` | |
-| `/health` | GET | None | None | Intentionally public |
+| Route         | Method | Auth Middleware/Guard | Roles/Scopes Required | Notes                |
+| ------------- | ------ | --------------------- | --------------------- | -------------------- |
+| `/api/v1/...` | GET    | `authMiddleware`      | `user`                |                      |
+| `/health`     | GET    | None                  | None                  | Intentionally public |
 
 ### 3. Check for Auth Bypass Patterns
 
@@ -36,6 +38,7 @@ For each route record:
 ### 4. Authorization (not just authentication)
 
 Beyond "is the user logged in", check:
+
 - Can a user access **another user's** resources? (IDOR)
 - Are subscription tier checks enforced server-side?
 - Are admin/internal APIs reachable by regular users?
@@ -50,12 +53,12 @@ Beyond "is the user logged in", check:
 
 ## Findings Classification
 
-| Finding | Severity |
-|---------|----------|
-| Sensitive route with no auth at all | **Critical** |
-| IDOR — user can access another user's data | **Critical** |
-| Admin endpoint accessible to regular users | **Critical** |
-| Weak JWT validation (alg:none, no expiry check) | **High** |
-| Missing subscription tier enforcement (server-side) | **High** |
-| Overly broad role/scope grants | **Medium** |
-| Missing auth on low-sensitivity internal endpoint | **Low** |
+| Finding                                             | Severity     |
+| --------------------------------------------------- | ------------ |
+| Sensitive route with no auth at all                 | **Critical** |
+| IDOR — user can access another user's data          | **Critical** |
+| Admin endpoint accessible to regular users          | **Critical** |
+| Weak JWT validation (alg:none, no expiry check)     | **High**     |
+| Missing subscription tier enforcement (server-side) | **High**     |
+| Overly broad role/scope grants                      | **Medium**   |
+| Missing auth on low-sensitivity internal endpoint   | **Low**      |
