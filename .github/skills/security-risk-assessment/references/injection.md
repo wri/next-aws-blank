@@ -8,19 +8,21 @@ Trace all user-controlled inputs through query construction, shell execution, an
 
 **MSSQL / TypeORM patterns to audit:**
 
-````bash
+```bash
 # Raw query construction with string interpolation
 grep -RInE "query[[:space:]]*`|createQueryBuilder|query\(.*\$\{|\.query\(`" apps/ libs/ --include="*.ts"
 
 # TypeORM raw queries
 grep -RInE "\\.query\\(" apps/ libs/ --include="*.ts"
+```
 
 **Safe patterns (parameterized):**
+
 ```typescript
 // Safe
 repository.query('SELECT * FROM users WHERE id = @0', [userId]);
 queryBuilder.where('user.id = :id', { id: userId });
-````
+```
 
 **Unsafe patterns (injection risk):**
 

@@ -29,7 +29,7 @@ Pass the content of all non-gitignored source files. Prioritize:
 
 ### 2. Grep for common patterns
 
-````bash
+```bash
 # Connection strings
 grep -rn "Password=" --include="*.ts" --include="*.js" --include="*.json" .
 
@@ -37,6 +37,7 @@ grep -rn "Password=" --include="*.ts" --include="*.js" --include="*.json" .
 grep -RInE "AKIA[0-9A-Z]{16}" .
 # Generic secrets
 grep -RInE "(secret|password|apikey)[[:space:]]*=[[:space:]]*['\"][^'\"]+" .
+```
 
 ### 3. Check git history
 
@@ -44,7 +45,7 @@ grep -RInE "(secret|password|apikey)[[:space:]]*=[[:space:]]*['\"][^'\"]+" .
 # Search commit history for sensitive patterns
 git log --all --full-history -p -- "**/*.env" | head -200
 git log --all -S "password" --oneline | head -20
-````
+```
 
 ### 4. Check example/template files
 
