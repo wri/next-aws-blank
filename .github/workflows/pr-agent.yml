@@ -36,9 +36,8 @@ jobs:
        contains(fromJSON('["OWNER", "MEMBER", "COLLABORATOR"]'),
                 github.event.comment.author_association))
     runs-on: ubuntu-latest
-    # Matches the timeout convention used by pr-check.yml, release.yml and the
-    # deploy-* workflows. Bounds runtime and cost if the LLM action hangs (the
-    # default cap is 6 hours).
+    # Bounds runtime and cost if the LLM action hangs (the default cap is 6
+    # hours).
     timeout-minutes: 60
     permissions:
       # PR-Agent's /review (and describe/improve) only posts PR/issue comments;
