@@ -104,14 +104,27 @@ jobs:
         run: |
           pr="${{ steps.reviewable.outputs.pr }}"
           # One paginated call yields "<additions+deletions> <filename>" per file.
-          data=$(gh api "repos/${{ github.repository }}/pulls/$pr/files" \
-            --paginate --jq '.[] | "\(.additions + .deletions) \(.filename)"')
-          # Apply the same auto-generated-file filter as the "Check for
-          # reviewable changes" step, so the sizing reflects only the diff
-          # PR-Agent will actually review. Without this, a regenerated lockfile
-          # alone (often thousands of lines) would push a small code change
-          # into the expensive heavy tier.
-          ignored='(^|/)(package-lock\.json|npm-shrinkwrap\.json|yarn\.lock|pnpm-lock\.yaml|composer\.lock|Gemfile\.lock|poetry\.lock|go\.sum|uv\.lock|Cargo\.lock|Pipfile\.lock|mix\.lock|pubspec\.lock|bun\.lockb)$|\.(min\.js|min\.css|js\.map|ts\.map|css\.map)$'
+          # If this call fails (transient API error, rate limit, permissions), do
+          # not fail the step: that would skip the PR-Agent review entirely, which
+          # would otherwise still run fine with a fixed model. Fall back to the
+          # light tier instead — reviewing with the cheaper model beats posting
+          # no review at all, and the next push to the PR retries the sizing.
+          if ! data=$(gh api "repos/${{ github.repository }}/pulls/$pr/files" \
+            --paginate --jq '.[] | "\(.additions + .deletions) \(.filename)"'); then
+            echo "gh api failed; defaulting to light tier"
+            echo "tier=light" >> "$GITHUB_OUTPUT"
+            echo "model=openrouter/deepseek/deepseek-v4.1-flash" >> "$GITHUB_OUTPUT"
+            echo "fallback_models=[\"openrouter/z-ai/glm-5.3-flash\"]" >> "$GITHUB_OUTPUT"
+            echo "max_tokens=64000" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          # Same filter as the "Check for reviewable changes" step, but its
+          # boundary differs: here each line is "<additions+deletions> <filename>",
+          # so a root-level lockfile (e.g. "123 package-lock.json") is preceded by
+          # a space, not start-of-line or '/'. Allow whitespace there as well, or
+          # a regenerated root lockfile would still inflate the line count and
+          # push a small change into the heavy tier.
+          ignored='(^|[[:space:]/])(package-lock\.json|npm-shrinkwrap\.json|yarn\.lock|pnpm-lock\.yaml|composer\.lock|Gemfile\.lock|poetry\.lock|go\.sum|uv\.lock|Cargo\.lock|Pipfile\.lock|mix\.lock|pubspec\.lock|bun\.lockb)$|\.(min\.js|min\.css|js\.map|ts\.map|css\.map)$'
           # `|| true` guards against grep exiting 1 when every file matches
           # $ignored (same rationale as in the reviewable step).
           data=$(printf '%s\n' "$data" | { grep -vE "$ignored" || true; } | sed '/^[[:space:]]*$/d')
@@ -138,7 +151,7 @@ jobs:
 
       - name: Run PR Agent review
         if: steps.reviewable.outputs.has_reviewable == 'true'
-        # Pinned to the v0.47.0 release tag. A tag is less tamper-proof than a
+        # Pinned to release tag, which is less tamper-proof than a
         # full commit SHA (tags are mutable), but it makes upgrades explicit
         # and readable. the-pr-agent/pr-agent is the new home of the former
         # qodo-ai/pr-agent. Bump the tag deliberately when upgrading.
