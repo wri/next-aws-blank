@@ -1,5 +1,5 @@
 # Build stage
-ARG NODE_VERSION=24.15.0
+ARG NODE_VERSION=24.22.1
 FROM node:${NODE_VERSION}-alpine AS builder
 
 WORKDIR /app
