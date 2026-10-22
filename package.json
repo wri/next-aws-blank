@@ -84,5 +84,11 @@
     "typescript": "^5",
     "webpack": "^5.105.2",
     "webpack-cli": "^6.0.1"
+  },
+  "allowScripts": {
+    "@worldresources/wri-design-systems": true,
+    "bcrypt": true,
+    "esbuild": true,
+    "unrs-resolver": true
   }
 }
